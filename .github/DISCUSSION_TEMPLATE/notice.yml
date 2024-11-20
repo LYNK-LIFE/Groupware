@@ -2,6 +2,7 @@ title: "[General] "
 labels: ["General Introduction"]
 body:
   - type: markdown
+    attribute:
     content: |
       ## 🛑 중요 공지 사항
       
