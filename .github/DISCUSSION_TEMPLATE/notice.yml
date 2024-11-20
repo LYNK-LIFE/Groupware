@@ -1,20 +1,24 @@
-name: Notice
-labels: notice, pinned
-title: "[notice] "
-body: |
-  ## 🛑 중요 공지 사항
-  
-  프로젝트와 관련된 중요한 업데이트나 새로운 정보를 공유합니다.
+about: Announce important updates or news to the community
+labels: 
+  - notice
+  - pinned
+body:
+  - type: markdown
+    content: |
+      ## 🛑 중요 공지 사항
+      
+      프로젝트와 관련된 중요한 업데이트나 새로운 정보를 공유합니다.
 
-  ### 📢 공지 내용
-  - **무엇**: [공지의 주요 내용 간단 요약]
-  - **언제**: [중요한 날짜 또는 기간]
-  - **어디서**: [적용 범위, 프로젝트 영역 등]
+      ### 📢 공지 내용
+      - **무엇**: [공지의 주요 내용 간단 요약]
+      - **언제**: [중요한 날짜 또는 기간]
+      - **어디서**: [적용 범위, 프로젝트 영역 등]
 
-  ### 🔗 추가 참고 자료
-  아래 자료를 참고하세요:
-  - [링크 1](https://example.com)
-  - [링크 2](https://example.com)
-  
-  --- 
-  문의 사항이 있으면 댓글을 남겨주세요. 😊
+      ### 🔗 추가 참고 자료
+      아래 자료를 참고하세요:
+      - [링크 1](https://example.com)
+      - [링크 2](https://example.com)
+      
+      --- 
+      문의 사항이 있으면 댓글을 남겨주세요. 😊
+title: "[Notice] "
