@@ -47,7 +47,6 @@ body:
       label: 🌟 팀 정렬 확인
       options:
         - label: 오늘의 목표를 명확히 이해함
-          required: true
         - label: 지원이 필요한 팀원 있음
         - label: 모든 준비 완료
   - type: markdown
