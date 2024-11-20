@@ -18,7 +18,7 @@ body:
       render: bash
     validations:
       required: true
-        - type: textarea
+  - type: textarea
     id: improvements
     attributes:
       label: 🔵 이전 공지사항 🔵
