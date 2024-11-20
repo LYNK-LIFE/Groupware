@@ -9,7 +9,6 @@ body:
     id: improvements_1
     attributes:
       label: 🔴 중요 공지사항 🔴
-      description: "What are the top 3 improvements we could make to this project?"
       value: |
         1.
         2.
@@ -22,7 +21,6 @@ body:
     id: improvements_2
     attributes:
       label: 🔵 이전 공지사항 🔵
-      description: "What are the top 3 improvements we could make to this project?"
       value: |
         1.
         2.
