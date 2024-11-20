@@ -1,3 +1,4 @@
+name: notice
 labels: notice, pinned
 title: "[notice] "
 body: |
