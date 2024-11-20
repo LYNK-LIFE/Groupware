@@ -6,7 +6,7 @@ body:
       value: |
         ## 💡 새로운 아이디어 제안
 
-        아이디어를 구체적으로 작성해주세요. 다음 항목을 포함하면 좋습니다:
+        아이디어를 구체적으로 작성해주세요.
         - 아이디어의 주요 목표
         - 해결하고자 하는 문제
         - 예상되는 결과나 이점
@@ -15,7 +15,7 @@ body:
   - type: input
     id: idea-title
     attributes:
-      label: 아이디어 제목
+      label: 🔮 아이디어 제목
       description: "아이디어의 간략한 제목을 작성해주세요."
       placeholder: "예: 사용자 대시보드 개선"
     validations:
@@ -23,7 +23,7 @@ body:
   - type: textarea
     id: idea-details
     attributes:
-      label: 아이디어 세부 사항
+      label: 🥁 아이디어 세부 사항
       description: "아이디어에 대한 자세한 설명을 작성해주세요."
       placeholder: |
         - 이 아이디어는 어떤 문제를 해결하나요?
@@ -34,7 +34,7 @@ body:
   - type: dropdown
     id: idea-priority
     attributes:
-      label: 아이디어의 우선순위
+      label: 🕯 아이디어의 우선순위
       description: "이 아이디어의 우선순위를 선택해주세요."
       options:
         - 낮음
