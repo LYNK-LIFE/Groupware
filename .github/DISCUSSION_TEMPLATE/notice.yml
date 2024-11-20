@@ -51,8 +51,3 @@ body:
         - label: 김남규
         - label: 윤이정
         - label: 이승현
-  - type: markdown
-    attributes:
-      value: |
-        ### The thrilling conclusion
-        _to our template_
