@@ -1,6 +1,4 @@
-title: "[General] "
-labels: 
-  - "General Introduction"
+
 body:
   - type: markdown
     attributes:
