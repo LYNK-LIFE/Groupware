@@ -43,11 +43,11 @@ body:
       required: true
   - type: checkboxes
     attributes:
-      label: Check that box!
+      label: 확인 결과 체크
       options:
-        - label: This one!
+        - label: 김규남
           required: true
-        - label: I won't stop you if you check this one, too
+        - label: 김남규
   - type: markdown
     attributes:
       value: |
