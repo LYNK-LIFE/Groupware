@@ -1,25 +1,19 @@
 title: "[General] "
-labels: ["General Introduction"]
-body:
-  - type: markdown
-    attribute:
-    value: |
-        This is text that will show up in the template!
-    content: |
-      ## 🛑 중요 공지 사항
-      
-      프로젝트와 관련된 중요한 업데이트나 새로운 정보를 공유합니다.
-
-      ### 📢 공지 내용
-      - **무엇**: [공지의 주요 내용 간단 요약]
-      - **언제**: [중요한 날짜 또는 기간]
-      - **어디서**: [적용 범위, 프로젝트 영역 등]
-
-      ### 🔗 추가 참고 자료
-      아래 자료를 참고하세요:
-      - [링크 1](https://example.com)
-      - [링크 2](https://example.com)
-      
-      --- 
-      문의 사항이 있으면 댓글을 남겨주세요. 😊
+labels:
+  - notice
+  - pinned
 title: "[Notice] "
+body:
+  - type: textarea
+    id: announcement_details
+    attributes:
+      label: "공지 내용"
+      description: "중요 공지 사항의 세부 내용을 작성하세요."
+      placeholder: "예: 프로젝트 업데이트 일정, 주요 변경 사항"
+      value: ""
+  - type: markdown
+    attributes:
+      value: |
+        ### 참고 사항
+        - 공지에 대한 질문은 댓글로 남겨주세요.
+        - 추가 자료가 있으면 링크를 첨부하세요.
