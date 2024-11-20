@@ -3,6 +3,8 @@ labels: ["General Introduction"]
 body:
   - type: markdown
     attribute:
+    value: |
+        This is text that will show up in the template!
     content: |
       ## 🛑 중요 공지 사항
       
