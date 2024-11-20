@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: 버그 이슈
 about: Create a report to help us improve
 title: ''
 labels: ''
