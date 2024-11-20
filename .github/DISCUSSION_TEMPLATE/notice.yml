@@ -1,7 +1,7 @@
-name: Notice
+name: notice
 about: Announce important updates or news to the community
 labels: notice, pinned
-title: "[Notice] "
+title: "[notice] "
 body: |
   ## 🛑 중요 공지 사항
   
