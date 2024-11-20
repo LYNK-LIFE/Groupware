@@ -1,12 +1,13 @@
 title: "[General] "
-labels: ["General Introduction"]
+labels: 
+  - "General Introduction"
 body:
   - type: markdown
     attributes:
       value: |
         This is text that will show up in the template!
   - type: textarea
-    id: improvements
+    id: improvements_1
     attributes:
       label: 🔴 중요 공지사항 🔴
       description: "What are the top 3 improvements we could make to this project?"
@@ -19,7 +20,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: improvements
+    id: improvements_2
     attributes:
       label: 🔵 이전 공지사항 🔵
       description: "What are the top 3 improvements we could make to this project?"
@@ -40,13 +41,13 @@ body:
     id: has-id
     attributes:
       label: Suggestions
-      description: A description about suggestions to help you
+      description: "A description about suggestions to help you"
     validations:
       required: true
   - type: dropdown
     id: download
     attributes:
-      label: Which area of this project could be most improved?
+      label: "Which area of this project could be most improved?"
       options:
         - Documentation
         - Pull request review time
