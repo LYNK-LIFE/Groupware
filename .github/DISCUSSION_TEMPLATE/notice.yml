@@ -43,7 +43,7 @@ body:
       required: true
   - type: checkboxes
     attributes:
-      label: 확인 결과 체크
+      label: ☑ 확인 결과 체크 ☑
       options:
         - label: 김규남
           required: true
