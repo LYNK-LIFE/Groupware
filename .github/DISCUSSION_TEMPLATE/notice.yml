@@ -18,6 +18,19 @@ body:
       render: bash
     validations:
       required: true
+        - type: textarea
+    id: improvements
+    attributes:
+      label: 🔵 이전 공지사항 🔵
+      description: "What are the top 3 improvements we could make to this project?"
+      value: |
+        1.
+        2.
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
   - type: markdown
     attributes:
       value: |
