@@ -2,7 +2,7 @@
 name: Custom issue template
 about: Describe this issue template's purpose here.
 title: ''
-labels: "\U0001F41EbugFix"
+labels: "\U0001F41EbugFix, \U0001F528Refactor"
 assignees: cookiecookiekim
 
 ---
