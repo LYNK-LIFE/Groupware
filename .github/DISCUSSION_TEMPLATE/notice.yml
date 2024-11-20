@@ -48,6 +48,8 @@ body:
         - label: 김규남
           required: true
         - label: 김남규
+        - label: 윤이정
+        - label: 이승현
   - type: markdown
     attributes:
       value: |
