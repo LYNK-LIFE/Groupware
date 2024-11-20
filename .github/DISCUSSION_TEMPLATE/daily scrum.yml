@@ -1,0 +1,59 @@
+title: "[General] "
+labels: ["General Introduction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # 📝 Daily Scrum Report
+
+        아래 질문에 답변을 작성하세요. 팀원 간의 작업 상황과 문제를 공유하고 협업을 촉진합니다.  
+        각 항목은 가능한 구체적으로 작성해주세요.  
+
+        ---
+  - type: textarea
+    id: yesterday-work
+    attributes:
+      label: ✅ 어제 내가 한 일
+      description: "어제 완료한 작업이나 진행했던 일들을 적어주세요."
+      placeholder: |
+        - 작업 A 완료
+        - 작업 B 진행 중
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: today-plan
+    attributes:
+      label: 🚀 오늘 내가 할 일
+      description: "오늘 계획된 작업과 목표를 작성해주세요."
+      placeholder: |
+        - 작업 C 시작
+        - 작업 D 마무리
+        - ...
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: ⚠️ 현재 겪고 있는 문제나 장애물
+      description: "작업 진행 중 직면한 문제점이나 도움이 필요한 사항을 작성해주세요."
+      placeholder: |
+        - 예: API 오류 해결 필요
+        - 예: 디자인 팀의 추가 자료 필요
+    validations:
+      required: false
+  - type: checkboxes
+    id: team-alignment
+    attributes:
+      label: 🌟 팀 정렬 확인
+      options:
+        - label: 오늘의 목표를 명확히 이해함
+          required: true
+        - label: 지원이 필요한 팀원 있음
+        - label: 모든 준비 완료
+  - type: markdown
+    attributes:
+      value: |
+        ## 📌 추가 참고 사항
+        - 필요한 경우 댓글로 추가 정보를 공유해주세요.
+        - 이 보고서를 기반으로 팀의 생산성과 협력을 향상시킵니다.
