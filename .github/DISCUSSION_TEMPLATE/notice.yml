@@ -1,5 +1,3 @@
-name: notice
-about: Announce important updates or news to the community
 labels: notice, pinned
 title: "[notice] "
 body: |
