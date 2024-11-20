@@ -1,7 +1,5 @@
-about: Announce important updates or news to the community
-labels: 
-  - notice
-  - pinned
+title: "[General] "
+labels: ["General Introduction"]
 body:
   - type: markdown
     content: |
