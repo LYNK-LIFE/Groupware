@@ -16,8 +16,6 @@ body:
       description: "이전 작업의 리뷰를 작성해 주세요."
       placeholder: |
         - 이전 회의의 주요 토픽 중 재 논의가 필요한 부분
-        - ...
-        - ...
     validations:
       required: true
   - type: textarea
@@ -27,8 +25,6 @@ body:
       description: "앞으로 진행될 사항에 대한 의견을 작성해 주세요."
       placeholder: |
         - 토픽 및 토픽 제안자 작성
-        - ...
-        - ...
     validations:
       required: true
   - type: textarea
