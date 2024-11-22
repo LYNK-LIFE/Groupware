@@ -1,4 +1,13 @@
-## 🔨 Description 🔨
+---
+name: "\U0001F528 Refactor Issue"
+about: Describe this issue template's purpose here.
+title: ''
+labels: "\U0001F528Refactor"
+assignees: ''
+
+---
+
+## 🔨 Description 
 - 설명을 입력해주세요.
 
 ---
