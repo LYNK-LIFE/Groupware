@@ -31,6 +31,16 @@ body:
   - type: textarea
     id: blockers
     attributes:
+      label: 🧷 계획 수정 사항 점검
+      description: "작업 진행 중 수정이 필요한 경우 작성해 주세요."
+      placeholder: |
+        - 토픽 및 토픽 제안자 작성
+    validations:
+      required: false
+
+  - type: textarea
+    id: blockers
+    attributes:
       label: ⚠️ 현재 겪고 있는 문제
       description: "작업 진행 중 직면한 문제점이나 도움이 필요한 사항을 작성해주세요."
       placeholder: |
