@@ -27,7 +27,6 @@ body:
         - 토픽 및 토픽 제안자 작성
     validations:
       required: true
-
   - type: textarea
     id: blockers
     attributes:
@@ -37,7 +36,6 @@ body:
         - 토픽 및 토픽 제안자 작성
     validations:
       required: false
-
   - type: textarea
     id: blockers
     attributes:
