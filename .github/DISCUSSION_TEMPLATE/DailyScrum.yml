@@ -27,6 +27,17 @@ body:
         - 토픽 및 토픽 제안자 작성
     validations:
       required: true
+
+  - type: textarea
+    id: blockers
+    attributes:
+      label: 🧷 계획 수정 사항 점검
+      description: "작업 진행 중 수정이 필요한 경우 작성해 주세요."
+      placeholder: |
+        - 토픽 및 토픽 제안자 작성
+    validations:
+      required: false
+      
   - type: textarea
     id: blockers
     attributes:
@@ -37,6 +48,7 @@ body:
         - 예: 디자인 팀의 추가 자료 필요
     validations:
       required: false
+
   - type: checkboxes
     id: team-alignment
     attributes:
