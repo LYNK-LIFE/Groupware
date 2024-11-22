@@ -38,13 +38,23 @@ body:
     validations:
       required: false
   - type: textarea
-    id: current-issues
+    id: blockers
     attributes:
       label: ⚠️ 현재 겪고 있는 문제
       description: "작업 진행 중 직면한 문제점이나 도움이 필요한 사항을 작성해주세요."
       placeholder: |
         - 예: API 오류 해결 필요
         - 예: 디자인 팀의 추가 자료 필요
+    validations:
+      required: false
+  - type: textarea
+    id: additional-checks
+    attributes:
+      label: ☂ 기타 점검사항
+      description: "특이사항이나 점검 사항을 작성해 주세요."
+      placeholder: |
+        - 예: 팀원의 건강 상태
+        - 예: 특이사항
     validations:
       required: false
   - type: checkboxes
@@ -55,18 +65,6 @@ body:
         - label: 오늘의 목표를 명확히 이해함
         - label: 지원이 필요한 팀원 있음
         - label: 모든 준비 완료
-
-  - type: textarea
-    id: current-issues
-    attributes:
-      label: ☂ 기타 점검사항
-      description: "특이사항이나 점검 사항을 작성해 주세요."
-      placeholder: |
-        - 예: 팀원의 건강 상태
-        - 예: 특이사항
-    validations:
-      required: false
-        
   - type: markdown
     attributes:
       value: |
