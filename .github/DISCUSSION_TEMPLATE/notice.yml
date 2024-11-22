@@ -17,18 +17,6 @@ body:
       render: bash
     validations:
       required: true
-  - type: textarea
-    id: improvements_2
-    attributes:
-      label: 🔵 이전 공지사항 🔵
-      value: |
-        1.
-        2.
-        3.
-        ...
-      render: bash
-    validations:
-      required: true
   - type: dropdown
     id: download
     attributes:
