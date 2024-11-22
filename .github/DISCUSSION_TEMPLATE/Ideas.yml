@@ -1,6 +1,19 @@
 title: "[General] "
 labels: ["General Introduction"]
 body:
+
+  - type: dropdown
+    id: idea-priority
+    attributes:
+      label: 🕯 아이디어의 우선순위
+      description: "이 아이디어의 우선순위를 선택해주세요."
+      options:
+        - 낮음
+        - 보통
+        - 높음
+    validations:
+      required: true
+
   - type: markdown
     attributes:
       value: |
@@ -31,17 +44,7 @@ body:
         - 구현을 위해 필요한 자원 또는 단계는 무엇인가요?
     validations:
       required: true
-  - type: dropdown
-    id: idea-priority
-    attributes:
-      label: 🕯 아이디어의 우선순위
-      description: "이 아이디어의 우선순위를 선택해주세요."
-      options:
-        - 낮음
-        - 보통
-        - 높음
-    validations:
-      required: true
+
   - type: checkboxes
     id: impacted-areas
     attributes:
