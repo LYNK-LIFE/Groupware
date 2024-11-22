@@ -55,6 +55,18 @@ body:
         - label: 오늘의 목표를 명확히 이해함
         - label: 지원이 필요한 팀원 있음
         - label: 모든 준비 완료
+
+  - type: textarea
+    id: current-issues
+    attributes:
+      label: ☂ 기타 점검사항
+      description: "특이사항이나 점검 사항을 작성해 주세요."
+      placeholder: |
+        - 예: 팀원의 건강 상태
+        - 예: 특이사항
+    validations:
+      required: false
+        
   - type: markdown
     attributes:
       value: |
