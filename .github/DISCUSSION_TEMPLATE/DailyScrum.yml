@@ -60,11 +60,12 @@ body:
   - type: checkboxes
     id: team-alignment
     attributes:
-      label: 🌟 팀 정렬 확인
+      label: 🌟 모든 사항을 이해하였으면 Check 하기!
       options:
-        - label: 오늘의 목표를 명확히 이해함
-        - label: 지원이 필요한 팀원 있음
-        - label: 모든 준비 완료
+        - label: 윤이정 
+        - label: 이승형
+        - label: 김남규
+        - label: 김규남
   - type: markdown
     attributes:
       value: |
