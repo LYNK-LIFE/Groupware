@@ -12,22 +12,22 @@ body:
   - type: textarea
     id: yesterday-work
     attributes:
-      label: ✅ 어제 내가 한 일
-      description: "어제 완료한 작업이나 진행했던 일들을 적어주세요."
+      label: ✅ 다시 보기
+      description: "이전 작업의 리뷰를 작성해 주세요."
       placeholder: |
-        - 작업 A 완료
-        - 작업 B 진행 중
+        - 이전 회의의 주요 토픽 중 재 논의가 필요한 부분
+        - ...
         - ...
     validations:
       required: true
   - type: textarea
     id: today-plan
     attributes:
-      label: 🚀 오늘 내가 할 일
-      description: "오늘 계획된 작업과 목표를 작성해주세요."
+      label: 🚀 프리뷰
+      description: "앞으로 진행될 사항에 대한 의견을 작성해 주세요."
       placeholder: |
-        - 작업 C 시작
-        - 작업 D 마무리
+        - 토픽 및 토픽 제안자 작성
+        - ...
         - ...
     validations:
       required: true
