@@ -63,9 +63,9 @@ body:
       label: 🌟 아~ 완벽히 이해했어!
       options:
         - label: 윤이정 
+        - label: 김규남
         - label: 이승현
         - label: 김남규
-        - label: 김규남
   - type: markdown
     attributes:
       value: |
