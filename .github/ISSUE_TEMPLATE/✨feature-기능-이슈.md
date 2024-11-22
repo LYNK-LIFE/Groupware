@@ -1,5 +1,5 @@
 ---
-name: "✨Feature 기능 이슈"
+name: "✨Feature Issue"
 about: Suggest an idea for this project
 title: ''
 labels: "✨Feature"
