@@ -33,7 +33,6 @@ body:
       label: ☑ 확인 결과 체크 ☑
       options:
         - label: 김규남
-          required: true
         - label: 김남규
         - label: 윤이정
         - label: 이승현
