@@ -34,7 +34,7 @@ body:
       label: 🧷 계획 수정 사항 점검
       description: "작업 진행 중 수정이 필요한 경우 작성해 주세요."
       placeholder: |
-        - 예: 토픽 및 토픽 제안자 작성
+        - 토픽 및 토픽 제안자 작성
     validations:
       required: false
   - type: textarea
@@ -43,8 +43,8 @@ body:
       label: ⚠️ 현재 겪고 있는 문제
       description: "작업 진행 중 직면한 문제점이나 도움이 필요한 사항을 작성해주세요."
       placeholder: |
-        - 예: API 오류 해결 필요
-        - 예: 디자인 팀의 추가 자료 필요
+        - API 오류 해결 필요
+        - 디자인 팀의 추가 자료 필요
     validations:
       required: false
   - type: textarea
@@ -60,10 +60,10 @@ body:
   - type: checkboxes
     id: team-alignment
     attributes:
-      label: 🌟 모든 사항을 이해하였으면 Check 하기!
+      label: 🌟 아~ 완벽히 이해했어!
       options:
         - label: 윤이정 
-        - label: 이승형
+        - label: 이승현
         - label: 김남규
         - label: 김규남
   - type: markdown
