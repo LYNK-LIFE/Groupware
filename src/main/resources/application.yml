@@ -8,5 +8,14 @@ spring:
     username: ohgiraffers
     password: ohgiraffers
 
+  servlet:
+    multipart:
+      location: C:\Lecture-source\99_project\999_semi project\semi-project-lynk
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  mvc:
+    static-path-pattern: /templates/**
+
 mybatis:
   mapper-locations: mappers/**/*.xml

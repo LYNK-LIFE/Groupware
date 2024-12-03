@@ -12,17 +12,35 @@
         <result property="email" column="emp_email"/>
         <result property="accountStatus" column="account_status"/>
         <result property="failCount" column="fail_count"/>
-<!--        <association property="departmentDTO" javaType="com.semi.lynk.model.dto.DepartmentDTO">-->
-<!--            <id property="depNo" column="dep_no"/>-->
-<!--            <result property="depName" column="dep_name"/>-->
-<!--        </association>-->
+    </resultMap>
+
+    <resultMap id="joinResultMap" type="com.semi.lynk.model.dto.EmpAndDepDTO">
+        <id property="id" column="emp_id"/>
+        <result property="pw" column="emp_pw"/>
+        <result property="name" column="emp_name"/>
+        <result property="email" column="emp_email"/>
+        <result property="accountStatus" column="account_status"/>
+        <result property="failCount" column="fail_count"/>
+        <association property="departmentDTO" javaType="com.semi.lynk.model.dto.DepartmentDTO">
+            <id property="depNo" column="dep_no"/>
+            <result property="depName" column="dep_name"/>
+        </association>
     </resultMap>
 
     <select id="employeeFullList" resultMap="listResultMap">
         select
             *
+            from
+            employee
+    </select>
+
+    <select id="showMejoinResult" resultMap="joinResultMap">
+        select
+             a.*
+            ,b.*
         from
-            employee;
+            employee a
+            join department b on (a.dep_no = b.dep_no);
     </select>
 
 </mapper>
