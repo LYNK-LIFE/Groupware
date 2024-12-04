@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form action="regist" method="post">
+        <div>
+            <h3>인사 정보 등록</h3>
+        <table border="2">
+            <tr>
+                <th>이 름</th>
+                <th>소 속</th>
+                <td><input type="text" name="department"></td>
+                <th>직 책</th>
+                <td><input type="text" name="position"></td>
+            </tr>
+            <tr>
+                <td rowspan="3"><input type="text" name="name"></td>
+                <th>사 번</th>
+                <td><input type="number" name="id"></td>
+                <th>대표 전화</th>
+                <td><input type="tel" name="phoneNumber"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td><input type="email" name="email"></td>
+                <th>내선 번호</th>
+                <td><input type="tel" name="extension"></td>
+            </tr>
+            <tr>
+                <th>주 소</th>
+                <td colspan="3"></td>
+            </tr>
+        </table>
+        </div>
+        <input type="submit" value="등록">
+    </form>
+</body>
+</html>

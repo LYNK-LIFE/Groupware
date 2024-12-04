@@ -1,4 +1,4 @@
-package com.semi.lynk.model.dto;
+package com.semi.lynk.model.dto.human;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-public class EmployeeDTO {
+public class EmpAndDepDTO {
 
     private int id;
     private String pw;
@@ -16,5 +16,5 @@ public class EmployeeDTO {
     private String accountStatus;
     private String failCount;
     private String picture;
-
+    private DepartmentDTO departmentDTO;
 }

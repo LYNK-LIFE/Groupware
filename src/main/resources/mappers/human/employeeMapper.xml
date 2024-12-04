@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.semi.lynk.model.dao.human.EmployeeMapper">
+
+    <resultMap id="listResultMap" type="com.semi.lynk.model.dto.human.EmployeeDTO">
+        <id property="id" column="employeeNo"/>
+        <result property="pw" column="password"/>
+        <result property="name" column="employeeName"/>
+        <result property="email" column="emp_email"/>
+        <result property="accountStatus" column="memberStatus"/>
+        <result property="failCount" column="loginFailcount"/>
+    </resultMap>
+
+    <select id="employeeFullList" resultMap="listResultMap">
+        select
+            *
+        from
+            employee
+    </select>
+
+    <resultMap id="joinResultMap" type="com.semi.lynk.model.dto.human.EmpAndDepDTO">
+        <id property="id" column="employeeNo"/>
+        <result property="pw" column="password"/>
+        <result property="name" column="employeeName"/>
+        <result property="email" column="email"/>
+        <result property="accountStatus" column="memberStatus"/>
+        <result property="failCount" column="loginFailcount"/>
+                <association property="departmentDTO" javaType="com.semi.lynk.model.dto.human.DepartmentDTO">
+                    <id property="depNo" column="departmentNo"/>
+                    <result property="depName" column="departmentName"/>
+                </association>
+    </resultMap>
+
+    <select id="joinListResult" resultMap="joinResultMap">
+    select
+         a.*
+        ,b.*
+    from
+        employee a join department b on (a.departmentNo = b.departmentNo)
+    </select>
+
+    <!-- 인사 등록 -->
+    <insert id="employeeRegist" parameterType="int">
+        insert into employee
+    </insert>
+
+
+</mapper>
