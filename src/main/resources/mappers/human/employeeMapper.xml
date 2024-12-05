@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.semi.lynk.model.dao.human.EmployeeMapper">
+<mapper namespace="com.semi.lynk.function.human.model.dao.EmployeeMapper">
 
-    <resultMap id="listResultMap" type="com.semi.lynk.model.dto.human.EmployeeDTO">
+    <resultMap id="listResultMap" type="com.semi.lynk.function.human.model.dto.EmployeeDTO">
         <id property="id" column="employeeNo"/>
         <result property="pw" column="password"/>
         <result property="name" column="employeeName"/>
@@ -21,14 +21,14 @@
             employee
     </select>
 
-    <resultMap id="joinResultMap" type="com.semi.lynk.model.dto.human.EmpAndDepDTO">
+    <resultMap id="joinResultMap" type="com.semi.lynk.function.human.model.dto.EmpAndDepDTO">
         <id property="id" column="employeeNo"/>
         <result property="pw" column="password"/>
         <result property="name" column="employeeName"/>
         <result property="email" column="email"/>
         <result property="accountStatus" column="memberStatus"/>
         <result property="failCount" column="loginFailcount"/>
-                <association property="departmentDTO" javaType="com.semi.lynk.model.dto.human.DepartmentDTO">
+                <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
                     <id property="depNo" column="departmentNo"/>
                     <result property="depName" column="departmentName"/>
                 </association>
