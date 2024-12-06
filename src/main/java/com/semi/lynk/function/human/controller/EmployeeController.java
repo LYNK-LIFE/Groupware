@@ -3,6 +3,7 @@ package com.semi.lynk.function.human.controller;
 import com.semi.lynk.function.human.model.dto.EmpAndDepDTO;
 import com.semi.lynk.function.human.model.dto.EmployeeDTO;
 import com.semi.lynk.function.human.model.dto.HumanDTO;
+import com.semi.lynk.function.human.model.dto.RegistDTO;
 import com.semi.lynk.function.human.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/employee/*")
@@ -61,10 +63,11 @@ public class EmployeeController {
     }
 
     @PostMapping ("regist") // 인사 등록 로직 처리 메서드
-    public String hunamRegist(@ModelAttribute HumanDTO humanDTO, RedirectAttributes rtt, Locale locale){
+    public String hunamRegist(@ModelAttribute RegistDTO registDTO, RedirectAttributes rtt, Locale locale){
 
-        employeeService.humanResister(humanDTO);
 
-        return "function/human/registPage";
+        Map<String , Integer> result = employeeService.humanResister(registDTO);
+
+        return "redirect:/function/human/registPage";
     }
 }

@@ -43,9 +43,14 @@
     </select>
 
     <!-- 인사 등록 -->
-    <insert id="employeeRegist" parameterType="int">
-        insert into employee
+    <insert id="registEmployee" parameterType="hashmap">
+        insert into employee (employeeNo , employeeName, email, picture)
+        values (#{data1.id} , #{data1.name}, #{data1.email}, #{data1.picture})
     </insert>
 
+    <insert id="registHuman" parameterType="hashmap">
+        insert into humanresource (position, mobileNo , address)
+        values (#{data2.position} , #{data2.phoneNumber} , #{data2.address})
+    </insert>
 
 </mapper>
