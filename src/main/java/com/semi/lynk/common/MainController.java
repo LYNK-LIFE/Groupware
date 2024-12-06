@@ -10,4 +10,5 @@ public class MainController {
     public String list (){
         return "common/main";
     }
+
 }
