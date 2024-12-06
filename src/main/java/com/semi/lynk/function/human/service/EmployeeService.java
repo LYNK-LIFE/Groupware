@@ -34,7 +34,7 @@ public class EmployeeService {
     // DML용
     @Transactional // 정상 처리 : commit , 예외 발생 : rollback
     public Map<String, Integer> humanResister(RegistDTO registDTO) {
-
+        System.out.println("서비스 값 확인 registDTO" + registDTO);
 //        int id = registDTO.getId();
 //        String name = registDTO.getName();
 //        String address = registDTO.getAddress();
@@ -62,12 +62,13 @@ public class EmployeeService {
                 .email(registDTO.getEmail())
                 .picture(registDTO.getPicture())
                 .build();
-
+        System.out.println("employeeDTO" + employeeDTO);
         HumanDTO humanDTO = HumanDTO.builder()
                 .position(registDTO.getPosition())
                 .phoneNumber(registDTO.getPhoneNumber())
                 .address(registDTO.getAddress())
                 .build();
+        System.out.println("humanDTO" + humanDTO);
 
 //        logic(employeeDTO , humanDTO);
 
@@ -79,11 +80,13 @@ public class EmployeeService {
 
         int result1 = mapper.registEmployee(map1);
         int result2 = mapper.registHuman(map2);
+        System.out.println("서비스 값 확인 result1" + result1);
+        System.out.println("서비스 값 확인 result2" + result2);
 
         Map<String , Integer> result = new HashMap<>();
         result.put("firstResult" , result1);
         result.put("secondResult" , result2);
-
+        System.out.println("서비스 값 확인 result" + result);
         return result;
     }
 //    public void logic (EmployeeDTO emp , HumanDTO human) {
