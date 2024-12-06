@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>login</title>
+    <style>
+        body {
+            background-color: #2D2D2D;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+        }
+
+        .loginSection {
+            position: absolute;
+            width: 600px;
+            height: 450px;
+            background-color: #F8F8F8;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 75px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-top: 10%;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: -10px;
+        }
+
+        .logindiv {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .logindiv input {
+            margin-top: 5px;
+            height: 20px;
+            width: 250px;
+            padding: 10px;
+            padding-left: 20px;
+            font-size: 14px;
+            border: 1px solid #2D2D2D;
+            background-color: #E7EFF5;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logindiv button {
+            margin-top: 10px;
+            height: 40px;
+            width: 282px;
+            font-size: 16px;
+            border: 1px solid #204708;
+            background-color: #A5CB91;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .loginAttr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 250px;
+            margin: 2px auto;
+            font-size: 10px;
+        }
+
+        .loginIdSave {
+            display: flex;
+            align-items: center;
+        }
+
+        .loginAttr input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .passwordHelp a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .passwordHelp a:hover {
+            color: #6D6D6D;
+        }
+    </style>
+</head>
+<body>
+    <div class="loginSection" id="loginSection">
+        <div class="logo" id="logo">
+            <!-- logo 이미지 영역 -->
+            <img src="/static/img/logotest.png" alt="logotest" style="height: 80px; width: 80px;"><br>
+            <label>LYNK</label>
+        </div>
+        <div class="logindiv" id="logindiv">
+            <form action="login" method="post">
+                <input type="text" name="id" placeholder="아이디"><br>
+                <input type="password" name="password" placeholder="비밀번호"><br>
+                <button type="submit">로그인</button>
+            </form>
+        </div>
+        <div class="loginAttr">
+            <div class="loginIdSave">
+                <input type="checkbox" id="save_id" name="save_id" value="Y" style="width: 10px; height: 10px;">
+                <label for="save_id">아이디 저장</label>
+            </div>
+            <div class="passwordHelp">
+                <a href="">비밀번호 문의</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
