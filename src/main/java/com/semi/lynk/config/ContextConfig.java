@@ -21,11 +21,23 @@ public class ContextConfig {
 
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 
-        source.setBasename("classpath:/messages/message");
+        source.setBasename("classpath:/messages/human");
         source.setDefaultEncoding("UTF-8");
 
         Locale.setDefault(Locale.KOREA); // 한국어 메시지 설정
         return source;
     }
+
+//    @Bean
+//    public ReloadableResourceBundleMessageSource messageSource (){
+//
+//        ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+//
+//        source.setBasename("classpath:/messages/message");
+//        source.setDefaultEncoding("UTF-8");
+//
+//        Locale.setDefault(Locale.KOREA); // 한국어 메시지 설정
+//        return source;
+//    }
 
 }
