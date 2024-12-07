@@ -93,4 +93,39 @@ button {
     display: none;
 }
 
+/*************************************************************/
+/* 윤이정 추가 CSS 영역 */
+.menuContainer ul {
+    padding: 0;
+    margin: 0;
+}
 
+.menuContainer ul li a {
+    cursor: pointer;
+}
+
+.menuList {
+    overflow: hidden;
+}
+
+.humanMenu {
+    list-style: none;
+}
+
+.humanMenu a {
+    text-decoration: none;
+    color: #F4F4F4;
+}
+
+.subMenu {
+    list-style: none;
+    height: 0;
+    overflow: hidden;
+    font-size: 10px;
+    transition: height 0.3s ease;
+}
+
+.subMenu li {
+    margin-left: 32px;
+}
+/*************************************************************/
