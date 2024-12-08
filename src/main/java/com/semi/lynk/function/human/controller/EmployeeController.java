@@ -86,6 +86,7 @@ public class EmployeeController {
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
 
+        
         System.out.println("EmployeeNo: " + registEmpDTO.getId());
         System.out.println("Human DTO: " + registHumDTO);
         int result = employeeService.humanRegist(registEmpDTO, registHumDTO);
