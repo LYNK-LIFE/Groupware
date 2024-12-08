@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/regist" method="post">
+    <form action="/employee/regist" method="post">
         <div>
             <h3>인사 정보 등록</h3>
         <table border="2">
@@ -41,5 +41,12 @@
         <input type="submit" value="인사 등록">
     </form>
 
+    <script>
+        const successMessage1 = `[[${successMessage}]]`;
+        console.log(successMessage1)
+        if (successMessage1) {
+            alert(successMessage1)
+        }
+    </script>
 </body>
 </html>

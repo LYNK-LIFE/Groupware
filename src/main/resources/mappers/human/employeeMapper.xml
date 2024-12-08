@@ -43,14 +43,14 @@
     </select>
 
     <!-- 인사 등록 -->
-    <insert id="registEmployee" parameterType="map">
-        insert into employee (employeeNo , employeeName, email, picture)
-        values (#{data1.id} , #{data1.name}, #{data1.email}, #{data1.picture})
+    <insert id="registMapperEmp" parameterType="hashmap">
+        insert into employee (employeeNo , employeeName, email)
+        values (#{emp.id} , #{emp.name}, #{emp.email})
     </insert>
 
-    <insert id="registHuman" parameterType="map">
-        insert into humanresource (position, mobileNo , address)
-        values (#{data2.position} , #{data2.phoneNumber} , #{data2.address})
+    <insert id="registMapperhum" parameterType="hashmap">
+        insert into humanresource (employeeNo, position, mobileNo , address)
+        values (#{hum.id}, #{hum.position} , #{hum.phoneNumber} , #{hum.address})
     </insert>
-
+    <!-- 드디어 됐다...! 몇시간이 걸린지 모르겠다... -->
 </mapper>
