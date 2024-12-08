@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.awt.*;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/employee/*")
@@ -34,6 +35,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
         this.messageSource = messageSource;
     }
+
 
     @GetMapping("list")
     public String employeeList (Model model) {
@@ -85,6 +87,7 @@ public class EmployeeController {
                                , @ModelAttribute RegistHumDTO registHumDTO
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
+
 
         System.out.println("EmployeeNo: " + registEmpDTO.getId());
         System.out.println("Human DTO: " + registHumDTO);
