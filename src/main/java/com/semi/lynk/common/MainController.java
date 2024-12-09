@@ -11,4 +11,19 @@ public class MainController {
         return "common/main";
     }
 
+    @GetMapping("/login")
+    public String loginPage(){
+        return "function/login/login";
+    }
+
+    @GetMapping("/passwordRequest")
+    public String passwordRequestPage(){
+        return "function/login/passwordRequest";
+    }
+
+    @GetMapping("/passwordReset")
+    public String passwordResetPage(){
+        return "function/login/passwordReset";
+    }
+
 }
