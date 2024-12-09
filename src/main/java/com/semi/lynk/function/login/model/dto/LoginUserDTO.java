@@ -1,5 +1,6 @@
 package com.semi.lynk.function.login.model.dto;
 
+import com.semi.lynk.common.UserRole;
 import lombok.*;
 
 @NoArgsConstructor
@@ -7,10 +8,10 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class LoginDTO {
+public class LoginUserDTO {
 
-    private String empId;
+    private int empId;
+    private String empName;
     private String empPwd;
-    private String role;
-
+    private UserRole userRole;
 }
