@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>empAdd</title>
+</head>
+<body>
+<h2>신규 계정 추가</h2>
+<form action="/function/login/empAdd" method="post">
+    이름 : <input type="text" name="userName"><br>
+    사번 : <input type="text" name="userID"><br>
+    비밀번호 : <input type="password" name="userPass"><br>
+    이메일 : <input type="text" name="email"><br>
+    연락처 : <input type="text" name="phone"><br>
+    소속 부서 :
+    <select name="dept">
+        <option value="1">인사팀</option>
+        <option value="2">영업1팀</option>
+        <option value="3">영업2팀</option>
+        <option value="4">영업3팀</option>
+        <option value="5">총무팀</option>
+        <option value="6">시설팀</option>
+    </select><br>
+    직급 : <input type="text" name="position"><br>
+    부가 정보 <textarea name="etc" id="etc" cols="30" rows="10"></textarea><br>
+    <button type="submit">등록</button>
+    <button type="button">취소</button>
+</form>
+</body>
+</html>
