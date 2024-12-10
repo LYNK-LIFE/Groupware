@@ -6,12 +6,13 @@
 <mapper namespace="com.semi.lynk.function.human.model.dao.EmployeeMapper">
 
     <resultMap id="listResultMap" type="com.semi.lynk.function.human.model.dto.EmployeeDTO">
-        <id property="id" column="employeeNo"/>
+        <id property="id" column="employee_No"/>
         <result property="pw" column="password"/>
-        <result property="name" column="employeeName"/>
-        <result property="email" column="emp_email"/>
-        <result property="accountStatus" column="memberStatus"/>
+        <result property="name" column="employee_name"/>
+        <result property="email" column="email"/>
+        <result property="picture" column="image"/>
         <result property="failCount" column="loginFailcount"/>
+
     </resultMap>
 
     <select id="employeeFullList" resultMap="listResultMap">
@@ -22,35 +23,53 @@
     </select>
 
     <resultMap id="joinResultMap" type="com.semi.lynk.function.human.model.dto.EmpAndDepDTO">
-        <id property="id" column="employeeNo"/>
+        <id property="id" column="employee_no"/>
         <result property="pw" column="password"/>
-        <result property="name" column="employeeName"/>
+        <result property="name" column="employee_name"/>
         <result property="email" column="email"/>
-        <result property="accountStatus" column="memberStatus"/>
-        <result property="failCount" column="loginFailcount"/>
+        <result property="accountStatus" column="member_status"/>
+        <result property="failCount" column="login_fail_count"/>
+        <result property="depNo" column="department_no"/>
                 <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
-                    <id property="depNo" column="departmentNo"/>
-                    <result property="depName" column="departmentName"/>
+                    <id property="depNo" column="department_no"/>
+                    <result property="depName" column="department_name"/>
                 </association>
     </resultMap>
 
     <select id="joinListResult" resultMap="joinResultMap">
     select
-         a.*
-        ,b.*
+         a.employee_no
+        ,a.employee_name
+        ,a.email
+        ,b.department_name
     from
-        employee a join department b on (a.departmentNo = b.departmentNo)
+        employee a join department b on (a.department_no = b.department_no)
+    order by
+        a.employee_no
     </select>
 
     <!-- 인사 등록 -->
-    <insert id="registMapperEmp" parameterType="hashmap">
-        insert into employee (employeeNo , employeeName, email)
-        values (#{emp.id} , #{emp.name}, #{emp.email})
-    </insert>
+<!--    <insert id="registMapperEmp" parameterType="com.semi.lynk.function.human.model.dto.RegistEmpDTO">-->
+<!--        insert into employee (employee_no , employee_name, email)-->
+<!--        values (#{id} , #{name}, #{email})-->
+<!--    </insert>-->
 
-    <insert id="registMapperhum" parameterType="hashmap">
-        insert into humanresource (employeeNo, position, mobileNo , address)
-        values (#{hum.id}, #{hum.position} , #{hum.phoneNumber} , #{hum.address})
+    <insert id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">
+        insert into human_resource
+        (employee_no, position, mobile_no, address, join_date, employeement_status)
+        values
+        (#{id}, #{position}, #{phoneNumber}, #{address}, #{date}, #{employeementStatus})
     </insert>
-    <!-- 드디어 됐다...! 몇시간이 걸린지 모르겠다... -->
+<!--    <update id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">-->
+<!--        update human_resource-->
+<!--        set-->
+<!--             employee_no = #{id}-->
+<!--            ,position = #{position}-->
+<!--            ,mobile_no = #{phoneNumber}-->
+<!--            ,address = #{address}-->
+<!--            ,join_date = #{date}-->
+<!--            ,employeement_status = #{employeementStatus}-->
+<!--        where-->
+<!--            employee_no = #{id}-->
+<!--    </update>-->
 </mapper>
