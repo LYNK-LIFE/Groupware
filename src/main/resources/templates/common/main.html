@@ -70,19 +70,19 @@
 
 
         <!-- 수정 후(윤이정) -->
-        <div class="menuContainer">
-            <ul id="menuList">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span> 인사관리
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="#" style="text-decoration: none">인사정보</a></li>
-                        <li><a href="#" style="text-decoration: none">인사등록</a></li>
-                        <li><a href="#" style="text-decoration: none">근태관리</a></li>
-                        <li><a href="#" style="text-decoration: none">일정관리</a></li>
-                    </ul>
-                </li>
+<!--        <div class="menuContainer">-->
+<!--            <ul id="menuList">-->
+<!--                <li class="humanMenu">-->
+<!--                    <a href="#">-->
+<!--                        <span class="arrow">></span> 인사관리-->
+<!--                    </a>-->
+<!--                    <ul class="subMenu">-->
+<!--                        <li><a href="#" style="text-decoration: none">인사정보</a></li>-->
+<!--                        <li><a href="#" style="text-decoration: none">인사등록</a></li>-->
+<!--                        <li><a href="#" style="text-decoration: none">근태관리</a></li>-->
+<!--                        <li><a href="#" style="text-decoration: none">일정관리</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
 
             </ul>
             <!--
@@ -108,6 +108,7 @@
 <!--                <button onclick="location.href='employee/list'">결재 보관함</button>-->
 <!--            </ul>-->
         </div><br>
+
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const menuItems = document.querySelectorAll(".humanMenu > a"); // 메뉴 클릭 요소
@@ -134,15 +135,24 @@
                 });
             });
         </script>
+<!-- 전자결재 처음에 만든 데이터  혹시몰라서 우선 주석처리 -->
+<!--        <div class="btn-group">-->
+<!--            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                <span class="arrow">&gt;</span> 전자결재-->
+<!--            </a>-->
+<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+<!--                <button onclick="location.href='/payment/list'">기안하기</button>-->
+<!--                <button onclick="location.href='/payment/list'">기안문서</button>-->
+<!--                <button onclick="location.href='/payment/list'">결재할 문서</button>-->
+<!--                <button onclick="location.href='/payment/list'">결제 보관함</button>-->
 
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 전자결재
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
-        </div><br>
+<!--            </ul>-->
+<!--        </div><br>-->
+
+
+
+
+
 
         <div class="btn-group">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -162,10 +172,10 @@
             </ul>
         </div>
 
-    </div>
+     </div>
     </div>
 
-</aside>
+ </aside>
 <div class="right-container">
 
     <header class="header-class">January
