@@ -68,41 +68,27 @@ public class EmployeeController {
         return "function/human/registPage";
     }
 
-//    @PostMapping ("regist") // 인사 등록 로직 처리 메서드
-//    public String hunamRegist(@ModelAttribute RegistDTO registDTO, RedirectAttributes rtt, Locale locale){
-//
-//        System.out.println("컨트롤러 값 확인 registDTO" + registDTO);
-//        Map<String , Integer> result = employeeService.humanResister(registDTO);
-//
-//        System.out.println("컨트롤러 값 확인 result" + result);
-//        if (result.get("firstResult") >= 1 && result.get("secondResult") >= 1){
-//            return "redirect:/function/human/registPage";
-//        } else {
-//            return "redirect:/function/human/list";
-//        }
-//    }
 
-
-
-    
     @PostMapping ("regist")
-    public String humanRegist (@ModelAttribute RegistEmpDTO registEmpDTO
-                               , @ModelAttribute RegistHumDTO registHumDTO
+    public String humanRegist (@ModelAttribute RegistHumDTO registHumDTO
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
 
 
-        System.out.println("EmployeeNo: " + registEmpDTO.getId());
         System.out.println("Human DTO: " + registHumDTO);
-        int result = employeeService.humanRegist(registEmpDTO, registHumDTO);
+        int result = employeeService.humanRegist(registHumDTO);
 
         if (result == 1) {
             rtt.addFlashAttribute("successMessage"
-            ,messageSource.getMessage("registSuccess",new Object[]{registEmpDTO.getId()} , locale));
-            return "function/human/registPage";
-
+                    ,messageSource.getMessage("registSuccess",new Object[]{registHumDTO.getName()} , locale));
+            return "redirect:/employee/regist";
+            // redirect는 url이 동작 , view 페이지 입력이 아니라, 핸들러 메서드를 지정해야 함!!
+            // 클릭 시  @GetMapping("regist")
+            //    public String moveRegistPage () {
+            //        return "function/human/registPage";
+            //    }가 동작하며 registPage로 옴!
         } else {
-            return "common/main";
+            return "redirect:/employee/main";
         }
     }
 }

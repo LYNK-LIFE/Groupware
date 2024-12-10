@@ -16,5 +16,6 @@ public class EmpAndDepDTO {
     private String accountStatus;
     private String failCount;
     private String picture;
+    private int depNo;
     private DepartmentDTO departmentDTO;
 }
