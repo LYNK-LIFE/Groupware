@@ -85,7 +85,6 @@
                 document.addEventListener("DOMContentLoaded", () => {
                     const menuItems = document.querySelectorAll(".humanMenu > a"); // 메뉴 클릭 요소
 
-
                     menuItems.forEach((menuItem) => {
                         menuItem.addEventListener("click", (e) => {
                             e.preventDefault(); // 기본 동작 차단
@@ -100,8 +99,14 @@
                                 document.querySelectorAll(".subMenu").forEach((menu) => {
                                     menu.style.height = "0px";
                                 });
-                            </script>
-            
+
+                                // 선택한 메뉴 열기
+                                subMenu.style.height = `${subMenu.scrollHeight}px`; // 콘텐츠 크기만큼 열기
+                            }
+                        });
+                    });
+                });
+            </script>
 
             <div class="btn-group">
                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,9 +116,6 @@
                     <li><a class="dropdown-item" href="#">Menu item 1</a></li>
                 </ul>
             </div><br>
-
-            });
-        </script>
 
             <div class="btn-group">
                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -134,14 +136,9 @@
             </div>
 
         </div>
-
-
-
-     </div>
-
     </div>
 
- </aside>
+</aside>
 <div class="right-container">
 
     <header class="header-class">January
