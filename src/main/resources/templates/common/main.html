@@ -35,143 +35,110 @@
         </div>
 
 
-    <div><br><br>
-        <h6 style="color: white">Menu</h6>
+        <div><br><br>
+            <h6 style="color: white">Menu</h6>
 
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 홈
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
-        </div><br>
+            <div class="btn-group">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="arrow">&gt;</span> 홈
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+                </ul>
+            </div><br>
 
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 공지사항
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
-        </div><br>
+            <div class="btn-group">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="arrow">&gt;</span> 공지사항
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+                </ul>
+            </div><br>
 
- 
-<!--        <div class="btn-group">-->
-<!--            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                <span class="arrow">&gt;</span> 인사관리-->
-<!--            </a>-->
-<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
-<!--                <button onclick="location.href='/employee/list'">인사정보</button>-->
-<!--                <button onclick="location.href='/employee/regist'">인사등록</button>-->
-<!--                <button onclick="location.href='/employee/list'">근태관리</button>-->
-<!--                <button onclick="location.href='/employee/list'">일정관리</button>-->
-<!--                <button onclick="location.href='/employee/list'">결재 보관함</button>-->
+            <div class="menuContainer">
+                <ul id="menuList">
+                    <li class="humanMenu">
+                        <a href="#">
+                            <span class="arrow">></span>인사관리
+                        </a>
+                        <ul class="subMenu">
+                            <li><a href="/employee/join" style="text-decoration: none">인사정보</a></li>
+                            <li><a href="/employee/regist" style="text-decoration: none">인사등록</a></li>
+                            <li><a href="/employee/list" style="text-decoration: none">근태관리</a></li>
+                            <li><a href="/employee/list" style="text-decoration: none">일정관리</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!--
+                    <메모 - 윤이정>
+                    기존의 버튼 형식으로 한 거에서 수정하려다가 주석처리하고 제 방식으로 수정했어요.
+                    눌렀을 때 하단 메뉴 펼쳐지는 거에 대해서는 아래 스크립트를 통해 동적 설정하였어요.
+                    이거 말고도 common.css 최하단에 제가 추가한 부분 넣어두었습니다!
+
+                    메뉴 영역을 전부 div 로 설정하는 것보다는, 이런 식으로 하는 것이 조금 더 나을 거 같았어요.
+                    아예 메뉴 영역은 menuContainer div 안에서 각각의 li-ul-li 로 수정하는 건 어떠신가요?
+                    참고하시어 의견 주시면 감사하겠습니다~
+                -->
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const menuItems = document.querySelectorAll(".humanMenu > a"); // 메뉴 클릭 요소
 
 
-        <div class="menuContainer">
-            <ul id="menuList">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span> 인사관리
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="#" style="text-decoration: none">인사정보</a></li>
-                        <li><a href="#" style="text-decoration: none">인사등록</a></li>
-                        <li><a href="#" style="text-decoration: none">근태관리</a></li>
-                        <li><a href="#" style="text-decoration: none">일정관리</a></li>
-                    </ul>
-                </li>
+                    menuItems.forEach((menuItem) => {
+                        menuItem.addEventListener("click", (e) => {
+                            e.preventDefault(); // 기본 동작 차단
+                            const subMenu = menuItem.nextElementSibling; // 하위 메뉴 UL
+                            const isOpen = subMenu.style.height !== "0px"; // 현재 상태 확인
 
-            </ul>
-            <!--
-                <메모 - 윤이정>
-                기존의 버튼 형식으로 한 거에서 수정하려다가 주석처리하고 제 방식으로 수정했어요.
-                눌렀을 때 하단 메뉴 펼쳐지는 거에 대해서는 아래 스크립트를 통해 동적 설정하였어요.
-                이거 말고도 common.css 최하단에 제가 추가한 부분 넣어두었습니다!
+                            if (isOpen) {
+                                // 닫기
+                                subMenu.style.height = "0px";
+                            } else {
+                                // 기존 열려 있는 하위 메뉴 닫기
+                                document.querySelectorAll(".subMenu").forEach((menu) => {
+                                    menu.style.height = "0px";
+                                });
+                            </script>
+            
 
-                메뉴 영역을 전부 div 로 설정하는 것보다는, 이런 식으로 하는 것이 조금 더 나을 거 같았어요.
-                아예 메뉴 영역은 menuContainer div 안에서 각각의 li-ul-li 로 수정하는 건 어떠신가요?
-                참고하시어 의견 주시면 감사하겠습니다~
-            -->
-        <!-- 김규남님 수정 전 영역 -->
-<!--        <div class="btn-group">-->
-<!--            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                <span class="arrow">&gt;</span> 인사관리-->
-<!--            </a>-->
-<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
-<!--                <button onclick="location.href='employee/list'">인사정보</button>-->
-<!--                <button onclick="location.href='employee/regist'">인사등록</button>-->
-<!--                <button onclick="location.href='employee/list'">근태관리</button>-->
-<!--                <button onclick="location.href='employee/list'">일정관리</button>-->
-<!--                <button onclick="location.href='employee/list'">결재 보관함</button>-->
-<!--            </ul>-->
-        </div><br>
+            <div class="btn-group">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="arrow">&gt;</span> 전자결재
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+                </ul>
+            </div><br>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const menuItems = document.querySelectorAll(".humanMenu > a"); // 메뉴 클릭 요소
-
-                menuItems.forEach((menuItem) => {
-                    menuItem.addEventListener("click", (e) => {
-                        e.preventDefault(); // 기본 동작 차단
-                        const subMenu = menuItem.nextElementSibling; // 하위 메뉴 UL
-                        const isOpen = subMenu.style.height !== "0px"; // 현재 상태 확인
-
-                        if (isOpen) {
-                            // 닫기
-                            subMenu.style.height = "0px";
-                        } else {
-                            // 기존 열려 있는 하위 메뉴 닫기
-                            document.querySelectorAll(".subMenu").forEach((menu) => {
-                                menu.style.height = "0px";
-                            });
-
-                            // 선택한 메뉴 열기
-                            subMenu.style.height = `${subMenu.scrollHeight}px`; // 콘텐츠 크기만큼 열기
-                        }
-                    });
-                });
             });
         </script>
-<!-- 전자결재 처음에 만든 데이터  혹시몰라서 우선 주석처리 -->
-<!--        <div class="btn-group">-->
-<!--            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                <span class="arrow">&gt;</span> 전자결재-->
-<!--            </a>-->
-<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
-<!--                <button onclick="location.href='/payment/list'">기안하기</button>-->
-<!--                <button onclick="location.href='/payment/list'">기안문서</button>-->
-<!--                <button onclick="location.href='/payment/list'">결재할 문서</button>-->
-<!--                <button onclick="location.href='/payment/list'">결제 보관함</button>-->
 
-<!--            </ul>-->
-<!--        </div><br>-->
+            <div class="btn-group">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="arrow">&gt;</span> DB관리
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+                </ul>
+            </div><br>
 
+            <div class="btn-group">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="arrow">&gt;</span> 계약관리
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+                </ul>
+            </div>
 
-
-
-
-
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> DB관리
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
-        </div><br>
-
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 계약관리
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
         </div>
 
+
+
      </div>
+
     </div>
 
  </aside>

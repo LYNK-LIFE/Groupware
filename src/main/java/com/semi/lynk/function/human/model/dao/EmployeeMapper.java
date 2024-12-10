@@ -6,7 +6,6 @@ import com.semi.lynk.function.human.model.dto.RegistHumDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface EmployeeMapper {
@@ -14,7 +13,7 @@ public interface EmployeeMapper {
 
     List<EmpAndDepDTO> joinListResult();
 
-    int registMapperEmp(Map<String, Object> map1);
+//    int registMapperEmp(RegistEmpDTO registEmpDTO);
 
     int registMapperhum(RegistHumDTO registHumDTO);
 

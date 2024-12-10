@@ -68,25 +68,27 @@ public class EmployeeController {
         return "function/human/registPage";
     }
 
-    
+
     @PostMapping ("regist")
-    public String humanRegist (@ModelAttribute RegistEmpDTO registEmpDTO
-                               , @ModelAttribute RegistHumDTO registHumDTO
+    public String humanRegist (@ModelAttribute RegistHumDTO registHumDTO
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
 
 
-        System.out.println("EmployeeNo: " + registEmpDTO.getId());
         System.out.println("Human DTO: " + registHumDTO);
-        int result = employeeService.humanRegist(registEmpDTO, registHumDTO);
+        int result = employeeService.humanRegist(registHumDTO);
 
         if (result == 1) {
             rtt.addFlashAttribute("successMessage"
-            ,messageSource.getMessage("registSuccess",new Object[]{registEmpDTO.getId()} , locale));
-            return "function/human/registPage";
-
+                    ,messageSource.getMessage("registSuccess",new Object[]{registHumDTO.getName()} , locale));
+            return "redirect:/employee/regist";
+            // redirect는 url이 동작 , view 페이지 입력이 아니라, 핸들러 메서드를 지정해야 함!!
+            // 클릭 시  @GetMapping("regist")
+            //    public String moveRegistPage () {
+            //        return "function/human/registPage";
+            //    }가 동작하며 registPage로 옴!
         } else {
-            return "common/main";
+            return "redirect:/employee/main";
         }
     }
 }

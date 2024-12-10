@@ -41,8 +41,8 @@ public class SecurityConfig {
 
 
 
-        // 위에서설정한 내용대로 시큐리티 기능 빌드(생성)
         return http.build();
+
     }
 
 }
