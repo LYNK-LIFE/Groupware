@@ -68,22 +68,6 @@ public class EmployeeController {
         return "function/human/registPage";
     }
 
-//    @PostMapping ("regist") // 인사 등록 로직 처리 메서드
-//    public String hunamRegist(@ModelAttribute RegistDTO registDTO, RedirectAttributes rtt, Locale locale){
-//
-//        System.out.println("컨트롤러 값 확인 registDTO" + registDTO);
-//        Map<String , Integer> result = employeeService.humanResister(registDTO);
-//
-//        System.out.println("컨트롤러 값 확인 result" + result);
-//        if (result.get("firstResult") >= 1 && result.get("secondResult") >= 1){
-//            return "redirect:/function/human/registPage";
-//        } else {
-//            return "redirect:/function/human/list";
-//        }
-//    }
-
-
-
     
     @PostMapping ("regist")
     public String humanRegist (@ModelAttribute RegistEmpDTO registEmpDTO
