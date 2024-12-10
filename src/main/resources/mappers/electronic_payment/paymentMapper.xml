@@ -5,4 +5,18 @@
 
 <mapper namespace="com.semi.lynk.function.electronic_payment.model.dao.PaymentMapper">
 
+    <resultMap id="listResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO">
+        <id property="approver" column="approver"/>
+        <result property="authoMemo" column="autho_memo"/>
+        <result property="draftNo" column="draft_no"/>
+        <result property="employeeNo" column="employee_no"/>
+    </resultMap>
+
+    <select id="findAllApprove" resultMap="listResultMap">
+        select
+            *
+        from
+            approve
+    </select>
+
 </mapper>
