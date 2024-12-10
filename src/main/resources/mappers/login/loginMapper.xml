@@ -5,4 +5,23 @@
 
 <mapper namespace="com.semi.lynk.function.login.model.dao.LoginMapper">
 
+<!--    <resultMap id="login" type="com/semi/lynk/function/login/model/dto/LoginDTO">-->
+<!--        <id property="empNo" column=""/>-->
+<!--        <result property="empPwd" column=""/>-->
+<!--        <result property="empName" column=""/>-->
+<!--        <result property="email" column=""/>-->
+<!--        <result property="empStatus" column=""/>-->
+<!--        <result property="loginFailCount" column=""/>-->
+<!--        <result property="workingStatus" column=""/>-->
+<!--        <result property="deptNo" column=""/>-->
+<!--        <result property="role" column=""/>-->
+<!--    </resultMap>-->
+
+    <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
+        INSERT INTO EMPLOYEE
+        (EMPLOYEE_NO, EMPLOYEE_NAME, PASSWORD, EMAIL, MEMBER_STATUS, LOGIN_FAIL_COUNT, WORKING_STATUS, DEPARTMENT_NO, IMAGE)
+        VALUES
+        (#{userID}, #{userName}, #{userPass}, #{email}, #{phone}, #{joinDate}, #{leaveDate}, #{deptNo}, #{position}, #{etc})
+    </insert>
+
 </mapper>
