@@ -9,8 +9,14 @@ import lombok.*;
 @ToString
 public class LoginDTO {
 
-    private String empId;
+    private String empNo;
     private String empPwd;
+    private String empName;
+    private String email;
+    private int empStatus;
+    private int loginFailCount;
+    private int workingStatus;
+    private int deptNo;
     private String role;
 
 }

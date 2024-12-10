@@ -1,7 +1,8 @@
 package com.semi.lynk.function.login.service;
 
+import com.semi.lynk.function.login.model.dao.LoginMapper;
+import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
-import com.semi.lynk.function.login.model.dto.LoginUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,36 +14,27 @@ public class LoginService {
     @Autowired
     private PasswordEncoder encoder;
 
-//    @Autowired
-//    private UserMapper userMapper;
+    @Autowired
+    private LoginMapper loginMapper;
 
-//    @Transactional
-//    public int regist(LoginDTO loginDTO) {
-//
-//        /* 필기.
-//         *   Service 계층은 본격적으로 DB에 값을 넣기 위한 데이터를 가공하는 계층이다.
-//         *   현재 signupDTO 에 userPass 필드는 아직 비밀번호가 암호화 되어있지 않다.
-//         *   따라서 DB 에 insert 하기 전 비밀번호를 암호화할 것이다.
-//         * */
-//
-//        loginDTO.setUserPass(encoder.encode(loginDTO.getUserPass()));
-//
-//        int result = userMapper.regist(loginDTO);
-//
-//        return result;
-//
-//    }
+    @Transactional
+    public int addEmployee(EmpAddDTO empAddDTO) {
 
-//    public LoginUserDTO findByUsername(String username) {
+        empAddDTO.setUserPass(encoder.encode(empAddDTO.getUserPass()));
+        int result = loginMapper.addEmployee(empAddDTO);
+        return result;
+    }
 
-//        LoginUserDTO login = userMapper.findByUsername(username);
-//
-//        if (login == null) {
-//            return null;
-//        } else {
-//            return login;
-//        }
+    public LoginDTO findByUsername(String empName) {
 
-//    }
+        LoginDTO login = loginMapper.findByUsername(empName);
+
+        if (login == null) {
+            return null;
+        } else {
+            return login;
+        }
+
+    }
 
 }
