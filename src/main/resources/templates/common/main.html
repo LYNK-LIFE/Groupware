@@ -108,14 +108,52 @@
                 });
             </script>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 전자결재
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+            <div class="menuContainer">
+                <ul id="menupays">
+                    <li class="paymentmenu">
+                        <a href="#" class="menuToggle">
+                            <span class="arrow">></span> 전자결재
+                        </a>
+                        <ul class="payMenu">
+                            <li><a href="/payment/list" style="text-decoration: none">기안작성</a></li>
+                            <li><a href="/payment/list" style="text-decoration: none">기안문서</a></li>
+                            <li><a href="/payment/list" style="text-decoration: none">결재할 문서</a></li>
+                            <li><a href="/payment/list" style="text-decoration: none">결재 보관함</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            </div><br>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const menuToggles = document.querySelectorAll(".paymentmenu > a");
+
+                    menuToggles.forEach((menuToggle) => {
+                        menuToggle.addEventListener("click", (e) => {
+                            e.preventDefault();
+
+                            const payMenu = menuToggle.nextElementSibling; // 하위 메뉴
+                            const isOpen = payMenu.classList.contains("open");
+
+                            // 모든 서브 메뉴 닫기
+                            document.querySelectorAll(".payMenu").forEach((menu) => {
+                                menu.classList.remove("open");
+                            });
+
+                            // 모든 메뉴 강조 해제
+                            document.querySelectorAll(".menuToggle").forEach((toggle) => {
+                                toggle.classList.remove("active");
+                            });
+
+                            // 클릭한 메뉴 열기 및 강조
+                            if (!isOpen) {
+                                payMenu.classList.add("open");
+                                menuToggle.classList.add("active");
+                            }
+                        });
+                    });
+                });
+            </script>
+
 
             <div class="btn-group">
                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
