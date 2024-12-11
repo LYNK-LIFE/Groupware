@@ -9,13 +9,11 @@ import lombok.*;
 @ToString
 public class EmpAndDepDTO {
 
-    private int id;
-    private String pw;
-    private String name;
-    private String email;
-    private String accountStatus;
-    private String failCount;
-    private String picture;
-    private int depNo;
-    private DepartmentDTO departmentDTO;
+    // 불러올 애들
+    private int id;                         // 사번
+    private String name;                    // 이름
+    private DepartmentDTO departmentDTO;    // 부서명
+    private HumanDTO humanDTO;              // 직책
+    private String email;                   // 이메일
+    private String picture;                 // 사진
 }

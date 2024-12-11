@@ -13,25 +13,18 @@
         <tr>
             <th>사진</th>
             <th>사번</th>
-<!--            <th>패스워드</th>-->
             <th>이름</th>
+            <th>부서</th>
+            <th>직책</th>
             <th>이메일</th>
-<!--            <th>출근상태</th>-->
-<!--            <th>로그인 실패 횟수</th>-->
-<!--            <th>부서번호</th>-->
-            <th>부서이름</th>
         </tr>
         <tr th:each="abc : ${list}" align="center">
             <td th:text="${abc.picture}"></td>
             <td th:text="${abc.id}"></td>
-<!--            <td th:text="${abc.pw}"></td>-->
             <td th:text="${abc.name}"></td>
-            <td th:text="${abc.email}"></td>
-<!--            <td th:text="${abc.accountStatus}"></td>-->
-<!--            <td th:text="${abc.failCount}"></td>-->
-<!--            <td th:text="${abc.departmentDTO.depNo}"></td>-->
             <td th:text="${abc.departmentDTO.depName}"></td>
-
+            <td th:text="${abc.humanDTO.position}"></td>
+            <td th:text="${abc.email}"></td>
         </tr>
     </table>
 </body>

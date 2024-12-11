@@ -59,7 +59,7 @@ public class EmployeeController {
         }
 
         mv.addObject("list" , list);
-        mv.setViewName("function/human/joinList");
+        mv.setViewName("function/human/registPage");
         return mv;
     }
 
@@ -71,6 +71,7 @@ public class EmployeeController {
 
     @PostMapping ("regist")
     public String humanRegist (@ModelAttribute RegistHumDTO registHumDTO
+                               ,EmpAndDepDTO empAndDepDTO
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
 
@@ -80,7 +81,7 @@ public class EmployeeController {
 
         if (result == 1) {
             rtt.addFlashAttribute("successMessage"
-                    ,messageSource.getMessage("registSuccess",new Object[]{registHumDTO.getName()} , locale));
+                    ,messageSource.getMessage("registSuccess",new Object[]{empAndDepDTO.getName()} , locale));
             return "redirect:/employee/regist";
             // redirect는 url이 동작 , view 페이지 입력이 아니라, 핸들러 메서드를 지정해야 함!!
             // 클릭 시  @GetMapping("regist")
