@@ -29,6 +29,7 @@ body {
     align-items: center; /* 세로축 중앙 정렬 */
     padding: 0 10px; /* 좌우 여백 */
     gap: 10px;
+    margin: 0;
 }
 
 button {
@@ -60,6 +61,16 @@ button {
     margin-top: 10px;
     text-align: center;
     font-weight: bold;
+}
+
+.nav-link { /* LYNK 홈 버튼 눌렀을 때 홈으로 돌아오게 */
+    color: #BBE8A7;
+    font-size: 24px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    display: block; /* 블록 요소로 만들어 클릭 영역 확대 */
 }
 
 .nav-text-class{
@@ -211,4 +222,8 @@ button {
 
 .payMenu > li > a:hover::before {
     visibility: visible; /* 마우스 오버 시 표시 */
+}
+
+.aside-class {
+
 }
