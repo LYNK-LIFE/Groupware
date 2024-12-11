@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 public class HumanDTO {
 
+    private int id;                    // 사번
     private double salary;            // 기본급
     private double incentive;           // 인센티브
     private float vacationDayOfAnnual; // 연차 발생 일수

@@ -24,15 +24,16 @@
 
     <resultMap id="joinResultMap" type="com.semi.lynk.function.human.model.dto.EmpAndDepDTO">
         <id property="id" column="employee_no"/>
-        <result property="pw" column="password"/>
         <result property="name" column="employee_name"/>
         <result property="email" column="email"/>
-        <result property="accountStatus" column="member_status"/>
-        <result property="failCount" column="login_fail_count"/>
         <result property="depNo" column="department_no"/>
                 <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
                     <id property="depNo" column="department_no"/>
                     <result property="depName" column="department_name"/>
+                </association>
+                <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
+                    <id property="id" column="employee_no"/>
+                    <result property="position" column="position"/>
                 </association>
     </resultMap>
 
@@ -40,12 +41,16 @@
     select
          a.employee_no
         ,a.employee_name
-        ,a.email
         ,b.department_name
+        ,c.position
+        ,a.email
     from
-        employee a join department b on (a.department_no = b.department_no)
+        employee a
+        left join department b on (a.department_no = b.department_no)
+        left join human_resource c on (a.employee_no = c.employee_no)
     order by
         a.employee_no
+
     </select>
 
     <!-- 인사 등록 -->
