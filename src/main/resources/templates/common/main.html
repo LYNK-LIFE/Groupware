@@ -11,11 +11,11 @@
 
 </head>
 <body> <!-- 최초 메인 페이지 -->
-<aside class="aside-class">
-    <div class="aside-div-class">LYNK</div> <br><br>
+<nav class="nav-class">
+    <div class="nav-div-class">LYNK</div> <br><br>
 
     <h6 style="color: white">My</h6>
-    <div class="aside-text-class">
+    <div class="nav-text-class">
         <div class="btn-group">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="arrow">&gt;</span> 최근 사용한 메뉴
@@ -23,7 +23,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="#">Menu item 1</a></li>
             </ul>
-        </div>
+        </div><br>
 
         <div class="btn-group">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,7 +33,6 @@
                 <li><a class="dropdown-item" href="#">Menu item 1</a></li>
             </ul>
         </div>
-
 
         <div><br><br>
             <h6 style="color: white">Menu</h6>
@@ -45,16 +44,23 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="#">Menu item 1</a></li>
                 </ul>
-            </div><br>
+            </div>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 공지사항
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+            <div class="menuContainer">
+                <ul id="menuList2">
+                    <li class="humanMenu">
+                        <a href="#">
+                            <span class="arrow">></span>공지사항
+                        </a>
+                        <ul class="subMenu">
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            </div><br>
+            </div>
 
             <div class="menuContainer">
                 <ul id="menuList">
@@ -63,23 +69,13 @@
                             <span class="arrow">></span>인사관리
                         </a>
                         <ul class="subMenu">
-                            <li><a href="/employee/join" style="text-decoration: none">인사정보</a></li>
+                            <li><a href="/employee/list" style="text-decoration: none">인사정보</a></li>
                             <li><a href="/employee/regist" style="text-decoration: none">인사등록</a></li>
                             <li><a href="/employee/list" style="text-decoration: none">근태관리</a></li>
                             <li><a href="/employee/list" style="text-decoration: none">일정관리</a></li>
                         </ul>
                     </li>
                 </ul>
-                <!--
-                    <메모 - 윤이정>
-                    기존의 버튼 형식으로 한 거에서 수정하려다가 주석처리하고 제 방식으로 수정했어요.
-                    눌렀을 때 하단 메뉴 펼쳐지는 거에 대해서는 아래 스크립트를 통해 동적 설정하였어요.
-                    이거 말고도 common.css 최하단에 제가 추가한 부분 넣어두었습니다!
-
-                    메뉴 영역을 전부 div 로 설정하는 것보다는, 이런 식으로 하는 것이 조금 더 나을 거 같았어요.
-                    아예 메뉴 영역은 menuContainer div 안에서 각각의 li-ul-li 로 수정하는 건 어떠신가요?
-                    참고하시어 의견 주시면 감사하겠습니다~
-                -->
             </div>
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
@@ -176,7 +172,7 @@
         </div>
     </div>
 
-</aside>
+</nav>
 <div class="right-container">
 
     <header class="header-class">January

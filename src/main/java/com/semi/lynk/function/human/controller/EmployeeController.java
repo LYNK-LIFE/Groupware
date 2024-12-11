@@ -63,10 +63,16 @@ public class EmployeeController {
         return mv;
     }
 
+//    @GetMapping("regist")
+//    public String moveRegistPage () {
+//        return "function/human/registPage";
+//    }
     @GetMapping("regist")
     public String moveRegistPage () {
-        return "function/human/registPage";
-    }
+        return "forward:/employee/join";
+    } // forward를 이용해서 join에 처리 위임
+    // forward 안 쓰고 function/human/registPage 그대로 쓰면 값이 안 담겨 있고,
+    // 값 담으려면 중복되는 값을 또 넣어줘야 하지만 forward로 끝.
 
 
     @PostMapping ("regist")
@@ -74,7 +80,6 @@ public class EmployeeController {
                                ,EmpAndDepDTO empAndDepDTO
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
-
 
         System.out.println("Human DTO: " + registHumDTO);
         int result = employeeService.humanRegist(registHumDTO);
