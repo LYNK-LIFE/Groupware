@@ -20,11 +20,13 @@ public class HumanDTO {
     private String address;             // 주소
     private String residentNumber;       // 주민 번호
     private String MaritalStatus;       // 결혼 여부
-    private String dayOfEmployment;     // 입사일자
+    private String joinDate;              // 입사일자
     private String dayOfResignation;    // 퇴사일자 (null 허용)
     private String nationality;         // 국적
-    private String employmentStatus;    // 고용 구분
+    private String employeementStatus;    // 고용 구분
     private String salaryBank;          // 급여 은행
     private String salaryAccount;       // 급여 계좌
     private String text;                // 비고 (null 허용)
+    private String nation;              // 국가
+
 }

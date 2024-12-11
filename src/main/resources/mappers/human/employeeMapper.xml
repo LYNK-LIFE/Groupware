@@ -48,9 +48,10 @@
         employee a
         left join department b on (a.department_no = b.department_no)
         left join human_resource c on (a.employee_no = c.employee_no)
+    where
+        b.department_name = '인사팀'
     order by
         a.employee_no
-
     </select>
 
     <!-- 인사 등록 -->
@@ -61,9 +62,9 @@
 
     <insert id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">
         insert into human_resource
-        (employee_no, position, mobile_no, address, join_date, employeement_status)
+        (employee_no, employeement_status, address, nation, mobile_no, join_date)
         values
-        (#{id}, #{position}, #{phoneNumber}, #{address}, #{date}, #{employeementStatus})
+        (#{id}, #{employeementStatus}, #{address}, #{nation}, #{phoneNumber}, #{joinDate})
     </insert>
 <!--    <update id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">-->
 <!--        update human_resource-->

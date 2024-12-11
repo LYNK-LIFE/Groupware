@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-
     <style>
         /* 전체 컨테이너 */
         .regist-div-class {
@@ -135,6 +134,25 @@
             min-width: 300px; /* 최소 너비 */
         }
 
+        .main-content {
+            display: flex; /* 플렉스 컨테이너 활성화 */
+            gap: 20px; /* 두 컨테이너 간격 */
+            flex-wrap: wrap; /* 반응형 지원 */
+        }
+
+        .table-container {
+            /*flex: 1; !* 테이블이 가능한 한 공간을 차지 *!*/
+            /*min-width: 400px; !* 최소 너비 *!*/
+            /*max-width: 600px; !* 최대 너비 *!*/
+            overflow-x: auto; /* 테이블 스크롤 가능 */
+            max-height: 400px;
+        }
+
+        .form-container {
+            flex: 1; /* 폼이 가능한 한 공간을 차지 */
+            min-width: 400px;
+        }
+
     </style>
 </head>
 <body>
@@ -198,16 +216,7 @@
                         </ul>
                     </li>
                 </ul>
-                <!--
-                    <메모 - 윤이정>
-                    기존의 버튼 형식으로 한 거에서 수정하려다가 주석처리하고 제 방식으로 수정했어요.
-                    눌렀을 때 하단 메뉴 펼쳐지는 거에 대해서는 아래 스크립트를 통해 동적 설정하였어요.
-                    이거 말고도 common.css 최하단에 제가 추가한 부분 넣어두었습니다!
 
-                    메뉴 영역을 전부 div 로 설정하는 것보다는, 이런 식으로 하는 것이 조금 더 나을 거 같았어요.
-                    아예 메뉴 영역은 menuContainer div 안에서 각각의 li-ul-li 로 수정하는 건 어떠신가요?
-                    참고하시어 의견 주시면 감사하겠습니다~
-                -->
             </div>
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
@@ -287,6 +296,28 @@
 
     <section class="main-content">
 
+        <div class="table-container">
+        <table border="1">
+            <tr>
+                <th>사진</th>
+                <th>사번</th>
+                <th>이름</th>
+                <th>부서</th>
+                <th>직책</th>
+                <th>이메일</th>
+            </tr>
+            <tr th:each="abc : ${list}" align="center">
+                <td th:text="${abc.picture}"></td>
+                <td th:text="${abc.id}"></td>
+                <td th:text="${abc.name}"></td>
+                <td th:text="${abc.departmentDTO.depName}"></td>
+                <td th:text="${abc.humanDTO.position}"></td>
+                <td th:text="${abc.email}"></td>
+            </tr>
+        </table>
+        </div>
+
+        <div class=form-container>
         <form action="/employee/regist" method="post" onsubmit="combineEmail(); return true;">
             <div class="regist-div-class">
                 <!-- 상단 제목 -->
@@ -360,7 +391,7 @@
 
                         <div class="field-group">
                             <label>입사 일자</label>
-                            <input type="date" name="date" placeholder="입사 일자">
+                            <input type="date" name="joinDate" placeholder="입사 일자">
                         </div>
                     </div>
                 </div>
@@ -384,8 +415,8 @@
             <!--                    &lt;!&ndash; Hidden field to send full email &ndash;&gt;-->
             <!--                    <input type="hidden" id="fullEmail" name="email">-->
             <!--                </div>-->
-</form>
-
+        </form>
+        </div>
 <!-- 모달 구조 -->
 <div th:if="${successMessage}" id="successMessage" th:text="${successMessage}" style="display: none;"></div>
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -405,48 +436,59 @@
     </div>
 </div>
 
+<!--<script>-->
+<!--    // 이메일 도메인 선택 시 "직접 입력" 활성화-->
+<!--    document.getElementById('emailDomain').addEventListener('change', function () {-->
+<!--        const customEmailDomain = document.getElementById('customEmailDomain');-->
+<!--        if (this.value === "직접 입력") {-->
+<!--            customEmailDomain.style.display = "inline-block";-->
+<!--            customEmailDomain.focus();-->
+<!--        } else {-->
+<!--            customEmailDomain.style.display = "none";-->
+<!--            customEmailDomain.value = "";-->
+<!--        }-->
+<!--    });-->
+<!--    function combineEmail() {-->
+<!--        const emailName = document.getElementById('emailName').value;-->
+<!--        const emailDomain = document.getElementById('emailDomain').value;-->
+<!--        const customDomain = document.getElementById('customEmailDomain').value;-->
+
+<!--        // 도메인이 "직접 입력"일 경우 커스텀 도메인 사용-->
+<!--        const fullEmail = emailName + "@" + (emailDomain === "직접 입력" ? customDomain : emailDomain);-->
+
+<!--        // hidden input에 저장-->
+<!--        document.getElementById('fullEmail').value = fullEmail;-->
+<!--        console.log("전체 이메일:", fullEmail);-->
+<!--    }-->
+<!--</script>-->
+
 <script>
-    // 이메일 도메인 선택 시 "직접 입력" 활성화
-    document.getElementById('emailDomain').addEventListener('change', function () {
-        const customEmailDomain = document.getElementById('customEmailDomain');
-        if (this.value === "직접 입력") {
-            customEmailDomain.style.display = "inline-block";
-            customEmailDomain.focus();
-        } else {
-            customEmailDomain.style.display = "none";
-            customEmailDomain.value = "";
-        }
-    });
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     // 서버에서 전달받은 successMessage를 가져옴
+    //     const successMessage = document.getElementById('successMessage').textContent.trim();
+    //
+    //     if (successMessage) {
+    //         // 모달 메시지에 설정
+    //         const modalMessage = document.getElementById('modalMessage');
+    //         modalMessage.textContent = successMessage;
+    //
+    //         // Bootstrap 모달 표시
+    //         const myModal = new bootstrap.Modal(document.getElementById('myModal'));
+    //         myModal.show();
+    //     }
+    // });
 
-    function combineEmail() {
-        const emailName = document.getElementById('emailName').value;
-        const emailDomain = document.getElementById('emailDomain').value;
-        const customDomain = document.getElementById('customEmailDomain').value;
-
-        // 도메인이 "직접 입력"일 경우 커스텀 도메인 사용
-        const fullEmail = emailName + "@" + (emailDomain === "직접 입력" ? customDomain : emailDomain);
-
-        // hidden input에 저장
-        document.getElementById('fullEmail').value = fullEmail;
-        console.log("전체 이메일:", fullEmail);
-    }
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // 서버에서 전달받은 successMessage를 가져옴
-        const successMessage = document.getElementById('successMessage').textContent.trim();
-
+    const successMessageElement = document.getElementById('successMessage');
+    if (successMessageElement) {
+        const successMessage = successMessageElement.textContent.trim();
         if (successMessage) {
-            // 모달 메시지에 설정
             const modalMessage = document.getElementById('modalMessage');
             modalMessage.textContent = successMessage;
-
-            // Bootstrap 모달 표시
             const myModal = new bootstrap.Modal(document.getElementById('myModal'));
             myModal.show();
         }
-    });
+    }
+
 </script>
 
     </section>
