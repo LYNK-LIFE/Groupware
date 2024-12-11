@@ -14,8 +14,8 @@ public class PaymentService {
     @Autowired
     public PaymentService(PaymentMapper paymentMapper){  this.paymentMapper = paymentMapper;}
 
-    public List<ApproveDTO> findAllPayment() {
-      return paymentMapper.findAllApprove();
+    public List<ApproveDTO> draft() {
+      return paymentMapper. draftApprove();
     }
 
 }
