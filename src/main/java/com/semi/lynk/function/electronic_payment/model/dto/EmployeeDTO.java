@@ -1,8 +1,14 @@
 package com.semi.lynk.function.electronic_payment.model.dto;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class EmployeeDTO {
-    //사원
-    private String employeeNo; //사번
+    private String employeeNo; // 사번
     private String password; // 패스워드
     private String employeeName; // 이름
     private String email; // 이메일
@@ -11,5 +17,4 @@ public class EmployeeDTO {
     private int workingStatus; // 출근상태
     private int departmentNo; // 부서번호
     private String image; // 사진
-
 }
