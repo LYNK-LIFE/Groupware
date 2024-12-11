@@ -10,4 +10,5 @@ public class SemiProjectLynkApplication {
 		SpringApplication.run(SemiProjectLynkApplication.class, args);
 	}
 
+
 }

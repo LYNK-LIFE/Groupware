@@ -1,29 +1,20 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>전자결재 - 기안 작성</title>
 </head>
 <body>
-    <h1>기안 조회</h1>
-    <table border="1">
-        <tr>
-            <th>결재/반려</th>
-            <th>메모</th>
-            <th>기안번호</th>
-            <th>사번</th>
-        </tr>
+    <!-- 기안 작성 버튼 섹션 -->
+    <div class="draft-section">
+        <h2>기안 작성 하기</h2>
+        <div class="draft-buttons">
+            <button onclick="location.href='/payment/general'">일반 품의서</button>
+            <button onclick="location.href='/payment/annual'">연차 휴가서</button>
+            <button onclick="location.href='/payment/budget'">경비 신청서</button>
+            <button onclick="location.href='/payment/resignation'">사직서</button>
+            <button onclick="location.href='/payment/conclusion'">시말서</button>
+        </div>
+    </div>
 
-
-    <tr th:each="approve : ${approveList}" align="center">
-        <td th:text="${approve.approver}"></td>
-        <td th:text="${approve.authMemo}"></td>
-        <td th:text="${approve.draftNo}"></td>
-        <td th:text="${approve.employeeNo}"></td>
-    </tr>
-    </table>
 </body>
 </html>

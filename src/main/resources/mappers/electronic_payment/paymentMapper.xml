@@ -12,7 +12,7 @@
         <result property="employeeNo" column="employee_no"/>
     </resultMap>
 
-    <select id="findAllApprove" resultMap="listResultMap">
+    <select id="draftApprove" resultMap="listResultMap">
         select
             *
         from

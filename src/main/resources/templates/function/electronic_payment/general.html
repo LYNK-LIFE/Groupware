@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>일반 품의서</title>
+</head>
+<body>
+<h1>일반 품의서</h1>
+<div class="container">
+    <!-- 문서 첨부 영역 -->
+    <div class="attachment-section">
+        <div class="attachment-box">
+            <button id="uploadButton">+</button>
+            <p>문서 첨부</p>
+            <!-- 첨부된 파일 미리보기 -->
+            <img id="previewImage" src="" alt="미리보기 이미지" style="display:none;">
+        </div>
+    </div>
+
+    <!-- 결제선 -->
+    <div class="approval-section">
+        <h3>결재선</h3>
+        <button id="addApprovalButton">+</button>
+        <select name="approvalType" id="approvalType">
+            <option value="개인">개인</option>
+            <option value="팀">팀</option>
+            <option value="부서">부서</option>
+        </select>
+    </div>
+
+    <!-- 파일 첨부 -->
+    <div class="file-attachment-section">
+        <h3>파일 첨부</h3>
+        <button id="addFileButton">+</button>
+    </div>
+
+    <!-- 기안하기 버튼 -->
+    <div class="submit-section">
+        <button id="draftButton">기안하기</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 문서 첨부 버튼 클릭 시 파일 업로드 처리
+        const uploadButton = document.getElementById("uploadButton");
+        const previewImage = document.getElementById("previewImage");
+
+        uploadButton.addEventListener("click", function () {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*"; // 이미지 파일만 선택 가능
+            fileInput.onchange = function () {
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result; // 미리보기 이미지 설정
+                        previewImage.style.display = "block"; // 이미지 표시
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click(); // 파일 선택 창 열기
+        });
+
+        // 결재선 추가 버튼 클릭
+        const addApprovalButton = document.getElementById("addApprovalButton");
+        addApprovalButton.addEventListener("click", function () {
+            const newApproval = document.createElement("p");
+            newApproval.textContent = "새로운 결재 단계 추가됨";
+            document.querySelector(".approval-section").appendChild(newApproval);
+        });
+
+        // 기안하기 버튼 클릭
+        const draftButton = document.getElementById("draftButton");
+        draftButton.addEventListener("click", function () {
+            alert("기안이 제출되었습니다!");
+            // 여기에서 서버로 데이터를 전송하거나 다음 단계로 이동 가능
+        });
+    });
+
+</script>
+</body>
+</html>

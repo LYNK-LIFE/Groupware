@@ -7,5 +7,5 @@ import java.util.List;
 @Mapper
 public interface PaymentMapper {
 
-    List<ApproveDTO> findAllApprove();
+    List<ApproveDTO> draftApprove();
 }
