@@ -8,7 +8,7 @@ body {
     display: flex; /* flexbox 사용 */
 }
 
-.aside-class {
+.nav-class {
     background-color: #2D2D2D; /* 왼쪽 영역 배경색 */
     width: 15%; /* 화면의 15% */
     height: 100%; /* 전체 높이 */
@@ -54,7 +54,7 @@ button {
     width: 100%; /* 전체 너비 */
 }
 
-.aside-div-class {
+.nav-div-class {
     color: #BBE8A7;
     font-size: 24px;
     margin-top: 10px;
@@ -62,7 +62,7 @@ button {
     font-weight: bold;
 }
 
-.aside-text-class{
+.nav-text-class{
     font-weight: bold;
     text-align: left;
     color: #F4F4F4;
@@ -133,7 +133,7 @@ button {
 .menuContainer {
     width: 250px;
     color: #fff;
-    padding: 10px;
+    padding: 2px;
 }
 
 /* 메뉴 제목 스타일 */

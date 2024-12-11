@@ -14,52 +14,73 @@
 </head>
 <body>
 
-<aside class="aside-class">
-    <div class="aside-div-class">LYNK</div> <br><br>
+<nav class="nav-class">
+    <div class="nav-div-class">LYNK</div> <br><br>
 
     <h6 style="color: white">My</h6>
-    <div class="aside-text-class">
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 최근 사용한 메뉴
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
+    <div class="nav-text-class">
+        <div class="menuContainer">
+            <li class="humanMenu">
+                <a href="#">
+                    <span class="arrow">></span>최근 사용한 메뉴
+                </a>
+                <ul class="subMenu">
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                </ul>
+            </li>
         </div>
 
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 즐겨 찾기
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
+        <div class="menuContainer">
+            <li class="humanMenu">
+                <a href="#">
+                    <span class="arrow">></span>즐겨 찾기
+                </a>
+                <ul class="subMenu">
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                    <li><a href="#" style="text-decoration: none">임시</a></li>
+                </ul>
+            </li>
         </div>
 
         <div><br><br>
             <h6 style="color: white">Menu</h6>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 홈
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
-
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 공지사항
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>홈
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
+            </div>
 
             <div class="menuContainer">
-                <ul id="menuList">
+                <ul id="menuList2">
+                    <li class="humanMenu">
+                        <a href="#">
+                            <span class="arrow">></span>공지사항
+                        </a>
+                        <ul class="subMenu">
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menuContainer">
                     <li class="humanMenu">
                         <a href="#">
                             <span class="arrow">></span>인사관리
@@ -71,8 +92,6 @@
                             <li><a href="/employee/list" style="text-decoration: none">일정관리</a></li>
                         </ul>
                     </li>
-                </ul>
-
             </div>
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
@@ -101,37 +120,52 @@
                 });
             </script>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 전자결재
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>전자결재
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
+            </div>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> DB관리
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>DB 관리
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
+            </div>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 계약관리
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>계약관리
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                        <li><a href="#" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
             </div>
 
         </div>
     </div>
 
-</aside>
+</nav>
 <div class="right-container">
 
     <header class="header-class">January

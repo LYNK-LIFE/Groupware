@@ -11,11 +11,11 @@
 
 </head>
 <body> <!-- 최초 메인 페이지 -->
-<aside class="aside-class">
-    <div class="aside-div-class">LYNK</div> <br><br>
+<nav class="nav-class">
+    <div class="nav-div-class">LYNK</div> <br><br>
 
     <h6 style="color: white">My</h6>
-    <div class="aside-text-class">
+    <div class="nav-text-class">
         <div class="btn-group">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="arrow">&gt;</span> 최근 사용한 메뉴
@@ -23,7 +23,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="#">Menu item 1</a></li>
             </ul>
-        </div>
+        </div><br>
 
         <div class="btn-group">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,7 +33,6 @@
                 <li><a class="dropdown-item" href="#">Menu item 1</a></li>
             </ul>
         </div>
-
 
         <div><br><br>
             <h6 style="color: white">Menu</h6>
@@ -45,16 +44,23 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="#">Menu item 1</a></li>
                 </ul>
-            </div><br>
+            </div>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 공지사항
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
+            <div class="menuContainer">
+                <ul id="menuList2">
+                    <li class="humanMenu">
+                        <a href="#">
+                            <span class="arrow">></span>공지사항
+                        </a>
+                        <ul class="subMenu">
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                            <li><a href="#" style="text-decoration: none">임시</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            </div><br>
+            </div>
 
             <div class="menuContainer">
                 <ul id="menuList">
@@ -70,7 +76,6 @@
                         </ul>
                     </li>
                 </ul>
-
             </div>
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
@@ -167,7 +172,7 @@
         </div>
     </div>
 
-</aside>
+</nav>
 <div class="right-container">
 
     <header class="header-class">January
