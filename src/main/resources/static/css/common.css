@@ -129,3 +129,86 @@ button {
     margin-left: 32px;
 }
 /*************************************************************/
+/*남규 css*/
+.menuContainer {
+    width: 250px;
+    color: #fff;
+    padding: 10px;
+}
+
+/* 메뉴 제목 스타일 */
+#menupays > li {
+    list-style: none;
+    margin: 10px 0; /* 메뉴 간격 */
+}
+
+#menupays > li > a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    padding-right: 100px;
+    position: relative; /* 아이콘이나 강조 표시를 위한 위치 설정 */
+}
+
+/* 활성화된 부모 메뉴 강조 스타일 */
+.menuToggle.active {
+    color: #a3d977; /* 연한 초록색 */
+    font-weight: bold;
+}
+
+/* 화살표 아이콘 스타일 */
+.arrow {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* 서브 메뉴 스타일 */
+.payMenu {
+    list-style: none; /* 기본 점 제거 */
+    max-height: 0;
+    overflow: hidden;
+    font-size: 10px;
+    transition: max-height 0.3s ease;
+    margin-left: 25px; /* 하위 메뉴 들여쓰기 */
+    padding-left: 5px; /* 라인과 텍스트 간격 */
+}
+
+/* 서브 메뉴 열릴 때 */
+.payMenu.open {
+    max-height: 500px; /* 서브 메뉴 높이 제한 */
+}
+
+/* 서브 메뉴 항목 스타일 */
+.payMenu > li {
+    margin: 8px 0; /* 하위 메뉴 간격 */
+}
+
+.payMenu > li > a {
+    text-decoration: none;
+    color: #ffffff; /* 하얀색 */
+    font-size: 14px;
+    padding-left: 5px; /* 텍스트 위치 조정 */
+    display: flex;
+    align-items: center;
+}
+
+/* 하위 메뉴 강조 효과 */
+.payMenu > li > a:hover {
+    color: #fff; /* 마우스 오버 시 색 변경 */
+    font-weight: bold;
+}
+
+/* 강조된 아이콘 스타일 */
+.payMenu > li > a::before {
+    content: "★";
+    font-size: 10px;
+    color: #f4d03f; /* 노란색 별 아이콘 */
+    margin-right: 5px;
+    visibility: hidden; /* 기본 상태에서 숨김 */
+}
+
+.payMenu > li > a:hover::before {
+    visibility: visible; /* 마우스 오버 시 표시 */
+}
