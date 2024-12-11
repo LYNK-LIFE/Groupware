@@ -62,9 +62,9 @@
 
     <insert id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">
         insert into human_resource
-        (employee_no, employeement_status, address, nation, mobile_no, join_date)
+        (employee_no, position , employeement_status, address, nation, mobile_no, join_date)
         values
-        (#{id}, #{employeementStatus}, #{address}, #{nation}, #{phoneNumber}, #{joinDate})
+        (#{id}, #{position}, #{employeementStatus}, #{address}, #{nation}, #{phoneNumber}, #{joinDate})
     </insert>
 <!--    <update id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">-->
 <!--        update human_resource-->

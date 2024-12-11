@@ -16,5 +16,6 @@ public class RegistHumDTO {
     private String nation;              // 국가
     private String phoneNumber;         // 휴대 전화
     private String joinDate;              // 입사일자
+    private String position;
 
 }
