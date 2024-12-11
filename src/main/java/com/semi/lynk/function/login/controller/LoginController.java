@@ -4,16 +4,16 @@ import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/function/login/*")
 public class LoginController {
 
+    //****************************************************************
+    // 회원가입 페이지 먼저 구성...
+    //****************************************************************
     @Autowired
     private LoginService loginService;
 
@@ -23,8 +23,7 @@ public class LoginController {
     @PostMapping("empAdd")
     public ModelAndView empAddPage(@ModelAttribute EmpAddDTO empAddDTO, ModelAndView mv) {
 
-        System.out.println("empAddDTO = " + empAddDTO);
-        
+        System.out.println("empAddDTO = " + empAddDTO);     // 확인용
         Integer result = loginService.addEmployee(empAddDTO);
         String message = null;
 
@@ -39,9 +38,25 @@ public class LoginController {
         }
 
         mv.addObject("message", message);
-
         return mv;
 
+    }
+    // 여기까지가 회원가입
+    //****************************************************************
+
+    //****************************************************************
+    // 로그인
+    //****************************************************************
+    @GetMapping("login")
+    public void loginPage() {}
+
+    @GetMapping("failLogin")
+    public ModelAndView loginFail(@RequestParam String message, ModelAndView mv) {
+
+        // 실패시 핸들러에서 쿼리스트링으로 보내주는 errorMessage
+        mv.addObject("message", message);
+        mv.setViewName("failLogin");
+        return mv;
     }
 
 }

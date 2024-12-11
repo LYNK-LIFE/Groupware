@@ -7,16 +7,14 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class EmpAddDTO {
+public class EmployeeAndHumanDTO {
 
     private String userID;
     private String userName;
     private String userPass;
     private String email;
-    private int userStatus;
-    private int loginFailCount;
-    private int workingStatus;
     private String deptNo;
-    private String image;
+    private String position;
+    private String etc;
 
 }
