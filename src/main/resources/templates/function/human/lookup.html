@@ -266,50 +266,72 @@
             <button class="select-button" id="select-button-id">조 회</button>
         </div>
 
-        <script>
-            document.getElementById('select-button-id').addEventListener('click', () => {
-                const select = document.getElementById('lookupSelect');
-                const input = document.getElementById('lookupInput').value.trim();
-
-                select.addEventListener()
-            });
-        </script>
-
         <div class="subHeader2-class">
             <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
         </div>
 
         <div class="basicInfo-class">
-            <div>사 번
-            </div>
-            <div>이 름
-            </div>
-            <div>직 책
-            </div>
-            <div>고용 구분
-            </div>
-            <div>전화 번호
-            </div>
-            <div>주민등록번호
-            </div>
+            <div>사 번</div>
+            <div>이 름</div>
+            <div>직 책</div>
+            <div>고용 구분</div>
+            <div>전화 번호</div>
+            <div>주민등록번호</div>
         </div>
-            <table>
+
+        <script>
+            document.getElementById("select-button-id").addEventListener("click", () => {
+                const type = document.getElementById("lookupSelect").value; // 사번 or 이름
+                const keyword = document.getElementById("lookupInput").value; // 검색어 입력값
+
+                if (!keyword.trim()) {
+                    alert("검색어를 입력해 주세요.");
+                    return;
+                }
+
+                // Ajax 요청으로 백엔드 API 호출
+                fetch(`/employee/search?type=${type}&keyword=${keyword}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length === 0) {
+                            alert("검색 결과가 없습니다.");
+                            return;
+                        }
+
+                        // 테이블에 데이터 추가
+                        const table = document.querySelector(".basicInfo-class");
+                        data.forEach(item => {
+                            const row = document.createElement("tr");
+
+                            row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.humanDTO.position}</td>
+                    <td>${item.humanDTO.employeementStatus}</td>
+                    <td>${item.humanDTO.phoneNumber}</td>
+                    <td>${item.humanDTO.ssn}</td>
+                `;
+                            table.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error("Error:", error));
+            });
+
+        </script>
+            <table class="basicInfo-class">
+                <thead>
                 <tr>
-                    <th>사번</th>
-                    <th>이름</th>
-                    <th>직책</th>
+                    <th>사 번</th>
+                    <th>이 름</th>
+                    <th>직 책</th>
                     <th>고용 구분</th>
                     <th>전화 번호</th>
                     <th>주민등록번호</th>
                 </tr>
-                <tr>
-                    <td th:text="${list.id}"></td>
-                    <td th:text="${list.name}"></td>
-                    <td th:text="${list.humanDTO.position}"></td>
-                    <td th:text="${list.humanDTO.employeementStatus}"></td>
-                    <td th:text="${list.humanDTO.phoneNumber}"></td>
-                    <td th:text="${list.humanDTO.ssn}"></td>
-                </tr>
+                </thead>
+                <tbody id="employee-table-body">
+
+                </tbody>
             </table>
     </section>
     <aside class="aside-class"></aside>

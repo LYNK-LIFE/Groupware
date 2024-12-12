@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.function.support.HandlerFunctionAdapter;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.awt.*;
@@ -24,6 +22,7 @@ import java.util.Map;
 @RequestMapping("/employee/*")
 public class EmployeeController {
 
+    private final HandlerFunctionAdapter handlerFunctionAdapter;
     private EmployeeService employeeService;
 
     private static final Logger logger = LogManager.getLogger(EmployeeController.class);
@@ -31,9 +30,10 @@ public class EmployeeController {
 
     @Autowired
     public EmployeeController (EmployeeService employeeService
-                                ,MessageSource messageSource) {
+                                , MessageSource messageSource, HandlerFunctionAdapter handlerFunctionAdapter) {
         this.employeeService = employeeService;
         this.messageSource = messageSource;
+        this.handlerFunctionAdapter = handlerFunctionAdapter;
     }
 
 
@@ -48,6 +48,15 @@ public class EmployeeController {
         model.addAttribute("list", list);
 
         return "function/human/lookup";
+    }
+
+//    @GetMapping(value="mijung" , produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+
+
+    @GetMapping ("list")
+    public String look () {
+        return "function/human/list";
     }
 
     @GetMapping ("inform")
