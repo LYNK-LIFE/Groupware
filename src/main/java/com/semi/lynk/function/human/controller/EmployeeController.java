@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("list")
+    @GetMapping("lookup") // 인사 정보 → 인사 기본 정보에 뿌려질 애들
     public String employeeList (Model model) {
 
         List<EmployeeDTO> list = employeeService.employeeList();
@@ -47,9 +47,24 @@ public class EmployeeController {
         }
         model.addAttribute("list", list);
 
+        return "function/human/lookup";
+    }
+
+//    @GetMapping(value="mijung" , produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+
+
+    @GetMapping ("list")
+    public String look () {
         return "function/human/list";
     }
 
+    @GetMapping ("inform")
+    public String humanInform () {
+        return "forward:/employee/lookup";
+    }
+
+    // 인사 등록 창에 인사 등록 안 된 애들 조회해주는 거
     @GetMapping("join")
     public ModelAndView joinList (ModelAndView mv) {
 
@@ -63,10 +78,6 @@ public class EmployeeController {
         return mv;
     }
 
-//    @GetMapping("regist")
-//    public String moveRegistPage () {
-//        return "function/human/registPage";
-//    }
     @GetMapping("regist")
     public String moveRegistPage () {
         return "forward:/employee/join";
@@ -75,7 +86,7 @@ public class EmployeeController {
     // 값 담으려면 중복되는 값을 또 넣어줘야 하지만 forward로 끝.
 
 
-    @PostMapping ("regist")
+    @PostMapping ("regist") // 사용자가 form태그의 등록 눌렀을 때 동작
     public String humanRegist (@ModelAttribute RegistHumDTO registHumDTO
                                ,EmpAndDepDTO empAndDepDTO
                                ,RedirectAttributes rtt
