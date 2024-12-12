@@ -13,4 +13,6 @@ public interface PaymentMapper {
     List<EmployeeDTO> findAllEmployees();
 
     int insertApprover(ApproveDTO approveDTO);
+
+    List<EmployeeDTO> findApprovers();
 }

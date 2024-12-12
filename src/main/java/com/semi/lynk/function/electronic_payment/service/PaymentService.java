@@ -6,7 +6,6 @@ import com.semi.lynk.function.electronic_payment.model.dto.DraftDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,12 @@ public class PaymentService {
             int result = paymentMapper.insertApprover(approveDTO);
             return result > 0; // 성공 여부 반환
         }
+
+    public List<EmployeeDTO> getApprovers() {
+
+        return paymentMapper.findApprovers();
     }
+}
 
 
 
