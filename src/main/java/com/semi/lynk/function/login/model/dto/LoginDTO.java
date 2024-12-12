@@ -18,9 +18,6 @@ public class LoginDTO {
     private String empPwd;
     private String empName;
     private String email;
-    private int empStatus;
-    private int loginFailCount;
-    private int workingStatus;
     private int deptNo;
     private UserRole role;
 
