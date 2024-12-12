@@ -257,16 +257,62 @@
         </div>
 
         <div class="lookupSelect-class">
-            <label for="lookupInput">사번 / 이름</label>
+            <label>사번 / 이름</label>
             <select id="lookupSelect" name="lookupSelect" class="form-select">
                 <option value="사번">사번</option>
                 <option value="이름">이름</option>
             </select>
             <input type="text" id="lookupInput" placeholder="검색어를 입력해 주세요." class="form-control">
-            <button class="select-button">조 회</button>
+            <button class="select-button" id="select-button-id">조 회</button>
         </div>
 
+        <script>
+            document.getElementById('select-button-id').addEventListener('click', () => {
+                const select = document.getElementById('lookupSelect');
+                const input = document.getElementById('lookupInput').value.trim();
+
+                select.addEventListener()
+            });
+        </script>
+
+        <div class="subHeader2-class">
+            <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
+        </div>
+
+        <div class="basicInfo-class">
+            <div>사 번
+            </div>
+            <div>이 름
+            </div>
+            <div>직 책
+            </div>
+            <div>고용 구분
+            </div>
+            <div>전화 번호
+            </div>
+            <div>주민등록번호
+            </div>
+        </div>
+            <table>
+                <tr>
+                    <th>사번</th>
+                    <th>이름</th>
+                    <th>직책</th>
+                    <th>고용 구분</th>
+                    <th>전화 번호</th>
+                    <th>주민등록번호</th>
+                </tr>
+                <tr>
+                    <td th:text="${list.id}"></td>
+                    <td th:text="${list.name}"></td>
+                    <td th:text="${list.humanDTO.position}"></td>
+                    <td th:text="${list.humanDTO.employeementStatus}"></td>
+                    <td th:text="${list.humanDTO.phoneNumber}"></td>
+                    <td th:text="${list.humanDTO.ssn}"></td>
+                </tr>
+            </table>
     </section>
+    <aside class="aside-class"></aside>
 
     <footer class="footer-class"></footer>
 </div>

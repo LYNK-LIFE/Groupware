@@ -7,19 +7,28 @@
 
     <resultMap id="listResultMap" type="com.semi.lynk.function.human.model.dto.EmployeeDTO">
         <id property="id" column="employee_No"/>
-        <result property="pw" column="password"/>
         <result property="name" column="employee_name"/>
-        <result property="email" column="email"/>
         <result property="picture" column="image"/>
-        <result property="failCount" column="loginFailcount"/>
+        <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
+            <id property="id" column="employee_No"/>
+            <result property="position" column="position"/>
+            <result property="employeementStatus" column="employeement_status"/>
+            <result property="phoneNumber" column="mobile_no"/>
+            <result property="ssn" column="ssn"/>
+        </association>
 
     </resultMap>
 
     <select id="employeeFullList" resultMap="listResultMap">
         select
-            *
+            a.employee_no
+            ,a.employee_name
+            ,b.position
+            ,b.employeement_status
+            ,b.mobile_no
+            ,b.ssn
         from
-            employee
+            employee a join human_resource b on (a.employee_no = b.employee_no)
     </select>
 
     <resultMap id="joinResultMap" type="com.semi.lynk.function.human.model.dto.EmpAndDepDTO">
@@ -57,27 +66,11 @@
     </select>
 
     <!-- 인사 등록 -->
-<!--    <insert id="registMapperEmp" parameterType="com.semi.lynk.function.human.model.dto.RegistEmpDTO">-->
-<!--        insert into employee (employee_no , employee_name, email)-->
-<!--        values (#{id} , #{name}, #{email})-->
-<!--    </insert>-->
-
     <insert id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">
         insert into human_resource
         (employee_no, position , employeement_status, address, nation, mobile_no, join_date)
         values
         (#{id}, #{position}, #{employeementStatus}, #{address}, #{nation}, #{phoneNumber}, #{joinDate})
     </insert>
-<!--    <update id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">-->
-<!--        update human_resource-->
-<!--        set-->
-<!--             employee_no = #{id}-->
-<!--            ,position = #{position}-->
-<!--            ,mobile_no = #{phoneNumber}-->
-<!--            ,address = #{address}-->
-<!--            ,join_date = #{date}-->
-<!--            ,employeement_status = #{employeementStatus}-->
-<!--        where-->
-<!--            employee_no = #{id}-->
-<!--    </update>-->
+
 </mapper>

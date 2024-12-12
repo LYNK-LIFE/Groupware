@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("lookup")
+    @GetMapping("lookup") // 인사 정보 → 인사 기본 정보에 뿌려질 애들
     public String employeeList (Model model) {
 
         List<EmployeeDTO> list = employeeService.employeeList();
@@ -55,6 +55,7 @@ public class EmployeeController {
         return "forward:/employee/lookup";
     }
 
+    // 인사 등록 창에 인사 등록 안 된 애들 조회해주는 거
     @GetMapping("join")
     public ModelAndView joinList (ModelAndView mv) {
 

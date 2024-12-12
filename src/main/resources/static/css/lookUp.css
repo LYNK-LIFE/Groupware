@@ -4,10 +4,10 @@
     margin-left: 150px;
     margin-top:30px;
     gap: 10px;
-    border: 1px; solid-color: chocolate;
     background-color: whitesmoke;
-    width: 800px;
+    width: 1200px;
     padding: 30px;
+    border: 1px solid black;
 }
 
 .lookupSelect-class label {
@@ -19,7 +19,7 @@
 }
 
 .lookupSelect-class .form-control {
-    width: 50%;
+    width: 60%;
 }
 
 .lookupSelect-class .btn {
@@ -42,6 +42,30 @@
     font-size: 14px;
     transition: background-color 0.3s ease;
     margin-right: 10px;
+}
+
+.subHeader2-class{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center; /* 세로축 중앙 정렬 */
+    font-weight: 900;
+    font-size: 18px;
+    margin-left: 30px;
+    margin-top: 60px;
+}
+
+.basicInfo-class {
+    display: flex;
+    align-items: center;
+    margin-left: 150px;
+    margin-top:30px;
+    gap: 160px;
+    background-color: whitesmoke;
+    width: 1200px;
+    padding: 20px;
+    border: 1px solid black;
+    font-weight: bold;
 }
 
 /*.subHeader-button {*!*/
