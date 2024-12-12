@@ -39,6 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         // 서버의 리소스 접근 가능 권한 설정
+
 //        http.authorizeHttpRequests(auth -> {
 //            // permitAll() -> 인증되지 않은(로그인 되지 않은) 사용자들이 접근할 수 있는 URL 기술
 //            auth.requestMatchers("/login", "/function/login/empAdd").permitAll();
