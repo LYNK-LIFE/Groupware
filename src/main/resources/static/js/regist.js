@@ -1,3 +1,14 @@
+//
+//     // const modalPage = document.querySelector('#myModal');
+//
+//     const successMSG = '[[${successMessage}]]';
+//     console.log("successMSG : ", successMSG);
+//
+//     if (successMSG && successMSG.trim() !== '') {
+//     // 모달을 초기화하고 보여주기
+//     const myModal = new bootstrap.Modal(document.getElementById('myModal'));
+//     myModal.show();
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
     const modalElement = document.getElementById("myModal");
@@ -39,33 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
-
-            // 클릭 시 등록 폼으로 옮기기
-    document.addEventListener("DOMContentLoaded", () => {
-    // 모든 클릭 가능한 행 가져오기
-    const rows = document.querySelectorAll(".clickable-row");
-
-    rows.forEach(row => {
-    row.addEventListener("click", () => {
-    // 데이터 추출
-    const picture = row.getAttribute("data-picture");
-    const id = row.getAttribute("data-id");
-    const name = row.getAttribute("data-name");
-    const department = row.getAttribute("data-department");
-    // const position = row.getAttribute("data-position");
-    const email = row.getAttribute("data-email");
-
-    // 폼에 데이터 삽입
-    document.getElementById("formPhoto").textContent = picture || "사진 없음";
-    document.getElementById("formId").value = id || "";
-    document.getElementById("formName").value = name || "";
-    document.getElementById("formDepartment").value = department || "";
-    // document.getElementById("formPosition").value = position || "";
-    document.getElementById("formEmail").value = email || "";
-});
-});
-});
-
 
 
 //     // 이메일 도메인 선택 시 "직접 입력" 활성화

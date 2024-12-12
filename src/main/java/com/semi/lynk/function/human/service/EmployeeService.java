@@ -18,13 +18,11 @@ public class EmployeeService {
         this.mapper = mapper;
     }
 
-
     public List<EmployeeDTO> employeeList () {
 
         return mapper.employeeFullList();
     }
 
-    // 인사 등록 창에 인사 등록 안 된 애들 조회해주는 거
     public List<EmpAndDepDTO> joinList() {
 
         return mapper.joinListResult();

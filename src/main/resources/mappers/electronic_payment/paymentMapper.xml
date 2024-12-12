@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.semi.lynk.function.electronic_payment.model.dao.PaymentMapper">
-
+    <!--approve DTO -->
     <resultMap id="listResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO">
         <id property="approver" column="approver"/>
         <result property="authoMemo" column="autho_memo"/>
@@ -12,20 +12,19 @@
         <result property="employeeNo" column="employee_no"/>
     </resultMap>
 
-    <!-- 결재 리스트 가져오기 -->
     <select id="draftApprove" resultMap="listResultMap">
         SELECT
-            approver,
-            autho_memo,
-            draft_no,
-            employee_no
+        approver,
+        autho_memo,
+        draft_no,
+        employee_no
         FROM
-            approve
+        approve
     </select>
 
-    <!-- 모든 직원 리스트 가져오기 -->
-    <resultMap id="findResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO">
-      <id property="employeeNo" column="employee_no"/>
+    <!--employee DTO -->
+    <resultMap id="findEmployeeResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO">
+        <id property="employeeNo" column="employee_no"/>
         <result property="password" column="password"/>
         <result property="employeeName" column="employee_name"/>
         <result property="email" column="email"/>
@@ -36,18 +35,87 @@
         <result property="image" column="image"/>
     </resultMap>
 
-    <select id="findAllEmployees" resultMap="findResultMap">
+    <select id="findAllEmployees" resultMap="findEmployeeResultMap">
         SELECT
-            employee_no,
-            employee_name,
-            department_no
+        employee_no,
+        employee_name,
+        department_no
         FROM
-            employee
+        employee
     </select>
+
+    <!--department DTO-->
+    <resultMap id="findDepartmentResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.DepartmentDTO">
+        <id property="departmentNo " column="department_no "/>
+        <result property="departmentName " column="department_name "/>
+    </resultMap>
+
+
+    <!--HumanResourceDTO    -->
+    <resultMap id="findHumanResourceResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.HumanResourceDTO">
+        <id property="incentive" column="incentive"/>
+        <result property="workAllowance" column="workAllowance"/>
+        <result property="totalLeave" column="totalLeave"/>
+        <result property="usedLeave" column="usedLeave"/>
+        <result property="position" column="position"/>
+        <result property="mobileNo" column="mobile_no"/>
+        <result property="address" column="address"/>
+        <result property="ssn" column="ssn"/>
+        <result property="weddingDate" column="weddingDate"/>
+        <result property="joinDate" column="joinDate"/>
+        <result property="resignationDate" column="resignationDate"/>
+        <result property="employeementStatus" column="employeementStatus"/>
+        <result property="bankOfSalary" column="bankOfSalary"/>
+        <result property="bankAccountOfSalary" column="bankAccountOfSalary"/>
+        <result property="employeeNo" column="employeeNo"/>
+        <result property="basicSalary" column="basicSalary"/>
+    </resultMap>
+
+
+    <!-- AuthorizationDTO   -->
+    <resultMap id="findAuthorizationDTOResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.AuthorizationDTO">
+        <id property="authOfAdmin" column="auth_of_admin"/>
+        <result property="authOfDocument" column="auth_of_document"/>
+        <result property="authOfLeave" column="auth_of_leave"/>
+        <result property="authOfDepartment" column="auth_of_department"/>
+        <result property="authOfNotice" column="auth_of_notice"/>
+        <result property="authOfSchedule" column="auth_of_schedule"/>
+        <result property="employeeNo" column="employee_no"/>
+    </resultMap>
+
 
     <!-- 결재선 추가 -->
     <insert id="insertApprover">
         INSERT INTO approve (approver, autho_memo, draft_no, employee_no)
         VALUES (#{approver}, #{authoMemo}, #{draftNo}, #{employeeNo})
     </insert>
+
+
+
+    <!-- EmployeeDTO용 resultMap -->
+    <resultMap id="findApproversResultMap" type="com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO">
+        <id property="employeeNo" column="employee_no"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="departmentNo" column="department_no"/>
+        <result property="position" column="position"/>
+
+    </resultMap>
+
+    <!-- Approver 리스트 쿼리 -->
+    <select id="findApprovers" resultMap="findApproversResultMap">
+        select
+              a.employee_name
+            , b.auth_of_document
+            , c.position
+            , d.department_name
+        from
+            employee a
+        join authorization b on (a.employee_no = b.employee_no)
+        join human_resource c on (a.employee_no = c.employee_no)
+        join department d on (a.department_no = d.department_no)
+        where
+            b.auth_of_document = 1;
+
+    </select>
+
 </mapper>

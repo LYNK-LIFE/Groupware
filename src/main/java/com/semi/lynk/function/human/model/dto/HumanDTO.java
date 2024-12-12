@@ -18,7 +18,7 @@ public class HumanDTO {
     private String position;            // 직책
     private String phoneNumber;         // 휴대 전화
     private String address;             // 주소
-    private String ssn;       // 주민 번호
+    private String residentNumber;       // 주민 번호
     private String MaritalStatus;       // 결혼 여부
     private String joinDate;              // 입사일자
     private String dayOfResignation;    // 퇴사일자 (null 허용)
