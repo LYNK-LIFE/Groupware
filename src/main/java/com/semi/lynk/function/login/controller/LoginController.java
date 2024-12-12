@@ -1,7 +1,9 @@
 package com.semi.lynk.function.login.controller;
 
 import com.semi.lynk.function.login.model.dto.EmpAddDTO;
+import com.semi.lynk.function.login.model.dto.LoginDTO;
 import com.semi.lynk.function.login.service.LoginService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +50,9 @@ public class LoginController {
     // 로그인
     //****************************************************************
     @GetMapping("login")
-    public void loginPage() {}
+    public void loginPage() {
+
+    }
 
     @GetMapping("failLogin")
     public ModelAndView loginFail(@RequestParam String message, ModelAndView mv) {
