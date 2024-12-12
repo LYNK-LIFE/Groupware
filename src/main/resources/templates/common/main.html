@@ -11,6 +11,9 @@
 
 </head>
 <body> <!-- 최초 메인 페이지 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script th:src="@{/js/common.js}"></script>
+
 <nav class="nav-class">
     <div class="nav-div-class"><a class="nav-link" href="/">LYNK</a></div> <br><br>
 
@@ -83,39 +86,13 @@
                         <span class="arrow">></span>인사관리
                     </a>
                     <ul class="subMenu">
-                        <li><a href="/employee/join" style="text-decoration: none">인사정보</a></li>
+                        <li><a href="/employee/inform" style="text-decoration: none">인사정보</a></li>
                         <li><a href="/employee/regist" style="text-decoration: none">인사등록</a></li>
                         <li><a href="/employee/list" style="text-decoration: none">근태관리</a></li>
                         <li><a href="/employee/list" style="text-decoration: none">일정관리</a></li>
                     </ul>
                 </li>
             </div>
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    const menuItems = document.querySelectorAll(".humanMenu > a"); // 메뉴 클릭 요소
-
-                    menuItems.forEach((menuItem) => {
-                        menuItem.addEventListener("click", (e) => {
-                            e.preventDefault(); // 기본 동작 차단
-                            const subMenu = menuItem.nextElementSibling; // 하위 메뉴 UL
-                            const isOpen = subMenu.style.height !== "0px"; // 현재 상태 확인
-
-                            if (isOpen) {
-                                // 닫기
-                                subMenu.style.height = "0px";
-                            } else {
-                                // 기존 열려 있는 하위 메뉴 닫기
-                                document.querySelectorAll(".subMenu").forEach((menu) => {
-                                    menu.style.height = "0px";
-                                });
-
-                                // 선택한 메뉴 열기
-                                subMenu.style.height = `${subMenu.scrollHeight}px`; // 콘텐츠 크기만큼 열기
-                            }
-                        });
-                    });
-                });
-            </script>
 
             <div class="menuContainer">
                 <li class="humanMenu">
@@ -158,7 +135,6 @@
                     </ul>
                 </li>
             </div>
-
         </div>
     </div>
 
@@ -274,8 +250,6 @@
     <footer class="footer-class"></footer>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 
 </body>
 </html>
