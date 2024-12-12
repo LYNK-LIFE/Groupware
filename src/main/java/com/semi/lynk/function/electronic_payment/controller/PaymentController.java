@@ -1,6 +1,7 @@
 package com.semi.lynk.function.electronic_payment.controller;
 
 import com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO;
+import com.semi.lynk.function.electronic_payment.model.dto.AuthorizationAndDepartmentAndEmployeeAndHumanResourceDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO;
 import com.semi.lynk.function.electronic_payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,12 @@ public class PaymentController {
 
     @GetMapping("/list")
     public String draft(Model model) {
-
-        List<ApproveDTO> approveList = paymentService.draft();
-        model.addAttribute("approveList", approveList);
-
         return "function/electronic_payment/list";
     }
 
     @GetMapping("/general")
     public String general(Model model) {
-        List<EmployeeDTO> employeeList = paymentService.getAllEmployees();
+        List<AuthorizationAndDepartmentAndEmployeeAndHumanResourceDTO> employeeList = paymentService.getAllEmployees();
         model.addAttribute("employeeList", employeeList);
         return "function/electronic_payment/general"; // HTML 템플릿 경로
     }
@@ -51,10 +48,5 @@ public class PaymentController {
         return "redirect:/payment/list";
     }
 
-    @ResponseBody
-    @GetMapping("/approvers")
-    public List<EmployeeDTO> getApprovers() {
-        // JSON 데이터 반환 (기안 승인 권한자만 필터링 필요)
-        return paymentService.getApprovers();
-    }
+
 }
