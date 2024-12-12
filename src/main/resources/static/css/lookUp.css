@@ -1,0 +1,63 @@
+.lookupSelect-class {
+    display: flex;
+    align-items: center;
+    margin-left: 150px;
+    margin-top:30px;
+    gap: 10px;
+    border: 1px; solid-color: chocolate;
+    background-color: whitesmoke;
+    width: 800px;
+    padding: 30px;
+}
+
+.lookupSelect-class label {
+    font-weight: bold;
+}
+
+.lookupSelect-class .form-select {
+    width: 150px;
+}
+
+.lookupSelect-class .form-control {
+    width: 50%;
+}
+
+.lookupSelect-class .btn {
+    padding: 5px 15px;
+}
+
+.select-button {
+    bottom: 20px;
+    right: 20px;
+    background-color: darkgray;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 0; /* 내부 여백 제거 */
+    width: 80px; /* 버튼 고정 너비 */
+    height: 40px; /* 버튼 고정 높이 */
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+/*.subHeader-button {*!*/
+/*    position: absolute;*/
+/*    right: 20px;*/
+/*    background-color: darkgray;*/
+/*    color: black;*/
+/*    border: 1px;*/
+/*    border-radius: 3px;*/
+/*    width: 80px; !* 버튼 고정 너비 *!*/
+/*    height: 40px; !* 버튼 고정 높이 *!*/
+/*    display: flex; !* Flexbox 활성화 *!*/
+/*    justify-content: center; !* 가로 중앙 정렬 *!*/
+/*    align-items: center; !* 세로 중앙 정렬 *!*/
+/*    font-size: 14px;*/
+/*    cursor: pointer;*/
+/*    white-space: nowrap; !* 텍스트 줄바꿈 방지 *!*/
+/*    transition: background-color 0.3s ease;*/
+/*}

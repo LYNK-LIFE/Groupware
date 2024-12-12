@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("list")
+    @GetMapping("lookup")
     public String employeeList (Model model) {
 
         List<EmployeeDTO> list = employeeService.employeeList();
@@ -47,7 +47,12 @@ public class EmployeeController {
         }
         model.addAttribute("list", list);
 
-        return "function/human/list";
+        return "function/human/lookup";
+    }
+
+    @GetMapping ("inform")
+    public String humanInform () {
+        return "forward:/employee/lookup";
     }
 
     @GetMapping("join")
@@ -63,10 +68,6 @@ public class EmployeeController {
         return mv;
     }
 
-//    @GetMapping("regist")
-//    public String moveRegistPage () {
-//        return "function/human/registPage";
-//    }
     @GetMapping("regist")
     public String moveRegistPage () {
         return "forward:/employee/join";
@@ -75,7 +76,7 @@ public class EmployeeController {
     // 값 담으려면 중복되는 값을 또 넣어줘야 하지만 forward로 끝.
 
 
-    @PostMapping ("regist")
+    @PostMapping ("regist") // 사용자가 form태그의 등록 눌렀을 때 동작
     public String humanRegist (@ModelAttribute RegistHumDTO registHumDTO
                                ,EmpAndDepDTO empAndDepDTO
                                ,RedirectAttributes rtt
