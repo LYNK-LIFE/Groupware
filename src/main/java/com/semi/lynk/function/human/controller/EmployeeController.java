@@ -59,28 +59,34 @@ public class EmployeeController {
         }
 
         mv.addObject("list" , list);
-        mv.setViewName("function/human/joinList");
+        mv.setViewName("function/human/registPage");
         return mv;
     }
 
+//    @GetMapping("regist")
+//    public String moveRegistPage () {
+//        return "function/human/registPage";
+//    }
     @GetMapping("regist")
     public String moveRegistPage () {
-        return "function/human/registPage";
-    }
+        return "forward:/employee/join";
+    } // forward를 이용해서 join에 처리 위임
+    // forward 안 쓰고 function/human/registPage 그대로 쓰면 값이 안 담겨 있고,
+    // 값 담으려면 중복되는 값을 또 넣어줘야 하지만 forward로 끝.
 
 
     @PostMapping ("regist")
     public String humanRegist (@ModelAttribute RegistHumDTO registHumDTO
+                               ,EmpAndDepDTO empAndDepDTO
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
-
 
         System.out.println("Human DTO: " + registHumDTO);
         int result = employeeService.humanRegist(registHumDTO);
 
         if (result == 1) {
             rtt.addFlashAttribute("successMessage"
-                    ,messageSource.getMessage("registSuccess",new Object[]{registHumDTO.getName()} , locale));
+                    ,messageSource.getMessage("registSuccess",new Object[]{empAndDepDTO.getName()} , locale));
             return "redirect:/employee/regist";
             // redirect는 url이 동작 , view 페이지 입력이 아니라, 핸들러 메서드를 지정해야 함!!
             // 클릭 시  @GetMapping("regist")

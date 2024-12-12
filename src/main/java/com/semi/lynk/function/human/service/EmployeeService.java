@@ -34,7 +34,10 @@ public class EmployeeService {
 
         int result2 = mapper.registMapperhum(registHumDTO);
 
+
         return result2 >= 1 ? 1 : 0;
+
+
     }
 
 }

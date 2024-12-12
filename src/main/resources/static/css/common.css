@@ -5,12 +5,13 @@
 body {
     margin: 0; /* 기본 여백 제거 */
     height: 100vh; /* 전체 화면 높이 설정 */
+    width: 100vw; /* 전체 화면 너비 설정 */
     display: flex; /* flexbox 사용 */
 }
 
-.aside-class {
+.nav-class {
     background-color: #2D2D2D; /* 왼쪽 영역 배경색 */
-    width: 15%; /* 화면의 15% */
+    width: 280px;
     height: 100%; /* 전체 높이 */
     padding: 20px;
 }
@@ -23,13 +24,37 @@ body {
 
 .header-class {
     background-color: #BBE8A7;
-    height: 100px;
+    /*height: 100px;*/
+    width: 100%;
+    /*display: flex;*/
+    align-items: center; /* 세로축 중앙 정렬 */
+    padding: 0 20px; /* 좌우 여백 */
+    gap: 10px;
+    margin: 0;
+}
+
+
+.subHeaderLink-class { /* header 밑에 소제목? css 임*/
+    color: black;
+    font-size: 24px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    display: block; /* 블록 요소로 만들어 클릭 영역 확대 */
+}
+
+.subHeader-class {
+    height: 50px;
     width: 100%;
     display: flex;
     align-items: center; /* 세로축 중앙 정렬 */
-    padding: 0 10px; /* 좌우 여백 */
-    gap: 10px;
+    font-weight: 900;
+    font-size: 18px;
+    margin-left: 30px;
+    margin-top: 5px;
 }
+
 
 button {
     background-color: rgba(45, 45, 45, 0.1); /* 10% 투명도 */
@@ -54,19 +79,23 @@ button {
     width: 100%; /* 전체 너비 */
 }
 
-.aside-div-class {
+.nav-div-class {
+    color: #BBE8A7;
+    font-size: 30px;
+    margin: 10px;
+    margin-bottom: 7rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.nav-link { /* LYNK 홈 버튼 눌렀을 때 홈으로 돌아오게 */
     color: #BBE8A7;
     font-size: 24px;
     margin-top: 10px;
     text-align: center;
     font-weight: bold;
-}
-
-.aside-text-class{
-    font-weight: bold;
-    text-align: left;
-    color: #F4F4F4;
-    line-height: 2; /* line 간격 */
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    display: block; /* 블록 요소로 만들어 클릭 영역 확대 */
 }
 
 /* 기본 화살표 스타일 */
@@ -95,37 +124,88 @@ button {
 
 /*************************************************************/
 /* 윤이정 추가 CSS 영역 */
+.menuContainer{
+    font-weight: bold;
+    text-align: left;
+    color: #F4F4F4;
+    line-height: 2; /* line 간격 */
+    margin-left: 10px;
+}
+
 .menuContainer ul {
     padding: 0;
     margin: 0;
+}
+
+.menuContainer li {
+    list-style: none;
+}
+
+.menuContainer a {
+    text-decoration: none;
+    color: #F4F4F4;
 }
 
 .menuContainer ul li a {
     cursor: pointer;
 }
 
+.menuContainer h6 {
+    color: white;
+    opacity: 40%;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.mainMenuContainer {
+    position: relative;
+    top: 4rem;
+}
+
 .menuList {
     overflow: hidden;
-}
-
-.humanMenu {
-    list-style: none;
-}
-
-.humanMenu a {
-    text-decoration: none;
-    color: #F4F4F4;
 }
 
 .subMenu {
     list-style: none;
     height: 0;
     overflow: hidden;
-    font-size: 10px;
+    font-size: 12px;
     transition: height 0.3s ease;
 }
 
 .subMenu li {
     margin-left: 32px;
+}
+
+.header-class {
+    /*flex-wrap: wrap;*/
+}
+
+#calendar-header {
+    font-weight: 900;
+    margin: 7px 0 7px -5px;
+    font-size: 20px;
+}
+
+#calendar-days button {
+    width: 40px; /* 버튼 가로 크기 */
+    height: 55px; /* 버튼 세로 크기 */
+    font-size: 12px !important;
+    font-weight: 700;
+    border: none;
+    background-color: rgba(45, 45, 45, 0.1);
+    border-radius: 15px !important;
+    text-align: center;
+    overflow: hidden !important;
+    margin-right: 1px;
+}
+
+#calendar-days button.weekend {
+    color: #d81b60;
+}
+
+#calender-notify {
+    height: 15px;
 }
 /*************************************************************/

@@ -6,186 +6,83 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>인사 정보 등록</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/registPage.css}">
 
-    <style>
-        /* 전체 컨테이너 */
-        .regist-div-class {
-            width: 900px;
-            border-radius: 15px; /* 둥근 모서리 */
-            margin: auto;
-            padding: 30px;
-            background-color: #ffffff; /* 밝은 배경 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-            position: relative;
-            height: 650px;
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* 제목 스타일 */
-        .header {
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-            text-align: center; /* 가운데 정렬 */
-            margin-bottom: 30px;
-        }
-
-        /* 취소 버튼 */
-        .cancle-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0; /* 내부 여백 제거 */
-            width: 80px; /* 버튼 고정 너비 */
-            height: 40px; /* 버튼 고정 높이 */
-            display: flex; /* Flexbox 활성화 */
-            justify-content: center; /* 가로 중앙 정렬 */
-            align-items: center; /* 세로 중앙 정렬 */
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-            transition: background-color 0.3s ease;
-        }
-
-        /* 사진 및 테이블 영역 */
-        .content-wrapper {
-            display: flex;
-            gap: 30px; /* 간격 확장 */
-        }
-
-        /* 사진 영역 */
-        .photo {
-            width: 150px;
-            height: 200px;
-            border: 2px dashed #ddd; /* 더 부드러운 테두리 */
-            text-align: center;
-            line-height: 200px;
-            background-color: #f5f5f5;
-            color: #999;
-            border-radius: 10px; /* 모서리 둥글게 */
-            flex-shrink: 0;
-        }
-
-        /* 입력 필드 영역 */
-        input[type="text"], input[type="email"], input[type="number"], input[type="tel"], input[type="date"], select {
-            width: 100%;
-            height: 40px;
-            margin-bottom: 20px;
-            padding: 5px 10px;
-            border: 1px solid #ddd; /* 연한 테두리 */
-            border-radius: 5px;
-            font-size: 14px;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 */
-        }
-
-        /* 등록 버튼 */
-        .submit-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0; /* 내부 여백 제거 */
-            width: 80px; /* 버튼 고정 너비 */
-            height: 40px; /* 버튼 고정 높이 */
-            display: flex; /* Flexbox 활성화 */
-            justify-content: center; /* 가로 중앙 정렬 */
-            align-items: center; /* 세로 중앙 정렬 */
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-            transition: background-color 0.3s ease;
-        }
-
-        .submit-button:hover {
-            background-color: #45a049; /* 호버 시 더 짙은 녹색 */
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .regist-div-class {
-                width: 90%; /* 작은 화면에서 크기 축소 */
-            }
-
-            .content-wrapper {
-                flex-direction: column; /* 세로로 정렬 */
-                align-items: center;
-            }
-        }
-
-        /* 필드 컨테이너 */
-        .field-container {
-            display: flex;
-            flex-wrap: wrap; /* 줄바꿈 허용 */
-            gap: 20px; /* 필드 간격 */
-        }
-
-        /* 각 필드 그룹 */
-        .field-group {
-            flex: 1; /* 각 필드 동일한 너비 */
-            min-width: 300px; /* 최소 너비 */
-        }
-
-    </style>
 </head>
 <body>
+<script th:src="@{/js/regist.js}"></script>
+<script th:src="@{/js/common.js}"></script>
 
-<!-- asdsadsadsad sa -->
-<aside class="aside-class">
-    <div class="aside-div-class">LYNK</div> <br><br>
+<nav class="nav-class">
+    <div class="nav-div-class"><a class="nav-link" href="/">LYNK</a></div> <br><br>
 
     <h6 style="color: white">My</h6>
-    <div class="aside-text-class">
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 최근 사용한 메뉴
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
+    <div class="nav-text-class">
+        <div class="menuContainer">
+            <li class="humanMenu">
+                <a href="#">
+                    <span class="arrow">></span>최근 사용한 메뉴
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                </ul>
+            </li>
         </div>
 
-        <div class="btn-group">
-            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="arrow">&gt;</span> 즐겨 찾기
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-            </ul>
+        <div class="menuContainer">
+            <li class="humanMenu">
+                <a href="#">
+                    <span class="arrow">></span>즐겨 찾기
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                    <li><a href="/" style="text-decoration: none">임시</a></li>
+                </ul>
+            </li>
         </div>
 
         <div><br><br>
             <h6 style="color: white">Menu</h6>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 홈
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
-
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 공지사항
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>홈
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
+            </div>
 
             <div class="menuContainer">
-                <ul id="menuList">
+                <ul id="menuList2">
+                    <li class="humanMenu">
+                        <a href="#">
+                            <span class="arrow">></span>공지사항
+                        </a>
+                        <ul class="subMenu">
+                            <li><a href="/" style="text-decoration: none">임시</a></li>
+                            <li><a href="/" style="text-decoration: none">임시</a></li>
+                            <li><a href="/" style="text-decoration: none">임시</a></li>
+                            <li><a href="/" style="text-decoration: none">임시</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menuContainer">
                     <li class="humanMenu">
                         <a href="#">
                             <span class="arrow">></span>인사관리
@@ -197,76 +94,55 @@
                             <li><a href="/employee/list" style="text-decoration: none">일정관리</a></li>
                         </ul>
                     </li>
-                </ul>
-                <!--
-                    <메모 - 윤이정>
-                    기존의 버튼 형식으로 한 거에서 수정하려다가 주석처리하고 제 방식으로 수정했어요.
-                    눌렀을 때 하단 메뉴 펼쳐지는 거에 대해서는 아래 스크립트를 통해 동적 설정하였어요.
-                    이거 말고도 common.css 최하단에 제가 추가한 부분 넣어두었습니다!
-
-                    메뉴 영역을 전부 div 로 설정하는 것보다는, 이런 식으로 하는 것이 조금 더 나을 거 같았어요.
-                    아예 메뉴 영역은 menuContainer div 안에서 각각의 li-ul-li 로 수정하는 건 어떠신가요?
-                    참고하시어 의견 주시면 감사하겠습니다~
-                -->
             </div>
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    const menuItems = document.querySelectorAll(".humanMenu > a"); // 메뉴 클릭 요소
 
-                    menuItems.forEach((menuItem) => {
-                        menuItem.addEventListener("click", (e) => {
-                            e.preventDefault(); // 기본 동작 차단
-                            const subMenu = menuItem.nextElementSibling; // 하위 메뉴 UL
-                            const isOpen = subMenu.style.height !== "0px"; // 현재 상태 확인
 
-                            if (isOpen) {
-                                // 닫기
-                                subMenu.style.height = "0px";
-                            } else {
-                                // 기존 열려 있는 하위 메뉴 닫기
-                                document.querySelectorAll(".subMenu").forEach((menu) => {
-                                    menu.style.height = "0px";
-                                });
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>전자결재
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
+            </div>
 
-                                // 선택한 메뉴 열기
-                                subMenu.style.height = `${subMenu.scrollHeight}px`; // 콘텐츠 크기만큼 열기
-                            }
-                        });
-                    });
-                });
-            </script>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>DB 관리
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
+            </div>
 
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 전자결재
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
-
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> DB관리
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
-            </div><br>
-
-            <div class="btn-group">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="arrow">&gt;</span> 계약관리
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Menu item 1</a></li>
-                </ul>
+            <div class="menuContainer">
+                <li class="humanMenu">
+                    <a href="#">
+                        <span class="arrow">></span>계약관리
+                    </a>
+                    <ul class="subMenu">
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                        <li><a href="/" style="text-decoration: none">임시</a></li>
+                    </ul>
+                </li>
             </div>
 
         </div>
     </div>
 
-</aside>
+</nav>
 <div class="right-container">
 
     <header class="header-class">January
@@ -287,6 +163,69 @@
 
     <section class="main-content">
 
+        <div class="table-container">
+            <h2 class="table-header">인사 등록이 필요한 직원 정보</h2>
+            <div class="table-wrapper">
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>사진</th>
+                        <th>사번</th>
+                        <th>이름</th>
+                        <th>부서</th>
+<!--                        <th>직책</th>-->
+                        <th>이메일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="abc : ${list}" class="clickable-row"
+                        th:data-picture="${abc.picture}"
+                        th:data-id="${abc.id}"
+                        th:data-name="${abc.name}"
+                        th:data-department="${abc.departmentDTO.depName}"
+                        th:data-position="${abc.humanDTO.position}"
+                        th:data-email="${abc.email}">
+                        <td th:text="${abc.picture}"></td>
+                        <td th:text="${abc.id}"></td>
+                        <td th:text="${abc.name}"></td>
+                        <td th:text="${abc.departmentDTO.depName}"></td>
+<!--                        <td th:text="${abc.humanDTO.position}"></td>-->
+                        <td th:text="${abc.email}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                // 모든 클릭 가능한 행 가져오기
+                const rows = document.querySelectorAll(".clickable-row");
+
+                rows.forEach(row => {
+                    row.addEventListener("click", () => {
+                        // 데이터 추출
+                        const picture = row.getAttribute("data-picture");
+                        const id = row.getAttribute("data-id");
+                        const name = row.getAttribute("data-name");
+                        const department = row.getAttribute("data-department");
+                        // const position = row.getAttribute("data-position");
+                        const email = row.getAttribute("data-email");
+
+                        // 폼에 데이터 삽입
+                        document.getElementById("formPhoto").textContent = picture || "사진 없음";
+                        document.getElementById("formId").value = id || "";
+                        document.getElementById("formName").value = name || "";
+                        document.getElementById("formDepartment").value = department || "";
+                        // document.getElementById("formPosition").value = position || "";
+                        document.getElementById("formEmail").value = email || "";
+                    });
+                });
+            });
+
+        </script>
+
+        <div class=form-container>
         <form action="/employee/regist" method="post" onsubmit="combineEmail(); return true;">
             <div class="regist-div-class">
                 <!-- 상단 제목 -->
@@ -296,13 +235,24 @@
                 <!-- 사진 및 입력 필드 -->
                 <div class="content-wrapper">
                     <!-- 사진 업로드 영역 -->
-                    <div class="photo">사 진</div>
+                    <div class="photo" id="formPhoto">사 진</div> <!-- 사진 받아와서 연결 -->
 
                     <!-- 입력 필드 -->
                     <div class="field-container">
                         <div class="field-group">
-                            <label>사 번</label>
-                            <input type="number" name="id" placeholder="20241210">
+                            <label>사 번</label> <!-- 사번 받아와서 연결 -->
+                            <input type="number" name="id" id="formId" placeholder="20241210">
+                        </div>
+
+                        <div class="field-group">
+                            <label>이 름</label> <!-- 이름 받아와서 연결 -->
+                            <input type="text" name="name" id="formName" placeholder="홍길동">
+                        </div>
+
+
+                        <div class="field-group">
+                            <label>부 서</label> <!-- 부서 받아와서 연결 -->
+                            <input type="text" name="text" id="formDepartment" placeholder="인사팀">
                         </div>
 
                         <div class="field-group">
@@ -315,6 +265,11 @@
                                 <option value="차장">차장</option>
                                 <option value="부장">부장</option>
                             </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label>이메일</label> <!-- 이메일 받아와서 연결 -->
+                            <input type="email" name="email" id="formEmail" placeholder="gyunam@naver.com">
                         </div>
 
                         <div class="field-group">
@@ -343,7 +298,7 @@
 
                         <div class="field-group">
                             <label>입사 일자</label>
-                            <input type="date" name="date" placeholder="입사 일자">
+                            <input type="date" name="joinDate" placeholder="입사 일자">
                         </div>
                     </div>
                 </div>
@@ -351,8 +306,6 @@
                 <!-- 등록 버튼 -->
                 <button type="submit" class="submit-button">등록</button>
             </div>
-
-            <!-- 하단 등록 버튼 -->
 
             <!--            <div class="field-group">-->
             <!--                <label>이메일 :</label>-->
@@ -369,78 +322,36 @@
             <!--                    &lt;!&ndash; Hidden field to send full email &ndash;&gt;-->
             <!--                    <input type="hidden" id="fullEmail" name="email">-->
             <!--                </div>-->
-</form>
-
+        </form>
+        </div>
 <!-- 모달 구조 -->
-<div th:if="${successMessage}" id="successMessage" th:text="${successMessage}" style="display: none;"></div>
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">알림</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modalMessage">
-                <!-- 메시지가 동적으로 추가됩니다 -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+<div th:if="${successMessage}" id="successMessage" style="display: none;"></div>
+        <div class="modal fade" id="myModal" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">알림</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalMessage">
+                        <!-- 메시지가 동적으로 추가됩니다 -->
+                        <p  th:text="${successMessage}"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<script>
-    // 이메일 도메인 선택 시 "직접 입력" 활성화
-    document.getElementById('emailDomain').addEventListener('change', function () {
-        const customEmailDomain = document.getElementById('customEmailDomain');
-        if (this.value === "직접 입력") {
-            customEmailDomain.style.display = "inline-block";
-            customEmailDomain.focus();
-        } else {
-            customEmailDomain.style.display = "none";
-            customEmailDomain.value = "";
-        }
-    });
-
-    function combineEmail() {
-        const emailName = document.getElementById('emailName').value;
-        const emailDomain = document.getElementById('emailDomain').value;
-        const customDomain = document.getElementById('customEmailDomain').value;
-
-        // 도메인이 "직접 입력"일 경우 커스텀 도메인 사용
-        const fullEmail = emailName + "@" + (emailDomain === "직접 입력" ? customDomain : emailDomain);
-
-        // hidden input에 저장
-        document.getElementById('fullEmail').value = fullEmail;
-        console.log("전체 이메일:", fullEmail);
-    }
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // 서버에서 전달받은 successMessage를 가져옴
-        const successMessage = document.getElementById('successMessage').textContent.trim();
-
-        if (successMessage) {
-            // 모달 메시지에 설정
-            const modalMessage = document.getElementById('modalMessage');
-            modalMessage.textContent = successMessage;
-
-            // Bootstrap 모달 표시
-            const myModal = new bootstrap.Modal(document.getElementById('myModal'));
-            myModal.show();
-        }
-    });
-</script>
 
     </section>
 
     <footer class="footer-class"></footer>
-
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 </body>
 </html>

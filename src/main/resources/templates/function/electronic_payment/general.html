@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>일반 품의서</title>
+</head>
+<body>
+<h1>일반 품의서</h1>
+
+<div class="container">
+    <!-- 문서 첨부 영역 -->
+    <div class="attachment-section">
+        <h3>문서 첨부</h3>
+        <div class="attachment-box">
+            <button id="uploadButton">+</button>
+            <p>문서를 첨부하세요</p>
+            <img id="previewImage" src="" alt="미리보기 이미지" style="display:none;">
+        </div>
+    </div>
+
+    <!-- 결재선 -->
+    <div class="approval-section">
+        <h3>결재선</h3>
+        <button id="addApprovalButton">결재선 선택</button>
+        <div id="approvalList"></div>
+    </div>
+
+    <!-- 파일 첨부 -->
+    <div class="file-attachment-section">
+        <h3>파일 첨부</h3>
+        <button id="addFileButton">+</button>
+        <input type="file" id="fileInput" style="display: none;" />
+        <p id="fileName" style="display: none;">파일 이름: </p>
+    </div>
+
+    <!-- 기안하기 버튼 -->
+    <div class="submit-section">
+        <button id="draftButton">기안하기</button>
+    </div>
+</div>
+
+<!-- 모달 창 -->
+<div id="approvalModal" style="display: none;">
+    <h3>소속 부서</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>부서</th>
+            <th>이름</th>
+            <th>직책</th>
+            <th>선택</th>
+        </tr>
+        </thead>
+        <tbody id="approverTable">
+        <!-- 서버 데이터 로딩 -->
+        </tbody>
+    </table>
+    <button id="closeModal">닫기</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("approvalModal");
+        const approverTable = document.getElementById("approverTable");
+        const closeModal = document.getElementById("closeModal");
+
+        // 모달 열기
+        document.getElementById("addApprovalButton").addEventListener("click", function () {
+            fetch("/payment/approvers")
+                .then(response => response.json())
+                .then(data => {
+                    approverTable.innerHTML = "";
+                    data.forEach(employee => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${employee.departmentName}</td>
+                            <td>${employee.employeeName}</td>
+                            <td>${employee.position}</td>
+                            <td><button class="selectApprover" data-id="${employee.employeeNo}">선택</button></td>
+                        `;
+                        approverTable.appendChild(row);
+                    });
+                    modal.style.display = "block";
+                });
+        });
+
+        // 모달 닫기
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // 결재선 선택
+        approverTable.addEventListener("click", function (event) {
+            if (event.target.classList.contains("selectApprover")) {
+                const approverId = event.target.getAttribute("data-id");
+                console.log("결재자 선택:", approverId);
+                modal.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</script>
+</body>
+</html>

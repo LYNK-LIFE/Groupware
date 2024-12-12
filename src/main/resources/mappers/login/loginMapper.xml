@@ -5,23 +5,33 @@
 
 <mapper namespace="com.semi.lynk.function.login.model.dao.LoginMapper">
 
-<!--    <resultMap id="login" type="com/semi/lynk/function/login/model/dto/LoginDTO">-->
-<!--        <id property="empNo" column=""/>-->
-<!--        <result property="empPwd" column=""/>-->
-<!--        <result property="empName" column=""/>-->
-<!--        <result property="email" column=""/>-->
-<!--        <result property="empStatus" column=""/>-->
-<!--        <result property="loginFailCount" column=""/>-->
-<!--        <result property="workingStatus" column=""/>-->
-<!--        <result property="deptNo" column=""/>-->
+    <resultMap id="login" type="com.semi.lynk.function.login.model.dto.LoginDTO">
+        <id property="empNo" column="employee_no"/>
+        <result property="empPwd" column="password"/>
+        <result property="empName" column="employee_name"/>
+        <result property="email" column="email"/>
+        <result property="empStatus" column="member_status"/>
+        <result property="loginFailCount" column="login_fail_count"/>
+        <result property="workingStatus" column="working_status"/>
+        <result property="deptNo" column="department_no"/>
 <!--        <result property="role" column=""/>-->
-<!--    </resultMap>-->
+    </resultMap>
 
     <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
         INSERT INTO EMPLOYEE
         (EMPLOYEE_NO, EMPLOYEE_NAME, PASSWORD, EMAIL, MEMBER_STATUS, LOGIN_FAIL_COUNT, WORKING_STATUS, DEPARTMENT_NO, IMAGE)
         VALUES
-        (#{userID}, #{userName}, #{userPass}, #{email}, #{phone}, #{joinDate}, #{leaveDate}, #{deptNo}, #{position}, #{etc})
+        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, 0000)
     </insert>
+
+    <select id="findByUsername" resultMap="login">
+        SELECT EMPLOYEE_NO
+             , PASSWORD
+             , EMPLOYEE_NAME
+             , EMAIL
+             , MEMBER_STATUS
+          FROM EMPLOYEE
+         WHERE EMPLOYEE_NO = #{empName}
+    </select>
 
 </mapper>

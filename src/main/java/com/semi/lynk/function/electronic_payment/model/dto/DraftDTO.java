@@ -8,10 +8,8 @@ import lombok.*;
 @Setter
 @ToString
 public class DraftDTO {
-    //기안
-    private int draftDate; //작성일자
+    private int draftDate; // 작성일자
     private int draftStatus; // 결재상태
     private int draftNo; // 기안번호
-    private String draftMemo; //비고
-
+    private String draftMemo; // 비고
 }

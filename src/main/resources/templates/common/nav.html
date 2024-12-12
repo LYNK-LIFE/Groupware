@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nav</title>
+</head>
+<body>
+<nav th:fragment="navFragment" class="nav-class">
+    <!-- 로고 영역 -->
+    <div class="nav-div-class">
+        <a class="nav-link" href="/">LYNK</a>
+    </div>
+
+    <!-- 메뉴바 영역 -->
+    <div class="menuContainer">
+        <div class="myMenuContainer">
+            <h6 style="color: white">My</h6>
+            <li class="recentlyUsedMenu">
+                <a href="#">
+                    <span class="arrow">></span>최근 사용한 메뉴
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                </ul>
+            </li>
+            <li class="bookmark">
+                <a href="#">
+                    <span class="arrow">></span>즐겨 찾기
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                </ul>
+            </li>
+        </div>
+        <div class="mainMenuContainer">
+            <h6 style="color: white">Menu</h6>
+            <li class="home">
+                <a href="#">
+                    <span class="arrow">></span>홈
+                </a>
+            </li>
+            <li class="board">
+                <a href="#">
+                    <span class="arrow">></span>공지사항
+                </a>
+            </li>
+            <li class="humanMenu">
+                <a href="#">
+                    <span class="arrow">></span>인사관리
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/employee/join">인사정보</a></li>
+                    <li><a href="/employee/regist">인사등록</a></li>
+                    <li><a href="/employee/list">근태관리</a></li>
+                    <li><a href="/employee/list">일정관리</a></li>
+                </ul>
+            </li>
+            <li class="paymentMenu">
+                <a href="#">
+                    <span class="arrow">></span>전자결재
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/payment/list">기안하기</a></li>
+                    <li><a href="/">기안문서</a></li>
+                    <li><a href="/">결제할 문서</a></li>
+                    <li><a href="/">결제 보관함</a></li>
+                </ul>
+            </li>
+            <li class="dbMenu">
+                <a href="#">
+                    <span class="arrow">></span>DB 관리
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                </ul>
+            </li>
+            <li class="salesMenu">
+                <a href="#">
+                    <span class="arrow">></span>계약관리
+                </a>
+                <ul class="subMenu">
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                    <li><a href="/">임시</a></li>
+                </ul>
+            </li>
+        </div>
+    </div>
+
+    <!-- 사용자 영역 -->
+    <div>
+
+    </div>
+</nav>
+</body>
+</html>
