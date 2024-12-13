@@ -64,6 +64,33 @@
             </article>
 
             <script>
+                fetch("/employee/lookUpList")
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+
+                        data.forEach(employee => {
+
+                        })
+
+
+                        const lookUpList = document.getElementById("lookUp-id");
+                        for (let dt in data) {
+                            const tbody = document.createElement("tbody");
+
+                            tbody.value = data[dt].code;
+                            tbody.textContent = data[dt].name;
+
+                            lookUpList.appendChild(tbody);
+                        }
+                    })
+            </script>
+
+
+
+
+
+            <script>
                 document.getElementById("select-button-id").addEventListener("click", () => {
                     const type = document.getElementById("lookupSelect").value; // 사번 or 이름
                     const keyword = document.getElementById("lookupInput").value; // 검색어 입력값
@@ -74,34 +101,35 @@
                     }
 
                     // Ajax 요청으로 백엔드 API 호출
-                    fetch(`/employee/search?type=${type}&keyword=${keyword}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.length === 0) {
-                                alert("검색 결과가 없습니다.");
-                                return;
-                            }
-
-                            // 테이블에 데이터 추가
-                            const table = document.querySelector(".basicInfo-class");
-                            data.forEach(item => {
-                                const row = document.createElement("tr");
-
-                                row.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.name}</td>
-                    <td>${item.humanDTO.position}</td>
-                    <td>${item.humanDTO.employeementStatus}</td>
-                    <td>${item.humanDTO.phoneNumber}</td>
-                    <td>${item.humanDTO.ssn}</td>
-                `;
-                                table.appendChild(row);
-                            });
-                        })
-                        .catch(error => console.error("Error:", error));
+                //     fetch(`/employee/search?type=${type}&keyword=${keyword}`)
+                //         .then(response => response.json())
+                //         .then(data => {
+                //             if (data.length === 0) {
+                //                 alert("검색 결과가 없습니다.");
+                //                 return;
+                //             }
+                //
+                //             // 테이블에 데이터 추가
+                //             const table = document.querySelector(".basicInfo-class");
+                //             data.forEach(item => {
+                //                 const row = document.createElement("tr");
+                //
+                //                 row.innerHTML = `
+                //     <td>${item.id}</td>
+                //     <td>${item.name}</td>
+                //     <td>${item.humanDTO.position}</td>
+                //     <td>${item.humanDTO.employeementStatus}</td>
+                //     <td>${item.humanDTO.phoneNumber}</td>
+                //     <td>${item.humanDTO.ssn}</td>
+                // `;
+                //                 table.appendChild(row);
+                //             });
+                //         })
+                //         .catch(error => console.error("Error:", error));
                 });
 
             </script>
+
             <table class="basicInfo-class">
                 <thead>
                 <tr>
@@ -114,7 +142,14 @@
                 </tr>
                 </thead>
                 <tbody id="employee-table-body">
-
+                <tr th:each="look : ${lookUpList}" id="lookUp-id">
+                    <td th:text="look."></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
                 </tbody>
             </table>
         </section>
