@@ -3,138 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <title>일반 품의서</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>일반 품의서</h1>
+<div class="container my-4">
+    <h1 class="mb-4">일반 품의서</h1>
 
-<div class="container">
     <!-- 문서 첨부 영역 -->
-    <div class="attachment-section">
+    <div class="mb-4">
         <h3>문서 첨부</h3>
-        <div class="attachment-box">
-            <button id="uploadButton">+</button>
-            <p>문서를 첨부하세요</p>
-            <img id="previewImage" src="" alt="미리보기 이미지" style="display:none;">
+        <div class="d-flex align-items-center gap-3">
+            <button id="uploadButton" class="btn btn-secondary">파일 첨부</button>
+            <img id="previewImage" src="" alt="미리보기 이미지" style="display:none; max-width: 200px; border: 1px solid #ccc;">
         </div>
     </div>
 
     <!-- 결재선 -->
-    <div class="approval-section">
+    <div class="mb-4">
         <h3>결재선</h3>
-        <button id="addApprovalButton">결재 선택</button>
-        <div id="approvalList"></div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approvalModal">결재 선택</button>
+        <div id="approvalList" class="mt-2"></div>
     </div>
 
     <!-- 파일 첨부 -->
-    <div class="file-attachment-section">
+    <div class="mb-4">
         <h3>파일 첨부</h3>
-        <button id="addFileButton">+</button>
-        <input type="file" id="fileInput" style="display: none;" />
-        <p id="fileName" style="display: none;">파일 이름: </p>
+        <div class="d-flex align-items-center gap-3">
+            <button id="addFileButton" class="btn btn-secondary">파일 추가</button>
+            <input type="file" id="fileInput" style="display: none;">
+            <p id="fileName" style="display: none;">파일 이름: </p>
+        </div>
     </div>
 
     <!-- 기안하기 버튼 -->
-    <div class="submit-section">
-        <button id="draftButton">기안하기</button>
+    <div>
+        <button id="draftButton" class="btn btn-success">기안하기</button>
     </div>
 </div>
 
-<!-- 모달 창 -->
-<div id="approvalModal" style="display: none;">
-    <h3>소속 부서</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>부서</th>
-            <th>이름</th>
-            <th>직책</th>
-            <th>선택</th>
-        </tr>
-        </thead>
-        <tbody id="approverTable">
-        <!-- 서버 데이터 로딩 -->
-        </tbody>
-    </table>
-    <button id="closeModal">닫기</button>
+<!-- 결재선 선택 모달 -->
+<div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approvalModalLabel">소속 부서</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>부서번호</th>
+                        <th>부서명</th>
+                        <th>사원번호</th>
+                        <th>사원명</th>
+                        <th>직책</th>
+                        <th>선택</th>
+                    </tr>
+                    </thead>
+                    <tbody id="approverTable">
+                    <!-- 서버 데이터 로딩 -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- Bootstrap JS and Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // 문서 첨부 - 미리보기 설정
         const uploadButton = document.getElementById("uploadButton");
         const previewImage = document.getElementById("previewImage");
-        const modal = document.getElementById("approvalModal");
-        const approverTable = document.getElementById("approverTable");
-        const closeModal = document.getElementById("closeModal");
 
-        // 문서 첨부 버튼 클릭시 파일 업로드 처리
         uploadButton.addEventListener("click", function () {
             const fileInput = document.createElement("input");
             fileInput.type = "file";
-            fileInput.accept = "image/*"; // 이미지 파일만 선택 가능
+            fileInput.accept = "image/*";
             fileInput.onchange = function () {
                 const file = fileInput.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        previewImage.src = e.target.result; // 미리보기 이미지 설정
-                        previewImage.style.display = "block"; // 이미지 표시
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = "block";
                     };
                     reader.readAsDataURL(file);
                 }
             };
-            fileInput.click(); // 파일 선택 창 열기
+            fileInput.click();
         });
 
-        // 모달 열기
-        document.getElementById("addApprovalButton").addEventListener("click", function () {
+        // 파일 첨부 - 파일 이름 표시
+        const addFileButton = document.getElementById("addFileButton");
+        const fileInput = document.getElementById("fileInput");
+        const fileName = document.getElementById("fileName");
+
+        addFileButton.addEventListener("click", function () {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", function () {
+            const file = fileInput.files[0];
+            if (file) {
+                fileName.textContent = `파일 이름: ${file.name}`;
+                fileName.style.display = "block";
+            }
+        });
+
+        // 결재선 모달 - 데이터 로드
+        const approverTable = document.getElementById("approverTable");
+        const approvalModal = document.getElementById("approvalModal");
+
+        function loadApproverData() {
             fetch("/payment/approvers")
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("데이터 로드 실패");
+                        throw new Error("Failed to fetch data");
                     }
                     return response.json();
                 })
                 .then(data => {
-                    approverTable.innerHTML = ""; // 기존 내용을 초기화
+                    approverTable.innerHTML = ""; // 기존 데이터 초기화
                     data.forEach(employee => {
                         const row = document.createElement("tr");
                         row.innerHTML = `
-                        <td>${employee.departmentDTO.departmentName}</td>
-                        <td>${employee.employeeName}</td>
-                        <td>${employee.humanResourceDTO.position}</td>
-                        <td><button class="selectApprover" data-id="${employee.employeeNo}">선택</button></td>
-                    `;
+                            <td>${employee.departmentDTO.department_no}</td>
+                            <td>${employee.departmentDTO.department_name}</td>
+                            <td>${employee.employee_no}</td>
+                            <td>${employee.employee_name}</td>
+                            <td>${employee.humanResourceDTO.position}</td>
+                            <td><button class="btn btn-primary btn-sm selectApprover" data-id="${employee.employee_no}">Select</button></td>
+                      `;
                         approverTable.appendChild(row);
                     });
-                    modal.style.display = "block"; // 모달 보이기
                 })
                 .catch(error => {
-                    console.error("결재자 목록 로드 중 오류:", error);
+                    console.error("Error loading approver data:", error);
                 });
-        });
+        }
 
-        // 모달 닫기
-        closeModal.addEventListener("click", function () {
-            modal.style.display = "none"; // 모달 숨기기
-        });
+        // 모달이 열릴 때 데이터 로드
+        approvalModal.addEventListener("shown.bs.modal", loadApproverData);
 
-        // 결재선 선택
+        // 결재자 선택 처리
         approverTable.addEventListener("click", function (event) {
             if (event.target.classList.contains("selectApprover")) {
                 const approverId = event.target.getAttribute("data-id");
-                console.log("결재자 선택:", approverId);
-                modal.style.display = "none"; // 모달 닫기
-            }
-        });
-
-        // ESC 키로 모달 닫기
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") {
-                modal.style.display = "none";
+                console.log("Selected Approver ID:", approverId);
+                const modalInstance = bootstrap.Modal.getInstance(approvalModal);
+                modalInstance.hide(); // 모달 닫기
             }
         });
     });
 </script>
-
 </body>
 </html>

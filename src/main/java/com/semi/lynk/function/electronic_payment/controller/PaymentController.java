@@ -1,6 +1,7 @@
 package com.semi.lynk.function.electronic_payment.controller;
 
 import com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO;
+import com.semi.lynk.function.electronic_payment.model.dto.DepAndEmpAndHumDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.EmployeeAndEctJoinDTO;
 import com.semi.lynk.function.electronic_payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class PaymentController {
 
    @GetMapping("/approvers")
    @ResponseBody // JSON 데이터를 반환하기 위해 추가
-   public List<EmployeeAndEctJoinDTO> findAllApprovers(){
+   public List<DepAndEmpAndHumDTO> findAllApprovers(){
         return paymentService.findAllApprovers();
    }
 
@@ -38,9 +39,9 @@ public class PaymentController {
 
 
     @PostMapping("/add-approver")
-    public String addApprover(@ModelAttribute EmployeeAndEctJoinDTO employeeAndEctJoinDTO,
+    public String addApprover(@ModelAttribute DepAndEmpAndHumDTO depAndEmpAndHumDTO,
                               RedirectAttributes redirectAttributes) {
-        boolean isAdded = paymentService.addApprover(employeeAndEctJoinDTO);
+        boolean isAdded = paymentService.addApprover(depAndEmpAndHumDTO);
 
         if (isAdded) {
             redirectAttributes.addFlashAttribute("message", "결재선이 성공적으로 추가되었습니다.");
