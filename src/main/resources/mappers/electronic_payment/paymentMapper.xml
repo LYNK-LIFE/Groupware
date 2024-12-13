@@ -6,8 +6,8 @@
 <mapper namespace="com.semi.lynk.function.electronic_payment.model.dao.PaymentMapper">
 
     <!--employee DTO -->
-    <resultMap id="findEmployeeResultMap"
-               type="com.semi.lynk.function.electronic_payment.model.dto.AuthorizationAndDepartmentAndEmployeeAndHumanResourceDTO">
+    <resultMap id="findAllApprovertMap"
+               type="com.semi.lynk.function.electronic_payment.model.dto.EmployeeAndEctJoinDTO">
         <id property="employeeNo" column="employee_no"/>
         <result property="employeeName" column="employee_name"/>
         <association property="authorizationDTO" javaType="com.semi.lynk.function.electronic_payment.model.dto.AuthorizationDTO">
@@ -24,7 +24,7 @@
     </resultMap>
 
     <!-- 결재자 선택을 위한 join  -->
-    <select id="findAllEmployees" resultMap="findEmployeeResultMap">
+    <select id="findAllApprover" resultMap="findAllApprovertMap">
         select
           a.employee_no
         , a.employee_name
@@ -40,7 +40,6 @@
         where
         b.auth_of_document = 1;
     </select>
-
 
     <!-- 결재선 추가 -->
     <insert id="insertApprover">

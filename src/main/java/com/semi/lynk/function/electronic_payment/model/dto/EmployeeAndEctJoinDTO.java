@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class AuthorizationAndDepartmentAndEmployeeAndHumanResourceDTO {
+public class EmployeeAndEctJoinDTO {
     private HumanResourceDTO humanResourceDTO ; // position 직책을위한 join
     private AuthorizationDTO authorizationDTO ; // authOfDocument 기안승인권한을위한 join
     private String employeeName; // 이름
