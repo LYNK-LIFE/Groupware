@@ -34,10 +34,11 @@ public class EmployeeService {
 
         int result2 = mapper.registMapperhum(registHumDTO);
 
-
         return result2 >= 1 ? 1 : 0;
-
-
     }
 
+    public List<LookUpDTO> lookupData() {
+
+        return mapper.lookUpMapper();
+    }
 }
