@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,7 +34,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("lookup") // 인사 정보 → 인사 기본 정보에 뿌려질 애들
+    @GetMapping("lookup")
     public String employeeList (Model model) {
 
         List<EmployeeDTO> list = employeeService.employeeList();
@@ -47,21 +44,28 @@ public class EmployeeController {
         }
         model.addAttribute("list", list);
 
-        return "function/human/lookup";
+        return "function/human/attendance";
     }
 
-//    @GetMapping(value="mijung" , produces = "application/json; charset=UTF-8")
-//    @ResponseBody
+    @GetMapping (value = "lookUpList" , produces = "application/json; charset=UTF-8")
+    @ResponseBody // 인사 조회 시 불려올 데이터
+    public List<LookUpDTO> lookUpList () {
+
+        List<LookUpDTO> result = employeeService.lookupData();
+//        logger.info("인사 조회 시 불려올 데이터 :" + result);
+
+        return result;
+    }
 
 
     @GetMapping ("list")
     public String look () {
-        return "function/human/list";
+        return "function/human/attendance";
     }
 
     @GetMapping ("inform")
     public String humanInform () {
-        return "forward:/employee/lookup";
+        return "function/human/lookup";
     }
 
     // 인사 등록 창에 인사 등록 안 된 애들 조회해주는 거
