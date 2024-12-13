@@ -17,4 +17,6 @@ public class EmployeeDTO {
     private int workingStatus; // 출근상태
     private int departmentNo; // 부서번호
     private String image; // 사진
+
+
 }
