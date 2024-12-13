@@ -1,15 +1,13 @@
 package com.semi.lynk.function.electronic_payment.controller;
 
 import com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO;
-import com.semi.lynk.function.electronic_payment.model.dto.AuthorizationAndDepartmentAndEmployeeAndHumanResourceDTO;
-import com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO;
+import com.semi.lynk.function.electronic_payment.model.dto.EmployeeAndEctJoinDTO;
 import com.semi.lynk.function.electronic_payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 
 @Controller
@@ -23,22 +21,26 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+
+   @GetMapping("/approvers")
+   @ResponseBody // JSON 데이터를 반환하기 위해 추가
+   public List<EmployeeAndEctJoinDTO> findAllApprovers(){
+        return paymentService.findAllApprovers();
+   }
+
     @GetMapping("/list")
-    public String draft(Model model) {
+    public String draft() {
         return "function/electronic_payment/list";
     }
 
     @GetMapping("/general")
-    public String general(Model model) {
-        List<AuthorizationAndDepartmentAndEmployeeAndHumanResourceDTO> employeeList = paymentService.getAllEmployees();
-        model.addAttribute("employeeList", employeeList);
-        return "function/electronic_payment/general"; // HTML 템플릿 경로
-    }
+    public String general() {return "function/electronic_payment/general";}
 
-    @PostMapping("/addapprover")
-    public String addApprover(@ModelAttribute ApproveDTO approveDTO,
+
+    @PostMapping("/add-approver")
+    public String addApprover(@ModelAttribute EmployeeAndEctJoinDTO employeeAndEctJoinDTO,
                               RedirectAttributes redirectAttributes) {
-        boolean isAdded = paymentService.addApprover(approveDTO);
+        boolean isAdded = paymentService.addApprover(employeeAndEctJoinDTO);
 
         if (isAdded) {
             redirectAttributes.addFlashAttribute("message", "결재선이 성공적으로 추가되었습니다.");
