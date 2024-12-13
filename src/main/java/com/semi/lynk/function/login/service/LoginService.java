@@ -5,6 +5,8 @@ import com.semi.lynk.function.login.model.dao.LoginMapper;
 import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,11 +41,13 @@ public class LoginService implements UserDetailsService {
             return login;
         }
     }
-    //****************************************************************
 
     //****************************************************************
     // 로그인 관련 내용들
     //****************************************************************
+    public LoginDTO getLoginUsername(String username) {
+        return loginMapper.findByUsername(username);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String empname) throws UsernameNotFoundException {
@@ -53,4 +57,6 @@ public class LoginService implements UserDetailsService {
         }
         return new EmpDetails(login);
     }
+
+
 }
