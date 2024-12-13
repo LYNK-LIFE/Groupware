@@ -7,18 +7,14 @@
 
     <!--employee DTO -->
     <resultMap id="findAllApprovertMap"
-               type="com.semi.lynk.function.electronic_payment.model.dto.EmployeeAndEctJoinDTO">
+               type="com.semi.lynk.function.electronic_payment.model.dto.DepAndEmpAndHumDTO">
         <id property="employeeNo" column="employee_no"/>
         <result property="employeeName" column="employee_name"/>
-        <association property="authorizationDTO" javaType="com.semi.lynk.function.electronic_payment.model.dto.AuthorizationDTO">
-            <result property="authOfDocument" column="auth_of_document"/>
-        </association>
         <association property="departmentDTO" javaType="com.semi.lynk.function.electronic_payment.model.dto.DepartmentDTO">
             <id property="departmentNo" column="department_no"/>
             <result property="departmentName" column="department_name"/>
         </association>
         <association property="humanResourceDTO" javaType="com.semi.lynk.function.electronic_payment.model.dto.HumanResourceDTO">
-            <id property="employeeNo" column="employee_no"/>
             <result property="position" column="position"/>
         </association>
     </resultMap>
@@ -26,19 +22,17 @@
     <!-- 결재자 선택을 위한 join  -->
     <select id="findAllApprover" resultMap="findAllApprovertMap">
         select
-          a.employee_no
-        , a.employee_name
-        , b.auth_of_document
-        , c.position
-        , d.department_no
-        , d.department_name
+             d.department_no
+            ,d.department_name
+            ,e.employee_no
+            ,e.employee_name
+            ,h.position
         from
-        employee a
-        join authorization b on (a.employee_no = b.employee_no)
-        join human_resource c on (a.employee_no = c.employee_no)
-        join department d on (a.department_no = d.department_no)
-        where
-        b.auth_of_document = 1;
+            department d
+            join employee e on (d.department_no = e.department_no)
+            join human_resource h on (e.employee_no = d.employee_no)
+        order by
+            a.department_name asc, b.employee_name asc;
     </select>
 
     <!-- 결재선 추가 -->
