@@ -54,53 +54,6 @@
                 <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
             </div>
 
-            script
-
-            <script>
-                fetch("/employee/lookUpList")
-                    .then(res => res.json())
-                    .then(data => {
-                        const tableBody = document.getElementById("employee-table-body");
-                        tableBody.innerHTML = ""; // 기존 데이터 초기화
-
-                        data.forEach(item => {
-                            const row = document.createElement("tr"); // 테이블 행 생성
-
-                            // 각 데이터 열 생성 및 추가
-                            const idCell = document.createElement("td");
-                            idCell.textContent = item.id;
-
-                            const nameCell = document.createElement("td");
-                            nameCell.textContent = item.name;
-
-                            const positionCell = document.createElement("td");
-                            positionCell.textContent = item.humanDTO.position;
-
-                            const statusCell = document.createElement("td");
-                            statusCell.textContent = item.humanDTO.employeementStatus;
-
-                            const phoneCell = document.createElement("td");
-                            phoneCell.textContent = item.humanDTO.phoneNumber;
-
-                            const ssnCell = document.createElement("td");
-                            ssnCell.textContent = item.humanDTO.ssn;
-
-                            // 행에 열 추가
-                            row.appendChild(idCell);
-                            row.appendChild(nameCell);
-                            row.appendChild(positionCell);
-                            row.appendChild(statusCell);
-                            row.appendChild(phoneCell);
-                            row.appendChild(ssnCell);
-
-                            // 테이블 본문에 행 추가
-                            tableBody.appendChild(row);
-                        });
-                    })
-                    .catch(err => console.error("Error fetching lookup list:", err));
-
-            </script>
-
             <script>
                 document.getElementById("select-button-id").addEventListener("click", () => {
                     const type = document.getElementById("lookupSelect").value; // 사번 or 이름
@@ -111,7 +64,56 @@
                         return;
                     }
                 });
+            </script>
 
+            <script>
+                let selectData = [];
+                fetch("/employee/lookUpList")
+                    .then(res => res.json())
+                    .then(data => {
+                        selectData = data;
+                    })
+                    .catch(err => console.error("Error fetching lookup list:", err));
+
+                selectData.id;
+                selectData.name;
+                
+                // const tableBody = document.getElementById("employee-table-body");
+                // tableBody.innerHTML = ""; // 기존 데이터 초기화
+                //
+                // data.forEach(item => {
+                //     const row = document.createElement("tr"); // 테이블 행 생성
+                //
+                //     // 각 데이터 열 생성 및 추가
+                //     const idCell = document.createElement("td");
+                //     idCell.textContent = item.id;
+                //
+                //     const nameCell = document.createElement("td");
+                //     nameCell.textContent = item.name;
+                //
+                //     const positionCell = document.createElement("td");
+                //     positionCell.textContent = item.humanDTO.position;
+                //
+                //     const statusCell = document.createElement("td");
+                //     statusCell.textContent = item.humanDTO.employeementStatus;
+                //
+                //     const phoneCell = document.createElement("td");
+                //     phoneCell.textContent = item.humanDTO.phoneNumber;
+                //
+                //     const ssnCell = document.createElement("td");
+                //     ssnCell.textContent = item.humanDTO.ssn;
+                //
+                //     // 행에 열 추가
+                //     row.appendChild(idCell);
+                //     row.appendChild(nameCell);
+                //     row.appendChild(positionCell);
+                //     row.appendChild(statusCell);
+                //     row.appendChild(phoneCell);
+                //     row.appendChild(ssnCell);
+                //
+                //     // 테이블 본문에 행 추가
+                //     tableBody.appendChild(row);
+                // });
             </script>
 
             <table class="basicInfo-class"> <!-- 얘 아래로 appendChild로 들어로 거 -->
