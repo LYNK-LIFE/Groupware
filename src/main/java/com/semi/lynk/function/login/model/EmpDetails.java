@@ -42,7 +42,8 @@ public class EmpDetails implements UserDetails {
     // 아이디 반환 메소드
     @Override
     public String getUsername() {
-        return loginDTO.getEmpNo();
+//        System.out.println(loginDTO);
+        return loginDTO.getEmpName();
     }
 
     // 계정 만료 여부 (잘 모르겠음2)
@@ -51,7 +52,7 @@ public class EmpDetails implements UserDetails {
         return true;
     }
 
-    // 잠겨있는 계정 확인 메소드
+    // 잠겨있는 계정 확인 메소드-
     @Override
     public boolean isAccountNonLocked() {
         return true;
