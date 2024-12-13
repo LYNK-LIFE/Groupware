@@ -19,7 +19,11 @@ public class LoginDTO {
     private String empName;
     private String email;
     private int deptNo;
+    private String image;
     private UserRole role;
+    private int empStatus;
+    private int loginFailCount;
+    private int workingStatus;
 
 //    public List<String> getRole() {
 //        if (this.role.getRole().length() > 0) {

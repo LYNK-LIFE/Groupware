@@ -3,11 +3,14 @@ package com.semi.lynk.function.login.controller;
 import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
 import com.semi.lynk.function.login.service.LoginService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/function/login/*")
@@ -49,10 +52,9 @@ public class LoginController {
     //****************************************************************
     // 로그인
     //****************************************************************
-    @GetMapping("login")
-    public void loginPage() {
 
-    }
+    @GetMapping("login")
+    public void loginPage() {}
 
     @GetMapping("failLogin")
     public ModelAndView loginFail(@RequestParam String message, ModelAndView mv) {
@@ -62,5 +64,17 @@ public class LoginController {
         mv.setViewName("failLogin");
         return mv;
     }
+
+//    @GetMapping("/")
+//    public ModelAndView mainPage(ModelAndView mv) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            String username = authentication.getName();
+//            LoginDTO user = loginService.getLoginUsername(username);
+//            mv.addObject("user", user);
+//        }
+//        mv.setViewName("/common/main");
+//        return mv;
+//    }
 
 }

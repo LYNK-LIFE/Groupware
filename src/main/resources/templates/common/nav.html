@@ -99,8 +99,10 @@
     </div>
 
     <!-- 사용자 영역 -->
-    <div>
-
+    <div class="userContainer">
+        <img src="/images/profiletest.jpg" alt="testimage" style="width: 40px; height: 40px; border-radius: 50%;">
+<!--        <img th:src="@{${user.image}}" alt="Profile Image" style="width: 40px; height: 40px; border-radius: 50%;">-->
+        <span th:text="${user.empName}">Employee Name</span>
     </div>
 </nav>
 </body>
