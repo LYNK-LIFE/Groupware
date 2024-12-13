@@ -62,8 +62,12 @@
     <script src="/js/calendar.js"></script>
 
     <section class="notice_list">
-        <div>
-        <h2>공지사항<h2>
+
+        <div class="subHeader-class">
+            <a class="subHeaderLink-class" href="/">공지사항</a>
+        </div>
+
+        <article class="main-content">
 
         <table class="board-table">
             <thead>
@@ -128,10 +132,9 @@
             </tr>
             </tbody>
         </table>
-            <a href="/boards/new" class="btn btn-primary mb-3">새 글 작성</a>
-        </div>
+            <a href="/notice_write" class="btn btn-primary mb-3">새 글 작성</a>
+        </article>
     </section>
-
 
     <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
     <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
