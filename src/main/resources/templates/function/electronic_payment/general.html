@@ -126,14 +126,26 @@
                 modal.style.display = "none"; // 모달 닫기
             }
         });
-
-        // ESC 키로 모달 닫기
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") {
-                modal.style.display = "none";
-            }
-        });
     });
+
+    // 파일 첨부 버튼 클릭 시 파일 선택 창 열기
+    const addFileButton = document.getElementById("addFileButton");
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+
+    addFileButton.addEventListener("click", function () {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+        if (file) {
+            fileName.textContent = `파일 이름: ${file.name}`;
+            fileName.style.display = "block";
+        }
+    });
+
+
 </script>
 
 </body>
