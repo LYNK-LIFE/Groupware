@@ -16,294 +16,78 @@
     </style>
 </head>
 <body>
+<!-- ① Popper.js 라이브러리 - 툴팁 , 팝오버 , 드롭다운 관리 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<!-- ② Popper.js를 필요로 함 - 자바스크립트 파일 로드 - UI 구성 요소 쉽게 만들어줌 - 드롭다운 , 모달 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+<script th:src="@{/js/regist.js}"></script>
 <script th:src="@{/js/common.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script th:src="@{/js/calendar.js}"></script>
+<nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
 
-<nav class="nav-class">
-    <div class="nav-div-class"><a class="nav-link" href="/">LYNK</a></div> <br><br>
-
-    <h6 style="color: white">My</h6>
-    <div class="nav-text-class">
-        <div class="menuContainer">
-            <li class="humanMenu">
-                <a href="#">
-                    <span class="arrow">></span>최근 사용한 메뉴
-                </a>
-                <ul class="subMenu">
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                </ul>
-            </li>
-        </div>
-
-        <div class="menuContainer">
-            <li class="humanMenu">
-                <a href="#">
-                    <span class="arrow">></span>즐겨 찾기
-                </a>
-                <ul class="subMenu">
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                    <li><a href="/" style="text-decoration: none">임시</a></li>
-                </ul>
-            </li>
-        </div>
-
-        <div><br><br>
-            <h6 style="color: white">Menu</h6>
-
-            <div class="menuContainer">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span>홈
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                    </ul>
-                </li>
-            </div>
-
-            <div class="menuContainer">
-                <ul id="menuList2">
-                    <li class="humanMenu">
-                        <a href="#">
-                            <span class="arrow">></span>공지사항
-                        </a>
-                        <ul class="subMenu">
-                            <li><a href="/" style="text-decoration: none">임시</a></li>
-                            <li><a href="/" style="text-decoration: none">임시</a></li>
-                            <li><a href="/" style="text-decoration: none">임시</a></li>
-                            <li><a href="/" style="text-decoration: none">임시</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="menuContainer">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span>인사관리
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="/employee/lookup" style="text-decoration: none">인사정보</a></li>
-                        <li><a href="/employee/regist" style="text-decoration: none">인사등록</a></li>
-                        <li><a href="/employee/list" style="text-decoration: none">근태관리</a></li>
-                        <li><a href="/employee/list" style="text-decoration: none">일정관리</a></li>
-                    </ul>
-                </li>
-            </div>
-
-
-            <div class="menuContainer">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span>전자결재
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                    </ul>
-                </li>
-            </div>
-
-            <div class="menuContainer">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span>DB 관리
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                    </ul>
-                </li>
-            </div>
-
-            <div class="menuContainer">
-                <li class="humanMenu">
-                    <a href="#">
-                        <span class="arrow">></span>계약관리
-                    </a>
-                    <ul class="subMenu">
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                        <li><a href="/" style="text-decoration: none">임시</a></li>
-                    </ul>
-                </li>
-            </div>
-
-        </div>
-    </div>
-
-</nav>
 <div class="right-container">
+    <header th:replace="~{/common/header :: headerFragment}" class="header-class"></header>
 
-    <header class="header-class">January
+        <section class="main-content">
+            <div class="subHeader-class">
+                <a class="subHeaderLink-class" href="/">인사 관리</a>
+                <label style="margin-left: 20px; margin-right: 20px"> > </label>
+                <a class="subHeaderLink-class" href="/employee/lookup">인사 정보</a>
+                <!--            <button class="subHeader-button">조 회</button>-->
+            </div>
 
-        <div>
-            <button>WED<br>1</button>
-        </div>
-        <div>
-            <button>THU<br>2</button>
-        </div>
-        <div>
-            <button>FRI<br>3</button>
-        </div>
-        <div>
-            <button>SAT<br>4</button>
-        </div>
-        <div>
-            <button>SUN<br>5</button>
-        </div>
-        <div>
-            <button>MON<br>6</button>
-        </div>
-        <div>
-            <button>TUE<br>7</button>
-        </div>
-        <div>
-            <button>WED<br>8</button>
-        </div>
-        <div>
-            <button>THU<br>9</button>
-        </div>
-        <div>
-            <button>FRI<br>10</button>
-        </div>
-        <div>
-            <button>SAT<br>11</button>
-        </div>
-        <div>
-            <button>SUN<br>12</button>
-        </div>
-        <div>
-            <button>MON<br>13</button>
-        </div>
-        <div>
-            <button>TUE<br>14</button>
-        </div>
-        <div>
-            <button>WED<br>15</button>
-        </div>
-        <div>
-            <button>THU<br>16</button>
-        </div>
-        <div>
-            <button>FRI<br>17</button>
-        </div>
-        <div>
-            <button>SAT<br>18</button>
-        </div>
-        <div>
-            <button>SUN<br>19</button>
-        </div>
-        <div>
-            <button>MON<br>20</button>
-        </div>
-        <div>
-            <button>TUE<br>21</button>
-        </div>
-        <div>
-            <button>WED<br>22</button>
-        </div>
-        <div>
-            <button>THU<br>23</button>
-        </div>
-        <div>
-            <button>FRI<br>24</button>
-        </div>
-        <div>
-            <button>SAT<br>25</button>
-        </div>
-        <div>
-            <button>SUN<br>26</button>
-        </div>
-        <div>
-            <button>MON<br>27</button>
-        </div>
-        <div>
-            <button>TUE<br>28</button>
-        </div>
-        <div>
-            <button>WED<br>29</button>
-        </div>
-        <div>
-            <button>THU<br>30</button>
-        </div>
-        <div>
-            <button>FRI<br>31</button>
-        </div>
+            <article class="lookupSelect-class">
+                <label>사번 / 이름</label>
+                <select id="lookupSelect" name="lookupSelect" class="form-select">
+                    <option value="사번">사번</option>
+                    <option value="이름">이름</option>
+                </select>
+                <input type="text" id="lookupInput" placeholder="검색어를 입력해 주세요." class="form-control">
+                <button class="select-button" id="select-button-id">조 회</button>
+            </article>
 
-    </header>
+            <div class="subHeader2-class">
+                <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
+            </div>
 
-    <section class="main-content">
-        <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/">인사 관리</a>
-            <label style="margin-left: 20px; margin-right: 20px"> > </label>
-            <a class="subHeaderLink-class" href="/employee/lookup">인사 정보</a>
-<!--            <button class="subHeader-button">조 회</button>-->
-        </div>
+            <article class="basicInfo-class">
+                <div>사 번</div>
+                <div>이 름</div>
+                <div>직 책</div>
+                <div>고용 구분</div>
+                <div>전화 번호</div>
+                <div>주민등록번호</div>
+            </article>
 
-        <div class="lookupSelect-class">
-            <label>사번 / 이름</label>
-            <select id="lookupSelect" name="lookupSelect" class="form-select">
-                <option value="사번">사번</option>
-                <option value="이름">이름</option>
-            </select>
-            <input type="text" id="lookupInput" placeholder="검색어를 입력해 주세요." class="form-control">
-            <button class="select-button" id="select-button-id">조 회</button>
-        </div>
+            <script>
+                document.getElementById("select-button-id").addEventListener("click", () => {
+                    const type = document.getElementById("lookupSelect").value; // 사번 or 이름
+                    const keyword = document.getElementById("lookupInput").value; // 검색어 입력값
 
-        <div class="subHeader2-class">
-            <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
-        </div>
+                    if (!keyword.trim()) {
+                        alert("검색어를 입력해 주세요.");
+                        return;
+                    }
 
-        <div class="basicInfo-class">
-            <div>사 번</div>
-            <div>이 름</div>
-            <div>직 책</div>
-            <div>고용 구분</div>
-            <div>전화 번호</div>
-            <div>주민등록번호</div>
-        </div>
+                    // Ajax 요청으로 백엔드 API 호출
+                    fetch(`/employee/search?type=${type}&keyword=${keyword}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length === 0) {
+                                alert("검색 결과가 없습니다.");
+                                return;
+                            }
 
-        <script>
-            document.getElementById("select-button-id").addEventListener("click", () => {
-                const type = document.getElementById("lookupSelect").value; // 사번 or 이름
-                const keyword = document.getElementById("lookupInput").value; // 검색어 입력값
+                            // 테이블에 데이터 추가
+                            const table = document.querySelector(".basicInfo-class");
+                            data.forEach(item => {
+                                const row = document.createElement("tr");
 
-                if (!keyword.trim()) {
-                    alert("검색어를 입력해 주세요.");
-                    return;
-                }
-
-                // Ajax 요청으로 백엔드 API 호출
-                fetch(`/employee/search?type=${type}&keyword=${keyword}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.length === 0) {
-                            alert("검색 결과가 없습니다.");
-                            return;
-                        }
-
-                        // 테이블에 데이터 추가
-                        const table = document.querySelector(".basicInfo-class");
-                        data.forEach(item => {
-                            const row = document.createElement("tr");
-
-                            row.innerHTML = `
+                                row.innerHTML = `
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.humanDTO.position}</td>
@@ -311,13 +95,13 @@
                     <td>${item.humanDTO.phoneNumber}</td>
                     <td>${item.humanDTO.ssn}</td>
                 `;
-                            table.appendChild(row);
-                        });
-                    })
-                    .catch(error => console.error("Error:", error));
-            });
+                                table.appendChild(row);
+                            });
+                        })
+                        .catch(error => console.error("Error:", error));
+                });
 
-        </script>
+            </script>
             <table class="basicInfo-class">
                 <thead>
                 <tr>
@@ -333,11 +117,11 @@
 
                 </tbody>
             </table>
-    </section>
-    <aside class="aside-class"></aside>
+        </section>
 
-    <footer class="footer-class"></footer>
+        <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
+        <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
+
 </div>
-
 </body>
 </html>
