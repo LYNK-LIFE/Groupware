@@ -21,7 +21,7 @@
     <!-- 결재선 -->
     <div class="approval-section">
         <h3>결재선</h3>
-        <button id="addApprovalButton">결재선 선택</button>
+        <button id="addApprovalButton">결재 선택</button>
         <div id="approvalList"></div>
     </div>
 
@@ -60,33 +60,62 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const uploadButton = document.getElementById("uploadButton");
+        const previewImage = document.getElementById("previewImage");
         const modal = document.getElementById("approvalModal");
         const approverTable = document.getElementById("approverTable");
         const closeModal = document.getElementById("closeModal");
 
+        // 문서 첨부 버튼 클릭시 파일 업로드 처리
+        uploadButton.addEventListener("click", function () {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*"; // 이미지 파일만 선택 가능
+            fileInput.onchange = function () {
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result; // 미리보기 이미지 설정
+                        previewImage.style.display = "block"; // 이미지 표시
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            fileInput.click(); // 파일 선택 창 열기
+        });
+
         // 모달 열기
         document.getElementById("addApprovalButton").addEventListener("click", function () {
             fetch("/payment/approvers")
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("데이터 로드 실패");
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    approverTable.innerHTML = "";
+                    approverTable.innerHTML = ""; // 기존 내용을 초기화
                     data.forEach(employee => {
                         const row = document.createElement("tr");
                         row.innerHTML = `
-                            <td>${employee.departmentName}</td>
-                            <td>${employee.employeeName}</td>
-                            <td>${employee.position}</td>
-                            <td><button class="selectApprover" data-id="${employee.employeeNo}">선택</button></td>
-                        `;
+                        <td>${employee.departmentDTO.departmentName}</td>
+                        <td>${employee.employeeName}</td>
+                        <td>${employee.humanResourceDTO.position}</td>
+                        <td><button class="selectApprover" data-id="${employee.employeeNo}">선택</button></td>
+                    `;
                         approverTable.appendChild(row);
                     });
-                    modal.style.display = "block";
+                    modal.style.display = "block"; // 모달 보이기
+                })
+                .catch(error => {
+                    console.error("결재자 목록 로드 중 오류:", error);
                 });
         });
 
         // 모달 닫기
         closeModal.addEventListener("click", function () {
-            modal.style.display = "none";
+            modal.style.display = "none"; // 모달 숨기기
         });
 
         // 결재선 선택
@@ -94,12 +123,18 @@
             if (event.target.classList.contains("selectApprover")) {
                 const approverId = event.target.getAttribute("data-id");
                 console.log("결재자 선택:", approverId);
+                modal.style.display = "none"; // 모달 닫기
+            }
+        });
+
+        // ESC 키로 모달 닫기
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
                 modal.style.display = "none";
             }
         });
     });
 </script>
 
-</script>
 </body>
 </html>
