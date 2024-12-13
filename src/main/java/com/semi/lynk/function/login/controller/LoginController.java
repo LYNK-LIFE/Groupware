@@ -65,16 +65,4 @@ public class LoginController {
         return mv;
     }
 
-//    @GetMapping("/")
-//    public ModelAndView mainPage(ModelAndView mv) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            String username = authentication.getName();
-//            LoginDTO user = loginService.getLoginUsername(username);
-//            mv.addObject("user", user);
-//        }
-//        mv.setViewName("/common/main");
-//        return mv;
-//    }
-
 }

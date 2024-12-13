@@ -45,8 +45,8 @@ public class LoginService implements UserDetailsService {
     //****************************************************************
     // 로그인 관련 내용들
     //****************************************************************
-    public LoginDTO getLoginUsername(String username) {
-        return loginMapper.findByUsername(username);
+    public LoginDTO getLoginUsername(String empName) {
+        return loginMapper.findByUsername(empName);
     }
 
     @Override
