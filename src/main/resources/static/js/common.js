@@ -25,3 +25,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+function togglePopup() {
+    const userDetail = document.querySelector('.userDetail');
+    userDetail.classList.toggle('hidden'); // 'hidden' 클래스를 추가/제거
+}
+
+document.addEventListener('click', function (event) {
+    const userDetail = document.querySelector('.userDetail');
+    const userOverview = document.querySelector('.userOverview');
+
+    // userOverview나 userDetail 내부를 클릭하지 않았을 경우
+    if (!userOverview.contains(event.target) && !userDetail.contains(event.target)) {
+        userDetail.classList.add('hidden'); // 숨김
+    }
+});
