@@ -89,4 +89,17 @@
             on (a.employee_no = b.employee_no)
     </select>
 
+    <!-- 인사 정보 수정 구문 -->
+    <update id="modifyEmployee" parameterType="com.semi.lynk.function.human.model.dto.ModifyDTO">
+        update employee a , human_resource b
+        set
+             a.employee_name = #{name}
+            ,b.position = #{position}
+            ,b.employeement_status = #{employeementStatus}
+            ,b.mobile_no = #{phoneNumber}
+            ,b.ssn = #{ssn}
+        where
+            a.employee_no = #{id}
+    </update>
+
 </mapper>

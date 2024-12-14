@@ -6,16 +6,89 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>인사 정보 조회</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/lookUp.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-
-    </style>
 </head>
 <body>
+
+<nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
+
+<div class="right-container">
+    <header th:replace="~{/common/header :: headerFragment}" class="header-class"></header>
+
+    <section class="main-content">
+        <div class="subHeader-class">
+            <a class="subHeaderLink-class" href="/">인사 관리</a>
+            <label style="margin-left: 20px; margin-right: 20px"> > </label>
+            <a class="subHeaderLink-class" href="/employee/lookup">인사 정보</a>
+            <!--            <button class="subHeader-button">조 회</button>-->
+        </div>
+
+        <article class="lookupSelect-class">
+            <label>사번 / 이름</label>
+            <select id="lookupSelect" name="lookupSelect" class="form-select">
+                <option value="사번">사번</option>
+                <option value="이름">이름</option>
+            </select>
+            <input type="text" id="lookupInput" placeholder="검색어를 입력해 주세요." class="form-control">
+            <button class="select-button" id="select-button-id">조 회</button>
+        </article>
+
+        <div class="subHeader2-class">
+            <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
+        </div>
+
+        <table class="basicInfo-class"> <!-- 얘 아래로 appendChild로 들어로 거 -->
+            <thead>
+            <tr>
+                <th>사 번</th>
+                <th>이 름</th>
+                <th>직 책</th>
+                <th>고용 구분</th>
+                <th>전화 번호</th>
+                <th>주민등록번호</th>
+            </tr>
+            </thead>
+            <tbody id="employee-table-body" aria-disabled="true">
+            <!-- fetch로 가져온 애 여기 추가됨. -->
+            </tbody>
+
+        </table>
+
+        <div id="myModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>직원 정보 수정</h2>
+                <label for="editId">사번:</label>
+                <input type="text" id="editId" disabled>
+                <label for="editName">이름:</label>
+                <input type="text" id="editName">
+                <label for="editPosition">직책:</label>
+                <input type="text" id="editPosition">
+                <label for="editStatus">고용 구분:</label>
+                <input type="text" id="editStatus">
+                <label for="editPhone">전화 번호:</label>
+                <input type="text" id="editPhone">
+                <label for="editSsn">주민등록번호:</label>
+                <input type="text" id="editSsn">
+                <button id="saveChanges">저장</button>
+            </div>
+        </div>
+
+
+    </section>
+        <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
+        <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
+
+</div>
+
+<script th:src="@{/js/lookUp.js}"></script>
+<script th:src="@{/js/regist.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/calendar.js}"></script>
 <!-- ① Popper.js 라이브러리 - 툴팁 , 팝오버 , 드롭다운 관리 -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -25,58 +98,5 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
 
-<nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
-
-<div class="right-container">
-    <header th:replace="~{/common/header :: headerFragment}" class="header-class"></header>
-
-        <section class="main-content">
-            <div class="subHeader-class">
-                <a class="subHeaderLink-class" href="/">인사 관리</a>
-                <label style="margin-left: 20px; margin-right: 20px"> > </label>
-                <a class="subHeaderLink-class" href="/employee/lookup">인사 정보</a>
-                <!--            <button class="subHeader-button">조 회</button>-->
-            </div>
-
-            <article class="lookupSelect-class">
-                <label>사번 / 이름</label>
-                <select id="lookupSelect" name="lookupSelect" class="form-select">
-                    <option value="사번">사번</option>
-                    <option value="이름">이름</option>
-                </select>
-                <input type="text" id="lookupInput" placeholder="검색어를 입력해 주세요." class="form-control">
-                <button class="select-button" id="select-button-id">조 회</button>
-            </article>
-
-            <div class="subHeader2-class">
-                <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
-            </div>
-
-            <table class="basicInfo-class"> <!-- 얘 아래로 appendChild로 들어로 거 -->
-                <thead>
-                    <tr>
-                        <th>사 번</th>
-                        <th>이 름</th>
-                        <th>직 책</th>
-                        <th>고용 구분</th>
-                        <th>전화 번호</th>
-                        <th>주민등록번호</th>
-                    </tr>
-                </thead>
-                <tbody id="employee-table-body" aria-disabled="true">
-                    <!-- fetch로 가져온 애 여기 추가됨. -->
-                </tbody>
-
-            </table>
-        </section>
-
-        <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
-        <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
-
-    <script th:src="@{/js/lookUp.js}"></script>
-    <script th:src="@{/js/regist.js}"></script>
-    <script th:src="@{/js/common.js}"></script>
-    <script th:src="@{/js/calendar.js}"></script>
-</div>
 </body>
 </html>
