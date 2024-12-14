@@ -68,6 +68,20 @@ public class EmployeeController {
         return "function/human/lookup";
     }
 
+    @PostMapping("modify") // 인사 수정 메서드 (update)
+    public String modifyMethod (@ModelAttribute ModifyDTO modifyDTO
+                                , RedirectAttributes rtt, Locale locale) {
+        int result = employeeService.modifyService(modifyDTO);
+
+        if (result == 1){
+            rtt.addFlashAttribute("modifyMessage"
+                    ,messageSource.getMessage("modifySuccess",new Object[]{modifyDTO.getName()} , locale));
+            return "redirect:/employee/inform";
+        } else {
+            return "function/human/lookup";
+        }
+    }
+
     // 인사 등록 창에 인사 등록 안 된 애들 조회해주는 거
     @GetMapping("join")
     public ModelAndView joinList (ModelAndView mv) {

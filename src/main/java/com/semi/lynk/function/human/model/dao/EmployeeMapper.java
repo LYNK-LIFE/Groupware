@@ -1,9 +1,6 @@
 package com.semi.lynk.function.human.model.dao;
 
-import com.semi.lynk.function.human.model.dto.EmpAndDepDTO;
-import com.semi.lynk.function.human.model.dto.EmployeeDTO;
-import com.semi.lynk.function.human.model.dto.LookUpDTO;
-import com.semi.lynk.function.human.model.dto.RegistHumDTO;
+import com.semi.lynk.function.human.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -17,5 +14,7 @@ public interface EmployeeMapper {
     int registMapperhum(RegistHumDTO registHumDTO);
 
     List<LookUpDTO> lookUpMapper();
+
+    int modifyEmployee(ModifyDTO modifyDTO);
 
 }
