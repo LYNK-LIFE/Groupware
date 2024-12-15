@@ -30,10 +30,11 @@
         from
             department d
             join employee e on (d.department_no = e.department_no)
-            join human_resource h on (e.employee_no = d.employee_no)
+            join human_resource h on (e.employee_no = h.employee_no)
         order by
-            a.department_name asc, b.employee_name asc;
+            d.department_no asc;
     </select>
+
 
     <!-- 결재선 추가 -->
     <insert id="insertApprover">

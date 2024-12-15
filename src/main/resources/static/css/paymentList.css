@@ -1,0 +1,52 @@
+.draft-section {
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.draft-section h2 {
+    font-weight: bold;
+    font-size: 25px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.draft-buttons {
+    margin-top: 20px;
+    border-top: 1px solid #000;
+    padding-top: 20px;
+}
+
+.draft-buttons .draft-item {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.draft-buttons .draft-item:last-child {
+    border-bottom: none;
+}
+
+.draft-buttons .draft-item a {
+    font-size: 20px; /* 텍스트 크기 키움 */
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    width: 200px; /* 고정된 너비로 균일 정렬 */
+}
+
+.draft-buttons .draft-item a:hover {
+    text-decoration: underline;
+}
+
+.draft-buttons .dropdown {
+    display: inline-block;
+    margin-left: 25px; /* 다운로드 버튼과의 거리 설정 */
+}
+
+.draft-buttons .dropdown button {
+    font-size: 14px;
+}
+

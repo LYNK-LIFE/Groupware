@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/payment")
@@ -23,11 +24,11 @@ public class PaymentController {
     }
 
 
-   @GetMapping("/approvers")
-   @ResponseBody // JSON 데이터를 반환하기 위해 추가
-   public List<DepAndEmpAndHumDTO> findAllApprovers(){
+    @GetMapping("/approvers")
+    @ResponseBody // JSON 데이터를 반환하기 위해 추가
+    public List<DepAndEmpAndHumDTO> findAllApprovers(){
         return paymentService.findAllApprovers();
-   }
+    }
 
     @GetMapping("/list")
     public String draft() {
