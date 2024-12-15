@@ -21,7 +21,7 @@ public class ContextConfig {
 
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 
-        source.setBasename("classpath:/messages/human/human");
+        source.setBasename("classpath:/messages/human");
         source.setDefaultEncoding("UTF-8");
 
         Locale.setDefault(Locale.KOREA); // 한국어 메시지 설정

@@ -41,10 +41,4 @@ public class EmployeeService {
 
         return mapper.lookUpMapper();
     }
-
-    public int modifyService(ModifyDTO modifyDTO) {
-        int result = mapper.modifyEmployee(modifyDTO);
-
-        return result >= 1 ? 1 : 0;
-    }
 }
