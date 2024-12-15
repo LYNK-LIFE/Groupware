@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaymentService {
@@ -25,10 +26,9 @@ public class PaymentService {
 
     // 결재선 추가 처리
     public boolean addApprover(DepAndEmpAndHumDTO depAndEmpAndHumDTO) {
-        int result = paymentMapper.inserApprover(depAndEmpAndHumDTO);
+        int result = paymentMapper.insertApprover(depAndEmpAndHumDTO);
         return result > 0; // 성공 여부 반환
     }
-
 
 }
 
