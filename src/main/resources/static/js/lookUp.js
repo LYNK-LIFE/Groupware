@@ -68,18 +68,16 @@ document.getElementById("lookupInput").addEventListener("keyup", (event) => {
     }
 });
 
-// 클릭 시 수정 가능 모달
-document.getElementById("employee-table-body").addEventListener('click', () => {
-
-})
-
-///////
-// 클릭 시 수정 가능 모달
-// 직원 테이블에서 행 클릭 이벤트
-document.getElementById("employee-table-body").addEventListener('click', (event) => {
-    const row = event.target.closest("tr"); // 클릭한 행을 찾음
+///////////////////////
+// 클릭 시 수정 가능 모달창 띄우는 구문!
+// 테이블 행 클릭 이벤트에서 모달 창 띄우기
+document.getElementById("employee-table-body").addEventListener("click", (event) => {
+    // event 쓸 때와 안 쓸때의 차이 : 이벤트 발생 시 세부내역 참조(이벤트 정보), 안 쓸때엔 세부정보 알 수 없음~~
+    // closest : 가장 가까운 조상 요소 찾음!!!
+    const row = event.target.closest("tr"); // 클릭한 행 찾기
     if (row) {
-        const cells = row.getElementsByTagName("td");
+        const cells = row.getElementsByTagName("td"); // 문자열로 "td","tr"감싸야 실제로 찾을 수 있고
+                                                    // 감싸지 않으면 변수를 찾는다는 뜻, 에러난다~~
         const employeeData = {
             id: cells[0].textContent,
             name: cells[1].textContent,
@@ -89,7 +87,7 @@ document.getElementById("employee-table-body").addEventListener('click', (event)
             ssn: cells[5].textContent
         };
 
-        // 모달에 데이터 설정
+        // 모달 폼 데이터 설정
         document.getElementById("editId").value = employeeData.id;
         document.getElementById("editName").value = employeeData.name;
         document.getElementById("editPosition").value = employeeData.position;
@@ -97,13 +95,14 @@ document.getElementById("employee-table-body").addEventListener('click', (event)
         document.getElementById("editPhone").value = employeeData.phoneNumber;
         document.getElementById("editSsn").value = employeeData.ssn;
 
-        // 모달 열기
-        const mymy = document.getElementById("myModal");
-        mymy.style.display = "block";
+        // 모달 창 표시 (Bootstrap 방식 사용)
+        const modalElement = new bootstrap.Modal(document.getElementById("myModal"), {});
+        modalElement.show(); // 모달 열기
     }
 });
 
-// 저장 버튼 클릭 이벤트
+// 클릭 시 수정 가능 모달
+// 직원 테이블에서 행 클릭 이벤트
 document.getElementById("saveChanges").addEventListener("click", () => {
     const updatedEmployee = {
         id: document.getElementById("editId").value,
@@ -117,6 +116,8 @@ document.getElementById("saveChanges").addEventListener("click", () => {
     };
 
     // 서버에 저장하는 로직
+    console.log("전송할 데이터:", updatedEmployee);
+
     fetch("/employee/modify", {
         method: "POST", // HTTP 메서드
         headers: {
@@ -124,14 +125,18 @@ document.getElementById("saveChanges").addEventListener("click", () => {
         },
         body: JSON.stringify(updatedEmployee) // 객체를 JSON 문자열로 변환
     })
-        .then(res => res.json())
+        .then(res => res.json()) // JSON 형태로 응답 파싱
         .then(data => {
-            console.log("직원 수정 성공:", data);
-            // 필요 시, 테이블을 업데이트하거나 사용자에게 알림을 표시할 수 있습니다.
+            if (data.status === "success") {
+                alert(data.message);
+                location.reload(); // 페이지 새로고침으로 업데이트된 데이터 표시
+            } else {
+                alert(data.message);
+            }
         })
         .catch(err => console.error("직원 수정 실패:", err));
 
     // 모달 닫기
-    const mymy = document.getElementById("myModal");
-    mymy.style.display = "none";
+    const myModal = document.getElementById("myModal");
+    myModal.style.display = "none";
 });

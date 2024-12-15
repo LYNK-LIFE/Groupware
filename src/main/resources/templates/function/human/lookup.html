@@ -41,7 +41,7 @@
             <a class="subHeaderLink-class" href="/employee/lookup">인사 기본 정보</a>
         </div>
 
-        <table class="basicInfo-class"> <!-- 얘 아래로 appendChild로 들어로 거 -->
+        <table class="basicInfo-class"> <!-- 얘 아래로 appendChild로 들어온 거 ! -->
             <thead>
             <tr>
                 <th>사 번</th>
@@ -53,30 +53,52 @@
             </tr>
             </thead>
             <tbody id="employee-table-body" aria-disabled="true">
-            <!-- fetch로 가져온 애 여기 추가됨. -->
+            <!-- fetch로 가져온 애 여기 추가됨!! -->
             </tbody>
 
         </table>
 
-        <div id="myModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>직원 정보 수정</h2>
-                <label for="editId">사번:</label>
-                <input type="text" id="editId" disabled>
-                <label for="editName">이름:</label>
-                <input type="text" id="editName">
-                <label for="editPosition">직책:</label>
-                <input type="text" id="editPosition">
-                <label for="editStatus">고용 구분:</label>
-                <input type="text" id="editStatus">
-                <label for="editPhone">전화 번호:</label>
-                <input type="text" id="editPhone">
-                <label for="editSsn">주민등록번호:</label>
-                <input type="text" id="editSsn">
-                <button id="saveChanges">저장</button>
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">직원 정보 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="editId">사번:</label>
+                        <input type="text" id="editId" disabled class="form-control">
+                        <label for="editName">이름:</label>
+                        <input type="text" id="editName" class="form-control">
+                        <label for="editPosition">직책:</label>
+<!--                        <input type="text" id="editPosition" class="form-control">-->
+                        <select id="editPosition">
+                            <option value="인턴">인턴</option>
+                            <option value="사원">사원</option>
+                            <option value="대리">대리</option>
+                            <option value="과장">과장</option>
+                            <option value="차장">차장</option>
+                            <option value="부장">부장</option>
+                        </select><br>
+                        <label for="editStatus">고용 구분:</label>
+<!--                        <input type="text" id="editStatus" class="form-control">-->
+                        <select id="editStatus">
+                            <option value="계약직">계약직</option>
+                            <option value="정규직">정규직</option>
+                        </select><br>
+                        <label for="editPhone">전화 번호:</label>
+                        <input type="text" id="editPhone" class="form-control">
+                        <label for="editSsn">주민등록번호:</label>
+                        <input type="text" id="editSsn" disabled class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button id="saveChanges" type="button" class="btn btn-primary">저장</button>
+                    </div>
+                </div>
             </div>
         </div>
+
 
 
     </section>

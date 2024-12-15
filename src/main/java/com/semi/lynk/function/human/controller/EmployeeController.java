@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,19 +69,38 @@ public class EmployeeController {
         return "function/human/lookup";
     }
 
-    @PostMapping("modify") // 인사 수정 메서드 (update)
-    public String modifyMethod (@ModelAttribute ModifyDTO modifyDTO
-                                , RedirectAttributes rtt, Locale locale) {
-        int result = employeeService.modifyService(modifyDTO);
+//    @PostMapping("modify") // 인사 수정 메서드 (update)
+//    public String modifyMethod (@ModelAttribute ModifyDTO modifyDTO
+//                                , RedirectAttributes rtt, Locale locale) {
+//        int result = employeeService.modifyService(modifyDTO);
+//
+//        if (result == 1){
+//            rtt.addFlashAttribute("modifyMessage"
+//                    ,messageSource.getMessage("modifySuccess",new Object[]{modifyDTO.getName()} , locale));
+//            return "redirect:/employee/inform";
+//        } else {
+//            return "function/human/lookup";
+//        }
+//    }
 
-        if (result == 1){
-            rtt.addFlashAttribute("modifyMessage"
-                    ,messageSource.getMessage("modifySuccess",new Object[]{modifyDTO.getName()} , locale));
-            return "redirect:/employee/inform";
+    @PostMapping("modify")
+    @ResponseBody // JSON 응답으로 변환
+    public Map<String, Object> modifyMethod(@RequestBody ModifyDTO modifyDTO) {
+        System.out.println("수신된 DTO: " + modifyDTO);
+        int result = employeeService.modifyService(modifyDTO);
+        Map<String, Object> response = new HashMap<>();
+
+        if (result == 1) {
+            response.put("status", "success");
+            response.put("message", "직원이 성공적으로 수정되었습니다.");
         } else {
-            return "function/human/lookup";
+            response.put("status", "error");
+            response.put("message", "직원 수정에 실패했습니다.");
         }
+
+        return response;
     }
+
 
     // 인사 등록 창에 인사 등록 안 된 애들 조회해주는 거
     @GetMapping("join")
