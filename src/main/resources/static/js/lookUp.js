@@ -47,7 +47,7 @@ function performSearch() {
                             <td>${item.humanDTO.position}</td>
                             <td>${item.humanDTO.employeementStatus}</td>
                             <td>${item.humanDTO.phoneNumber}</td>
-                            <td>${item.humanDTO.ssn}</td>
+                            <td>${item.humanDTO.address}</td>
                         `;
 
             tableBody.appendChild(row); // 새 행을 테이블 끝에 추가
@@ -84,7 +84,7 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
             position: cells[2].textContent,
             employeementStatus: cells[3].textContent,
             phoneNumber: cells[4].textContent,
-            ssn: cells[5].textContent
+            address: cells[5].textContent
         };
 
         // 모달 폼 데이터 설정
@@ -93,7 +93,7 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
         document.getElementById("editPosition").value = employeeData.position;
         document.getElementById("editStatus").value = employeeData.employeementStatus;
         document.getElementById("editPhone").value = employeeData.phoneNumber;
-        document.getElementById("editSsn").value = employeeData.ssn;
+        document.getElementById("editAddress").value = employeeData.address;
 
         // 모달 창 표시 (Bootstrap 방식 사용)
         const modalElement = new bootstrap.Modal(document.getElementById("myModal"), {});
@@ -111,7 +111,7 @@ document.getElementById("saveChanges").addEventListener("click", () => {
             position: document.getElementById("editPosition").value,
             employeementStatus: document.getElementById("editStatus").value,
             phoneNumber: document.getElementById("editPhone").value,
-            ssn: document.getElementById("editSsn").value
+            address: document.getElementById("editAddress").value
         }
     };
 

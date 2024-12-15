@@ -85,7 +85,7 @@
             ,b.position
             ,b.employeement_status
             ,b.mobile_no
-            ,b.ssn
+            ,b.address
         from
             employee a join human_resource b
             on (a.employee_no = b.employee_no)
