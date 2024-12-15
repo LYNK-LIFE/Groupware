@@ -146,4 +146,10 @@ public class EmployeeController {
             return "redirect:/employee/main";
         }
     }
+
+    @GetMapping ("attendance")
+    public String attendanceMethod () {
+        return "function/human/attendance";
+    }
+
 }

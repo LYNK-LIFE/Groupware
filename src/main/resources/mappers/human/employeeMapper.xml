@@ -37,6 +37,7 @@
                 </association>
     </resultMap>
 
+    <!-- 인사 등록 필요한 애들 보여주는 애 -->
     <select id="joinListResult" resultMap="joinResultMap">
     select
          a.employee_no
