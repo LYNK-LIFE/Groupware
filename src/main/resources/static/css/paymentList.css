@@ -30,9 +30,7 @@
 }
 
 .draft-buttons .draft-item a {
-    font-size: 25px; /* 텍스트 크기 키움 */
-    margin-right: 50px; /* 45px으로 조정 */
-    padding-left: 30px; /* 텍스트 오른쪽으로 이동 */
+    font-size: 20px; /* 텍스트 크기 키움 */
     font-weight: bold;
     color: #000;
     text-decoration: none;
@@ -45,14 +43,10 @@
 
 .draft-buttons .dropdown {
     display: inline-block;
-    margin-left: 20px; /* 다운로드 버튼과의 거리 설정 */
+    margin-left: 25px; /* 다운로드 버튼과의 거리 설정 */
 }
 
 .draft-buttons .dropdown button {
-    font-size: 15px;
+    font-size: 14px;
 }
 
-/* 전자결재 > 기안하기 위치 조정 */
-.breadcrumb {
-    margin-top: 100px; /* 아래로 18px 이동 */
-}
