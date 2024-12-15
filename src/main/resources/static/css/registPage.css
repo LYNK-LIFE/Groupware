@@ -128,14 +128,6 @@ input[type="text"], input[type="email"], input[type="number"], input[type="tel"]
     flex-wrap: wrap; /* 반응형 지원 */
 }
 
-.table-container {
-    /*flex: 1; !* 테이블이 가능한 한 공간을 차지 *!*/
-    /*min-width: 400px; !* 최소 너비 *!*/
-    /*max-width: 600px; !* 최대 너비 *!*/
-    overflow-x: auto; /* 테이블 스크롤 가능 */
-    max-height: 400px;
-}
-
 .form-container {
     flex: 1; /* 폼이 가능한 한 공간을 차지 */
     min-width: 400px;
@@ -148,6 +140,8 @@ input[type="text"], input[type="email"], input[type="number"], input[type="tel"]
     background-color: #f9f9f9; /* 밝은 배경 */
     border-radius: 10px; /* 모서리 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    overflow-x: auto; /* 테이블 스크롤 가능 */
+    max-height: 400px;
 }
 
 /* 제목 스타일 */

@@ -12,12 +12,10 @@
 <body> <!-- 최초 메인 페이지 -->
 
 <nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
-<script src="/js/common.js"></script>
 
 <!-- 헤더 영역(달력) -->
 <div class="right-container">
     <header th:replace="~{/common/header :: headerFragment}"></header>
-    <script src="/js/calendar.js"></script>
 
     <section class="main-content">
 
@@ -28,6 +26,10 @@
     <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
     <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
 </div>
+
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/calendar.js}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 
