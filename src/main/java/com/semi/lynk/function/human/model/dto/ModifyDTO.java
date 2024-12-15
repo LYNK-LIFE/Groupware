@@ -11,8 +11,9 @@ public class ModifyDTO {
 
     private int id;
     private String name;
-    private String position;
-    private String employeementStatus;
-    private String phoneNumber;
-    private String ssn;
+    private HumanDTO humanDTO;
+//    private String position;
+//    private String employeementStatus;
+//    private String phoneNumber;
+//    private String ssn;
 }
