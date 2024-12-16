@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/lookUp.css}">
+    <link rel="stylesheet" th:href="@{/css/paymentGeneral.css}">
 
     <style>
 
@@ -30,115 +31,95 @@
 
 <nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
 
+
+
 <div class="right-container">
+
     <header th:replace="~{/common/header :: headerFragment}" class="header-class"></header>
 
 
-<div class="container my-4">
-    <h1 class="mb-4">일반 품의서</h1>
+    <section class="main-content">
 
-    <!-- 문서 첨부 영역 -->
-    <div class="mb-4">
-
-        <h3>문서 첨부</h3>
-
-        <div class="d-flex align-items-center gap-3">
-            <button id="uploadButton" class="btn btn-secondary">파일 첨부</button>
-            <img id="previewImage" src="" alt="미리보기 이미지" style="display:none; max-width: 200px; border: 1px solid #ccc;">
+        <div class="subHeader-class">
+            <a class="subHeaderLink-class" href="/">전자결재</a>
+            <label style="margin-left: 20px; margin-right: 20px"> > </label>
+            <a class="subHeaderLink-class" href="/payment/list">기안하기</a>
+            <label style="margin-left: 20px; margin-right: 20px"> > </label>
+            <a class="subHeaderLink-class" href="/payment/general">일반품의서</a>
         </div>
 
-    </div>
+        <div class="container my-4">
+            <!-- 결재선 및 + 버튼 상단으로 이동 -->
+             <div id="approval-container">
+                 <h3 class="approval-label me-2" > 결재선 </h3>
+                 <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
+             </div>
 
-    <!-- 결재선 -->
-    <div class="mb-4">
+            <!-- 일반 품의서 제목 -->
+            <h1 h1 class="mb-4 text-center" id="general-title">일반 품의서</h1>
 
-        <h3>결재선</h3>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approvalModal">결재 선택</button>
-        <div id="approvalList" class="mt-2"></div>
-
-    </div>
-    <!--일반 품의서 화면에 선택한 직원 정보를 표시할 요소를 추가합니다.-->
-
-    <div class="mb-4">
-
-        <h5>선택된 결재자</h5>
-
-        <ul id="selectedApproverList" class="list-group">
-            <!-- 선택된 결재자들이 여기에 동적으로 추가됩니다 -->
-        </ul>
-
-    </div>
-
-    <!-- 파일 첨부 -->
-    <div class="mb-4">
-
-        <h3>파일 첨부</h3>
-
-        <div class="d-flex align-items-center gap-3">
-
-            <button id="addFileButton" class="btn btn-secondary">파일 추가</button>
-
-            <input type="file" id="fileInput" style="display: none;">
-
-            <p id="fileName" style="display: none;">파일 이름: </p>
-
-        </div>
-
-    </div>
-
-    <!-- 기안하기 버튼 -->
-
-    <div>
-
-        <button id="draftButton" class="btn btn-success">기안하기</button>
-
-    </div>
-
-</div>
-
-<!-- 결재선 선택 모달 -->
-
-    <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-
-
-        <div class="modal-dialog modal-lg">
-
-
-            <div class="modal-content">
-
-                <div class="modal-header">
-                <h5 class="modal-title" id="approvalModalLabel">결재자 선택</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- 선택된 결재자 -->
+            <div id="approver-list" class="mb-4">
+                <h5>선택된 결재자</h5>
+                <div id="selectedApproverList" class="d-flex flex-column gap-2">
+                    <!-- 선택된 결재자들이 여기에 동적으로 추가됩니다 -->
                 </div>
+            </div>
 
+            <!-- 파일 첨부 -->
+            <div id="file-container" class="d-flex align-items-center gap-3">
+                <h3 class="file-label mb-0"> 파일 첨부 </h3>
+                <button id="addFileButton" class="btn btn-secondary"> + </button>
+                <p id="fileName" style="display: inline;">파일 이름: </p>
+            </div>
 
-                <div class="modal-body">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>부서명</th>
-                            <th>사원명</th>
-                            <th>직책</th>
-                            <th>선택</th>
-                        </tr>
-                        </thead>
-
-                        <tbody id="approverTable">
-                         <!-- 서버에서 동적으로 로드 -->
-                         </tbody>
-
-                    </table>
-                </div>
-
-                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                 </div>
+            <!-- 기안하기 버튼 -->
+            <div id="submit-section">
+                <button id="draftButton" class="btn btn-success">기안하기</button>
             </div>
         </div>
-    </div>
+
+            <!-- 결재선 선택 모달 -->
+
+        <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-lg">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="approvalModalLabel">결재자 선택</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>부서명</th>
+                                <th>사원명</th>
+                                <th>직책</th>
+                                <th>선택</th>
+                            </tr>
+                            </thead>
+
+
+                         <tbody id="approverTable"></tbody>
+                         <!-- 서버에서 동적으로 로드 -->
+                        </table>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
-
     <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
 
 </div>
@@ -156,6 +137,7 @@
     <script th:src="@{/js/calendar.js}"></script>
 
     <script th:src="@{/js/paymentGeneral.js}"></script>
+
 
 
 
