@@ -1,9 +1,13 @@
 package com.semi.lynk.function.notice_board.service;
 
-import org.springframework.stereotype.Service;
+import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 
-@Service
-public class NoticeService {
+import java.util.List;
 
-
+public interface NoticeService {
+    void createNotice(NoticeDTO noticeDTO);
+    List<NoticeDTO> getAllNotices();
+    NoticeDTO getNoticeById(Long noticeNo);
+    void updateNotice(NoticeDTO noticeDTO);
+    void deleteNotice(Long noticeNo);
 }
