@@ -60,7 +60,7 @@
     <header th:replace="~{/common/header :: headerFragment}"></header>
     <script src="/js/calendar.js"></script>
 
-    <section class="notice_write">
+    <section class="notice_view">
 
         <div class="subHeader-class">
             <a class="subHeaderLink-class" href="/">공지사항</a>
@@ -69,12 +69,14 @@
         <article class="main-content">
 
             <h1 th:text="${notice.noticeTitle}"></h1>
+            <p>Notice No: <span th:text="${notice.noticeNo}"></span></p>
+            <p>Vote: <span th:text="${notice.noticeVote}"></span></p>
             <p>작성일: <span th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></p>
             <p>조회수: <span th:text="${notice.viewerCount}"></span></p>
             <p>작성자 사번: <span th:text="${notice.employeeNo}"></span></p>
             <div th:utext="${notice.noticeContent}"></div>
-            <a th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}">수정</a>
-            <form th:action="@{/notices/{id}/delete(id=${notice.noticeNo})}" method="post" style="display: inline;">
+            <a th:href="@{/notices/{noticeNo}/edit(noticeNo=${notice.noticeNo})}">수정</a>
+            <form th:action="@{/notices/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" method="post" style="display: inline;">
                 <button type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
             </form>
             <a href="/notice/list">목록으로 돌아가기</a>

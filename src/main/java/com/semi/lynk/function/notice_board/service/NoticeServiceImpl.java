@@ -20,7 +20,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<NoticeDTO> getAllNotices() {
-        List<NoticeDTO> noticeDTOList = (List<NoticeDTO>) noticeMapper.selectAllNotices();
+        List<NoticeDTO> noticeDTOList = (List<NoticeDTO>) noticeMapper.getAllNotices();
         return noticeDTOList;
     }
 

@@ -43,7 +43,7 @@
         }
 
         .date-cell {
-            width: 100px;
+            width: 160px;
         }
 
         .views-cell {
@@ -123,13 +123,24 @@
                 <td>2023.11.15</td>
                 <td>139</td>
             </tr>
-
             <tr th:each="notice : ${notices}">
                 <td th:text="${notice.noticeNo}"></td>
-                <td><a th:href="@{/notices/{id}(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a></td>
+                <td th:text="${notice.noticeVote}"></td>
+                <td>
+                    <a th:href="@{/notice/{noticeNo}(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a>
+                </td>
+                <td th:text="${notice.employeeNo}"></td>
                 <td th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
                 <td th:text="${notice.viewerCount}"></td>
+
             </tr>
+
+<!--            <tr th:each="notice : ${notices}">-->
+<!--                <td th:text="${notice.noticeNo}"></td>-->
+<!--                <td><a th:href="@{/notices/{id}(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a></td>-->
+<!--                <td th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>-->
+<!--                <td th:text="${notice.viewerCount}"></td>-->
+<!--            </tr>-->
             </tbody>
         </table>
             <a href="/notice/create" class="btn btn-primary mb-3">새 글 작성</a>

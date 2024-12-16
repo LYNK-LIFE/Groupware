@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
     void insertNotice(NoticeDTO noticeDTO);
-    List<NoticeDTO> selectAllNotices();
+    List<NoticeDTO> getAllNotices();
     NoticeDTO selectNoticeById(Long noticeNo);
     void updateNotice(NoticeDTO noticeDTO);
     void deleteNotice(Long noticeNo);

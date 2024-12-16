@@ -4,16 +4,32 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.semi.lynk.function.notice_board.model.dao.NoticeMapper">
+    <resultMap id="noticeResultMap" type="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
+        <id property="noticeNo" column="notice_no"/>
+        <result property="noticeDate" column="notice_date"/>
+        <result property="noticeVote" column="notice_vote"/>
+        <result property="noticeTitle" column="notice_title"/>
+        <result property="noticeContent" column="notice_content"/>
+        <result property="noticeHide" column="notice_hide"/>
+        <result property="viewerCount" column="viewer_count"/>
+        <result property="employeeNo" column="employee_no"/>
+    </resultMap>
+
     <insert id="insertNotice" parameterType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
         INSERT INTO notice (notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no)
         VALUES (#{noticeDate}, #{noticeVote}, #{noticeTitle}, #{noticeContent}, #{noticeHide}, #{viewerCount}, #{employeeNo})
     </insert>
 
-    <select id="selectAllNotices" resultType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
-        SELECT * FROM notice ORDER BY notice_date DESC
+    <select id="getAllNotices" resultMap="noticeResultMap">
+        SELECT
+        *
+        FROM
+        notice
+        ORDER BY
+        notice_date DESC
     </select>
 
-    <select id="selectNoticeById" parameterType="Long" resultType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
+    <select id="selectNoticeById" parameterType="Long" resultMap="noticeResultMap">
         SELECT * FROM notice WHERE notice_no = #{noticeNo}
     </select>
 

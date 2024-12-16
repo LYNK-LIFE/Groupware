@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Controller
@@ -21,43 +22,45 @@ public class NoticeController {
 
     @GetMapping("/list")
     public String listNotices(Model model) {
-        model.addAttribute("notice", noticeService.getAllNotices());
+        List<NoticeDTO> notices = noticeService.getAllNotices();
+        model.addAttribute("notices", notices);
         return "function/notice_board/list";
     }
 
     @GetMapping("/create")
     public String createNoticeForm(Model model) {
-        model.addAttribute("notice", new NoticeDTO());
+        model.addAttribute("noticeDTO", new NoticeDTO());
         return "function/notice_board/create";
     }
 
     @PostMapping("/create")
-    public String createNotice(@ModelAttribute NoticeDTO noticeDTO) {
+    public String createNotice(@ModelAttribute("noticeDTO") NoticeDTO noticeDTO) {
+        noticeDTO.setNoticeDate(LocalDateTime.now());
         noticeService.createNotice(noticeDTO);
         return "redirect:/notice/list";
     }
 
-    @GetMapping("/{id}")
-    public String viewNotice(@PathVariable("id") Long noticeNo, Model model) {
+    @GetMapping("/{noticeNo}")
+    public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model) {
         model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
         return "function/notice_board/view";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editNoticeForm(@PathVariable("id") Long noticeNo, Model model) {
+    @GetMapping("/{noticeNo}/edit")
+    public String editNoticeForm(@PathVariable("noticeNo") Long noticeNo, Model model) {
         model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
         return "function/notice_board/edit";
     }
 
-    @PostMapping("/{id}/edit")
-    public String editNotice(@PathVariable("id") Long noticeNo, @ModelAttribute NoticeDTO noticeDTO) {
+    @PostMapping("/{noticeNo}/edit")
+    public String editNotice(@PathVariable("noticeNo") Long noticeNo, @ModelAttribute NoticeDTO noticeDTO) {
         noticeDTO.setNoticeNo(noticeNo);
         noticeService.updateNotice(noticeDTO);
         return "redirect:/notice";
     }
 
-    @PostMapping("/{id}/delete")
-    public String deleteNotice(@PathVariable("id") Long noticeNo) {
+    @PostMapping("/{noticeNo}/delete")
+    public String deleteNotice(@PathVariable("noticeNo") Long noticeNo) {
         noticeService.deleteNotice(noticeNo);
         return "redirect:/notice";
     }
