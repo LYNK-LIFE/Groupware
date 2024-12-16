@@ -2,7 +2,7 @@
 .regist-div-class {
     width: 900px;
     border-radius: 15px; /* 둥근 모서리 */
-    margin: auto;
+    margin-right: 0px;
     padding: 30px;
     background-color: #ffffff; /* 밝은 배경 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
@@ -62,7 +62,7 @@
 
 /* 입력 필드 영역 */
 input[type="text"], input[type="email"], input[type="number"], input[type="tel"], input[type="date"], select {
-    width: 100%;
+    width: 90%;
     height: 40px;
     margin-bottom: 20px;
     padding: 5px 10px;
@@ -128,8 +128,25 @@ input[type="text"], input[type="email"], input[type="number"], input[type="tel"]
     flex-wrap: wrap; /* 반응형 지원 */
 }
 
+.mainContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    article:first-child{
+        width: 38%;
+    }
+
+    .form-container{
+        width: 60%;
+        padding-right: 30px;
+
+
+    }
+}
+
 .form-container {
-    flex: 1; /* 폼이 가능한 한 공간을 차지 */
+    /*flex: 1; !* 폼이 가능한 한 공간을 차지 *!*/
     min-width: 400px;
 }
 
@@ -206,4 +223,8 @@ input[type="text"], input[type="email"], input[type="number"], input[type="tel"]
     .styled-table {
         font-size: 12px;
     }
+}
+
+.form{
+    margin-left: 20px;
 }
