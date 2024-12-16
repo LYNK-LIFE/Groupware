@@ -72,3 +72,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
 });
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     var calendarEl = document.getElementById('calendar');
+//     var calendar = new FullCalendar.Calendar(calendarEl, {
+//         initialView: 'dayGridMonth',  // 기본 달력 보기
+//         events: '/api/events',       // Spring API에서 이벤트 데이터 불러오기
+//         editable: true,              // 드래그 및 수정 가능
+//         selectable: true,            // 날짜 선택 활성화
+//         eventClick: function(info) { // 이벤트 클릭시 세부 정보 표시
+//             alert('Event: ' + info.event.title);
+//         },
+//         select: function(info) {     // 날짜 선택시 새 이벤트 추가
+//             var title = prompt('Enter Event Title:');
+//             if (title) {
+//                 fetch('/api/events', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     },
+//                     body: JSON.stringify({
+//                         title: title,
+//                         start: info.startStr,
+//                         end: info.endStr
+//                     })
+//                 }).then(() => calendar.refetchEvents());
+//             }
+//         }
+//     });
+//     calendar.render();
+// });

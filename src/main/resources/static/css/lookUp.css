@@ -34,14 +34,15 @@
     border: none;
     border-radius: 5px;
     padding: 0; /* 내부 여백 제거 */
-    width: 80px; /* 버튼 고정 너비 */
-    height: 40px; /* 버튼 고정 높이 */
+    width: 70px; /* 버튼 고정 너비 */
+    height: 30px; /* 버튼 고정 높이 */
     display: flex; /* Flexbox 활성화 */
     justify-content: center; /* 가로 중앙 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
     font-size: 14px;
     transition: background-color 0.3s ease;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 .subHeader2-class{
