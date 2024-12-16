@@ -122,11 +122,11 @@ input[type="text"], input[type="email"], input[type="number"], input[type="tel"]
     min-width: 300px; /* 최소 너비 */
 }
 
-.main-content {
-    display: flex; /* 플렉스 컨테이너 활성화 */
-    gap: 20px; /* 두 컨테이너 간격 */
-    flex-wrap: wrap; /* 반응형 지원 */
-}
+/*.main-content {*/
+/*    display: flex; !* 플렉스 컨테이너 활성화 *!*/
+/*    gap: 20px; !* 두 컨테이너 간격 *!*/
+/*    flex-wrap: wrap; !* 반응형 지원 *!*/
+/*}*/
 
 .mainContainer{
     width: 100%;

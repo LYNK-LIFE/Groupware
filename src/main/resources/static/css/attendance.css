@@ -1,6 +1,63 @@
 #calendar {
     max-width: 1300px;
     max-height: 650px;
-    margin-top: 30px;
-    margin-left: 160px;
+    margin: 0 auto;             /* 달력을 화면 중앙에 배치 */
+    margin-top: 20px;
 }
+
+body {
+    margin: 30px 10px;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+/* 아래 button 속성에 radius 안 먹혀서 일일이 지정 */
+.application-my-button {
+    border-radius: 5px;
+}
+
+.application-vacation-button {
+    border-radius: 5px;
+}
+
+.application-overtime-button {
+    border-radius: 5px;
+}
+
+.application-approval-button {
+    border-radius: 5px;
+}
+
+/* 버튼들을 묶는 컨테이너 레이아웃 설정 */
+.button-container {
+    display: flex;                /* Flexbox로 컨테이너 정렬 */
+    justify-content: space-between; /* 좌우 공간 분리 */
+    align-items: center;           /* 수직 중앙 정렬 */
+    margin: 10px auto;            /* 위아래 간격 */
+    max-width: 1300px;            /* 버튼 배치 최대 너비 */
+}
+
+/* 버튼 그룹 공통 설정 */
+.left-buttons, .right-buttons {
+    display: flex;                /* 그룹 내 버튼들을 가로로 정렬 */
+    gap: 15px;                    /* 버튼 간 간격 */
+}
+
+/* 개별 버튼 스타일 */
+button {
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: darkgray;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #8e8e8e;
+}
+
