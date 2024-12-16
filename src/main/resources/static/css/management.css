@@ -1,0 +1,66 @@
+.account-current-status {
+    background-color: #efefef;
+    padding: 22px;
+    margin: 20px;
+}
+
+.account-list {
+    background-color: #efefef;
+    padding: 20px;
+    margin: 20px;
+    height: 660px;
+    max-height: 660px;
+    overflow-y: auto;
+}
+
+.button-section button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: end;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table td input[type="checkbox"] {
+    margin: 0;
+}
+
+.exitContainer {
+    position: absolute;
+    bottom: 2rem;
+    left: 17%;
+    /*transform: translateX(-50%); 이거 적용하니까 개행이 되길래 잘 조정해보기... */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+    color: white;
+    opacity: 70%;
+}
+
+.exitContainer img {
+    width: 40px;
+    height: 40px;
+}
+
+.exitContainer a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+}
