@@ -124,15 +124,15 @@
                 <td>139</td>
             </tr>
 
-            <tr th:each="board : ${boards}">
-                <td th:text="${board.id}"></td>
-                <td><a th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.title}"></a></td>
-                <td th:text="${board.author}"></td>
-                <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <tr th:each="notice : ${notices}">
+                <td th:text="${notice.noticeNo}"></td>
+                <td><a th:href="@{/notices/{id}(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a></td>
+                <td th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${notice.viewerCount}"></td>
             </tr>
             </tbody>
         </table>
-            <a href="/notice_write" class="btn btn-primary mb-3">새 글 작성</a>
+            <a href="/notice/create" class="btn btn-primary mb-3">새 글 작성</a>
         </article>
     </section>
 
