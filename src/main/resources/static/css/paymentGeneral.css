@@ -1,194 +1,136 @@
-/*일반 품의서 */
-#general-title{
-    left: 700px;
-    top: 5px; /* 상단에 내려오기 */
+/* ------ 일반 품의서 스타일 ------ */
+.body-general {
+    font-family: Arial, sans-serif; /* 전체 폰트 설정 */
+    margin: 0;
+    padding: 0;
 }
 
-
-/* 전체 결재선 섹션 스타일 */
-#approval-container {
-    display: flex;  /* 요소를 가로로 나열 */
-    justify-content: end; /* 오른쪽 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    position: absolute;
-    top: 250px; /* 상단에 내려오기 */
-    right: 1px; /* 우측 이동하기 */
-    gap: 100px;
-    margin-left: 100px; /* 결재선을 왼쪽으로 이동시키는 여백 설정 */
-}
-
-/* 결재선 제목 스타일 */
-.approval-label {
-    margin: 0; /* 기본 여백 제거 */
-    font-size: 25px; /* 글자 크기 */
-    font-weight: bold; /* 굵게 */
-    margin-left: -70px; /* 결재선을 미세하게 왼쪽으로 이동 (- 값 사용) */
-    line-height: 10px; /* 높이 맞춤 */
+.article-generalcle {
+    width: 50%; /* 화면의 절반 너비 */
+    margin: 2rem auto; /* 상하 2rem, 좌우 중앙 정렬 */
+    background-color:#f1f1f1; /* 배경색 흰색 */
+    border: 1px solid #ddd; /* 테두리 설정 */
+    padding: 20px; /* 내부 여백 */
 
 }
 
-/* 결재 선택 버튼 스타일 */
-#approvalButton {
-    font-size: 55px; /* 버튼 내부 텍스트(+) 크기 설정 */
-    color: black; /* + 기호의 색상 설정 */
-    background-color: transparent; /* 배경색 투명 처리 */
-    border: none; /* 테두리 제거 */
-    width: 60px; /* 버튼의 너비 */
-    height: 40px; /* 버튼의 높이 */
-    text-align: center; /* 내부 텍스트를 가운데 정렬 */
-    line-height: 40px; /* 텍스트를 수직 가운데 배치 (버튼 높이와 동일) */
-    cursor: pointer; /* 마우스 호버 시 커서를 포인터(손가락)로 변경 */
-    font-weight: bold; /* 굵게 */
-    vertical-align: middle; /* 수직 정렬 */
-    margin-left: 150px; /* + 버튼과 결재선 사이에 간격 설정 */
-    position: relative; /* 미세 조정용 */
-    top: -10px; /* 버튼을 위로 미세하게 이동 */
-}
-
-/* 선택된 결재자 리스트 영역 */
-#approver-list {
-    font-size: 30px;
-    margin-top: 10px; /* 결재선과의 여백 추가 */
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-    position: relative; /* 부모 요소 기준 */
-    margin-left: 10px; /* 좌측 여백 설정 */
+.h1-general {
+    text-align: center; /* 제목 중앙 정렬 */
+    margin-bottom: 1rem; /* 아래 여백 */
+    font-size: 1.8rem; /* 글자 크기 설정 */
 }
 
 
-
-/* 선택된 결재자 아이템 스타일 */
-#selectedApproverList {
-    display: flex; /* 가로 정렬 유지 */
-    align-items: center; /* 수직 중앙 정렬 */
-    padding: 2px 5px; /* 내부 여백을 줄임 */
-    gap: 3px; /* 요소 간의 간격을 더욱 줄임 */
-    margin-bottom:10px; /* 항목 간 간격 줄임 */
-    margin-left: auto; /* 오른쪽 정렬 */
-    margin-right: 100px; /* 오른쪽 여백 추가 */
-    position: relative; /* 위치 조정에 필요 */
-    font-size: 20px; /* 폰트 크기 축소 */
-    font-weight: bold; /* 굵게 표시 */
-    max-width: 150px; /* 텍스트 최대 너비 설정 */
-    white-space: nowrap; /* 줄 바꿈 방지 */
-    top: 10px; /* 버튼을 위로 미세하게 이동 */
+.table-general {
+    width: 100%; /* 표 너비 100% */
+    border-collapse: collapse; /* 셀 테두리 합치기 */
+    margin-top: 10px; /* 위 여백 */
 }
 
-/* 드롭다운 스타일 */
-#selectedApproverList select {
-    font-size: 20px; /* 글자 크기 작게 */
-    width: 80px; /* 드롭다운 너비를 줄임 */
-    padding: 5px; /* 내부 여백 최소화 */
-    margin-right: 50px; /* 드롭다운과 삭제 버튼 간격 줄임 */
+.th-general, .td-general {
+    border: 1px solid black; /* 셀 테두리 설정 */
+    padding: 10px; /* 내부 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
 }
 
-/* 이름 영역 스타일 */
-#selectedApproverList .approver-item div {
-    font-size: 20px; /* 글씨 크기를 작게 */
-    margin-right: 50px; /* 이름과 드롭다운 간격 줄임 */
-}
-
-/* 삭제 버튼 스타일 */
-#selectedApproverList .btn-danger {
-    font-size: 20px; /* 글자 크기 축소 */
-    padding: 5px 10px; /* 내부 여백 최소화 */
-    line-height: 20px; /* 버튼 높이 축소 */
-}
-
-
-/* 결재 선택 드롭다운 */
-#approvalSelect {
-    font-size: 30px; /* 드롭다운 글씨 크기 축소 */
-    padding: 3px 5px; /* 드롭다운 내부 여백 축소 */
-    width: auto; /* 드롭다운 너비 자동 조절 */
-}
-
-/* 파일 첨부 영역 스타일 */
-#file-attachment-section {
-    display: flex; /* flexbox 사용 */
-    flex-direction: column; /* 요소를 수직으로 배치 */
-    align-items: center; /* 수직 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    position: relative; /* 위치 고정 해제 */
-    top: 300px; /* 상단 여백 조정 */
-    gap: 10px; /* 요소 사이 간격 */
-}
-
-/* 파일 첨부 제목 스타일 */
-#file-attachment-section h3 {
-    margin: 0; /* 기본 마진 제거 */
-    font-size: 20px; /* 글자 크기 조정 */
-    font-weight: bold; /* 굵게 표시 */
+.th-general {
+    background-color: #f1f1f1; /* 헤더 셀 배경색 */
+    font-weight: bold; /* 글자 굵게 */
     text-align: center; /* 중앙 정렬 */
 }
 
-/* 파일 첨부 제목 스타일 */
-.file-label {
-    margin: 0; /* 기본 마진 제거 */
-    font-size: 20px; /* 글자 크기 조정 */
-    font-weight: bold; /* 굵게 표시 */
+.input-general, .textarea-general {
+    width: 100%; /* 너비 100% */
+    box-sizing: border-box; /* 테두리 포함 크기 설정 */
+    padding: 8px; /* 내부 여백 */
+    border: 1px solid black; /* 테두리 설정 */
+    border-radius: 4px; /* 테두리 둥글게 */
+    resize: none; /* textarea 크기 조절 비활성화 */
 }
 
-/* 파일 추가 버튼 스타일 */
-#addFileButton {
-    font-size: 40px; /* 버튼 크기 */
-    color: black; /* + 기호 색상 */
+.textarea-general {
+    height: 80px; /* textarea 높이 설정 */
+}
+
+.button-general {
+    margin-top: 15px; /* 위 여백 */
+    padding: 10px 15px; /* 내부 여백 */
+    color: black; /* 글자색 흰색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 테두리 둥글게 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+
+/* ------ 결재선 섹션 스타일 ------ */
+#approversection {
+    display: flex; /* 가로 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between; /* 요소 사이 간격 설정 */
+    margin-bottom: 20px; /* 아래 여백 */
+}
+
+
+#approvalButton {
+    font-size: 30px; /* 버튼 텍스트 크기 */
+    color: black; /* 글자색 */
     background-color: transparent; /* 배경 투명 */
     border: none; /* 테두리 제거 */
-    cursor: pointer; /* 포인터 커서 */
-    font-weight: bold; /* 굵게 */
-    line-height: 1; /* 텍스트 수직 정렬 최적화 */
-}
-
-/* 파일 이름 텍스트 스타일 */
-#fileName {
-    font-size: 14px; /* 글자 크기 */
-    color: #333; /* 글자 색상 */
-    margin-left: 10px; /* 버튼과 간격 */
-    display: block; /* 기본 숨김 해제 */
+    cursor: pointer; /* 마우스 포인터 변경 */
 }
 
 
-#file-attachment-section {
-    top: auto; /* 상단 고정 해제 */
-    bottom: 20px; /* 화면 하단으로 이동 */
-    right: 20px; /* 화면 우측 여백 조정 */
-    width: auto; /* 자동 너비 */
+#approverlist {
+    font-size: 18px; /* 리스트 텍스트 크기 */
+    margin-bottom: 20px; /* 아래 여백 */
+}
+
+
+#approverlist-items {
+    display: flex; /* 가로 정렬 */
     flex-direction: column; /* 세로 정렬 */
+    gap: 10px; /* 아이템 간 간격 */
 }
 
 
-/* 기안하기 버튼 고정 */
+/* ------ 파일 첨부 섹션 ------ */
+#filesection {
+    margin-top: 20px; /* 위 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+
+#addfilebtn {
+    font-size: 25px; /* 버튼 크기 */
+    color: black; /* 글자색 */
+    background-color: transparent; /* 배경 투명 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+
+#filename {
+    font-size: 14px; /* 텍스트 크기 */
+    color: #555; /* 글자색 회색 */
+    margin-top: 10px; /* 위 여백 */
+}
+
+/* ------ 기안하기 버튼 ------ */
 #submit-section {
-    position: fixed;
-    bottom: 20px; /* 하단 고정 */
-    right: 30px; /* 우측에 고정 */
-    z-index: 10;
+    position: fixed; /* 화면 고정 */
+    bottom: 100px; /* 하단 여백 */
+    right: 30px; /* 우측 여백 */
 }
 
+#submit-sectionbutton {
+    background-color: #666666; /* 배경색 설정 */
+    color: black; /* 글자색 */
+    font-size: 18px; /* 텍스트 크기 */
+    padding: 10px 20px; /* 내부 여백 */
+}
 
-
-    /* 기안하기 버튼을 오른쪽 하단으로 고정하는 섹션 */
-    #submit-section {
-        position: fixed; /* 화면에 고정된 위치를 설정 */
-        bottom: 70px; /* 하단에서 50px만큼 여백 */
-        right: 30px; /* 오른쪽에서 50px만큼 여백 */
-        z-index: 1000; /* 다른 요소 위에 표시되도록 우선순위 설정 */
-        transform: translateZ(0); /* GPU 가속 적용 */
-        will-change: transform; /* 성능 최적화 */
-    }
-
-    /* 기안하기 버튼 스타일 추가 */
-    #submit-section #draftButton {
-        font-size: 20px; /* 버튼 글자 크기 */
-        padding: 5px 20px; /* 버튼 안쪽 여백 설정 */
-        background-color: #BEBEBE; /* 버튼 배경색 (옅은회색) */
-        color: black; /* 글자색 */
-        border: none; /* 테두리 제거 */
-    }
-
-.modal-body {
-    max-height: 720px;
-    overflow-y: auto;
+#draftButton{
+    background-color: #999999;
+    color: black; /* 글자색 */
 }
