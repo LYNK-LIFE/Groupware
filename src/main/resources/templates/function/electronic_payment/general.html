@@ -85,46 +85,45 @@
 
         <article class="article-payline">
             <!-- 결재선 및 + 버튼 상단으로 이동 -->
-            <div id="div-idpayline" class="div-payline">
-                <h3 class="h3"> 결재선 </h3>
-                <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
+
+            <div id="div-id-payline" class="div-payline">
+                <h3 class="h3-payline"> 결재선 </h3>
+                <button id="payer-button" class="button-payline" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
             </div>
 
-            <!-- 선택된 결재자 -->
-            <div id="approver-list" class="mb-4">
-                <h4>선택된 결재자</h4>
-                <div id="approver-list-items" class="d-flex flex-column gap-2">
-                        <!-- 동적으로 선택된 결재자가 여기에 추가됩니다 -->
+                <!-- 선택된 결재자 -->
+            <div id="div-id-payerss" class="div-payers">
+                <h4 class="h4-payers">선택된 결재자</h4>
+                <div id="div-id-payers" class="div-payers">
+                    <!-- 동적으로 선택된 결재자가 여기에 추가됩니다 -->
                 </div>
             </div>
 
-
             <!-- 파일 첨부 -->
-                <div id="file-section" class="mt-4">
-                    <h3>파일 첨부</h3>
-                    <button id="add-file-btn" class="btn btn-outline-primary">+</button>
+                <div id="div-file" class="div-file">
+                    <h3 class="h3-file"> 파일 첨부</h3>
+                    <button id="btn-file" class="button-file"> + </button>
 
-                    <!-- 파일 선택 -->
-                    <input type="file" id="file-input" style="display: none;" />
-                    <p id="file-name" style="display: none;">파일 이름: </p>
+                        <!-- 파일 선택 -->
+                    <input type="file" id="input-file-cho" style="display: none;" />
+                    <p id="p-file" style="display: none;"> 파일 이름: </p>
                 </div>
         </article>
 
 
         <!-- 결재선 선택 모달 -->
-        <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="approvalModalLabel">결재자 선택</h5>
+        <div class="div-modal" id="modal-id-div" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+            <div class="div-modal-a">
+                <div class="div-modal-b">
+                    <div class="div-modal-c">
+                        <h5 class="h5-modal" id="id-modal">결재자 선택</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body">
-
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
+                        <table class="table-madal">
+                            <thead class="thead-modal">
+                            <tr class="tr-modal">
                                 <th>부서명</th>
                                 <th>사원명</th>
                                 <th>직책</th>
@@ -138,7 +137,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        <button type="button" class="btn-madal-d" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>

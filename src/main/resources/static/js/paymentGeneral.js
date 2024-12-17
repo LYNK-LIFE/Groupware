@@ -18,31 +18,24 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
 // 결재선
 document.addEventListener("DOMContentLoaded", function () {
     const approverTable = document.getElementById("approverTable");
-    const approvalModal = document.getElementById("approvalModal");
-    const selectedApproverList = document.getElementById("selectedApproverList"); // 선택된 결재자 리스트
+    const approvalModal = document.getElementById("modal-id-div");
+    const selectedApproverList = document.getElementById("approver-list-items"); // 선택된 결재자 리스트
     const selectedApprovers = new Map(); // 중복 추가 방지를 위한 Map
 
-
-    // 결재자 데이터 불러오기 함수
+    // 결재자 데이터 불러오기
     function loadApproverData() {
-        fetch("/payment/approvers") // 서버요청
+        fetch("/payment/approvers")
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`서버 오류: ${response.status}`);
+                    throw new Error("Failed to fetch data");
                 }
                 return response.json();
             })
             .then(data => {
                 approverTable.innerHTML = ""; // 기존 데이터 초기화
-                if(data.length ===0){
-                    approverTable.innerHTML = `<tr><td colspan="4">결재자 정보가 없습니다.</td></tr>`;
-                    return;
-                }
-                //데이터 반복하여 테이블에 추가
                 data.forEach(employee => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
@@ -61,11 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("Error loading approver data:", error);
-                alert("결재자 정보를 불러오는 데 실패 했습니다.")
             });
     }
-
-
 
     // 모달 열릴 때 결재자 데이터 불러오기
     approvalModal.addEventListener("shown.bs.modal", loadApproverData);
@@ -86,8 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
-
     // 선택된 결재자 추가 함수
     function addApprover(employee) {
         // Map에 추가
@@ -100,17 +88,17 @@ document.addEventListener("DOMContentLoaded", function () {
         li.dataset.employeeNo = employee.employeeNo;
 
         li.innerHTML = `
-               <div>
-                ${employee.employeeName} ${employee.humanResourceDTO.position} ${employee.departmetDTO.departmentName}
+
+            <div>
+            ${employee.employeeName} (${employee.humanResourceDTO.position})
                 <select class="form-select form-select-sm approver-role"
                 data-employee-no="${employee.employeeNo}"
                 style="width: 120px; display: inline-block; margin-left: 10px;">
                     <option value="기안">기안</option>
                     <option value="참조">참조</option>
-                    <option value="결재" selected> 결재 </option>
+                    <option value="결재" selected>결재</option>
                 </select>
-               </div>
-                    
+             </div>
                     <button class="btn btn-danger btn-sm removeApprover">삭제</button> `;
 
         selectedApproverList.appendChild(li);
@@ -118,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 선택된 결재자 삭제 이벤트 처리
     selectedApproverList.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-approver")) {
+        if (event.target.classList.contains("removeApprover")) {
             const li = event.target.parentElement;
             const employeeNo = li.dataset.employeeNo;
 
@@ -129,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
             li.remove();
         }
     });
-
 
     function saveApproversToServer() {
         const approverArray = Array.from(selectedApprovers.values());
@@ -146,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
 
 
 // 일반품의 표 작성 관련 자바스크립트
