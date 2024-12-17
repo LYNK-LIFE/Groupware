@@ -3,6 +3,7 @@ package com.semi.lynk.function.notice_board.controller;
 import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 import com.semi.lynk.function.notice_board.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,19 +22,16 @@ public class NoticeController {
     private NoticeService noticeService;
 
     @GetMapping("/list")
-    public String listNotices(Model model) {
-        List<NoticeDTO> notices = noticeService.getAllNotices();
+    public String listNotices(Model model,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size) {
+        Page<NoticeDTO> noticePage = noticeService.getAllNoticesPaged(page, size);
 
-        notices.sort((a, b) -> {
-            if (a.getNoticeHide() == 2 && b.getNoticeHide() != 2) {
-                return -1;
-            } else if (a.getNoticeHide() != 2 && b.getNoticeHide() == 2) {
-                return 1;
-            }
-            return 0;
-        });
+        model.addAttribute("notices", noticePage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", noticePage.getTotalPages());
+        model.addAttribute("totalItems", noticePage.getTotalElements());
 
-        model.addAttribute("notices", notices);
         return "function/notice_board/list";
     }
 
