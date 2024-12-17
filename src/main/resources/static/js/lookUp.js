@@ -108,7 +108,6 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
     }
 });
 
-
 // 클릭 시 수정 가능 모달
 // 직원 테이블에서 행 클릭 이벤트
 document.getElementById("saveChanges").addEventListener("click", () => {
@@ -135,11 +134,11 @@ document.getElementById("saveChanges").addEventListener("click", () => {
     })
         .then(res => res.json()) // JSON 형태로 응답 파싱
         .then(data => {
-            if (data.status === "success") {
-                alert(data.message);
+            if (data.cal === "success") {
+                alert(data.cal);
                 location.reload(); // 페이지 새로고침으로 업데이트된 데이터 표시
             } else {
-                alert(data.message);
+                alert(data.cal);
             }
         })
         .catch(err => console.error("직원 수정 실패:", err));

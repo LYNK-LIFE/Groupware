@@ -32,7 +32,21 @@
         </div>
 
         <script>
-            fetch("/api/calendar")
+            // 서버에 저장하는 로직
+            console.log("전송할 데이터:", dadata); // dadata는 값 담을 애...?
+
+            fetch("/api/calendar", {
+                method: "GET", // HTTP 메서드
+                headers: {
+                    "Content-Type": "application/json" // JSON 형식으로 데이터 전송
+                },
+                body: JSON.stringify(dadata) // 객체를 JSON 문자열로 변환
+            })
+                .then(res => res.json()) // JSON 형태로 응답 파싱
+                .then(data => {
+
+                })
+                .catch(err => console.error("캘린더 저장 실패:", err));
         </script>
 
         <div class="button-container">
