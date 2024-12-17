@@ -12,4 +12,5 @@ public class LookUpDTO {
     private int id;
     private String name;
     private HumanDTO humanDTO;
+    private DepartmentDTO departmentDTO;
 }

@@ -1,3 +1,5 @@
+// 조회에 따라서 테이블에 하나씩 출력하기 (일단 보류)
+
 // 데이터를 저장할 변수
 let allEmployees = [];
 
@@ -38,7 +40,7 @@ function performSearch() {
 
     // 검색 결과가 없는 경우 메시지 추가
     if (filteredEmployees.length === 0) { // === 은 타입과 값 모두 같아야함 , == 는 값만 같으면됨
-                                        // ex) 5 === '5' false , 5 == '5' true
+        // ex) 5 === '5' false , 5 == '5' true
         alert("검색 결과가 없습니다.");
     } else {
         // 필터링된 데이터를 테이블에 추가
@@ -80,7 +82,7 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
     const row = event.target.closest("tr"); // 클릭한 행 찾기
     if (row) {
         const cells = row.getElementsByTagName("td"); // 문자열로 "td","tr"감싸야 실제로 찾을 수 있고
-                                                    // 감싸지 않으면 변수를 찾는다는 뜻, 에러난다~~
+        // 감싸지 않으면 변수를 찾는다는 뜻, 에러난다~~
         const employeeData = {
             id: cells[0].textContent,
             name: cells[1].textContent,
