@@ -1,5 +1,7 @@
 package com.semi.lynk.function.login.model;
 
+import com.semi.lynk.function.human.model.dto.DepartmentDTO;
+import com.semi.lynk.function.human.model.dto.HumanDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,8 +44,22 @@ public class EmpDetails implements UserDetails {
     // 아이디 반환 메소드
     @Override
     public String getUsername() {
-//        System.out.println(loginDTO);
+        return loginDTO.getEmpNo();
+    }
+
+    // 이름 반환 메소드
+    public String getName() {
         return loginDTO.getEmpName();
+    }
+
+    // 부서 반환 메소드
+    public String getDeptName() {
+        return loginDTO.getDepartmentDTO().getDepName();
+    }
+
+    // 직급 반환 메소드
+    public String getPosition() {
+        return loginDTO.getHumanDTO().getPosition();
     }
 
     // 계정 만료 여부 (잘 모르겠음2)
