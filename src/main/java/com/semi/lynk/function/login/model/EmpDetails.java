@@ -53,14 +53,14 @@ public class EmpDetails implements UserDetails {
     }
 
     // 부서 반환 메소드
-    public String getDeptName() {
-        return loginDTO.getDepartmentDTO().getDepName();
-    }
+//    public String getDeptName() {
+//        return loginDTO.getDepartmentDTO().getDepName();
+//    }
 
     // 직급 반환 메소드
-    public String getPosition() {
-        return loginDTO.getHumanDTO().getPosition();
-    }
+//    public String getPosition() {
+//        return loginDTO.getHumanDTO().getPosition();
+//    }
 
     // 계정 만료 여부 (잘 모르겠음2)
     @Override

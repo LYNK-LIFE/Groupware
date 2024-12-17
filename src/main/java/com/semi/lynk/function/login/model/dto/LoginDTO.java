@@ -26,8 +26,8 @@ public class LoginDTO {
     private int empStatus;
     private int loginFailCount;
     private int workingStatus;
-    private DepartmentDTO departmentDTO;
-    private HumanDTO humanDTO;
+    private String depName; // 부서이름
+    private String position;            // 직책
 
 //    public List<String> getRole() {
 //        if (this.role.getRole().length() > 0) {
