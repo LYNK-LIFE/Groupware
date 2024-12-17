@@ -29,6 +29,8 @@ public class MainController {
         session.setAttribute("empNo", empDetails.getUsername());
         session.setAttribute("empName", empDetails.getName());
         session.setAttribute("empDetails", empDetails);
+        session.setAttribute("deptName", empDetails.getLoginDTO().getDepName());
+        session.setAttribute("position", empDetails.getLoginDTO().getPosition());
 
         // 모델에 추가
         mv.addObject("user", empDetails);

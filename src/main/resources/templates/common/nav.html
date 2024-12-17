@@ -105,9 +105,10 @@
             <img src="/images/profiletest.jpg" alt="logout" data-value="logout">
             <img src="/images/profiletest.jpg" alt="testimage" id="profile">
             <a href="/management/activeAccountList">관리</a><br>
-            <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px">Employee Name</span><br>
-            <span style="font-size: 12px; opacity: 80%">부서명</span> /
-            <span style="font-size: 12px; opacity: 80%">직급</span><br> <!-- 임시 영역 -->
+            <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px; color: black">Employee Name</span><br>
+            <span th:text="${session.deptName}">부서명</span>
+            <span> / </span>
+            <span th:text="${session.position}">직급</span><br> <!-- 임시 영역 -->
             <div class="userButton">
                 <button class="work">출근</button>
                 <button class="fieldwork">외근</button>

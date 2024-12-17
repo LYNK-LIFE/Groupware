@@ -14,6 +14,8 @@
         <result property="loginFailCount" column="login_fail_count"/>
         <result property="workingStatus" column="working_status"/>
         <result property="deptNo" column="department_no"/>
+        <result property="depName" column="department_name"/>
+        <result property="position" column="position"/>
     </resultMap>
 
     <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
@@ -24,13 +26,17 @@
     </insert>
 
     <select id="findByUsername" resultMap="login">
-        SELECT EMPLOYEE_NO
-             , PASSWORD
-             , EMPLOYEE_NAME
-             , EMAIL
-             , MEMBER_STATUS
-          FROM EMPLOYEE
-         WHERE EMPLOYEE_NO = #{empName}
+        SELECT a.EMPLOYEE_NO
+             , a.PASSWORD
+             , a.EMPLOYEE_NAME
+             , a.EMAIL
+             , a.MEMBER_STATUS
+             , b.DEPARTMENT_NAME
+             , c.POSITION
+          FROM EMPLOYEE a
+          JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
+          LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
+         WHERE a.EMPLOYEE_NO = #{empName}
     </select>
 
 </mapper>

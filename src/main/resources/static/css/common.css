@@ -275,6 +275,11 @@ body {
     z-index: 0;
 }
 
+.userDetail > span {
+    font-size: 12px;
+    opacity: 80%;
+}
+
 #profile {
     margin: 10px;
     width: 80px;
