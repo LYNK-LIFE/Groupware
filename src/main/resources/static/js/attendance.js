@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
-        initialDate: '2023-01-12',
+        initialDate: '2024-12-17',//'2023-01-12'
         navLinks: true, // can click day/week names to navigate views
         editable: true,
         dayMaxEvents: true, // allow "more" link when too many events
         events: [
             {
-                title: 'All Day Event',
-                start: '2023-01-01'
+                title: 'All Day Event', // 제목에 달리는 애
+                start: '2024-01-01' //'2023-01-01'
             },
             {
                 title: 'Long Event',
@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         ]
     });
-
     calendar.render();
 });
 
