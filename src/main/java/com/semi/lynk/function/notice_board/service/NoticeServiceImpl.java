@@ -38,4 +38,11 @@ public class NoticeServiceImpl implements NoticeService {
     public void deleteNotice(Long noticeNo) {
         noticeMapper.deleteNotice(noticeNo);
     }
+
+    @Override
+    public void updateViewCnt(Long noticeNo) {
+        System.out.println("여기 오니?");
+        noticeMapper.updateViewCnt(noticeNo);
+    }
+
 }

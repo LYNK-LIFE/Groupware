@@ -48,4 +48,12 @@
     <delete id="deleteNotice" parameterType="Long">
         DELETE FROM notice WHERE notice_no = #{noticeNo}
     </delete>
+
+    <update id="updateViewCnt">
+        update notice set
+        viewer_count = viewer_count +1
+        where notice_no = #{noticeNo}
+    </update>
+
+
 </mapper>

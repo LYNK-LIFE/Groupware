@@ -12,4 +12,5 @@ public interface NoticeMapper {
     NoticeDTO selectNoticeById(Long noticeNo);
     void updateNotice(NoticeDTO noticeDTO);
     void deleteNotice(Long noticeNo);
+    void updateViewCnt(Long noticeNo);
 }
