@@ -53,6 +53,49 @@
         .views-cell {
             width: 80px;
         }
+         .pagination-container {
+             display: flex;
+             justify-content: center;
+             margin-top: 20px;
+         }
+
+        .pagination {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .page-link {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #333;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .page-link:hover {
+            background-color: #e9ecef;
+        }
+
+        .pagination .active .page-link {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination .disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body> <!-- 최초 메인 페이지 -->
@@ -107,7 +150,27 @@
 
             </tbody>
         </table>
-            <a href="/notice/create" class="btn btn-primary mb-3">새 글 작성</a>
+            <!-- Pagination -->
+            <div th:if="${totalPages > 1}" class="pagination-container">
+                <ul class="pagination">
+                    <li th:class="${currentPage == 0} ? 'disabled' : ''">
+                        <a th:if="${currentPage > 0}" th:href="@{/notice/list(page=${currentPage - 1})}" class="page-link">Previous</a>
+                        <span th:unless="${currentPage > 0}" class="page-link disabled">Previous</span>
+                    </li>
+
+                    <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:class="${pageNum == currentPage} ? 'active' : ''">
+                        <a th:href="@{/notice/list(page=${pageNum})}" th:text="${pageNum + 1}" class="page-link"></a>
+                    </li>
+
+                    <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                        <a th:if="${currentPage < totalPages - 1}" th:href="@{/notice/list(page=${currentPage + 1})}" class="page-link">Next</a>
+                        <span th:unless="${currentPage < totalPages - 1}" class="page-link disabled">Next</span>
+                    </li>
+                </ul>
+                <a href="/notice/create" class="btn btn-primary mb-3">새 글 작성</a>
+            </div>
+
         </article>
     </section>
 
