@@ -143,3 +143,58 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// 일반품의 표 작성 관련 자바스크립트
+document.getElementById("draftButton").addEventListener("click", function () {
+    const formData = {
+        documentNumber: document.getElementById('documentNumber').value,
+        documentDate: document.getElementById('documentDate').value,
+        department: document.getElementById('department').value,
+        amount: document.getElementById('amount').value,
+        author: document.getElementById('author').value,
+        preservation: document.getElementById('preservation').value,
+        title: document.getElementById('title').value,
+        content: document.getElementById('content').value,
+    };
+
+    // 데이터 유효성 검사
+    for (const key in formData) {
+        if (!formData[key]) {
+            alert(`${key} 필드를 입력해주세요.`);
+            return;
+        }
+    }
+
+    // 기안하기 동작 수행
+    console.log("기안 내용:", formData);
+    alert("기안이 완료되었습니다!");
+
+    // 서버로 데이터 전송 (백엔드 연동 시 사용)
+    fetch('/submit-draft', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('기안이 성공적으로 저장되었습니다.');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+});
+
+
+// 예시코드 파일 첨부 버튼 이벤트 리스너
+
+document.getElementById('addFileButton').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', function() {
+    const fileName = this.files[0] ? this.files[0].name : '파일이 선택되지 않았습니다.';
+    document.getElementById('fileName').innerText = `파일 이름: ${fileName}`;
+    document.getElementById('fileName').style.display = 'block';
+});

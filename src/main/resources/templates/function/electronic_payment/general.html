@@ -37,7 +37,6 @@
 
     <header th:replace="~{/common/header :: headerFragment}" class="header-class"></header>
 
-
     <section class="main-content">
 
         <div class="subHeader-class">
@@ -48,39 +47,65 @@
             <a class="subHeaderLink-class" href="/payment/general">일반품의서</a>
         </div>
 
-        <div class="container my-4">
-            <!-- 결재선 및 + 버튼 상단으로 이동 -->
-             <div id="approval-container">
-                 <h3 class="approval-label me-2" > 결재선 </h3>
-                 <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
-             </div>
+        <!-- 일반 품의서 표 만들기  -->
+        <article>
+            <h1>일반품의서</h1>
+            <table>
+                <tr>
+                    <th>문서번호</th>
+                    <td><input type="text" id="documentNumber" placeholder="문서번호 입력"></td>
+                    <th>품의일</th>
+                    <td><input type="date" id="documentDate"></td>
+                </tr>
+                <tr>
+                    <th>품의부서</th>
+                    <td><input type="text" id="department" placeholder="부서명 입력"></td>
+                    <th>시행금액</th>
+                    <td><input type="number" id="amount" placeholder="금액 입력"></td>
+                </tr>
+                <tr>
+                    <th>작성자</th>
+                    <td><input type="text" id="author" placeholder="작성자 이름"></td>
+                    <th>보존기간</th>
+                    <td><input type="text" id="preservation" placeholder="보존기간 입력"></td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td colspan="3"><input type="text" id="title" placeholder="제목 입력"></td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td colspan="3">
+                        <textarea id="content" placeholder="상세 내용을 입력하세요"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </article>
 
-            <!-- 일반 품의서 제목 -->
-            <h1 class="mb-4 text-center" id="general-title">일반 품의서</h1>
+        <article class="container my-4">
+            <!-- 결재선 및 + 버튼 상단으로 이동 -->
+            div id="approver-section" class="mb-3">
+            <h3 class="label-title me-2">결재선</h3>
+                <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
+            </div>
 
             <!-- 선택된 결재자 -->
             <div id="approver-list" class="mb-4">
+                <h4>선택된 결재자</h4>
                 <div id="selectedApproverList" class="d-flex flex-column gap-2">
-                    <!-- 선택된 결재자들이 여기에 동적으로 추가됩니다 -->
+                    <!-- 동적으로 선택된 결재자가 여기에 추가됩니다 -->
                 </div>
             </div>
 
-
             <!-- 파일 첨부 -->
-            <div id="file-attachment-section" >
+            <div id="file-attachment-section" class="mt-4">
                 <h3>파일 첨부</h3>
-                <button id="addFileButton">+</button>
+                <button id="addFileButton" class="btn btn-outline-primary">+</button>
                 <!-- 파일 선택 -->
                 <input type="file" id="fileInput" style="display: none;" />
-                <p id="fileName" style="display: none;"> 파일 이름: </p>
+                <p id="fileName" style="display: none;">파일 이름: </p>
             </div>
-
-            <!-- 기안하기 버튼 -->
-            <div id="submit-section">
-                <button id="draftButton" class="btn btn-success">기안하기</button>
-            </div>
-        </div>
-
+        </article>
         <!-- 결재선 선택 모달 -->
         <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
 

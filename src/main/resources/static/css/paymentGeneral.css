@@ -168,7 +168,6 @@
 }
 
 
-
     /* 기안하기 버튼을 오른쪽 하단으로 고정하는 섹션 */
     #submit-section {
         position: fixed; /* 화면에 고정된 위치를 설정 */
@@ -191,4 +190,69 @@
 .modal-body {
     max-height: 720px;
     overflow-y: auto;
+}
+
+/*------일반 품의서 css ------*/
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+article {
+    width: 50%;
+    margin: 2rem auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    text-align: center;
+}
+
+input, textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+textarea {
+    height: 80px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
