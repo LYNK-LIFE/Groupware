@@ -1,6 +1,8 @@
 package com.semi.lynk.function.login.model.dto;
 
 import com.semi.lynk.common.UserRole;
+import com.semi.lynk.function.human.model.dto.DepartmentDTO;
+import com.semi.lynk.function.human.model.dto.HumanDTO;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class LoginDTO {
     private int empStatus;
     private int loginFailCount;
     private int workingStatus;
+    private DepartmentDTO departmentDTO;
+    private HumanDTO humanDTO;
 
 //    public List<String> getRole() {
 //        if (this.role.getRole().length() > 0) {

@@ -14,7 +14,6 @@
         <result property="loginFailCount" column="login_fail_count"/>
         <result property="workingStatus" column="working_status"/>
         <result property="deptNo" column="department_no"/>
-<!--        <result property="role" column=""/>-->
     </resultMap>
 
     <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
