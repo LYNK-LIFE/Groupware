@@ -78,10 +78,19 @@
                     <textarea id="noticeContent" th:field="*{noticeContent}" rows="5" required></textarea>
                 </div>
                 <div>
+                    <label for="noticeVote">숨김 여부:</label>
+                    <select id="noticeVote" th:field="*{noticeVote}">
+                        <option value="0">공지</option>
+                        <option value="1">투표</option>
+                        <option value="2">투표완료</option>
+                    </select>
+                </div>
+                <div>
                     <label for="noticeHide">숨김 여부:</label>
                     <select id="noticeHide" th:field="*{noticeHide}">
                         <option value="0">표시</option>
                         <option value="1">숨김</option>
+                        <option value="2">고정</option>
                     </select>
                 </div>
                 <div>
@@ -89,8 +98,7 @@
                     <input type="text" id="employeeNo" th:field="*{employeeNo}" required>
                 </div>
                 <input type="hidden" th:field="*{noticeDate}">
-                <input type="hidden" th:field="*{noticeVote}" value="0">
-                <input type="hidden" th:field="*{viewerCount}" value="0">
+                <input type="hidden" th:field="*{viewerCount}" value="1">
                 <button type="submit">저장</button>
             </form>
             <a href="/notice/list">목록으로 돌아가기</a>

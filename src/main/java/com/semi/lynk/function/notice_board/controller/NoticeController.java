@@ -23,6 +23,16 @@ public class NoticeController {
     @GetMapping("/list")
     public String listNotices(Model model) {
         List<NoticeDTO> notices = noticeService.getAllNotices();
+
+        notices.sort((a, b) -> {
+            if (a.getNoticeHide() == 2 && b.getNoticeHide() != 2) {
+                return -1;
+            } else if (a.getNoticeHide() != 2 && b.getNoticeHide() == 2) {
+                return 1;
+            }
+            return 0;
+        });
+
         model.addAttribute("notices", notices);
         return "function/notice_board/list";
     }
@@ -42,6 +52,7 @@ public class NoticeController {
 
     @GetMapping("/{noticeNo}")
     public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model) {
+        noticeService.updateViewCnt(noticeNo);
         model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
         return "function/notice_board/view";
     }
