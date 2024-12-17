@@ -81,7 +81,7 @@
                         <div class="field-container">
                             <div class="field-group">
                                 <label>사 번</label> <!-- 사번 받아와서 연결 -->
-                                <input type="number" name="id" id="formId" placeholder="20241210">
+                                <input type="number" name="id" id="formId" placeholder="20241210" disabled>
                             </div>
 
                             <div class="field-group">
@@ -165,10 +165,9 @@
             </article>
         </div>
 
-        <!-- 모달 구조 -->
-        <div id="successMessage" style="display: none;" th:text="${successMessage ?: ''}"></div>
 
-        <!-- Modal -->
+        <div id="successMessage" style="display: none;" th:text="${successMessage ?: ''}"></div>
+        <!-- 모랄 메씨지 -->
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

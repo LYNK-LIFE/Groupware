@@ -75,33 +75,41 @@
             <result property="phoneNumber" column="mobile_no"/>
             <result property="ssn" column="ssn"/>
         </association>
-
+        <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
+            <id property="depNo" column="department_no"/>
+            <result property="depName" column="department_name"/>
+        </association>
     </resultMap>
 
-    <!-- 사번 및 이름으로 조회 시 tbody에 추가될 애들 -->
+    <!-- 부서명 , 이름 , 고용 구분으로 조회 시 tbody에 추가될 애들 -->
     <select id="lookUpMapper" resultMap="lookUpResultMap">
         select
-             a.employee_no
+            a.employee_no
             ,a.employee_name
+            ,c.department_name
             ,b.position
             ,b.employeement_status
             ,b.mobile_no
-            ,b.address
         from
             employee a join human_resource b
-            on (a.employee_no = b.employee_no)
+                              on (a.employee_no = b.employee_no)
+            join department c on (a.department_no = c.department_no)
+        order by
+            a.employee_no
     </select>
 
     <!-- 인사 정보 수정 구문 -->
     <update id="modifyEmployee" parameterType="com.semi.lynk.function.human.model.dto.ModifyDTO">
-        update employee a , human_resource b
+        update employee a join human_resource b on
+                (a.employee_no = b.employee_no)
         set
              a.employee_name = #{name}
+            ,a.department_no = #{depNo}
             ,b.position = #{humanDTO.position}
             ,b.employeement_status = #{humanDTO.employeementStatus}
             ,b.mobile_no = #{humanDTO.phoneNumber}
         where
-             a.employee_no = #{id} and b.employee_no = #{id}
+            a.employee_no = #{id} and b.employee_no = #{id}
         <!-- and b.employee_no도 추가해야 전체 다 안 바뀜!! -->
     </update>
 

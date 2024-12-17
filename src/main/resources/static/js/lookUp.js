@@ -1,58 +1,68 @@
-// 데이터를 저장할 변수
-let allEmployees = [];
+// 페이지 입장 시, 전체 데이터 출력
 
-// Fetch로 데이터 가져오기
-fetch("/employee/lookUpList")
-    .then(res => res.json())
-    .then(data => {
-        allEmployees = data; // 데이터 저장
-        console.log(allEmployees); // 데이타 잘 들어있나 확인!
-    })
-    .catch(err => console.error("Error fetching lookup list:", err));
+let allEmployees = []; // 데이터를 저장할 변수
 
-// 조회 기능
+// 페이지 로드 시 데이터를 가져와서 출력
+document.addEventListener("DOMContentLoaded", () => {
+    fetch("/employee/lookUpList")
+        .then(res => res.json())
+        .then(data => {
+            allEmployees = data; // 데이터 저장
+            renderTable(allEmployees); // 전체 데이터를 테이블에 출력
+            console.log("전체 데이터 불러오기 성공:", allEmployees);
+        })
+        .catch(err => console.error("전체 데이터 불러오기 실패:", err));
+});
+
+// 테이블 데이터를 출력하는 함수
+function renderTable(data) {
+    const tableBody = document.getElementById("employee-table-body");
+    tableBody.innerHTML = ""; // 테이블 초기화
+
+    if (data.length === 0) { // 검색 결과가 없을 때
+        const noDataRow = `<tr><td colspan="6">검색 결과가 없습니다.</td></tr>`;
+        tableBody.innerHTML = noDataRow;
+        return;
+    }
+
+    data.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.departmentDTO.depName}</td>
+            <td>${item.humanDTO.position}</td>
+            <td>${item.humanDTO.employeementStatus}</td>
+            <td>${item.humanDTO.phoneNumber}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// 조회 기능 (필터링해서 출력)
 function performSearch() {
-    const type = document.getElementById("lookupSelect").value; // 사번 또는 이름 선택
+    const type = document.getElementById("lookupSelect").value; // 부서/이름/고용구분 선택
     const keywordInput = document.getElementById("lookupInput");
-    const keyword = keywordInput.value.trim(); // 입력 키워드 (trim은 양쪽 공백 제거)
+    const keyword = keywordInput.value.trim(); // 입력 키워드 (trim으로 공백 제거)
 
     if (!keyword) {
         alert("검색어를 입력해 주세요.");
         return;
     }
 
-    // 필터링된 데이터를 가져옴
+    // 조건에 맞게 데이터 필터링
     const filteredEmployees = allEmployees.filter(employee => {
-        if (type === "사번") {
-            return String(employee.id).includes(keyword); // 사번 검색
+        if (type === "부서명") {
+            return employee.departmentDTO.depName.includes(keyword);
         } else if (type === "이름") {
-            return employee.name.includes(keyword); // 이름 검색
+            return employee.name.includes(keyword);
+        } else if (type === "고용 구분") {
+            return employee.humanDTO.employeementStatus.includes(keyword);
         }
     });
 
-    const tableBody = document.getElementById("employee-table-body");
-
-    // 검색 결과가 없는 경우 메시지 추가
-    if (filteredEmployees.length === 0) { // === 은 타입과 값 모두 같아야함 , == 는 값만 같으면됨
-                                        // ex) 5 === '5' false , 5 == '5' true
-        alert("검색 결과가 없습니다.");
-    } else {
-        // 필터링된 데이터를 테이블에 추가
-        filteredEmployees.forEach(item => {
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                            <td>${item.id}</td>
-                            <td>${item.name}</td>
-                            <td>${item.humanDTO.position}</td>
-                            <td>${item.humanDTO.employeementStatus}</td>
-                            <td>${item.humanDTO.phoneNumber}</td>
-                            <td>${item.humanDTO.address}</td>
-                        `;
-
-            tableBody.appendChild(row); // 새 행을 테이블 끝에 추가
-        });
-    }
+    // 필터링된 데이터를 테이블에 출력
+    renderTable(filteredEmployees);
 
     // 입력 필드 초기화
     keywordInput.value = "";
@@ -61,45 +71,43 @@ function performSearch() {
 // 버튼 클릭 이벤트
 document.getElementById("select-button-id").addEventListener("click", performSearch);
 
-// Enter 키 이벤트 추가
+// Enter 키 이벤트 추가 (검색 입력창)
 document.getElementById("lookupInput").addEventListener("keyup", (event) => {
     if (event.key === "Enter") {
-        performSearch(); // 엔터 키로 검색 실행
+        performSearch(); // 엔터 키 입력 시 조회 기능 실행
     }
 });
 
-///////////////////////
-// 클릭 시 수정 가능 모달창 띄우는 구문!
-// 테이블 행 클릭 이벤트에서 모달 창 띄우기
+// 클릭 이벤트: 테이블 행 클릭 시 모달 창 표시
 document.getElementById("employee-table-body").addEventListener("click", (event) => {
-    // event 쓸 때와 안 쓸때의 차이 : 이벤트 발생 시 세부내역 참조(이벤트 정보), 안 쓸때엔 세부정보 알 수 없음~~
-    // closest : 가장 가까운 조상 요소 찾음!!!
-    const row = event.target.closest("tr"); // 클릭한 행 찾기
+    // 이벤트 위임을 사용해 클릭된 요소를 탐색
+    const row = event.target.closest("tr"); // 클릭된 셀의 가장 가까운 "tr" 행
     if (row) {
-        const cells = row.getElementsByTagName("td"); // 문자열로 "td","tr"감싸야 실제로 찾을 수 있고
-                                                    // 감싸지 않으면 변수를 찾는다는 뜻, 에러난다~~
+        const cells = row.getElementsByTagName("td"); // 클릭된 행의 모든 <td> 가져오기
+
         const employeeData = {
             id: cells[0].textContent,
             name: cells[1].textContent,
-            position: cells[2].textContent,
-            employeementStatus: cells[3].textContent,
-            phoneNumber: cells[4].textContent,
-            address: cells[5].textContent
+            depNo: cells[2].textContent,
+            position: cells[3].textContent,
+            employeementStatus: cells[4].textContent,
+            phoneNumber: cells[5].textContent
         };
 
-        // 모달 폼 데이터 설정
+        // 모달 폼에 데이터 설정
         document.getElementById("editId").value = employeeData.id;
         document.getElementById("editName").value = employeeData.name;
+        document.getElementById("editDepNo").value = employeeData.depNo;
         document.getElementById("editPosition").value = employeeData.position;
         document.getElementById("editStatus").value = employeeData.employeementStatus;
         document.getElementById("editPhone").value = employeeData.phoneNumber;
-        document.getElementById("editAddress").value = employeeData.address;
 
-        // 모달 창 표시 (Bootstrap 방식 사용)
+        // Bootstrap 모달 표시
         const modalElement = new bootstrap.Modal(document.getElementById("myModal"), {});
         modalElement.show(); // 모달 열기
     }
 });
+
 
 // 클릭 시 수정 가능 모달
 // 직원 테이블에서 행 클릭 이벤트
@@ -107,11 +115,11 @@ document.getElementById("saveChanges").addEventListener("click", () => {
     const updatedEmployee = {
         id: document.getElementById("editId").value,
         name: document.getElementById("editName").value,
+        depNo: document.getElementById("editDepNo").value,
         humanDTO: { // HumanDTO 객체를 포함
             position: document.getElementById("editPosition").value,
             employeementStatus: document.getElementById("editStatus").value,
             phoneNumber: document.getElementById("editPhone").value,
-            address: document.getElementById("editAddress").value
         }
     };
 
