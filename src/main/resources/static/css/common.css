@@ -50,6 +50,7 @@ body {
 .main-content {
     flex: 1; /* 남은 공간을 모두 차지 */
     background-color: white; /* 메인 콘텐츠 배경색 */
+    overflow: hidden; /* 스크롤 생김 방지 */
 }
 
 .footer-class {
