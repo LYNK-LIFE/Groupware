@@ -1,21 +1,19 @@
 // 파일 첨부 - 파일 이름 표시
-
 document.addEventListener("DOMContentLoaded", function () {
     const addFileButton = document.getElementById("addFileButton");
     const fileInput = document.getElementById("fileInput");
     const fileName = document.getElementById("fileName");
 
+    // 파일 선택 버튼 클릭
     addFileButton.addEventListener("click", function () {
         fileInput.click();
     });
+
+    // 파일이 선택되면 파일 이름 표시
     fileInput.addEventListener("change", function () {
         const file = fileInput.files[0];
-
-        if (file) {
-
-            fileName.textContent = `파일 이름: ${file.name}`;
-            fileName.style.display = "block";
-        }
+        fileName.textContent = file ? `파일 이름: ${file.name}`: "파일이 선택되지 않았습니다.";
+        fileName.style.display = "block";
     });
 });
 
@@ -28,17 +26,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedApproverList = document.getElementById("selectedApproverList"); // 선택된 결재자 리스트
     const selectedApprovers = new Map(); // 중복 추가 방지를 위한 Map
 
-    // 결재자 데이터 불러오기
+
+    // 결재자 데이터 불러오기 함수
     function loadApproverData() {
-        fetch("/payment/approvers")
+        fetch("/payment/approvers") // 서버요청
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Failed to fetch data");
+                    throw new Error(`서버 오류: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
                 approverTable.innerHTML = ""; // 기존 데이터 초기화
+                if(data.length ===0){
+                    approverTable.innerHTML = `<tr><td colspan="4">결재자 정보가 없습니다.</td></tr>`;
+                    return;
+                }
+                //데이터 반복하여 테이블에 추가
                 data.forEach(employee => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
@@ -57,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("Error loading approver data:", error);
+                alert("결재자 정보를 불러오는 데 실패 했습니다.")
             });
     }
 
@@ -95,15 +100,14 @@ document.addEventListener("DOMContentLoaded", function () {
         li.dataset.employeeNo = employee.employeeNo;
 
         li.innerHTML = `
-
                <div>
-                ${employee.employeeName} (${employee.humanResourceDTO.position})
+                ${employee.employeeName} ${employee.humanResourceDTO.position} ${employee.departmetDTO.departmentName}
                 <select class="form-select form-select-sm approver-role"
                 data-employee-no="${employee.employeeNo}"
                 style="width: 120px; display: inline-block; margin-left: 10px;">
                     <option value="기안">기안</option>
                     <option value="참조">참조</option>
-                    <option value="결재" selected>결재</option>
+                    <option value="결재" selected> 결재 </option>
                 </select>
                </div>
                     
@@ -114,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 선택된 결재자 삭제 이벤트 처리
     selectedApproverList.addEventListener("click", function (event) {
-        if (event.target.classList.contains("removeApprover")) {
+        if (event.target.classList.contains("remove-approver")) {
             const li = event.target.parentElement;
             const employeeNo = li.dataset.employeeNo;
 
@@ -125,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
             li.remove();
         }
     });
+
 
     function saveApproversToServer() {
         const approverArray = Array.from(selectedApprovers.values());
@@ -176,25 +181,12 @@ document.getElementById("draftButton").addEventListener("click", function () {
         },
         body: JSON.stringify(formData),
     })
-    .then(response => response.json())
-    .then(data => {
-        alert('기안이 성공적으로 저장되었습니다.');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            alert('기안이 성공적으로 저장되었습니다.');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
-});
-
-
-// 예시코드 파일 첨부 버튼 이벤트 리스너
-
-document.getElementById('addFileButton').addEventListener('click', function() {
-    document.getElementById('fileInput').click();
-});
-
-document.getElementById('fileInput').addEventListener('change', function() {
-    const fileName = this.files[0] ? this.files[0].name : '파일이 선택되지 않았습니다.';
-    document.getElementById('fileName').innerText = `파일 이름: ${fileName}`;
-    document.getElementById('fileName').style.display = 'block';
 });

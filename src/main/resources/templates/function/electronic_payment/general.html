@@ -16,7 +16,7 @@
 
     </style>
 
-<body>
+<body class="body-general">
 <!-- ① Popper.js 라이브러리 - 툴팁 , 팝오버 , 드롭다운 관리 -->
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -48,71 +48,74 @@
         </div>
 
         <!-- 일반 품의서 표 만들기  -->
-        <article>
-            <h1>일반품의서</h1>
-            <table>
-                <tr>
-                    <th>문서번호</th>
-                    <td><input type="text" id="documentNumber" placeholder="문서번호 입력"></td>
-                    <th>품의일</th>
-                    <td><input type="date" id="documentDate"></td>
+        <article class="article-general">
+            <h1 class="h1-general" > 일반품의서 </h1>
+            <table class="table-general">
+                <tr class="th-general">
+                    <th class="th-general">문서번호</th>
+                    <td class="td-general"><input class="input-general" type="text" id="documentNumber" placeholder="문서번호 입력"></td>
+                    <th class="th-general">품의일</th>
+                    <td class="th-general"><input class="input-general" type="date" id="documentDate"></td>
                 </tr>
-                <tr>
-                    <th>품의부서</th>
-                    <td><input type="text" id="department" placeholder="부서명 입력"></td>
-                    <th>시행금액</th>
-                    <td><input type="number" id="amount" placeholder="금액 입력"></td>
+                <tr class="tr-general">
+                    <th class="th-general">품의부서</th>
+                    <td class="td-general"><input type="text" id="department" placeholder="부서명 입력"></td>
+                    <th class="th-general">시행금액</th>
+                    <td class="th-general"><input type="number" id="amount" placeholder="금액 입력"></td>
                 </tr>
-                <tr>
-                    <th>작성자</th>
-                    <td><input type="text" id="author" placeholder="작성자 이름"></td>
-                    <th>보존기간</th>
-                    <td><input type="text" id="preservation" placeholder="보존기간 입력"></td>
+                <tr class="tr-general">
+                    <th class="th-general">작성자</th>
+                    <td class="td-general"><input class="input-general" type="text" id="author" placeholder="작성자 이름"></td>
+                    <th class="th-general">보존기간</th>
+                    <td class="td-general"><input class="input-general" type="text" id="preservation" placeholder="보존기간 입력"></td>
                 </tr>
-                <tr>
-                    <th>제목</th>
-                    <td colspan="3"><input type="text" id="title" placeholder="제목 입력"></td>
+                <tr class="tr-general">
+                    <th class="th-general">제목</th>
+                    <td class="td-general" colspan="3"><input type="text" id="title" placeholder="제목 입력"></td>
                 </tr>
-                <tr>
-                    <th>내용</th>
-                    <td colspan="3">
-                        <textarea id="content" placeholder="상세 내용을 입력하세요"></textarea>
+                <tr class="tr-general">
+                    <th class="th-general">내용</th>
+                    <td class="td-general" colspan="3">
+                        <textarea class="textarea-general" id="content" placeholder="상세 내용을 입력하세요"></textarea>
                     </td>
                 </tr>
             </table>
         </article>
 
+
         <article class="container my-4">
             <!-- 결재선 및 + 버튼 상단으로 이동 -->
-            div id="approver-section" class="mb-3">
-            <h3 class="label-title me-2">결재선</h3>
+            <div id="approver-section" class="mb-3">
+                <h3 class="label-title me-2"> 결재선 </h3>
                 <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
             </div>
 
             <!-- 선택된 결재자 -->
             <div id="approver-list" class="mb-4">
                 <h4>선택된 결재자</h4>
-                <div id="selectedApproverList" class="d-flex flex-column gap-2">
-                    <!-- 동적으로 선택된 결재자가 여기에 추가됩니다 -->
+                <div id="approver-list-items" class="d-flex flex-column gap-2">
+                        <!-- 동적으로 선택된 결재자가 여기에 추가됩니다 -->
                 </div>
             </div>
 
+
             <!-- 파일 첨부 -->
-            <div id="file-attachment-section" class="mt-4">
-                <h3>파일 첨부</h3>
-                <button id="addFileButton" class="btn btn-outline-primary">+</button>
-                <!-- 파일 선택 -->
-                <input type="file" id="fileInput" style="display: none;" />
-                <p id="fileName" style="display: none;">파일 이름: </p>
-            </div>
+
+                <div id="file-section" class="mt-4">
+                    <h3>파일 첨부</h3>
+                    <button id="add-file-btn" class="btn btn-outline-primary">+</button>
+
+                    <!-- 파일 선택 -->
+                    <input type="file" id="file-input" style="display: none;" />
+                    <p id="file-name" style="display: none;">파일 이름: </p>
+                </div>
         </article>
+
+
         <!-- 결재선 선택 모달 -->
         <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-
             <div class="modal-dialog modal-lg">
-
                 <div class="modal-content">
-
                     <div class="modal-header">
                         <h5 class="modal-title" id="approvalModalLabel">결재자 선택</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -130,12 +133,11 @@
                             </tr>
                             </thead>
 
-
                          <tbody id="approverTable"></tbody>
                          <!-- 서버에서 동적으로 로드 -->
                         </table>
-                    </div>
 
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
@@ -146,7 +148,6 @@
 
     <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
     <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
-
 </div>
 
     <!-- Bootstrap JS and Popper -->
