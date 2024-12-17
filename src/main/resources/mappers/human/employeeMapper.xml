@@ -100,17 +100,16 @@
 
     <!-- 인사 정보 수정 구문 -->
     <update id="modifyEmployee" parameterType="com.semi.lynk.function.human.model.dto.ModifyDTO">
-        update employee a join department b on (a.department_no = b.department_no)
-                          join human_resource c on (a.employee_no = c.employee_no)
+        update employee a join human_resource b on
+                (a.employee_no = b.employee_no)
         set
              a.employee_name = #{name}
-            ,b.department_name = #{departmentDTO.depName}
-            ,c.position = #{humanDTO.position}
-            ,c.employeement_status = #{humanDTO.employeementStatus}
-            ,c.mobile_no = #{humanDTO.phoneNumber}
+            ,a.department_no = #{depNo}
+            ,b.position = #{humanDTO.position}
+            ,b.employeement_status = #{humanDTO.employeementStatus}
+            ,b.mobile_no = #{humanDTO.phoneNumber}
         where
-             (a.employee_no = #{id} and c.employee_no = #{id})
-            and (a.department_no = b.department_no)
+            a.employee_no = #{id} and b.employee_no = #{id}
         <!-- and b.employee_no도 추가해야 전체 다 안 바뀜!! -->
     </update>
 

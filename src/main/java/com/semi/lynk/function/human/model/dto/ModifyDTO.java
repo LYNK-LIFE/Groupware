@@ -11,8 +11,10 @@ public class ModifyDTO {
 
     private int id;
     private String name;
+    private int depNo;
     private HumanDTO humanDTO;
-    private DepartmentDTO departmentDTO;
+
+//    private DepartmentDTO departmentDTO;
 //    private String position;
 //    private String employeementStatus;
 //    private String phoneNumber;
