@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/function/management/*")
+@RequestMapping("/management/*")
 public class managedController {
 
     //****************************************************************
@@ -17,6 +17,8 @@ public class managedController {
     private ManagedService managedService;
 
     @GetMapping("activeAccountList")
-    public void activeAccountListPage() {}
+    public String activeAccountListPage() {
+        return "/function/management/activeAccountList";
+    }
 
 }

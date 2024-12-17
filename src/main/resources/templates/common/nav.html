@@ -42,7 +42,7 @@
         <div class="mainMenuContainer">
             <h6 style="color: white">Menu</h6>
             <li class="home">
-                <a href="#">
+                <a href="/">
                     <span class="arrow">></span>홈
                 </a>
             </li>
@@ -104,7 +104,7 @@
         <div class="userDetail hidden">
             <img src="/images/profiletest.jpg" alt="logout" data-value="logout">
             <img src="/images/profiletest.jpg" alt="testimage" id="profile">
-            <a href="/function/management/activeAccountList">관리</a><br>
+            <a href="/management/activeAccountList">관리</a><br>
             <span th:text="${#authentication.getName()}" style="font-weight: 800; font-size: 20px">Employee Name</span><br>
             <span style="font-size: 12px; opacity: 80%">부서명 / 직급</span><br> <!-- 임시 영역 -->
             <div class="userButton">
