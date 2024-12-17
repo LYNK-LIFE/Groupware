@@ -3,6 +3,7 @@ package com.semi.lynk.common;
 import com.semi.lynk.function.login.model.EmpDetails;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
 import com.semi.lynk.function.login.service.LoginService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,17 +23,16 @@ public class MainController {
 //    }
 
     @GetMapping("/")
-    public ModelAndView mainPage(@AuthenticationPrincipal EmpDetails empDetails, ModelAndView mv) {
-        // 필요한 정보 가져오기
-        String empNo = empDetails.getUsername();        // 로그인 ID
-        String empName = empDetails.getName();          // 이름
-//        String deptName = empDetails.getDeptName();     // 부서
-//        String position = empDetails.getPosition();     // 사번
+    public ModelAndView mainPage(@AuthenticationPrincipal EmpDetails empDetails, HttpSession session, ModelAndView mv) {
+
+        // 세션에 사용자 정보 저장
+        session.setAttribute("empNo", empDetails.getUsername());
+        session.setAttribute("empName", empDetails.getName());
+        session.setAttribute("empDetails", empDetails);
 
         // 모델에 추가
         mv.addObject("user", empDetails);
-        System.out.println("userNo = " + empNo);
-        System.out.println("userName = " + empName);
+        System.out.println("session = " + session.getAttribute("empName"));
         mv.setViewName("/common/main");
         return mv;
     }
