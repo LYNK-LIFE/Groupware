@@ -19,6 +19,19 @@
         </association>
     </resultMap>
 
+    <!--FullDraftDTO 일반품의서  -->
+<insert id="insertDraft" parameterType="com.semi.lynk.function.electronic_payment.model.dto.FullDraftDTO">
+
+    INSERT INTO draft(
+    draft_no,draft_date,implementation_amount,retention_period,draft_title,draft_memo,employee_no)
+
+    VALUES(
+    #{draftNo},#{draftDate},#{implementationAmount},#{retentionPeriod},
+    #{draftTitle},#{draftMemo},#{employeeNo}
+</insert>
+
+
+
     <!-- 결재자 선택을 위한 join  -->
     <select id="findAllApprover" resultMap="findAllApprovertMap">
         select

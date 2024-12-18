@@ -11,7 +11,7 @@ import java.util.Date;
 @ToString
 public class DraftFileDTO {
     private int draftFileNo; // 기안문서번호
-    private String oringinName; // 파일이름
+    private String originName; // 파일이름
     private String saveName; // 저장명
     private String size; // 파일크기
     private int deleteYn; // 삭제여부

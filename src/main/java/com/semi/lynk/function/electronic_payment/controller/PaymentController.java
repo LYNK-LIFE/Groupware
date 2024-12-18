@@ -3,8 +3,10 @@ package com.semi.lynk.function.electronic_payment.controller;
 import com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.DepAndEmpAndHumDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.EmployeeAndEctJoinDTO;
+import com.semi.lynk.function.electronic_payment.model.dto.FullDraftDTO;
 import com.semi.lynk.function.electronic_payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +52,13 @@ public class PaymentController {
             redirectAttributes.addFlashAttribute("message", "결재선 추가에 실패했습니다.");
         }
         return "redirect:/payment/list";
+
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<String> saveDraft(@RequestBody FullDraftDTO fullDraftDTO){
+        System.out.println("fullDraftDTO = " + fullDraftDTO);
+        paymentService.saveDraft(fullDraftDTO);
+        return ResponseEntity.ok("Draft saved successfully!");}
 
 }
