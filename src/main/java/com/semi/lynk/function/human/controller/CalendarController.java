@@ -26,8 +26,8 @@ public class CalendarController {
 
     @GetMapping("calendar")
     @ResponseBody
-    public List<CalendarDTO> calendarList (@RequestBody CalendarDTO calendarDTO) {
-        List<CalendarDTO> result = calendarService.calendarService(calendarDTO);
+    public List<CalendarDTO> calendarList () {
+        List<CalendarDTO> result = calendarService.calendarService();
         Map<String, Object> map = new HashMap<>();
         map.put("cal" , result);
         return result;

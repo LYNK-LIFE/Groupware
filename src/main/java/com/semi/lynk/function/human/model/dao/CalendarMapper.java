@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface CalendarMapper {
-    List<CalendarDTO> showCalendar(CalendarDTO calendarDTO);
+    List<CalendarDTO> showCalendar();
 }

@@ -17,8 +17,8 @@ public class CalendarService {
         this.calendarMapper = calendarMapper;
     }
 
-    public List<CalendarDTO> calendarService (CalendarDTO calendarDTO) {
-        List<CalendarDTO> result = calendarMapper.showCalendar(calendarDTO);
+    public List<CalendarDTO> calendarService () {
+        List<CalendarDTO> result = calendarMapper.showCalendar();
         return result;
     }
 
