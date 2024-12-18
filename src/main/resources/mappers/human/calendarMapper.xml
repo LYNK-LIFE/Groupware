@@ -39,19 +39,17 @@
     <select id="showCalendar" resultMap="selectResultMap">
         select
             a.employee_name
+            ,b.position
             ,b.totalLeave
             ,b.usedLeave
             ,c.work_off
             ,d.schedule_bound
             ,d.schedule_date
         from
-             employee a
-        join human_resource b
-                on (a.employee_no = b.employee_no)
-        join working_time_data c
-                on (a.employee_no = c.employee_no)
-        join schedule d
-                on (a.employee_no = d.employee_no);
+        employee a
+            join human_resource b on (a.employee_no = b.employee_no)
+            join working_time_data c on (a.employee_no = c.employee_no)
+            join schedule d on (a.employee_no = d.employee_no)
     </select>
 
 </mapper>

@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
+    // FullCalendar 초기화
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
             left: 'prevYear,prev,next,nextYear today',
@@ -9,19 +10,32 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
         initialDate: '2024-12-17',
-        navLinks: true,
-        editable: true,
-        dayMaxEvents: true,
-        events: function(fetchInfo, successCallback, failureCallback) {
-            fetch('/api/calendar') // 데이터 가져오기
+        navLinks: true,    // 날짜 클릭 가능
+        editable: true,    // 드래그 가능 여부
+        dayMaxEvents: true, // "더보기" 링크 표시
+
+        events: function (fetchInfo, successCallback, failureCallback) {
+            fetch('/api/calendar')
                 .then(response => response.json())
                 .then(data => {
-                    // DTO 데이터 -> FullCalendar 이벤트로 변환
                     const events = data.map(item => {
+                        const isOvertime = item.commuteDTO.workOff && item.commuteDTO.workOff > "18:00:00"; // 초과근무 여부 확인
+                        const isLeave = item.humanDTO.totalLeave && item.humanDTO.usedLeave; // 연차 여부 확인
+
                         return {
-                            title: item.scheduleDTO.scheduleBound, // 일정 내용
-                            start: item.scheduleDTO.scheduleDate, // 일정 시작 날짜
-                            description: `${item.employeeDTO.name}의 일정` // 추가 정보
+                            title: `${item.employeeDTO.name} ${item.employeeDTO.position}`, // 이름 + 직급
+                            start: item.scheduleDTO.scheduleDate, // 일정 시작
+                            backgroundColor: isOvertime ? 'orange' : (isLeave ? 'green' : 'gray'), // 조건부 색상 설정
+                            extendedProps: { // 상세 정보를 저장
+                                type: isOvertime ? '초과근무' : '연차',
+                                name: item.employeeDTO.name,
+                                position: item.employeeDTO.position,
+                                workDate: item.commuteDTO.workDate,
+                                workOn: item.commuteDTO.workOn,
+                                workOff: item.commuteDTO.workOff,
+                                totalLeave: item.humanDTO.totalLeave,
+                                usedLeave: item.humanDTO.usedLeave,
+                            }
                         };
                     });
                     successCallback(events);
@@ -30,112 +44,50 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.error('Error fetching events:', error);
                     failureCallback(error);
                 });
+        },
+
+        // 이벤트 클릭 시 모달창 표시
+        eventClick: function (info) {
+            const props = info.event.extendedProps;
+
+            // 모달 내용 채우기
+            document.getElementById('modal-type').innerText = props.type; // 구분
+            document.getElementById('modal-name').innerText = props.name; // 이름
+            document.getElementById('modal-position').innerText = props.position; // 직급
+            document.getElementById('modal-workdate').innerText = props.workDate; // 근무일시
+            document.getElementById('modal-endtime').innerText = props.workOff || 'N/A'; // 종료일시
+            if (props.type === '초과근무') {
+                document.getElementById('modal-extra-hours').innerText = calculateOvertime(props.workOn, props.workOff); // 초과근무시간
+                document.getElementById('modal-leave-time').innerText = '-'; // 연차는 표시하지 않음
+            } else if (props.type === '연차') {
+                document.getElementById('modal-leave-time').innerText = `${props.usedLeave}/${props.totalLeave}`; // 사용 연차 / 총 연차
+                document.getElementById('modal-extra-hours').innerText = '-'; // 초과근무는 표시하지 않음
+            }
+
+            // 모달 표시
+            const modal = document.getElementById('eventModal');
+            modal.style.display = 'block';
         }
     });
 
     calendar.render();
+
+    // 모달 닫기 버튼
+    document.getElementById('modal-close').addEventListener('click', function () {
+        const modal = document.getElementById('eventModal');
+        modal.style.display = 'none';
+    });
+
+    // 초과근무시간 계산 함수
+    function calculateOvertime(start, end) {
+        if (!start || !end) return 'N/A';
+        const startTime = new Date(`1970-01-01T${start}`);
+        const endTime = new Date(`1970-01-01T${end}`);
+        const diffMs = endTime - startTime;
+
+        // 차이 계산 (밀리초 -> 시간)
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        return `${diffHours}시간 ${diffMinutes}분`;
+    }
 });
-
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     var calendarEl = document.getElementById('calendar');
-//
-//     var calendar = new FullCalendar.Calendar(calendarEl, {
-//         headerToolbar: {
-//             left: 'prevYear,prev,next,nextYear today',
-//             center: 'title',
-//             right: 'dayGridMonth,dayGridWeek,dayGridDay'
-//         },
-//         initialDate: '2024-12-17',//'2023-01-12'
-//         navLinks: true, // can click day/week names to navigate views
-//         editable: true,
-//         dayMaxEvents: true, // allow "more" link when too many events
-//         calendarDTO: [
-//             {
-//                 title: 'All Day Event', // 제목에 달리는 애
-//                 start: '2024-01-01' //'2023-01-01'
-//             },
-//             {
-//                 title: 'Long Event',
-//                 start: '2023-01-07',
-//                 end: '2023-01-10'
-//             },
-//             {
-//                 groupId: 999,
-//                 title: 'Repeating Event',
-//                 start: '2023-01-09T16:00:00'
-//             },
-//             {
-//                 groupId: 999,
-//                 title: 'Repeating Event',
-//                 start: '2023-01-16T16:00:00'
-//             },
-//             {
-//                 title: 'Conference',
-//                 start: '2023-01-11',
-//                 end: '2023-01-13'
-//             },
-//             {
-//                 title: 'Meeting',
-//                 start: '2023-01-12T10:30:00',
-//                 end: '2023-01-12T12:30:00'
-//             },
-//             {
-//                 title: 'Lunch',
-//                 start: '2023-01-12T12:00:00'
-//             },
-//             {
-//                 title: 'Meeting',
-//                 start: '2023-01-12T14:30:00'
-//             },
-//             {
-//                 title: 'Happy Hour',
-//                 start: '2023-01-12T17:30:00'
-//             },
-//             {
-//                 title: 'Dinner',
-//                 start: '2023-01-12T20:00:00'
-//             },
-//             {
-//                 title: 'Birthday Party',
-//                 start: '2023-01-13T07:00:00'
-//             },
-//             {
-//                 title: 'Click for Google',
-//                 url: 'http://google.com/',
-//                 start: '2023-01-28'
-//             }
-//         ]
-//     });
-//     calendar.render();
-// });
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     var calendarEl = document.getElementById('calendar');
-//     var calendar = new FullCalendar.Calendar(calendarEl, {
-//         initialView: 'dayGridMonth',  // 기본 달력 보기
-//         events: '/api/events',       // Spring API에서 이벤트 데이터 불러오기
-//         editable: true,              // 드래그 및 수정 가능
-//         selectable: true,            // 날짜 선택 활성화
-//         eventClick: function(info) { // 이벤트 클릭시 세부 정보 표시
-//             alert('Event: ' + info.event.title);
-//         },
-//         select: function(info) {     // 날짜 선택시 새 이벤트 추가
-//             var title = prompt('Enter Event Title:');
-//             if (title) {
-//                 fetch('/api/events', {
-//                     method: 'POST',
-//                     headers: {
-//                         'Content-Type': 'application/json'
-//                     },
-//                     body: JSON.stringify({
-//                         title: title,
-//                         start: info.startStr,
-//                         end: info.endStr
-//                     })
-//                 }).then(() => calendar.refetchEvents());
-//             }
-//         }
-//     });
-//     calendar.render();
-// });

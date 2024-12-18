@@ -33,6 +33,20 @@
             </div>
         </div>
 
+        <div id="eventModal" class="modal">
+            <div class="modal-content">
+                <span id="modal-close" class="close">&times;</span>
+                <h3>일정 상세</h3>
+                <p><strong>구분:</strong> <span id="modal-type"></span></p>
+                <p><strong>이름:</strong> <span id="modal-name"></span></p>
+                <p><strong>직급:</strong> <span id="modal-position"></span></p>
+                <p><strong>근무일시:</strong> <span id="modal-workdate"></span></p>
+                <p><strong>종료일시:</strong> <span id="modal-endtime"></span></p>
+                <p><strong>연장 근로시간:</strong> <span id="modal-extra-hours"></span></p>
+                <p><strong>연차 일시:</strong> <span id="modal-leave-time"></span></p>
+            </div>
+        </div>
+
         <script>
             // 서버에 저장하는 로직
             console.log("전송할 데이터:", dadata); // dadata는 값 담을 애...?
