@@ -142,7 +142,7 @@
                 <td>
                     <a th:href="@{/notice/{noticeNo}(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a>
                 </td>
-                <td th:text="${notice.employeeNo}"></td>
+                <td th:text="${notice.employeeName}"></td>
                 <td th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
                 <td th:text="${notice.viewerCount}"></td>
 

@@ -94,11 +94,11 @@
                     </select>
                 </div>
                 <div>
-                    <label for="employeeNo">작성자 사번:</label>
-                    <input type="text" id="employeeNo" th:field="*{employeeNo}" required>
+                    작성자 : <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px">Employee Name</span>
                 </div>
+                <input type="hidden" th:field="*{employeeNo}" required>
                 <input type="hidden" th:field="*{noticeDate}">
-                <input type="hidden" th:field="*{viewerCount}" value="1">
+                <input type="hidden" th:field="*{viewerCount}">
                 <button type="submit">저장</button>
             </form>
             <a href="/notice/list">목록으로 돌아가기</a>

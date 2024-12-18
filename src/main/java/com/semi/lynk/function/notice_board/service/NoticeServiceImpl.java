@@ -66,7 +66,6 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public void updateViewCnt(Long noticeNo) {
-        System.out.println("여기 오니?");
         noticeMapper.updateViewCnt(noticeNo);
     }
 
