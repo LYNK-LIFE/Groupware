@@ -1,6 +1,6 @@
 package com.semi.lynk.function.human.controller;
 
-import com.semi.lynk.function.human.model.dto.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.CalendarDTO;
 import com.semi.lynk.function.human.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +27,8 @@ public class CalendarController {
     @GetMapping("calendar")
     @ResponseBody
     public List<CalendarDTO> calendarList (@RequestBody CalendarDTO calendarDTO) {
-        Map<String, Object> map = new HashMap<>();
         List<CalendarDTO> result = calendarService.calendarService(calendarDTO);
+        Map<String, Object> map = new HashMap<>();
         map.put("cal" , result);
         return result;
     }

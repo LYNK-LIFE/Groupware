@@ -1,7 +1,7 @@
 package com.semi.lynk.function.human.service;
 
 import com.semi.lynk.function.human.model.dao.CalendarMapper;
-import com.semi.lynk.function.human.model.dto.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.CalendarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

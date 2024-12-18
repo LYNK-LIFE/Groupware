@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.semi.lynk.function.human.model.dao.CalendarMapper">
+
+    <resultMap id="selectResultMap" type="com.semi.lynk.function.human.model.calendar.CalendarDTO">
+        <id property="id" column="employee_no"/>
+        <result property="title" column="id"/>
+
+        <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
+            <id property="id" column="employee_no"/>
+            <result property="totalLeave" column="totalLeave"/>
+            <result property="usedLeave" column="usedLeave"/>
+        </association>
+        <association property="commuteDTO" javaType="com.semi.lynk.function.human.model.calendar.CommuteDTO">
+            <id property="id" column="employee_no"/>
+            <result property="workDate" column="work_date"/>
+            <result property="workOn" column="work_on"/>
+            <result property="workOff" column="work_off"/>
+            <result property="workOnOutside" column="work_on_outside"/>
+            <result property="workOffOutside" column="work_off_outside"/>
+        </association>
+        <association property="scheduleDTO" javaType="com.semi.lynk.function.human.model.calendar.ScheduleDTO">
+            <id property="id" column="employee_no"/>
+            <result property="scheduleBound" column="schedule_bound"/>
+            <result property="scheduleDate" column="schedule_date"/>
+            <result property="scheduleType" column="schedule_type"/>
+            <result property="scheduleNote" column="schedule_note"/>
+        </association>
+        <association property="employeeDTO" javaType="com.semi.lynk.function.human.model.dto.EmployeeDTO">
+            <id property="id" column="employee_no"/>
+            <result property="name" column="employee_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
+    <select id="showCalendar" resultMap="selectResultMap">
+        select
+            a.employee_name
+            ,b.totalLeave
+            ,b.usedLeave
+            ,c.work_off
+            ,d.schedule_bound
+            ,d.schedule_date
+        from
+             employee a
+        join human_resource b
+                on (a.employee_no = b.employee_no)
+        join working_time_data c
+                on (a.employee_no = c.employee_no)
+        join schedule d
+                on (a.employee_no = d.employee_no);
+    </select>
+
+</mapper>
