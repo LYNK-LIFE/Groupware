@@ -134,11 +134,11 @@ document.getElementById("saveChanges").addEventListener("click", () => {
     })
         .then(res => res.json()) // JSON 형태로 응답 파싱
         .then(data => {
-            if (data.cal === "success") {
-                alert(data.cal);
+            if (data.status === "success") {
+                alert(data.message);
                 location.reload(); // 페이지 새로고침으로 업데이트된 데이터 표시
             } else {
-                alert(data.cal);
+                alert(data.message);
             }
         })
         .catch(err => console.error("직원 수정 실패:", err));

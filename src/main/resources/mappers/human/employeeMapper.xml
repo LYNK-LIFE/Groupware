@@ -39,25 +39,34 @@
 
     <!-- 인사 등록 필요한 애들 보여주는 애 -->
     <select id="joinListResult" resultMap="joinResultMap">
-    select
-         a.employee_no
-        ,a.employee_name
-        ,b.department_name
-        ,c.position
-        ,a.email
-    from
-        employee a
-        left join department b on (a.department_no = b.department_no)
-        left join human_resource c on (a.employee_no = c.employee_no)
-    where
-        c.position is null
-        and
-        c.nation is null
-    order by
-        a.employee_no
+<!--    select-->
+<!--         a.employee_no-->
+<!--        ,a.employee_name-->
+<!--        ,b.department_name-->
+<!--        ,c.position-->
+<!--        ,a.email-->
+<!--    from-->
+<!--        employee a-->
+<!--        left join department b on (a.department_no = b.department_no)-->
+<!--        left join human_resource c on (a.employee_no = c.employee_no)-->
+<!--    where-->
+<!--        c.position is null-->
+<!--        and-->
+<!--        c.nation is null-->
+<!--    order by-->
+<!--        a.employee_no-->
+        select
+            a.employee_no
+            ,a.employee_name
+            ,b.department_name
+            ,a.email
+        from
+          employee a join department b on (a.department_no = b.department_no)
+        order by
+             a.employee_no;
     </select>
 
-    <!-- 인사 등록 -->
+    <!-- 인사 등록 --> <!-- 인사 등록(insert)할라면 human_resource 쪽에 truncate로 데이터 다 날려야 한다. -->
     <insert id="registMapperhum" parameterType="com.semi.lynk.function.human.model.dto.RegistHumDTO">
         insert into human_resource
         (employee_no, position , employeement_status, address, nation, mobile_no, join_date)
@@ -84,7 +93,7 @@
     <!-- 부서명 , 이름 , 고용 구분으로 조회 시 tbody에 추가될 애들 -->
     <select id="lookUpMapper" resultMap="lookUpResultMap">
         select
-            a.employee_no
+             a.employee_no
             ,a.employee_name
             ,c.department_name
             ,b.position
@@ -98,7 +107,7 @@
             a.employee_no
     </select>
 
-    <!-- 인사 정보 수정 구문 -->
+    <!-- 인사 정보 수정 구문 --> <!-- set에 department_name을 넣으면 다 바뀜. -->
     <update id="modifyEmployee" parameterType="com.semi.lynk.function.human.model.dto.ModifyDTO">
         update employee a join human_resource b on
                 (a.employee_no = b.employee_no)
