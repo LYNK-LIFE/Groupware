@@ -55,15 +55,33 @@
 <!--        c.nation is null-->
 <!--    order by-->
 <!--        a.employee_no-->
-        select
-            a.employee_no
-            ,a.employee_name
-            ,b.department_name
-            ,a.email
-        from
-          employee a join department b on (a.department_no = b.department_no)
-        order by
-             a.employee_no;
+
+        <!-- 이렇게 하면 휴먼쪽에-->
+<!--        select-->
+<!--            a.employee_no-->
+<!--            ,a.employee_name-->
+<!--            ,b.department_name-->
+<!--            ,a.email-->
+<!--        from-->
+<!--          employee a join department b on (a.department_no = b.department_no)-->
+<!--        order by-->
+<!--             a.employee_no;-->
+
+        <!-- human_resource에 employee_no와 같은 정보가 있는지 걸러줘야 됨.
+         그쪽에 데이터가 있으면 등록할 때 에러가 나니까! -->
+        SELECT
+            a.employee_no,
+            a.employee_name,
+            b.department_name,
+            a.email
+        FROM
+            employee a
+            JOIN
+            department b ON (a.department_no = b.department_no)
+        WHERE
+             a.employee_no NOT IN (SELECT employee_no FROM human_resource)
+        ORDER BY
+          a.employee_no
     </select>
 
     <!-- 인사 등록 --> <!-- 인사 등록(insert)할라면 human_resource 쪽에 truncate로 데이터 다 날려야 한다. -->
