@@ -13,6 +13,7 @@
         <result property="noticeHide" column="notice_hide"/>
         <result property="viewerCount" column="viewer_count"/>
         <result property="employeeNo" column="employee_no"/>
+        <result property="noticePreNo" column="notice_preno"/>
         <result property="employeeName" column="employee_name"/>
     </resultMap>
 
@@ -23,7 +24,7 @@
 
     <select id="getAllNotices" resultMap="noticeResultMap">
         SELECT
-        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
         FROM
         notice join employee using(employee_no)
         ORDER BY
@@ -32,7 +33,7 @@
 
     <select id="selectNoticeById" parameterType="Long" resultMap="noticeResultMap">
         SELECT
-        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
+        notice_no, notice_preno, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
         FROM
         notice join employee using(employee_no)
         WHERE notice_no = #{noticeNo}
@@ -47,6 +48,7 @@
         notice_hide = #{noticeHide},
         viewer_count = #{viewerCount},
         employee_no = #{employeeNo}
+        notice_preno = #{noticePreNo}
         WHERE notice_no = #{noticeNo}
     </update>
 

@@ -174,6 +174,9 @@
             background-color: #f9f9f9;
             margin-bottom: 20px;
         }
+        .d-none {
+            display: none;
+        }
 
         .collapsible-content.active {
             max-height: 1000px; /* 충분히 큰 값으로 설정 */
@@ -213,22 +216,27 @@
 
             <p>내용</p>
             <div class="notice-content" th:utext="${notice.noticeContent}"></div>
-                <button class="collapsible">펼치기/접기</button>
-                <div class="content">
+
+
+                <button class="collapsible" th:classappend="${notice.noticePreNo == null} ? 'd-none'"
+                        th:disabled="${notice.noticePreNo == null}">
+                    원본문서
+                </button>
+                <div class="content" th:if="${notice.noticePreNo != null}">
                     <div class="notice-title-container">
                         <span class="notice-title-label">제목 : </span>
-                        <h2 class="notice-title" th:text="${notice.noticeTitle}"></h2>
+                        <h2 class="notice-title" th:text="${preNotice.noticeTitle}"></h2>
                     </div>
                     <div class="notice-info">
-                        <span class="info-item">번호: <span th:text="${notice.noticeNo}"></span></span>
-                        <span class="info-item">글종류: <span th:text="${notice.noticeVote == 0 ? '공지' : (notice.noticeVote == 1 ? '투표' : '투표완료')}"></span></span>
-                        <span class="info-item">작성자: <span th:text="${notice.employeeName}"></span></span>
-                        <span class="info-item">작성일: <span th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></span>
-                        <span class="info-item">조회수: <span th:text="${notice.viewerCount}"></span></span>
+                        <span class="info-item">번호: <span th:text="${preNotice.noticeNo}"></span></span>
+                        <span class="info-item">글종류: <span th:text="${preNotice.noticeVote == 0 ? '공지' : (preNotice.noticeVote == 1 ? '투표' : '투표완료')}"></span></span>
+                        <span class="info-item">작성자: <span th:text="${preNotice.employeeName}"></span></span>
+                        <span class="info-item">작성일: <span th:text="${#temporals.format(preNotice.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></span>
+                        <span class="info-item">조회수: <span th:text="${preNotice.viewerCount}"></span></span>
                     </div>
 
                     <p>내용</p>
-                    <div class="notice-content" th:utext="${notice.noticeContent}"></div>
+                    <div class="notice-content" th:utext="${preNotice.noticeContent}"></div>
 
                 </div>
                 <a th:href="@{/notices/{noticeNo}/edit(noticeNo=${notice.noticeNo})}">수정</a>
@@ -248,15 +256,17 @@
             var i;
 
             for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var content = this.nextElementSibling;
-                    if (content.style.maxHeight){
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + "px";
-                    }
-                });
+                if (!coll[i].disabled) {
+                    coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight){
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                }
             }
         </script>
     </section>

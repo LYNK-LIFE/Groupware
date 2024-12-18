@@ -19,4 +19,5 @@ public class NoticeDTO {
     private int viewerCount;
     private String employeeNo;
     private String employeeName;
+    private Long noticePreNo;
 }
