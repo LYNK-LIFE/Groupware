@@ -50,6 +50,7 @@
             width: 80px;
         }
     </style>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <body>
 
@@ -75,7 +76,7 @@
                 </div>
                 <div>
                     <label for="noticeContent">내용:</label>
-                    <textarea id="noticeContent" th:field="*{noticeContent}" rows="5" required></textarea>
+                    <textarea id="noticeContent" th:field="*{noticeContent}" rows="10" required></textarea>
                 </div>
                 <div>
                     <label for="noticeVote">숨김 여부:</label>
@@ -110,6 +111,21 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-
+<script>
+    CKEDITOR.replace('noticeContent', {
+        height: 300,
+        filebrowserUploadUrl: '/upload/image', // 이미지 업로드 URL 설정
+        toolbar: [
+            ['Font', 'FontSize'],
+            ['Bold', 'Italic', 'Underline', 'Strike'],
+            ['TextColor', 'BGColor'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table'],
+            ['Source']
+        ]
+    });
+</script>
 </body>
 </html>
