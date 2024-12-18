@@ -12,7 +12,6 @@
         <result property="email" column="email"/>
         <result property="picture" column="image"/>
         <result property="failCount" column="loginFailcount"/>
-
     </resultMap>
 
     <select id="employeeFullList" resultMap="listResultMap">
