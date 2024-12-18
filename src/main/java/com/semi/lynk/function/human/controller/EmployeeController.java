@@ -97,7 +97,6 @@ public class EmployeeController {
             response.put("status", "error");
             response.put("message", "직원 수정에 실패했습니다.");
         }
-
         return response;
     }
 
@@ -107,9 +106,9 @@ public class EmployeeController {
     public ModelAndView joinList (ModelAndView mv) {
 
         List<EmpAndDepDTO> list = employeeService.joinList();
-        for (EmpAndDepDTO emp : list) {
-            System.out.println(emp);
-        }
+//        for (EmpAndDepDTO emp : list) {
+//            System.out.println(emp);
+//        }
 
         mv.addObject("list" , list);
         mv.setViewName("function/human/registPage");
