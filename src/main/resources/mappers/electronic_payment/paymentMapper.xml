@@ -5,7 +5,7 @@
 
 <mapper namespace="com.semi.lynk.function.electronic_payment.model.dao.PaymentMapper">
 
-    <!--employee DTO -->
+    <!--DepAndEmpAndHumDTO -->
     <resultMap id="findAllApprovertMap"
                type="com.semi.lynk.function.electronic_payment.model.dto.DepAndEmpAndHumDTO">
         <id property="employeeNo" column="employee_no"/>
@@ -18,19 +18,6 @@
             <result property="position" column="position"/>
         </association>
     </resultMap>
-
-    <!--FullDraftDTO 일반품의서  -->
-<insert id="insertDraft" parameterType="com.semi.lynk.function.electronic_payment.model.dto.FullDraftDTO">
-
-    INSERT INTO draft(
-    draft_no,draft_date,implementation_amount,retention_period,draft_title,draft_memo,employee_no)
-
-    VALUES(
-    #{draftNo},#{draftDate},#{implementationAmount},#{retentionPeriod},
-    #{draftTitle},#{draftMemo},#{employeeNo}
-</insert>
-
-
 
     <!-- 결재자 선택을 위한 join  -->
     <select id="findAllApprover" resultMap="findAllApprovertMap">
@@ -49,10 +36,28 @@
     </select>
 
 
-    <!-- 결재선 추가 -->
-    <insert id="insertApprover">
-        INSERT INTO approve (approver, autho_memo, draft_no, employee_no)
-        VALUES (#{approver}, #{authoMemo}, #{draftNo}, #{employeeNo})
+    <!--FullDraftDTO 일반품의서  -->
+    <insert id="insertDraft" parameterType="com.semi.lynk.function.electronic_payment.model.dto.DraftDTO">
+        INSERT INTO draft (
+        draft_date,draft_status,draft_no,employee_no,draft_memo,draft_title,implementation_amount,retention_period )
+        VALUES (#{draftDate}, COALESCE(#{draftStatus}, 0) , #{draftNo},#{employeeNo},#{draftMemo},#{draftTitle},#{implementationAmount},#{retentionPeriod})
     </insert>
+
+
+    <!--DepAndEmpAndHumDTO -->
+    <resultMap id="findAllDepartmentMap" type="com.semi.lynk.function.electronic_payment.model.dto.DepartmentDTO">
+        <id property="departmentNo" column="department_no"/>
+        <result property="departmentName" column="department_name"/>
+    </resultMap>
+
+    <select id="findAllDepartment" resultMap="findAllDepartmentMap">
+        select
+             department_no
+            ,department_name
+        from
+            department;
+    </select>
+
+
 
 </mapper>
