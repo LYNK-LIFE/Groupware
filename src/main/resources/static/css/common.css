@@ -304,11 +304,12 @@ body {
 
 .userDetail > img[data-value="logout"] {
     position: absolute;
-    width: 25px;
-    height: 25px;
-    border: 1px solid #A5CB91;
+    width: 20px;
+    height: 20px;
+    /*border: 1px solid #A5CB91;*/
     top: 13px;
     left: 13px;
+    opacity: 50%;
 }
 
 .userDetail a {
