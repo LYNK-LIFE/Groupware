@@ -20,4 +20,6 @@ public class CalendarDTO {
     private HumanDTO humanDTO; // 연차 발생일수 / 사용 연차
     private CommuteDTO commuteDTO; // 출퇴근 이력 DTO
     private ScheduleDTO scheduleDTO; // 일정 DTO
+    private DayOffDTO dayOffDTO;          // 휴가 DTO
+
 }

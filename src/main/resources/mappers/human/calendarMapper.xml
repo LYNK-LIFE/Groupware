@@ -34,6 +34,12 @@
             <id property="id" column="employee_no"/>
             <result property="name" column="employee_name"/>
         </association>
+        <association property="dayOffDTO" javaType="com.semi.lynk.function.human.model.calendar.DayOffDTO">
+            <id property="id" column="employee_no"/>
+            <result property="leaveDate" column="leave_date"/>
+            <result property="leaveType" column="leave_type"/>
+            <result property="leaveMemo" column="leave_memo"/>
+        </association>
     </resultMap>
 
     <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
