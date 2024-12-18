@@ -13,6 +13,7 @@
         <result property="noticeHide" column="notice_hide"/>
         <result property="viewerCount" column="viewer_count"/>
         <result property="employeeNo" column="employee_no"/>
+        <result property="employeeName" column="employee_name"/>
     </resultMap>
 
     <insert id="insertNotice" parameterType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
@@ -22,15 +23,19 @@
 
     <select id="getAllNotices" resultMap="noticeResultMap">
         SELECT
-        *
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
         FROM
-        notice
+        notice join employee using(employee_no)
         ORDER BY
         notice_date DESC
     </select>
 
     <select id="selectNoticeById" parameterType="Long" resultMap="noticeResultMap">
-        SELECT * FROM notice WHERE notice_no = #{noticeNo}
+        SELECT
+        notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
+        FROM
+        notice join employee using(employee_no)
+        WHERE notice_no = #{noticeNo}
     </select>
 
     <update id="updateNotice" parameterType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">

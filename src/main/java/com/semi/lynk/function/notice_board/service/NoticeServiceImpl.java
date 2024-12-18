@@ -27,6 +27,7 @@ public class NoticeServiceImpl implements NoticeService {
             } else if (a.getNoticeHide() != 2 && b.getNoticeHide() == 2) {
                 return 1;
             }
+            System.out.println("a = " + a);
             return 0;
         });
 

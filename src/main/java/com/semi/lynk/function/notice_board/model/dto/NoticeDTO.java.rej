@@ -1,0 +1,7 @@
+diff a/src/main/java/com/semi/lynk/function/notice_board/model/dto/NoticeDTO.java b/src/main/java/com/semi/lynk/function/notice_board/model/dto/NoticeDTO.java	(rejected hunks)
+@@ -18,4 +18,5 @@
+     private int noticeHide;
+     private int viewerCount;
+     private String employeeNo;
++    private String employeeName;
+ }

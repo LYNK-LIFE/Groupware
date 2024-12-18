@@ -73,7 +73,7 @@
             <p>Vote: <span th:text="${notice.noticeVote}"></span></p>
             <p>작성일: <span th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></p>
             <p>조회수: <span th:text="${notice.viewerCount}"></span></p>
-            <p>작성자 사번: <span th:text="${notice.employeeNo}"></span></p>
+            <p>작성자: <span th:text="${notice.employeeName}"></span></p>
             <div th:utext="${notice.noticeContent}"></div>
             <a th:href="@{/notices/{noticeNo}/edit(noticeNo=${notice.noticeNo})}">수정</a>
             <form th:action="@{/notices/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" method="post" style="display: inline;">
