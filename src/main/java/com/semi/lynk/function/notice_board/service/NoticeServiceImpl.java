@@ -27,7 +27,6 @@ public class NoticeServiceImpl implements NoticeService {
             } else if (a.getNoticeHide() != 2 && b.getNoticeHide() == 2) {
                 return 1;
             }
-            System.out.println("a = " + a);
             return 0;
         });
 
@@ -67,7 +66,6 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public void updateViewCnt(Long noticeNo) {
-        System.out.println("여기 오니?");
         noticeMapper.updateViewCnt(noticeNo);
     }
 

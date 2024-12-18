@@ -32,7 +32,7 @@
 
     <select id="selectNoticeById" parameterType="Long" resultMap="noticeResultMap">
         SELECT
-        notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
         FROM
         notice join employee using(employee_no)
         WHERE notice_no = #{noticeNo}

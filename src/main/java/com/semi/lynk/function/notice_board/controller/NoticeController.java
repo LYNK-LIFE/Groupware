@@ -2,6 +2,7 @@ package com.semi.lynk.function.notice_board.controller;
 
 import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 import com.semi.lynk.function.notice_board.service.NoticeService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,8 +43,11 @@ public class NoticeController {
     }
 
     @PostMapping("/create")
-    public String createNotice(@ModelAttribute("noticeDTO") NoticeDTO noticeDTO) {
+    public String createNotice(@ModelAttribute("noticeDTO") NoticeDTO noticeDTO, HttpSession session) {
+        String empNo = (String) session.getAttribute("empNo");
         noticeDTO.setNoticeDate(LocalDateTime.now());
+        noticeDTO.setEmployeeNo(empNo);
+        noticeDTO.setViewerCount(1);
         noticeService.createNotice(noticeDTO);
         return "redirect:/notice/list";
     }
@@ -52,6 +56,7 @@ public class NoticeController {
     public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model) {
         noticeService.updateViewCnt(noticeNo);
         model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
+        System.out.println("model = " + model);
         return "function/notice_board/view";
     }
 
