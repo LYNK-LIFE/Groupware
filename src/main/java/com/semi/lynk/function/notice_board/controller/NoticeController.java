@@ -55,7 +55,14 @@ public class NoticeController {
     @GetMapping("/{noticeNo}")
     public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model) {
         noticeService.updateViewCnt(noticeNo);
-        model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
+        NoticeDTO currentNotice = noticeService.getNoticeById(noticeNo);
+        model.addAttribute("notice", currentNotice);
+
+        if (currentNotice.getNoticePreNo() != null) {
+            NoticeDTO previousNotice = noticeService.getNoticeById(currentNotice.getNoticePreNo());
+            model.addAttribute("preNotice", previousNotice);
+        }
+
         return "function/notice_board/view";
     }
 
