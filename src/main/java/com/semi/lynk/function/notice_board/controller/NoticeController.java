@@ -56,7 +56,6 @@ public class NoticeController {
     public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model) {
         noticeService.updateViewCnt(noticeNo);
         model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
-        System.out.println("model = " + model);
         return "function/notice_board/view";
     }
 
@@ -70,7 +69,7 @@ public class NoticeController {
     public String editNotice(@PathVariable("noticeNo") Long noticeNo, @ModelAttribute NoticeDTO noticeDTO) {
         noticeDTO.setNoticeNo(noticeNo);
         noticeService.updateNotice(noticeDTO);
-        return "redirect:/notice";
+        return "redirect:/notice/list";
     }
 
     @PostMapping("/{noticeNo}/delete")
