@@ -8,8 +8,8 @@
     background-color: #efefef;
     padding: 20px;
     margin: 20px;
-    height: 660px;
-    max-height: 660px;
+    height: 640px;
+    max-height: 640px;
     overflow-y: auto;
 }
 
@@ -64,3 +64,37 @@ table td input[type="checkbox"] {
     color: white;
     font-size: 1rem;
 }
+
+/* 테이블 표 폭 맞추기 *********************************/
+.fix-th {
+    position: absolute;
+    display: inline-table;
+    width: calc(81% - 12px);
+}
+
+.button-section {
+    position: sticky;
+    top: 0;
+    right: 0;
+    z-index: 1; /* 헤더보다는 아래에 표시되도록 설정 */
+    margin-bottom: 10px;
+}
+
+.list-section {
+    max-height: 530px; /* 본문 높이 설정 */
+    overflow-y: auto; /* 본문 내용 스크롤 가능 */
+}
+
+/* 테이블 내부의 스타일 조정 */
+table.activeAccountListBody {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.activeAccountList th,
+table.activeAccountList td {
+    padding: 8px;
+    border: 1px solid #383838;
+    box-sizing: border-box;
+}
+/***********************************************/

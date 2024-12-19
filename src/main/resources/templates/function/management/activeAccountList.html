@@ -65,14 +65,13 @@
             </article>
             <article class="account-list">
                 <div class="button-section">
-                    <button onclick="">+ 추가</button>
-                    <button onclick="">x 삭제</button>
-                    <button onclick="">비활성화</button>
+                    <button onclick="window.location.href='/login/empAdd'">+ 추가</button>
+                    <button id="deleteButton" onclick="">x 삭제</button>
                 </div>
                 <div class="list-section">
                     <table class="activeAccountListHeader">
                         <tr class="fix-th">
-                            <th style="width: 5%"><input type="checkbox"></th>
+                            <th style="width: 5%"><input type="checkbox" id="checkAll" name="checkAll"></th>
                             <th style="width: 13%">사번</th>
                             <th style="width: 10%">이름</th>
                             <th style="width: 13%">부서</th>
@@ -88,16 +87,20 @@
                             <col style="width: 13%">
                             <col style="width: 10%">
                             <col style="width: 13%">
-                            <col style="width: 10%">
-                            <col style="width: 20%">
+                            <col style="width: 10.05%">
+                            <col style="width: 19.95%">
                             <col style="width: 20%">
                             <col>
                         </colgroup>
                         <tr th:each="activeAccs : ${activeAccs}">
                             <td>
-                                <input type="checkbox">
+                                <input type="checkbox" name="check" th:value="${activeAccs.empID}">
                             </td>
-                            <td th:text="${activeAccs.empID}"></td>
+                            <td>
+                                <a th:href="@{/management/editAccount/{empID}(empID=${activeAccs.empID})}">
+                                    <span th:text="${activeAccs.empID}"></span>
+                                </a>
+                            </td>
                             <td th:text="${activeAccs.empName}"></td>
                             <td th:text="${activeAccs.deptName}"></td>
                             <td th:text="${activeAccs.position}"></td>
@@ -113,5 +116,60 @@
         <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
         <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
     </div>
+    <!-- 삭제 폼 추가 -->
+    <form id="deleteForm" method="post" action="/management/deleteAccounts">
+        <!-- empIDs가 hidden input으로 추가될 곳 -->
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 체크박스 스크립트
+        $(document).ready(function() {
+            // 상단 체크시 전체 체크
+            $("#checkAll").click(function () {
+                if ($("#checkAll").is(":checked"))
+                    $("input[name=check]").prop("checked", true);
+                else
+                    $("input[name=check]").prop("checked", false);
+            });
+            // 개별로 전부 체크되면 최상단 헤더의 체크박스도 체크
+            $("input[name=check]").click(function() {
+                var total = $("input[name=check]").length;
+                var checked = $("input[name=check]:checked").length;
+
+                if(total != checked)
+                    $("#checkAll").prop("checked", false);
+                else
+                    $("#checkAll").prop("checked", true);
+            });
+        });
+
+        // 삭제 버튼 클릭 시
+        $("#deleteButton").click(function() {
+            const selectedCheckboxes = $("input[name='check']:checked");
+
+            if (selectedCheckboxes.length === 0) {
+                alert("삭제할 항목을 선택하세요.");
+                return;
+            }
+
+            // 삭제 확인 팝업
+            if (confirm("선택한 사원을 삭제하시겠습니까?")) {
+                // 선택된 empID 값들을 배열로 가져오기
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+
+                // 숨겨진 input 태그로 ID들을 폼에 추가
+                const form = $("#deleteForm");
+                selectedIds.forEach(id => {
+                    const input = $("<input>").attr("type", "hidden").attr("name", "empIDs").val(id);
+                    form.append(input);
+                });
+                console.log("폼에 추가된 empIDs:", selectedIds);
+                console.log("폼 내용:", form.serialize());  // 폼 데이터를 직렬화하여 출력
+
+                // 폼 제출
+                form.submit();
+            }
+        });
+    </script>
 </body>
 </html>

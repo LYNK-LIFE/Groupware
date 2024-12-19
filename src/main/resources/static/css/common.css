@@ -63,19 +63,16 @@ body {
 
 .nav-div-class {
     color: #BBE8A7;
+    margin:10px;
     font-size: 30px;
-    margin: 10px;
     margin-bottom: 7rem;
-    text-align: center;
     font-weight: bold;
 }
 
 .nav-link { /* LYNK 홈 버튼 눌렀을 때 홈으로 돌아오게 */
     color: #BBE8A7;
-    font-size: 24px;
     margin-top: 10px;
     text-align: center;
-    font-weight: bold;
     text-decoration: none; /* 링크의 기본 밑줄 제거 */
     display: block; /* 블록 요소로 만들어 클릭 영역 확대 */
 }

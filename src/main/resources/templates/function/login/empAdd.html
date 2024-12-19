@@ -3,29 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>empAdd</title>
+    <title>계정 추가</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
 </head>
 <body>
-<h2>신규 계정 추가</h2>
-<form action="/login/empAdd" method="post">
-    사진(미구현)<br><input type="file" name="image"><br>
-    이름 : <input type="text" name="userName"><br>
-    사번 : <input type="text" name="userID"><br>
-    비밀번호 : <input type="password" name="userPass"><br>
-    이메일 : <input type="text" name="email"><br>
-    소속 부서 :
-    <select name="deptNo">
-        <option value="1">인사팀</option>
-        <option value="2">영업1팀</option>
-        <option value="3">영업2팀</option>
-        <option value="4">영업3팀</option>
-        <option value="5">총무팀</option>
-        <option value="6">시설팀</option>
-    </select><br>
-<!--    직책 : <input type="text" name="position"><br>-->
-<!--    부가 정보 <textarea name="etc" id="etc" cols="30" rows="10"></textarea><br>-->
-    <button type="submit">등록</button>
-    <button type="button">취소</button>
-</form>
+    <nav th:replace="~{/function/management/common/managementNav :: managedNavFragment}" class="nav-class"></nav>
+    <div class="right-container">
+        <header th:replace="~{/function/management/common/managementHeader :: managedHeaderFragment}" class="header-class managedHeader"></header>
+
+        <section class="main-content">
+            <div class="subHeader-class">
+                <a class="subHeaderLink-class" href="">신규 계정 추가</a>
+                <hr>
+            </div>
+            <article class="signup">
+                <form action="/login/empAdd" method="post">
+                    <table>
+                        <tr>
+                            <td rowspan="5"><div class="photo" id="formPhoto">사 진</div></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>이름</th>
+                            <td><input type="text" name="userName"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>사번</th>
+                            <td><input type="text" name="userID"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>비밀번호</th>
+                            <td><input type="password" name="userPass"></td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td><input type="email" name="email"></td>
+                        </tr>
+<!--                        <tr>-->
+<!--                            <th>입사일</th>-->
+<!--                            <td><input type="date"></td>-->
+<!--                            <th>퇴사일</th>-->
+<!--                            <td><input type="date"></td>-->
+<!--                        </tr>-->
+                        <tr>
+                            <th>소속 부서</th>
+                            <td>
+                                <select name="deptNo">
+                                    <option value="1">인사팀</option>
+                                    <option value="2">영업1팀</option>
+                                    <option value="3">영업2팀</option>
+                                    <option value="4">영업3팀</option>
+                                    <option value="5">총무팀</option>
+                                    <option value="6">시설팀</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="submit">등록</button>
+                    <button type="button">취소</button>
+                </form>
+            </article>
+        </section>
+
+        <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
+        <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
+    </div>
 </body>
 </html>

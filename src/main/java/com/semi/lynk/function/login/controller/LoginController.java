@@ -24,14 +24,14 @@ public class LoginController {
 
     @GetMapping("empAdd")
     public String empAddPage() {
-        System.out.println("getmapping은 되니?");
+//        System.out.println("getmapping은 되니?");
         return "function/login/empAdd";
     }
 
     @PostMapping("empAdd")
     public ModelAndView empAddPage(@ModelAttribute EmpAddDTO empAddDTO, ModelAndView mv) {
 
-        System.out.println("empAddDTO = " + empAddDTO);     // 확인용
+//        System.out.println("empAddDTO = " + empAddDTO);     // 확인용
         Integer result = loginService.addEmployee(empAddDTO);
         String message = null;
 
