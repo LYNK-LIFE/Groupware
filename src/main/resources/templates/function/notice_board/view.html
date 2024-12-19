@@ -239,10 +239,12 @@
                     <div class="notice-content" th:utext="${preNotice.noticeContent}"></div>
 
                 </div>
-                <a th:href="@{/notices/{noticeNo}/edit(noticeNo=${notice.noticeNo})}">수정</a>
-                <form th:action="@{/notices/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" method="post" style="display: inline;">
-                    <button type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-                </form>
+                <div th:if="${currentUser == notice.employeeNo}">
+                    <a th:href="@{/notices/{noticeNo}/edit(noticeNo=${notice.noticeNo})}" class="btn btn-primary">수정</a>
+                    <form th:action="@{/notices/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
+                    </form>
+                </div>
                 <a href="/notice/list">목록으로 돌아가기</a>
 
             </div>
