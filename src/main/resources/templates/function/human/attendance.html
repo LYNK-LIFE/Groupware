@@ -34,17 +34,12 @@
         </div>
 
         <div id="eventModal" class="modal">
-            <div class="modal-content">
-                <span id="modal-close" class="close">&times;</span>
-                <h3>일정 상세</h3>
-                <p><strong>구분:</strong> <span id="modal-type"></span></p>
-                <p><strong>이름:</strong> <span id="modal-name"></span></p>
-                <p><strong>직급:</strong> <span id="modal-position"></span></p>
-                <p><strong>근무일시:</strong> <span id="modal-workdate"></span></p>
-                <p><strong>종료일시:</strong> <span id="modal-endtime"></span></p>
-                <p><strong>연장 근로시간:</strong> <span id="modal-extra-hours"></span></p>
-                <p><strong>연차 일시:</strong> <span id="modal-leave-time"></span></p>
-            </div>
+            <h3> 일정 조회 </h3>
+            <p>구 분 : </p>
+            <p>시작일 : </p>
+            <p>종료일 : </p>
+            <p>총 사용 개수 : </p>
+            <p>잔여 개수 : </p>
         </div>
 
         <script>
@@ -82,6 +77,7 @@
 </div>
 
 <script th:src="@{/js/attendance.js}"></script>
+<script src="../../../static/js/attendance.js"></script>
 <script th:src="@{/js/index.global.js}"></script>
 <script th:src="@{/js/index.global.js/index.global.min.js}"></script>
 <script th:src="@{/js/common.js}"></script>

@@ -90,3 +90,16 @@ button:hover {
     font-weight: bold;
     cursor: pointer;
 }
+
+/* 달력 위에 원 연차  / 연장근무 표시를 위한 원 */
+/*.subHeader-class::after {*/
+/*    content: '';*/
+/*    width: 20px; !* 원의 지름 *!*/
+/*    height: 20px; !* 원의 지름 *!*/
+/*    background-color: blue; !* 원의 색상 *!*/
+/*    border-radius: 50%; !* 동그라미 만들기 *!*/
+/*    position: absolute; !* 절대 위치 설정 *!*/
+/*    right: 30px; !* 오른쪽 여백 *!*/
+/*    top: 50%; !* 세로 중앙 정렬 *!*/
+/*    transform: translateY(-50%); !* 세로 중앙 정렬 보정 *!*/
+/*}*/
