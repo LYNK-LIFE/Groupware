@@ -55,8 +55,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void updateNotice(NoticeDTO noticeDTO) {
-        noticeMapper.updateNotice(noticeDTO);
+    public void updateNotice(Long noticeNo) {
+        noticeMapper.updateNotice(noticeNo);
     }
 
     @Override

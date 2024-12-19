@@ -53,10 +53,11 @@ public class NoticeController {
     }
 
     @GetMapping("/{noticeNo}")
-    public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model) {
+    public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model, HttpSession session) {
         noticeService.updateViewCnt(noticeNo);
         NoticeDTO currentNotice = noticeService.getNoticeById(noticeNo);
         model.addAttribute("notice", currentNotice);
+        model.addAttribute("currentUser", session.getAttribute("empNo"));
 
         if (currentNotice.getNoticePreNo() != null) {
             NoticeDTO previousNotice = noticeService.getNoticeById(currentNotice.getNoticePreNo());
@@ -67,15 +68,28 @@ public class NoticeController {
     }
 
     @GetMapping("/{noticeNo}/edit")
-    public String editNoticeForm(@PathVariable("noticeNo") Long noticeNo, Model model) {
-        model.addAttribute("notice", noticeService.getNoticeById(noticeNo));
+    public String editNoticeForm(@PathVariable Long noticeNo, Model model) {
+        NoticeDTO noticeDTO = noticeService.getNoticeById(noticeNo);
+        model.addAttribute("noticeDTO", noticeDTO);
         return "function/notice_board/edit";
     }
 
     @PostMapping("/{noticeNo}/edit")
-    public String editNotice(@PathVariable("noticeNo") Long noticeNo, @ModelAttribute NoticeDTO noticeDTO) {
-        noticeDTO.setNoticeNo(noticeNo);
-        noticeService.updateNotice(noticeDTO);
+    public String editNotice(@PathVariable Long noticeNo, @ModelAttribute("noticeDTO") NoticeDTO noticeDTO, HttpSession session) {
+        String empNo = (String) session.getAttribute("empNo");
+        NoticeDTO existingNotice = noticeService.getNoticeById(noticeNo);
+
+        if (!existingNotice.getEmployeeNo().equals(empNo)) {
+            // 권한 없음 처리
+            return "redirect:/notice/list";
+        }
+
+        noticeDTO.setEmployeeNo(empNo);
+        noticeDTO.setNoticeDate(LocalDateTime.now());
+        noticeDTO.setViewerCount(1);
+        noticeDTO.setNoticePreNo(noticeNo);
+        noticeService.updateNotice(noticeNo);
+        noticeService.createNotice(noticeDTO);
         return "redirect:/notice/list";
     }
 

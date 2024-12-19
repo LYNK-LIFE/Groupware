@@ -18,8 +18,8 @@
     </resultMap>
 
     <insert id="insertNotice" parameterType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
-        INSERT INTO notice (notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no)
-        VALUES (#{noticeDate}, #{noticeVote}, #{noticeTitle}, #{noticeContent}, #{noticeHide}, #{viewerCount}, #{employeeNo})
+        INSERT INTO notice (notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, notice_preno)
+        VALUES (#{noticeDate}, #{noticeVote}, #{noticeTitle}, #{noticeContent}, #{noticeHide}, #{viewerCount}, #{employeeNo}, #{noticePreNo})
     </insert>
 
     <select id="getAllNotices" resultMap="noticeResultMap">
@@ -39,16 +39,9 @@
         WHERE notice_no = #{noticeNo}
     </select>
 
-    <update id="updateNotice" parameterType="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
-        UPDATE notice
-        SET notice_date = #{noticeDate},
-        notice_vote = #{noticeVote},
-        notice_title = #{noticeTitle},
-        notice_content = #{noticeContent},
-        notice_hide = #{noticeHide},
-        viewer_count = #{viewerCount},
-        employee_no = #{employeeNo}
-        notice_preno = #{noticePreNo}
+    <update id="updateNotice" parameterType="Long">
+        UPDATE notice set
+        notice_hide = 1
         WHERE notice_no = #{noticeNo}
     </update>
 
