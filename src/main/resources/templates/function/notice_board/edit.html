@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>공지사항 상세보기</title>
+    <title>공지사항 수정</title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
@@ -49,139 +49,8 @@
         .views-cell {
             width: 80px;
         }
-
-        .notice-content {
-            max-height: 300px; /* 원하는 높이로 조정 가능 */
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-        }
-
-        .notice-info {
-            display: flex;
-            justify-content: space-between;
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        .notice-title {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .notice-content {
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 15px;
-            border: 1px solid #ddd;
-            background-color: #fff;
-        }
-
-        /* 스크롤바 스타일 (선택사항) */
-        .notice-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .notice-content::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-
-        .notice-content::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-        .notice-title-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .notice-title-label {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .notice-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0; /* 기본 마진 제거 */
-        }
-        .content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-        }
-        .main-content {
-            position: relative;
-            height: calc(100vh - 200px);
-            overflow: hidden;
-            padding-right: 15px;
-        }
-
-        .notice-scroll-container {
-            position: relative;
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .notice-info {
-            display: flex;
-            justify-content: space-between;
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            font-size: 0.9em;
-            color: #555;
-        }
-
-        .notice-title-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .notice-title-label {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .notice-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .notice-content {
-            padding: 15px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            margin-bottom: 20px;
-        }
-        .d-none {
-            display: none;
-        }
-
-        .collapsible-content.active {
-            max-height: 1000px; /* 충분히 큰 값으로 설정 */
-        }
     </style>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <body>
 
@@ -199,78 +68,43 @@
         </div>
 
         <article class="main-content">
-            <div class="notice-scroll-container">
-
-                <div class="notice-title-container">
-                    <span class="notice-title-label">제목 : </span>
-                    <h2 class="notice-title" th:text="${notice.noticeTitle}"></h2>
+            <h1>공지사항 수정</h1>
+            <form th:action="@{/notice/{id}/edit(id=${noticeDTO.noticeNo})}" th:object="${noticeDTO}" method="post">
+                <div>
+                    <label for="noticeTitle">제목:</label>
+                    <input type="text" size="50" id="noticeTitle" th:field="*{noticeTitle}" required>
                 </div>
-                <div class="notice-info">
-                    <span class="info-item">번호: <span th:text="${notice.noticeNo}"></span></span>
-                    <span class="info-item">글종류: <span th:text="${notice.noticeVote == 0 ? '공지' : (notice.noticeVote == 1 ? '투표' : '투표완료')}"></span></span>
-                    <span class="info-item">작성자: <span th:text="${notice.employeeName}"></span></span>
-                    <span class="info-item">작성일: <span th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></span>
-                    <span class="info-item">조회수: <span th:text="${notice.viewerCount}"></span></span>
+                <div>
+                    작성자 : <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px">Employee Name</span>
+                </div>
+                <div>
+                    <label for="noticeHide">글 우선순위:</label>
+                    <select id="noticeHide" th:field="*{noticeHide}">
+                        <option value="0">표시</option>
+                        <option value="1">숨김</option>
+                        <option value="2">고정</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="noticeContent">내용:</label>
+                    <textarea id="noticeContent" th:field="*{noticeContent}" rows="10" required></textarea>
+                </div>
+                <div>
+                    <label for="noticeVote">글 종류:</label>
+                    <select id="noticeVote" th:field="*{noticeVote}">
+                        <option value="0">공지</option>
+                        <option value="1">투표</option>
+                        <option value="2">투표완료</option>
+                    </select>
                 </div>
 
-
-                <p>내용</p>
-                <div class="notice-content" th:utext="${notice.noticeContent}"></div>
-
-
-                <button class="collapsible" th:classappend="${notice.noticePreNo == null} ? 'd-none'"
-                        th:disabled="${notice.noticePreNo == null}">
-                    원본문서
-                </button>
-                <div class="content" th:if="${notice.noticePreNo != null}">
-                    <div class="notice-title-container">
-                        <span class="notice-title-label">제목 : </span>
-                        <h2 class="notice-title" th:text="${preNotice.noticeTitle}"></h2>
-                    </div>
-                    <div class="notice-info">
-                        <span class="info-item">번호: <span th:text="${preNotice.noticeNo}"></span></span>
-                        <span class="info-item">글종류: <span th:text="${preNotice.noticeVote == 0 ? '공지' : (preNotice.noticeVote == 1 ? '투표' : '투표완료')}"></span></span>
-                        <span class="info-item">작성자: <span th:text="${preNotice.employeeName}"></span></span>
-                        <span class="info-item">작성일: <span th:text="${#temporals.format(preNotice.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></span>
-                        <span class="info-item">조회수: <span th:text="${preNotice.viewerCount}"></span></span>
-                    </div>
-
-                    <p>내용</p>
-                    <div class="notice-content" th:utext="${preNotice.noticeContent}"></div>
-
-                </div>
-                <div th:if="${currentUser == notice.employeeNo}">
-                    <a th:href="@{/notices/{noticeNo}/edit(noticeNo=${notice.noticeNo})}" class="btn btn-primary">수정</a>
-                    <form th:action="@{/notices/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" method="post" style="display: inline;">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</button>
-                    </form>
-                </div>
-                <a href="/notice/list">목록으로 돌아가기</a>
-
-            </div>
+                <input type="hidden" th:field="*{employeeNo}" required>
+                <input type="hidden" th:field="*{noticeDate}">
+                <input type="hidden" th:field="*{viewerCount}">
+                <button type="submit">수정</button>
+            </form>
+            <a href="/notice/list">목록으로 돌아가기</a>
         </article>
-
-
-
-
-        <script>
-            var coll = document.getElementsByClassName("collapsible");
-            var i;
-
-            for (i = 0; i < coll.length; i++) {
-                if (!coll[i].disabled) {
-                    coll[i].addEventListener("click", function() {
-                        this.classList.toggle("active");
-                        var content = this.nextElementSibling;
-                        if (content.style.maxHeight){
-                            content.style.maxHeight = null;
-                        } else {
-                            content.style.maxHeight = content.scrollHeight + "px";
-                        }
-                    });
-                }
-            }
-        </script>
     </section>
 
     <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
@@ -278,6 +112,21 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-
+<script>
+    CKEDITOR.replace('noticeContent', {
+        height: 300,
+        filebrowserUploadUrl: '/upload/image', // 이미지 업로드 URL 설정
+        toolbar: [
+            ['Font', 'FontSize'],
+            ['Bold', 'Italic', 'Underline', 'Strike'],
+            ['TextColor', 'BGColor'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table'],
+            ['Source']
+        ]
+    });
+</script>
 </body>
 </html>
