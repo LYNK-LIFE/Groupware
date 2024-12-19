@@ -17,4 +17,7 @@ public class AccountDTO {
     private String email;
     private Date loginTime;
     private int memberStatus;
+
+    private String empPwd;
+    private int deptNo;
 }

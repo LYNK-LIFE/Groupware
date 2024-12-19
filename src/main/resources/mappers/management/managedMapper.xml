@@ -13,6 +13,8 @@
         <result property="email" column="email"/>
         <result property="loginTime" column="login_time"/>
         <result property="memberStatus" column="member_status"/>
+        <result property="empPwd" column="password"/>
+        <result property="deptNo" column="department_no"/>
     </resultMap>
 
     <!-- 활성화 계정 카운트 -->
@@ -20,6 +22,14 @@
         SELECT
          COUNT(CASE WHEN MEMBER_STATUS IN (1, 2) THEN 1 END) AS activeAcc,
          COUNT(CASE WHEN MEMBER_STATUS = 2 THEN 1 END) AS suspendedAcc
+          FROM EMPLOYEE
+    </select>
+
+    <!-- 비활성화 계정 카운트 -->
+    <select id="getMemberStatusCountsInac" resultType="map">
+        SELECT
+         COUNT(CASE WHEN MEMBER_STATUS IN (0, 3) THEN 1 END) AS inactiveAcc,
+         COUNT(CASE WHEN MEMBER_STATUS = 3 THEN 1 END) AS removedAcc
           FROM EMPLOYEE
     </select>
 
@@ -35,7 +45,46 @@
           FROM EMPLOYEE a
           JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
           LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
-          LEFT JOIN LOGIN_DATA d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO;
+          LEFT JOIN LOGIN_DATA d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
+         WHERE MEMBER_STATUS IN (1, 2);
+    </select>
+
+    <!-- 활성화 계정 삭제 상태로 변경 -->
+    <update id="deactivateAccounts" parameterType="map">
+        UPDATE EMPLOYEE
+           SET MEMBER_STATUS = 3
+         WHERE EMPLOYEE_NO IN
+        <foreach collection="empIDs" item="empID" open="(" separator="," close=")">
+            #{empID}
+        </foreach>
+    </update>
+
+    <!-- 비활성화 계정 목록 출력 -->
+    <select id="getInactiveEmployee" resultMap="AccountList">
+        SELECT a.EMPLOYEE_NO
+             , a.EMPLOYEE_NAME
+             , b.DEPARTMENT_NAME
+             , c.POSITION
+             , a.EMAIL
+             , d.LOGIN_TIME
+             , a.MEMBER_STATUS
+          FROM EMPLOYEE a
+          JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
+          LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
+          LEFT JOIN LOGIN_DATA d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
+         WHERE MEMBER_STATUS IN (0, 3);
+    </select>
+
+    <!-- 사원 정보 수정 -->
+<!--    <select id="getAccountByEmpID" parameterType="String" resultType="com.semi.lynk.function.management.model.dto.AccountDTO">-->
+    <select id="getAccountByEmpID" parameterType="String" resultMap="AccountList">
+        SELECT EMPLOYEE_NO
+             , EMPLOYEE_NAME
+             , DEPARTMENT_NO
+             , PASSWORD
+             , EMAIL
+          FROM EMPLOYEE
+         WHERE EMPLOYEE_NO = #{empID}
     </select>
 
     <!--  -->
