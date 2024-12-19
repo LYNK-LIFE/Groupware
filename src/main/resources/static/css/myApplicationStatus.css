@@ -56,13 +56,13 @@
 /*///*/
 /* 상태별 배경색 */
 .status-waiting {
-    background-color: #d0e7ff; /* 파란색 */
+    background-color: #d0e7ff !important; /* 파란색 */
 }
 
 .status-approved {
-    background-color: #d4f7d4; /* 연두색 */
+    background-color: #d4f7d4 !important; /* 연두색 */
 }
 
 .status-rejected {
-    background-color: #f8d2d2; /* 빨간색 */
+    background-color: #f8d2d2 !important; /* 빨간색 */
 }

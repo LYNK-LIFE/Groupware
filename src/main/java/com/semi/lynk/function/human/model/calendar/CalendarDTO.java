@@ -28,7 +28,7 @@ public class CalendarDTO {
 
     // 신청 현황
     private DepartmentDTO departmentDTO;  // 부서 DTO
-    private int approver;               // 상태 (0 대기 1 결재 2 반려)
+    private int approver;               // 상태 (0 개인 1 부서 2 전사)
     private LocalDateTime approveTime; // 결재 승인 시간
     private LocalDateTime draftTime;    // 기안한 시간
 }

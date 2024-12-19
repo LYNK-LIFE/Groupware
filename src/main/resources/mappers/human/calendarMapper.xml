@@ -59,19 +59,20 @@
             ,d.schedule_date
             ,e.leave_type
             ,e.leave_date
+            ,f.department_name
         from
         employee a
             join human_resource b on (a.employee_no = b.employee_no)
             join working_time_data c on (a.employee_no = c.employee_no)
             join schedule d on (a.employee_no = d.employee_no)
             join dayoff e on (a.employee_no = e.employee_no)
+            join department f on (a.department_no = f.department_no)
     </select>
 
     <select id="showMyAppStatus" resultMap="selectResultMap">
-        select
-             a.employee_name
+        select distinct
+            a.employee_name
             ,b.approver
-            ,h.schedule_type
             ,h.schedule_bound
             ,h.schedule_date
             ,c.leave_date

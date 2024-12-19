@@ -24,7 +24,7 @@ public class CalendarController {
         this.calendarService = calendarService;
     }
 
-    @GetMapping("calendar")
+    @GetMapping(value = "calendar", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<CalendarDTO> calendarList() {
         return calendarService.calendarService();
