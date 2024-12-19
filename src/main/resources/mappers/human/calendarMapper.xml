@@ -62,4 +62,6 @@
             join dayoff e on (a.employee_no = e.employee_no)
     </select>
 
+    <select id="showAppStatus" resultMap="selectResultMap"></select>
+
 </mapper>

@@ -33,14 +33,26 @@
 <!--            </div>-->
         </div>
 
-        <div id="eventModal" class="modal">
-            <h3> 일정 조회 </h3>
-            <p>구 분 : </p>
-            <p>시작일 : </p>
-            <p>종료일 : </p>
-            <p>총 사용 개수 : </p>
-            <p>잔여 개수 : </p>
+        <div id="eventModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">일정 상세 정보</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>구 분:</strong> <span id="eventType"></span></p>
+                        <p><strong>시작일:</strong> <span id="eventStart"></span></p>
+                        <p><strong>종료일:</strong> <span id="eventEnd"></span></p>
+                        <p><strong>메모:</strong> <span id="eventMemo"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
         </div>
+
 
         <script>
             // // 서버에 저장하는 로직
@@ -67,7 +79,8 @@
             </div>
             <div class="right-buttons">
         <button class="application-approval-button" id="approval-button-id">결재 승인 현황</button>
-        <button class="application-my-button" id="status-my-id">나의 신청 현황</button>
+        <button class="application-my-button" id="status-my-id"
+                onclick="location.href='/employee/appStatus'">나의 신청 현황</button>
             </div>
         </div>
 

@@ -1,6 +1,8 @@
 package com.semi.lynk.function.human.controller;
 
+import com.semi.lynk.function.human.model.calendar.CalendarDTO;
 import com.semi.lynk.function.human.model.dto.*;
+import com.semi.lynk.function.human.service.CalendarService;
 import com.semi.lynk.function.human.service.EmployeeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,14 +24,17 @@ import java.util.Map;
 public class EmployeeController {
 
     private EmployeeService employeeService;
+    private CalendarService calendarService;
 
     private static final Logger logger = LogManager.getLogger(EmployeeController.class);
     private final MessageSource messageSource;
 
     @Autowired
     public EmployeeController (EmployeeService employeeService
-                                ,MessageSource messageSource) {
+                               , CalendarService calendarService
+                                , MessageSource messageSource) {
         this.employeeService = employeeService;
+        this.calendarService = calendarService;
         this.messageSource = messageSource;
     }
 
@@ -151,4 +155,10 @@ public class EmployeeController {
         return "function/human/attendance";
     }
 
+    @GetMapping ("appStatus")
+    @ResponseBody
+    public List<CalendarDTO> appStatusPage () {
+
+        return calendarService.calendarService();
+    }
 }
