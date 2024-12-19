@@ -49,6 +49,26 @@
         .views-cell {
             width: 80px;
         }
+        .notice-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .notice-original,
+        .notice-edit {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .notice-original {
+            background-color: #f9f9f9;
+        }
+
+        .notice-edit {
+            background-color: #fff;
+        }
     </style>
     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
@@ -68,7 +88,26 @@
         </div>
 
         <article class="main-content">
-            <h1>공지사항 수정</h1>
+            <div class="notice-container">
+            <div class="notice-original"><!--원본창-->
+                <div class="notice-title-container">
+                    <span class="notice-title-label">제목 : </span>
+                    <h2 class="notice-title" th:text="${noticeDTO.noticeTitle}"></h2>
+                </div>
+                <div class="notice-info">
+                    <span class="info-item">번호: <span th:text="${noticeDTO.noticeNo}"></span></span>
+                    <span class="info-item">글종류: <span th:text="${noticeDTO.noticeVote == 0 ? '공지' : (notice.noticeVote == 1 ? '투표' : '투표완료')}"></span></span>
+                    <span class="info-item">작성자: <span th:text="${noticeDTO.employeeName}"></span></span>
+                    <span class="info-item">작성일: <span th:text="${#temporals.format(noticeDTO.noticeDate, 'yyyy-MM-dd HH:mm')}"></span></span>
+                    <span class="info-item">조회수: <span th:text="${noticeDTO.viewerCount}"></span></span>
+                </div>
+
+
+                <p>내용</p>
+                <div class="notice-content" th:utext="${noticeDTO.noticeContent}"></div>
+            </div>
+            <div class="notice-edit"><!--수정창-->
+            <h2>공지사항 수정</h2>
             <form th:action="@{/notice/{id}/edit(id=${noticeDTO.noticeNo})}" th:object="${noticeDTO}" method="post">
                 <div>
                     <label for="noticeTitle">제목:</label>
@@ -103,6 +142,8 @@
                 <input type="hidden" th:field="*{viewerCount}">
                 <button type="submit">수정</button>
             </form>
+            </div>
+            </div>
             <a href="/notice/list">목록으로 돌아가기</a>
         </article>
     </section>

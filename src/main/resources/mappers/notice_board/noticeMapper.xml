@@ -41,7 +41,7 @@
 
     <update id="updateNotice" parameterType="Long">
         UPDATE notice set
-        notice_hide = 1,
+        notice_hide = 1
         WHERE notice_no = #{noticeNo}
     </update>
 
