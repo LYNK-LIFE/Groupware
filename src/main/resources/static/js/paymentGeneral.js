@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fileName.style.display = "block";
     });
 
+    // -----------------------------------------------------------------------------------------------------------------------------
+
     // **결재선 설정 관련 이벤트**
     const approverTable = document.getElementById("approverTable");
     const approvalModal = document.getElementById("approvalModal");
@@ -114,6 +116,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     // **기안하기 버튼 이벤트**
     const draftButton = document.getElementById("draftButton");
 
@@ -145,12 +149,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
         }
-
         if (approverArray.length === 0) {
             alert("결재자를 선택해주세요.");
             return;
         }
-
         // 최종 데이터 병합
         const payload = { ...formData, approvers: approverArray };
 
@@ -175,91 +177,132 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+//--------------------------------------------------------------------------------------------------------------------------------------
 
-// 부서 목록 조회 및 추가
-document.addEventListener("DOMContentLoaded", function () {
-    const departmentSelect = document.getElementById("department");
+// 부서 목록 조회 및 선택
+// HTML 요소
+const departmentTable = document.getElementById("departmentTable");
+const departmentIdInput = document.getElementById("departmentId");
+const departmentNameInput = document.getElementById("departmentName");
 
-    // 서버에서 부서 목록 가져오기
-    function loadDepartments() {
-        fetch("/department")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // 기존 옵션 초기화
-                departmentSelect.innerHTML = "";
-                data.forEach(department => {
-                    const option = document.createElement("option");
-                    option.value = department.department_no; // 실제 값
-                    option.textContent = department.department_name; // 표시될 이름
-                    departmentSelect.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error("Error loading departments:", error);
-                alert("부서 목록을 불러오는 데 실패했습니다.");
+// 서버에서 부서 목록 가져오기
+function loadDepartments() {
+    console.log("afdadfasd")
+    fetch("/payment/department")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            departmentTable.innerHTML = ""; // 기존 목록 초기화
+            data.forEach(department => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${department.departmentNo}</td>
+                    <td>${department.departmentName}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm selectDepartmentButton"
+                                data-department-id="${department.departmentNo}"
+                                data-department-name="${department.departmentName}">
+                            선택
+                        </button>
+                    </td>
+                `;
+                departmentTable.appendChild(row);
             });
-    }
+        })
+        .catch(error => {
+            console.error("Error loading departments:", error);
+            alert("부서 목록을 불러오는 데 실패했습니다.");
+        });
+}
 
-    // 초기화
-    loadDepartments();
+// 부서 선택 버튼 이벤트 처리
+departmentTable.addEventListener("click", function (event) {
+    if (event.target.classList.contains("selectDepartmentButton")) {
+        const departmentId = event.target.dataset.departmentId;
+        const departmentName = event.target.dataset.departmentName;
+
+        // 선택된 값을 입력 필드에 설정
+        departmentIdInput.value = departmentId;
+        departmentNameInput.value = departmentName;
+
+        // 모달 닫기
+        const modal = bootstrap.Modal.getInstance(document.getElementById("departmentModal"));
+        modal.hide();
+    }
 });
 
+// 모달이 열릴 때 부서 목록 로드
+document.getElementById("departmentModal").addEventListener("shown.bs.modal", loadDepartments);
+
+// -------------------------------------------------------------------------------------------------------------------
 
 
+// 작성자 목록 조회 및 선택
+// 작성자 목록을 표시할 테이블과 입력 필드 요소
+const employeeTable = document.getElementById("employeeTable");
+const employeeIdInput = document.getElementById("employeeId");
+const employeeNameInput = document.getElementById("employeeName");
 
-//작성자 목록 조회 및 선택
-document.addEventListener("DOMContentLoaded", function () {
-    const authorTable = document.getElementById("authorTable");
-    const authorIdInput = document.getElementById("authorId");
-    const authorNameInput = document.getElementById("authorName");
+// 서버에서 작성자 목록 가져오기
+// 작성자 목록 데이터를 서버에서 불러와 테이블에 표시
+function loademployee() {
+    fetch("/payment/employee")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            employeeTable.innerHTML = ""; // 기존 목록 초기화
+            data.forEach(employee => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${employee.employeeNo}</td>
+                    <td>${employee.employeeName}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm selectemployeeButton"
+                                data-author-id="${employee.employeeNo}"
+                                data-author-name="${employee.employeeName}">
+                            선택
+                        </button>
+                    </td>
+                `;
+                employeeTable.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("Error loading employee:", error);
+            alert("작성자 목록을 불러오는 데 실패했습니다.");
+        });
+}
 
-    // 서버에서 작성자 목록 가져오기
-    function loadAuthors() {
-        fetch("/authors")
-            .then(response => response.json())
-            .then(data => {
-                authorTable.innerHTML = ""; // 기존 목록 초기화
-                data.forEach(author => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${author.employeeId}</td>
-                        <td>${author.employeeName}</td>
-                        <td>${author.departmentName}</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm selectAuthorButton"
-                                    data-employee-id="${author.employeeId}"
-                                    data-employee-name="${author.employeeName}">
-                                선택
-                            </button>
-                        </td>
-                    `;
-                    authorTable.appendChild(row);
-                });
-            })
-            .catch(error => console.error("Error loading authors:", error));
+// 작성자 선택 버튼 이벤트 처리
+// 작성자 선택 버튼 클릭 시, 선택된 작성자 정보를 입력 필드에 설정
+employeeTable.addEventListener("click", function (event) {
+    if (event.target.classList.contains("selectemployeeButton")) {
+        const employeeId = event.target.dataset.employeeId;
+        const employeeName = event.target.dataset.employeeName;
+
+        // 선택된 값을 입력 필드에 설정
+        employeeIdInput.value = employeeId;
+        employeeNameInput.value = employeeName;
+
+        // 모달 닫기
+        const modal = bootstrap.Modal.getInstance(document.getElementById("employeeModal"));
+        modal.hide();
     }
-
-    // 작성자 선택 버튼 이벤트 처리
-    authorTable.addEventListener("click", function (event) {
-        if (event.target.classList.contains("selectAuthorButton")) {
-            const employeeId = event.target.dataset.employeeId;
-            const employeeName = event.target.dataset.employeeName;
-
-            // 선택된 값을 입력 필드에 설정
-            authorIdInput.value = employeeId;
-            authorNameInput.value = employeeName;
-
-            // 모달 닫기
-            const modal = bootstrap.Modal.getInstance(document.getElementById("authorModal"));
-            modal.hide();
-        }
-    });
-
-    // 모달이 열릴 때 작성자 목록 로드
-    document.getElementById("authorModal").addEventListener("shown.bs.modal", loadAuthors);
 });
+
+// 모달이 열릴 때 작성자 목록 로드
+// 작성자 선택 모달이 열리면 작성자 목록을 로드
+document.getElementById("employeeModal").addEventListener("shown.bs.modal", loademployee);
+
+
+
+
+

@@ -29,11 +29,21 @@ public class PaymentController {
         return paymentService.findAllApprovers();
     }
 
+
     @GetMapping("/department")
-    @ResponseBody // JSON 데이터를 반환하기 위해 추가
-    public List<DepartmentDTO> findAllDepartments(){
-        return paymentService.findAllDepartments();
+    @ResponseBody
+    public List<DepartmentDTO> findAllDepartment() {return paymentService.findAllDepartment();}
+
+
+    @GetMapping("/emplpyee")
+    @ResponseBody
+    public List<EmployeeDTO> findAllEmployeepay() {
+
+        return paymentService.findAllEmployeepay();
     }
+
+
+
 
 
     @GetMapping("/list")
@@ -50,7 +60,6 @@ public class PaymentController {
         paymentService.saveDraft(draftDTO);
         return ResponseEntity.ok("Draft saved successfully!");
     }
-
 
 
 
