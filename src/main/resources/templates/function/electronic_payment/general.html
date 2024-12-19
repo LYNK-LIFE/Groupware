@@ -7,24 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>일반품의서</title>
 
-
+    <!-- 공통 스타일 및 페이지 관련 CSS -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/paymentGeneral.css}">
+    <!-- Bootstrap CSS 추가 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-
+</head>
 
 <body>
 
+<!-- 내비게이션 바 -->
 <nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
 
 <div class="right-container">
 
+    <!-- 헤더 영역 -->
     <header th:replace="~{/common/header :: headerFragment}" class="header-class"></header>
 
+    <!-- 메인 콘텐츠 영역 -->
     <section class="main-content">
 
+        <!-- 페이지 경로 표시 -->
         <div class="subHeader-class">
             <a class="subHeaderLink-class" href="/">전자결재</a>
             <label style="margin-left: 20px; margin-right: 20px"> > </label>
@@ -33,86 +36,124 @@
             <a class="subHeaderLink-class" href="/payment/general">일반품의서</a>
         </div>
 
-        <!-- 일반 품의서 표 만들기  -->
+        <!-- 일반 품의서 작성 폼 -->
         <article class="article-general">
-            <h1 class="h1-general" > 일반품의서 </h1>
+            <h1 class="h1-general">일반품의서</h1>
             <table class="table-general">
-                <tr class="th-general">
+                <tr>
                     <th class="th-general">문서번호</th>
-                    <td class="td-general"><input class="input-general" type="text" id="documentNumber" placeholder="문서번호 입력"></td>
+                    <td><input class="input-general" type="text" id="documentNumber" placeholder="문서번호 입력"></td>
                     <th class="th-general">품의일</th>
-                    <td class="th-general"><input class="input-general" type="date" id="documentDate"></td>
+                    <td><input class="input-general" type="date" id="documentDate"></td>
                 </tr>
-                <tr class="tr-general">
+                <tr>
                     <th class="th-general">품의부서</th>
-                    <td class="td-general"><input type="text" id="department" placeholder="부서명 입력"></td>
+                    <!-- 부서명 선택 -->
+                    <td>
+                        <select id="department" class="form-select">
+                            <!-- 동적으로 부서 목록을 추가 -->
+                        </select>
+                    </td>
                     <th class="th-general">시행금액</th>
-                    <td class="th-general"><input type="number" id="amount" placeholder="금액 입력"></td>
+                    <td><input type="number" id="amount" placeholder="금액 입력"></td>
                 </tr>
-                <tr class="tr-general">
+                <tr>
                     <th class="th-general">작성자</th>
-                    <td class="td-general"><input class="input-general" type="text" id="author" placeholder="작성자 이름"></td>
+                    <td>
+                        <!-- 작성자를 조회하고 선택 -->
+                        <input class="input-general" type="text" id="authorId" placeholder="사번 입력" readonly>
+                        <input class="input-general" type="text" id="authorName" placeholder="작성자 이름" readonly>
+                        <button id="selectAuthorButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#authorModal">작성자 조회</button>
+                    </td>
                     <th class="th-general">보존기간</th>
-                    <td class="td-general"><input class="input-general" type="text" id="preservation" placeholder="보존기간 입력"></td>
+                    <td><input class="input-general" type="text" id="preservation" placeholder="보존기간 입력"></td>
                 </tr>
-                <tr class="tr-general">
+                <tr>
                     <th class="th-general">제목</th>
-                    <td class="td-general" colspan="3"><input type="text" id="title" placeholder="제목 입력"></td>
+                    <td colspan="3"><input type="text" id="title" placeholder="제목 입력"></td>
                 </tr>
-                <tr class="tr-general">
+                <tr>
                     <th class="th-general">내용</th>
-                    <td class="td-general" colspan="3">
+                    <td colspan="3">
                         <textarea class="textarea-general" id="content" placeholder="상세 내용을 입력하세요"></textarea>
                     </td>
                 </tr>
             </table>
         </article>
 
-
-
-        <!-- 결재선 -->
-        <div id="approval-container" class="d-flex justify-content-end align-items-center mb-2">
-            <h3 class="approval-label me-2" > 결재선 </h3>
-            <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal"> + </button>
-        </div>
-
-        <div id="approver-list" class="mt-2" >
-            <h5 class="mb-2" >선택된 결재자</h5>
-            <div id="selectedApproverList" class="d-flex flex-column gap-2">
-                <!-- 선택된 결재자들이 여기에 동적으로 추가됩니다 -->
+        <!-- 작성자 선택 모달 -->
+        <div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="authorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="authorModalLabel">작성자 선택</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>사번</th>
+                                <th>이름</th>
+                                <th>부서</th>
+                                <th>선택</th>
+                            </tr>
+                            </thead>
+                            <tbody id="authorTable">
+                            <!-- 작성자 목록 동적으로 추가 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 파일 첨부 -->
-        <div class="file-attachment-section">
-            <h3>파일 첨부</h3>
-            <button id="addFileButton">+</button>
-            <input type="file" id="fileInput" style="display: none;" />
-            <p id="fileName" style="display: none;">파일 이름: </p>
-        </div>
+        <!-- 결재선 섹션 -->
+        <article class="article-approval">
+            <div id="approval-container" class="d-flex justify-content-end align-items-center mb-2">
+                <h3 class="approval-label me-2">결재선</h3>
+                <!-- 결재선 추가 모달을 띄우는 버튼 -->
+                <button id="approvalButton" class="btn" data-bs-toggle="modal" data-bs-target="#approvalModal">+</button>
+            </div>
+            <!-- 선택된 결재자 목록 -->
+            <div id="approver-list" class="mt-2">
+                <h5 class="mb-2">선택된 결재자</h5>
+                <div id="selectedApproverList" class="d-flex flex-column gap-2"></div>
+            </div>
+
+            <!-- 파일 첨부 섹션 -->
+            <div class="file-attachment-section">
+                <h3>파일 첨부</h3>
+                <!-- 파일 선택 버튼 -->
+                <button id="addFileButton">+</button>
+                <!-- 실제 파일 입력 필드 -->
+                <input type="file" id="fileInput" style="display: none;" />
+                <!-- 파일 이름 표시 -->
+                <p id="fileName" style="display: none;">파일 이름: </p>
+            </div>
+        </article>
 
 
 
         <!-- 기안하기 버튼 -->
         <div id="submit-section">
+            <!-- 자바스크립트에서 draftButton으로 처리됨 -->
             <button id="draftButton" class="btn btn-success">기안하기</button>
         </div>
 
         <!-- 결재선 선택 모달 -->
-
         <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-
             <div class="modal-dialog modal-lg">
-
                 <div class="modal-content">
-
                     <div class="modal-header">
                         <h5 class="modal-title" id="approvalModalLabel">결재자 선택</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-
                     <div class="modal-body">
-
+                        <!-- 결재자 목록 테이블 -->
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -122,54 +163,30 @@
                                 <th>선택</th>
                             </tr>
                             </thead>
-
                             <tbody id="approverTable"></tbody>
-                            <!-- 서버에서 동적으로 로드 -->
                         </table>
                     </div>
-
                     <div class="modal-footer">
+                        <!-- 모달 닫기 버튼 -->
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- 공통 요소 추가 -->
     <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
     <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
 </div>
 
+<!-- Popper.js: 툴팁, 팝오버 관리 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
-
-
-
-    <!-- ① Popper.js 라이브러리 - 툴팁 , 팝오버 , 드롭다운 관리 -->
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-
-    <!-- ② Popper.js를 필요로 함 - 자바스크립트 파일 로드 - UI 구성 요소 쉽게 만들어줌 - 드롭다운 , 모달 -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
-
-    <!-- Bootstrap JS and Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script th:src="@{/js/lookUp.js}"></script>
-
-    <script th:src="@{/js/regist.js}"></script>
-
-    <script th:src="@{/js/common.js}"></script>
-
-    <script th:src="@{/js/calendar.js}"></script>
-
-    <script th:src="@{/js/paymentGeneral.js}"></script>
-
-
+<!-- 페이지 기능 스크립트 -->
+<script th:src="@{/js/paymentGeneral.js}"></script>
 </body>
-
 </html>

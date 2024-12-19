@@ -1,9 +1,6 @@
 package com.semi.lynk.function.electronic_payment.controller;
 
-import com.semi.lynk.function.electronic_payment.model.dto.ApproveDTO;
-import com.semi.lynk.function.electronic_payment.model.dto.DepAndEmpAndHumDTO;
-import com.semi.lynk.function.electronic_payment.model.dto.EmployeeAndEctJoinDTO;
-import com.semi.lynk.function.electronic_payment.model.dto.FullDraftDTO;
+import com.semi.lynk.function.electronic_payment.model.dto.*;
 import com.semi.lynk.function.electronic_payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +29,13 @@ public class PaymentController {
         return paymentService.findAllApprovers();
     }
 
+    @GetMapping("/department")
+    @ResponseBody // JSON 데이터를 반환하기 위해 추가
+    public List<DepartmentDTO> findAllDepartments(){
+        return paymentService.findAllDepartments();
+    }
+
+
     @GetMapping("/list")
     public String draft() {
         return "function/electronic_payment/list";
@@ -41,24 +45,14 @@ public class PaymentController {
     public String general() {return "function/electronic_payment/general";}
 
 
-    @PostMapping("/add-approver")
-    public String addApprover(@ModelAttribute DepAndEmpAndHumDTO depAndEmpAndHumDTO,
-                              RedirectAttributes redirectAttributes) {
-        boolean isAdded = paymentService.addApprover(depAndEmpAndHumDTO);
-
-        if (isAdded) {
-            redirectAttributes.addFlashAttribute("message", "결재선이 성공적으로 추가되었습니다.");
-        } else {
-            redirectAttributes.addFlashAttribute("message", "결재선 추가에 실패했습니다.");
-        }
-        return "redirect:/payment/list";
-
+    @PostMapping("/save")
+    public ResponseEntity<String> saveDraft(@RequestBody DraftDTO draftDTO){
+        paymentService.saveDraft(draftDTO);
+        return ResponseEntity.ok("Draft saved successfully!");
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<String> saveDraft(@RequestBody FullDraftDTO fullDraftDTO){
-        System.out.println("fullDraftDTO = " + fullDraftDTO);
-        paymentService.saveDraft(fullDraftDTO);
-        return ResponseEntity.ok("Draft saved successfully!");}
+
+
+
 
 }

@@ -19,5 +19,7 @@ public class DraftDTO {
     private String draftMemo; // 내용
     private int draftStatus; // 결재상태
     private String employeeNo; // 사번
-
+    private String employeeName; // 이름  사원파트에서 가져옴
+    private String departmentName; // 부서이름  부서파트 가져옴
+    private int authOfDocument ; // 기안승인권한여부 권한파트에서 가져옴
 }
