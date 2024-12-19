@@ -35,14 +35,18 @@
             d.department_no asc;
     </select>
 
+    <!-- ===================================================================================================================  -->
 
     <!--FullDraftDTO 일반품의서  -->
     <insert id="insertDraft" parameterType="com.semi.lynk.function.electronic_payment.model.dto.DraftDTO">
         INSERT INTO draft (
-        draft_date,draft_status,draft_no,employee_no,draft_memo,draft_title,implementation_amount,retention_period )
+        draft_date,draft_status,draft_no,employee_no,draft_memo,draft_title,implementation_amount,retention_period)
         VALUES (#{draftDate}, COALESCE(#{draftStatus}, 0) , #{draftNo},#{employeeNo},#{draftMemo},#{draftTitle},#{implementationAmount},#{retentionPeriod})
     </insert>
 
+
+
+    <!-- ===================================================================================================================  -->
 
     <!--DepAndEmpAndHumDTO -->
     <resultMap id="findAllDepartmentMap" type="com.semi.lynk.function.electronic_payment.model.dto.DepartmentDTO">
@@ -57,7 +61,5 @@
         from
             department;
     </select>
-
-
 
 </mapper>

@@ -4,6 +4,7 @@ import com.semi.lynk.function.electronic_payment.model.dao.PaymentMapper;
 import com.semi.lynk.function.electronic_payment.model.dto.DepAndEmpAndHumDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.DepartmentDTO;
 import com.semi.lynk.function.electronic_payment.model.dto.DraftDTO;
+import com.semi.lynk.function.electronic_payment.model.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +34,11 @@ public class PaymentService {
     }
 
 
-    public List<DepartmentDTO> findAllDepartments() {
+    public List<DepartmentDTO> findAllDepartment() {
         return paymentMapper.findAllDepartment();
     }
+
+
 }
 
 
