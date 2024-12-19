@@ -22,4 +22,8 @@ public class CalendarService {
         return result;
     }
 
+    public List<CalendarDTO> myAppStatusService() {
+        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus();
+        return appStatus;
+    }
 }

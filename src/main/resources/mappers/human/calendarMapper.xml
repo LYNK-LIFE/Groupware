@@ -8,7 +8,9 @@
     <resultMap id="selectResultMap" type="com.semi.lynk.function.human.model.calendar.CalendarDTO">
         <id property="id" column="employee_no"/>
         <result property="title" column="id"/>
-
+        <result property="approveTime" column="approve_completion_time"/>
+        <result property="draftTime" column="draft_completion_time"/>
+        <result property="approver" column="approver"/>
         <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
             <id property="id" column="employee_no"/>
             <result property="totalLeave" column="totalLeave"/>
@@ -40,6 +42,9 @@
             <result property="leaveType" column="leave_type"/>
             <result property="leaveMemo" column="leave_memo"/>
         </association>
+        <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
+            <result property="depName" column="department_name"/>
+        </association>
     </resultMap>
 
     <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
@@ -60,6 +65,31 @@
             join working_time_data c on (a.employee_no = c.employee_no)
             join schedule d on (a.employee_no = d.employee_no)
             join dayoff e on (a.employee_no = e.employee_no)
+    </select>
+
+    <select id="showMyAppStatus" resultMap="selectResultMap">
+        select
+             a.employee_name
+            ,b.approver
+            ,h.schedule_type
+            ,h.schedule_bound
+            ,h.schedule_date
+            ,c.leave_date
+            ,c.leave_type
+            ,d.work_on
+            ,d.work_off
+            ,e.department_name
+            ,f.position
+            ,g.draft_completion_time
+            ,b.approve_completion_time
+        from employee a
+            join approve b on (a.employee_no = b.employee_no)
+            join dayoff c on (a.employee_no = c.employee_no)
+            join working_time_data d on (a.employee_no = d.employee_no)
+            join department e on (a.department_no = e.department_no)
+            join human_resource f on (a.employee_no = b.employee_no)
+            join draft g on (a.employee_no = g.employee_no)
+            join schedule h on (a.employee_no = h.employee_no)
     </select>
 
 </mapper>

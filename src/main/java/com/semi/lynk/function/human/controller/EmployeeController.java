@@ -1,6 +1,8 @@
 package com.semi.lynk.function.human.controller;
 
+import com.semi.lynk.function.human.model.calendar.CalendarDTO;
 import com.semi.lynk.function.human.model.dto.*;
+import com.semi.lynk.function.human.service.CalendarService;
 import com.semi.lynk.function.human.service.EmployeeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,14 +24,17 @@ import java.util.Map;
 public class EmployeeController {
 
     private EmployeeService employeeService;
+    private CalendarService calendarService;
 
     private static final Logger logger = LogManager.getLogger(EmployeeController.class);
     private final MessageSource messageSource;
 
     @Autowired
     public EmployeeController (EmployeeService employeeService
-                                ,MessageSource messageSource) {
+                               , CalendarService calendarService
+                                , MessageSource messageSource) {
         this.employeeService = employeeService;
+        this.calendarService = calendarService;
         this.messageSource = messageSource;
     }
 
@@ -149,6 +153,19 @@ public class EmployeeController {
     @GetMapping ("attendance")
     public String attendanceMethod () {
         return "function/human/attendance";
+    }
+
+    @GetMapping ("appStatus") // 페이지 반환하는 애
+    public String appStatusPage () {
+        return "function/human/myApplicationStatus";
+    }
+
+    // json이 default이므로 produces 안 써도 되지만, 가독성을 위해 쓰는 게 좋음
+    @GetMapping(value = "appStatusList", produces = "application/json; charset=UTF-8")
+    @ResponseBody // fetch 보내는 애
+    public List<CalendarDTO> appStatusList () {
+        List<CalendarDTO> appStatus = calendarService.myAppStatusService();
+        return appStatus;
     }
 
 }
