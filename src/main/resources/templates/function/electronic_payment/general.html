@@ -39,7 +39,7 @@
             <table class="table-general">
                 <tr>
                     <th class="th-general">문서번호</th>
-                    <td><input class="input-general" type="text" id="documentNumber" placeholder="문서번호 입력"></td>
+                    <td><input class="input-general" type="text" id="draftNo" placeholder="문서번호 입력"></td>
                     <th class="th-general">품의일</th>
                     <td><input class="input-general" type="date" id="documentDate"></td>
                 </tr>
@@ -57,56 +57,24 @@
                 <tr>
                     <th class="th-general">작성자</th>
                     <td>
-                        <!-- 작성자를 조회하고 선택 -->
-                        <input class="input-general" type="text" id="employeeId" placeholder="사번 입력" readonly>
-                        <input class="input-general" type="text" id="employeeName" placeholder="작성자 이름" readonly>
-                        <button id="selectemployeeButton" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#employeeModal">작성자 조회</button>
+                        <span id="employeeName" th:text="${session.empName}" th:value="${session.empName}">작성자</span>
                     </td>
                     <th class="th-general">보존기간</th>
-                    <td><input class="input-general" type="text" id="preservation" placeholder="보존기간 입력"></td>
+                    <td><input class="input-general" type="text" id="retentionPeriod" placeholder="보존기간 입력"></td>
                 </tr>
                 <tr>
                     <th class="th-general">제목</th>
-                    <td colspan="3"><input type="text" id="title" placeholder="제목 입력"></td>
+                    <td colspan="3"><input type="text" id="draftTitle" placeholder="제목 입력"></td>
                 </tr>
                 <tr>
                     <th class="th-general">내용</th>
                     <td colspan="3">
-                        <textarea class="textarea-general" id="content" placeholder="상세 내용을 입력하세요"></textarea>
+                        <textarea class="textarea-general" id="draftMemo" placeholder="상세 내용을 입력하세요"></textarea>
                     </td>
                 </tr>
             </table>
         </article>
 
-        <!-- 작성자 선택 모달 -->
-        <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="employeeModalLabel">작성자 선택</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>사번</th>
-                                <th>이름</th>
-                                <th>선택</th>
-                            </tr>
-                            </thead>
-                            <tbody id="employeeTable">
-                            <!-- 작성자 목록 동적으로 추가 -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-<!--=================================================================================================================================-->
         <!-- 부서 선택 모달 -->
         <div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="departmentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -135,8 +103,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <!-- 결재선 섹션 -->
         <article class="article-approval">

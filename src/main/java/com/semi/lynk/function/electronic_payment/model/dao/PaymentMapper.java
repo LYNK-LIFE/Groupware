@@ -17,5 +17,5 @@ public interface PaymentMapper {
 
     List<DepartmentDTO> findAllDepartment();
 
-    List<EmployeeDTO> findAllEmployeepay();
+
 }

@@ -35,17 +35,6 @@ public class PaymentController {
     public List<DepartmentDTO> findAllDepartment() {return paymentService.findAllDepartment();}
 
 
-    @GetMapping("/emplpyee")
-    @ResponseBody
-    public List<EmployeeDTO> findAllEmployeepay() {
-
-        return paymentService.findAllEmployeepay();
-    }
-
-
-
-
-
     @GetMapping("/list")
     public String draft() {
         return "function/electronic_payment/list";

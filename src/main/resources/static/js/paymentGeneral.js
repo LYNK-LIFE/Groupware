@@ -76,8 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    const selectedApproverMapList = new Map();
+
     // 선택된 결재자를 리스트에 추가하는 함수
     function addApprover(employee) {
+        selectedApproverMapList.set(employee.employeeNo,{employeeName : `${employee.employeeName}`, role : `${employee.role}`})
         // Map에 결재자 정보를 저장
         selectedApprovers.set(employee.employeeNo, { ...employee, role: "결재" });
 
@@ -87,8 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
         li.dataset.employeeNo = employee.employeeNo;
 
         li.innerHTML = `
-            <div>
-                ${employee.employeeName} (${employee.humanResourceDTO.position})
+            <div class="addPeople" data-employee-no="${employee.employeeNo}">
+                <div class="approver_name" data-employee-no="${employee.employeeNo}">
+                    ${employee.employeeName} (${employee.humanResourceDTO.position})
+                </div>
                 <select class="form-select form-select-sm approver-role"
                     data-employee-no="${employee.employeeNo}"
                     style="width: 120px; display: inline-block; margin-left: 10px;">
@@ -124,15 +129,43 @@ document.addEventListener("DOMContentLoaded", function () {
     draftButton.addEventListener("click", function () {
         // 일반 품의서 폼 데이터 수집
         const formData = {
-            documentNumber: document.getElementById('documentNumber').value,
-            documentDate: document.getElementById('documentDate').value,
-            department: document.getElementById('department').value,
-            amount: document.getElementById('amount').value,
-            author: document.getElementById('author').value,
-            preservation: document.getElementById('preservation').value,
-            title: document.getElementById('title').value,
-            content: document.getElementById('content').value,
+            draftNo: document.getElementById('draftNo').value, //문서번호
+            departmentName: document.getElementById('departmentName').value, // 부서명
+            employeeName: document.getElementById('employeeName').value, // 작성자이름
+            retentionPeriod: document.getElementById('retentionPeriod').value, // 보존기간
+            draftTitle: document.getElementById('draftTitle').value,//제목
+            draftMemo: document.getElementById('draftMemo').value, // 내용
         };
+
+        const addPeople = document.querySelectorAll(".addPeople");
+
+        for (let people of addPeople){
+            const peopleID = people.getAttribute("data-employee-no");
+            const p =  selectedApproverMapList.get(peopleID);
+            if (p) {
+                // 선택된 select 값을 가져오기
+                const selectElement = people.querySelector(".approver-role");
+                const selectedRole = selectElement.value;
+
+                // role 값 수정
+                p.role = selectedRole;
+
+                // 변경된 결과를 Map에 다시 반영
+                selectedApproverMapList.set(peopleID, p);
+            }
+        }
+
+        // Map 데이터를 JSON으로 변환
+        formData.selectedApprovers = JSON.stringify(
+            Array.from(selectedApproverMapList.entries())
+        );
+
+        console.log("보내기전 formData : ",formData)
+        console.log("보내기전 formData : ", JSON.parse(JSON.stringify(formData)));
+        console.log("selectedApproverMapList (배열 형태):", Array.from(selectedApproverMapList.entries()));
+        console.log("selectedApprovers (JSON 문자열):", formData.selectedApprovers);
+
+
 
         // 결재선 데이터 수집
         const approverArray = [];
@@ -141,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const role = item.querySelector('.approver-role').value;
             approverArray.push({ employeeNo, role });
         });
+
 
         // 유효성 검사
         for (const key in formData) {
@@ -187,7 +221,6 @@ const departmentNameInput = document.getElementById("departmentName");
 
 // 서버에서 부서 목록 가져오기
 function loadDepartments() {
-    console.log("afdadfasd")
     fetch("/payment/department")
         .then(response => {
             if (!response.ok) {
@@ -200,11 +233,11 @@ function loadDepartments() {
             data.forEach(department => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${department.departmentNo}</td>
+                    <td id="departmentId">${department.departmentNo}</td>
                     <td>${department.departmentName}</td>
                     <td>
-                        <button class="btn btn-primary btn-sm selectDepartmentButton"
-                                data-department-id="${department.departmentNo}"
+                        <button class="btn btn-primary btn-sm selectDepartmentButton" 
+                                data-department-id="${department.departmentNo}" 
                                 data-department-name="${department.departmentName}">
                             선택
                         </button>
@@ -239,70 +272,3 @@ departmentTable.addEventListener("click", function (event) {
 document.getElementById("departmentModal").addEventListener("shown.bs.modal", loadDepartments);
 
 // -------------------------------------------------------------------------------------------------------------------
-
-
-// 작성자 목록 조회 및 선택
-// 작성자 목록을 표시할 테이블과 입력 필드 요소
-const employeeTable = document.getElementById("employeeTable");
-const employeeIdInput = document.getElementById("employeeId");
-const employeeNameInput = document.getElementById("employeeName");
-
-// 서버에서 작성자 목록 가져오기
-// 작성자 목록 데이터를 서버에서 불러와 테이블에 표시
-function loademployee() {
-    fetch("/payment/employee")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            employeeTable.innerHTML = ""; // 기존 목록 초기화
-            data.forEach(employee => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${employee.employeeNo}</td>
-                    <td>${employee.employeeName}</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm selectemployeeButton"
-                                data-author-id="${employee.employeeNo}"
-                                data-author-name="${employee.employeeName}">
-                            선택
-                        </button>
-                    </td>
-                `;
-                employeeTable.appendChild(row);
-            });
-        })
-        .catch(error => {
-            console.error("Error loading employee:", error);
-            alert("작성자 목록을 불러오는 데 실패했습니다.");
-        });
-}
-
-// 작성자 선택 버튼 이벤트 처리
-// 작성자 선택 버튼 클릭 시, 선택된 작성자 정보를 입력 필드에 설정
-employeeTable.addEventListener("click", function (event) {
-    if (event.target.classList.contains("selectemployeeButton")) {
-        const employeeId = event.target.dataset.employeeId;
-        const employeeName = event.target.dataset.employeeName;
-
-        // 선택된 값을 입력 필드에 설정
-        employeeIdInput.value = employeeId;
-        employeeNameInput.value = employeeName;
-
-        // 모달 닫기
-        const modal = bootstrap.Modal.getInstance(document.getElementById("employeeModal"));
-        modal.hide();
-    }
-});
-
-// 모달이 열릴 때 작성자 목록 로드
-// 작성자 선택 모달이 열리면 작성자 목록을 로드
-document.getElementById("employeeModal").addEventListener("shown.bs.modal", loademployee);
-
-
-
-
-

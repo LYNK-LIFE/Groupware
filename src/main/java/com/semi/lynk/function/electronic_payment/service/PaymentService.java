@@ -38,8 +38,6 @@ public class PaymentService {
         return paymentMapper.findAllDepartment();
     }
 
-    public List<EmployeeDTO> findAllEmployeepay() {return paymentMapper.findAllEmployeepay();}
-
 
 }
 
