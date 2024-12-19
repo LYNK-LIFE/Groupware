@@ -23,7 +23,10 @@ public class LoginController {
     private LoginService loginService;
 
     @GetMapping("empAdd")
-    public void empAddPage() {}
+    public String empAddPage() {
+        System.out.println("getmapping은 되니?");
+        return "function/login/empAdd";
+    }
 
     @PostMapping("empAdd")
     public ModelAndView empAddPage(@ModelAttribute EmpAddDTO empAddDTO, ModelAndView mv) {
