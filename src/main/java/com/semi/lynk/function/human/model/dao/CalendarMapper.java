@@ -8,4 +8,7 @@ import java.util.List;
 @Mapper
 public interface CalendarMapper {
     List<CalendarDTO> showCalendar();
+
+    List<CalendarDTO> showMyAppStatus();
+
 }

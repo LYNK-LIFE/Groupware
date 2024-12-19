@@ -52,3 +52,17 @@
     width: 100%; /* 너비 맞춤 */
     table-layout: fixed; /* 셀 간격 균등 분배 */
 }
+
+/*///*/
+/* 상태별 배경색 */
+.status-waiting {
+    background-color: #d0e7ff; /* 파란색 */
+}
+
+.status-approved {
+    background-color: #d4f7d4; /* 연두색 */
+}
+
+.status-rejected {
+    background-color: #f8d2d2; /* 빨간색 */
+}

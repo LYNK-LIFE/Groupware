@@ -155,10 +155,17 @@ public class EmployeeController {
         return "function/human/attendance";
     }
 
-    @GetMapping ("appStatus")
-    @ResponseBody
-    public List<CalendarDTO> appStatusPage () {
-
-        return calendarService.calendarService();
+    @GetMapping ("appStatus") // 페이지 반환하는 애
+    public String appStatusPage () {
+        return "function/human/myApplicationStatus";
     }
+
+    // json이 default이므로 produces 안 써도 되지만, 가독성을 위해 쓰는 게 좋음
+    @GetMapping(value = "appStatusList", produces = "application/json; charset=UTF-8")
+    @ResponseBody // fetch 보내는 애
+    public List<CalendarDTO> appStatusList () {
+        List<CalendarDTO> appStatus = calendarService.myAppStatusService();
+        return appStatus;
+    }
+
 }

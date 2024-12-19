@@ -1,147 +1,113 @@
-// 페이지 입장 시, 전체 데이터 출력
-
-let allEmployees = []; // 데이터를 저장할 변수
-
-// 페이지 로드 시 데이터를 가져와서 출력
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("/api/calendar")
+    let allEmployees = []; // 데이터를 저장할 변수
+    const lookupSelect = document.getElementById("lookupSelect2");
+    const lookupInput = document.getElementById("lookupInput2");
+    const tableBody = document.getElementById("employee-table-body2");
+
+    // 페이지 로드 시 데이터 요청
+    fetch("/employee/appStatusList")
         .then(res => res.json())
         .then(data => {
-            allEmployees = data; // 데이터 저장
-            renderTable(allEmployees); // 전체 데이터를 테이블에 출력
-            console.log("전체 데이터 불러오기 성공:", allEmployees);
+            // 중복 제거: Map을 사용해 id 기준 중복 제거
+            const uniqueData = Array.from(new Map(data.map(item => [item.id, item])).values());
+            allEmployees = uniqueData; // 중복 제거된 데이터 저장
+            renderTable(allEmployees); // 테이블 출력
+            console.log("중복 제거 후 데이터:", allEmployees);
         })
-        .catch(err => console.error("전체 데이터 불러오기 실패:", err));
-});
+        .catch(err => console.error("데이터 로드 실패:", err));
 
-// 테이블 데이터를 출력하는 함수
-function renderTable(data) {
-    const tableBody = document.getElementById("employee-table-body2");
-    tableBody.innerHTML = ""; // 테이블 초기화
-
-    if (data.length === 0) { // 검색 결과가 없을 때
-        const noDataRow = `<tr><td colspan="6">검색 결과가 없습니다.</td></tr>`;
-        tableBody.innerHTML = noDataRow;
-        return;
-    }
-
-    data.forEach(item => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${item.employeeDTO.name}</td>
-            <td>${item.employeeDTO.name}</td>
-            <td>${item.departmentDTO.depName}</td>
-            <td>${item.humanDTO.position}</td>
-            <td>${item.humanDTO.employeementStatus}</td>
-            <td>${item.humanDTO.phoneNumber}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
-
-// 조회 기능 (필터링해서 출력)
-function performSearch() {
-    const type = document.getElementById("lookupSelect2").value; // 부서/이름/고용구분 선택
-    const keywordInput = document.getElementById("lookupInput2");
-    const keyword = keywordInput.value.trim(); // 입력 키워드 (trim으로 공백 제거)
-
-    if (!keyword) {
-        alert("검색어를 입력해 주세요.");
-        return;
-    }
-
-    // 조건에 맞게 데이터 필터링
-    const filteredEmployees = allEmployees.filter(employee => {
-        if (type === "연 차") {
-            return employee.departmentDTO.depName.includes(keyword);
-        } else if (type === "연장 근무") {
-            return employee.name.includes(keyword);
+    // 테이블 데이터 렌더링 함수
+    function renderTable(data) {
+        tableBody.innerHTML = ""; // 테이블 초기화
+        if (data.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="7">검색 결과가 없습니다.</td></tr>`;
+            return;
         }
-    });
 
-    // 필터링된 데이터를 테이블에 출력
-    renderTable(filteredEmployees);
+        data.forEach(item => {
+            const row = document.createElement("tr");
 
-    // 입력 필드 초기화
-    keywordInput.value = "";
-}
+            // 상태별 배경색 추가
+            const statusClass = getStatusClass(item.approver);
+            row.className = statusClass;
 
-// 버튼 클릭 이벤트
-document.getElementById("select-button-id").addEventListener("click", performSearch);
-
-// Enter 키 이벤트 추가 (검색 입력창)
-document.getElementById("lookupInput").addEventListener("keyup", (event) => {
-    if (event.key === "Enter") {
-        performSearch(); // 엔터 키 입력 시 조회 기능 실행
+            row.innerHTML = `
+                <td>${getStatusLabel(item.approver)}</td>
+                <td>${getScheduleType(item.scheduleDTO?.scheduleType)}</td>
+                <td>${item.departmentDTO?.depName || 'N/A'}</td>
+                <td>${item.employeeDTO?.name || 'N/A'}</td>
+                <td>${item.humanDTO?.position || 'N/A'}</td>
+                <td>${item.draftTime ? formatDate(item.draftTime) : 'N/A'}</td>
+                <td>${item.approveTime ? formatDate(item.approveTime) : 'N/A'}</td>
+            `;
+            tableBody.appendChild(row);
+        });
     }
-});
 
-// 클릭 이벤트: 테이블 행 클릭 시 모달 창 표시
-document.getElementById("employee-table-body2").addEventListener("click", (event) => {
-    // 이벤트 위임을 사용해 클릭된 요소를 탐색
-    const row = event.target.closest("tr"); // 클릭된 셀의 가장 가까운 "tr" 행
-    if (row) {
-        const cells = row.getElementsByTagName("td"); // 클릭된 행의 모든 <td> 가져오기
+    // 검색 버튼 클릭 시 동작
+    document.getElementById("select-button-id").addEventListener("click", () => {
+        const type = lookupSelect.value; // 선택된 필터 타입
+        const keyword = lookupInput.value.trim(); // 검색 키워드
 
-        const employeeData = {
-            id: cells[0].textContent,
-            name: cells[1].textContent,
-            depNo: cells[2].textContent,
-            position: cells[3].textContent,
-            employeementStatus: cells[4].textContent,
-            phoneNumber: cells[5].textContent
-        };
-
-        // 모달 폼에 데이터 설정
-        document.getElementById("editId").value = employeeData.id;
-        document.getElementById("editName").value = employeeData.name;
-        document.getElementById("editDepNo").value = employeeData.depNo;
-        document.getElementById("editPosition").value = employeeData.position;
-        document.getElementById("editStatus").value = employeeData.employeementStatus;
-        document.getElementById("editPhone").value = employeeData.phoneNumber;
-
-        // Bootstrap 모달 표시
-        const modalElement = new bootstrap.Modal(document.getElementById("myModal"), {});
-        modalElement.show(); // 모달 열기
-    }
-});
-
-// 클릭 시 수정 가능 모달
-// 직원 테이블에서 행 클릭 이벤트
-document.getElementById("saveChanges").addEventListener("click", () => {
-    const updatedEmployee = {
-        id: document.getElementById("editId").value,
-        name: document.getElementById("editName").value,
-        depNo: document.getElementById("editDepNo").value,
-        humanDTO: { // HumanDTO 객체를 포함
-            position: document.getElementById("editPosition").value,
-            employeementStatus: document.getElementById("editStatus").value,
-            phoneNumber: document.getElementById("editPhone").value,
+        if (!keyword) {
+            alert("검색어를 입력해 주세요.");
+            return;
         }
-    };
 
-    // 서버에 저장하는 로직
-    console.log("전송할 데이터:", updatedEmployee);
-
-    fetch("/employee/modify", {
-        method: "POST", // HTTP 메서드
-        headers: {
-            "Content-Type": "application/json" // JSON 형식으로 데이터 전송
-        },
-        body: JSON.stringify(updatedEmployee) // 객체를 JSON 문자열로 변환
-    })
-        .then(res => res.json()) // JSON 형태로 응답 파싱
-        .then(data => {
-            if (data.status === "success") {
-                alert(data.message);
-                location.reload(); // 페이지 새로고침으로 업데이트된 데이터 표시
-            } else {
-                alert(data.message);
+        const filtered = allEmployees.filter(item => {
+            if (type === "휴가") {
+                // 연차 관련 데이터만 필터링
+                return (
+                    (item.scheduleDTO?.scheduleType === 1) && // 부서 일정
+                    item.humanDTO?.name.includes(keyword)
+                );
+            } else if (type === "연장근무") {
+                // 연장 근무 필터링
+                return (
+                    item.commuteDTO?.workOff &&
+                    item.commuteDTO.workOff > "18:00" && // 초과 근무 조건
+                    item.humanDTO?.name.includes(keyword)
+                );
             }
-        })
-        .catch(err => console.error("직원 수정 실패:", err));
+            return false;
+        });
 
-    // 모달 닫기
-    const myModal = document.getElementById("myModal");
-    myModal.style.display = "none";
+        renderTable(filtered); // 결과 출력
+        lookupInput.value = ""; // 입력 초기화
+    });
+
+    // 상태 라벨 반환 함수
+    function getStatusLabel(status) {
+        if (status === 0) return "대기중";
+        if (status === 1) return "승인됨";
+        if (status === 2) return "반려됨";
+        return "알 수 없음";
+    }
+
+    // 일정 타입 라벨 반환 함수
+    function getScheduleType(scheduleType) {
+        if (scheduleType === 0) return "본인 일정";
+        if (scheduleType === 1) return "부서 일정";
+        if (scheduleType === 2) return "전사 일정";
+        return "알 수 없음";
+    }
+
+    // 상태별 클래스 반환 함수
+    function getStatusClass(status) {
+        if (status === 0) return "status-waiting"; // 파랑
+        if (status === 1) return "status-approved"; // 연두색
+        if (status === 2) return "status-rejected"; // 빨강
+        return ""; // 기본값
+    }
+
+    // 날짜 포맷 함수
+    function formatDate(datetime) {
+        const date = new Date(datetime);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        const dd = String(date.getDate()).padStart(2, "0");
+        const hh = String(date.getHours()).padStart(2, "0");
+        const mi = String(date.getMinutes()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd} ${hh}:${mi}`;
+    }
 });
