@@ -70,7 +70,7 @@ public class EmployeeController {
 
     @GetMapping ("inform")
     public String humanInform () {
-        return "function/human/lookup";
+        return "function/human/lookUp";
     }
 
 //    @PostMapping("modify") // 인사 수정 메서드 (update)

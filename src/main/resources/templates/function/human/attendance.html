@@ -26,12 +26,7 @@
             <a class="subHeaderLink-class" href="/employee/attendance">근태 관리</a>
         </div>
 
-        <div id='calendar'>
-<!--            <div th:each="event : ${events}">-->
-<!--            <p th:text="${event.title}"></p>-->
-<!--            <p th:text="${event.title}"></p>-->
-<!--            </div>-->
-        </div>
+        <div id='calendar'></div>
 
         <div id="eventModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -41,10 +36,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p><strong>구 분:</strong> <span id="eventType"></span></p>
-                        <p><strong>시작일:</strong> <span id="eventStart"></span></p>
-                        <p><strong>종료일:</strong> <span id="eventEnd"></span></p>
-                        <p><strong>메모:</strong> <span id="eventMemo"></span></p>
+                        <p><strong>구 분 :</strong> <span id="eventType"></span></p>
+                        <p><strong>이 름 :</strong> <span id="eventName"></span></p>
+                        <p><strong>부 서 :</strong> <span id="eventDepartment"></span></p>
+                        <p><strong>직 위 :</strong> <span id="eventPosition"></span></p>
+                        <p><strong>시작 일시 :</strong> <span id="eventStart"></span></p>
+                        <p><strong>종료 일시 :</strong> <span id="eventEnd"></span></p>
+<!--                        <p><strong>메모 :</strong> <span id="eventMemo"></span></p>-->
+<!--                        여기 html 메모만 주석하면 모달 안 띄워짐. js도 함께 주석 해야 됨.-->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
