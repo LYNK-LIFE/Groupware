@@ -78,7 +78,6 @@ public class NoticeController {
     public String editNotice(@PathVariable Long noticeNo, @ModelAttribute("noticeDTO") NoticeDTO noticeDTO, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
         NoticeDTO existingNotice = noticeService.getNoticeById(noticeNo);
-        System.out.println("existingNotice = " + existingNotice);
 
         if (!existingNotice.getEmployeeNo().equals(empNo)) {
             // 권한 없음 처리
@@ -89,6 +88,7 @@ public class NoticeController {
         noticeDTO.setNoticeDate(LocalDateTime.now());
         noticeDTO.setViewerCount(1);
         noticeDTO.setNoticePreNo(noticeNo);
+        noticeService.updateNotice(noticeNo);
         noticeService.createNotice(noticeDTO);
         return "redirect:/notice/list";
     }

@@ -10,7 +10,7 @@ public interface NoticeMapper {
     void insertNotice(NoticeDTO noticeDTO);
     List<NoticeDTO> getAllNotices();
     NoticeDTO selectNoticeById(Long noticeNo);
-    void updateNotice(NoticeDTO noticeDTO);
+    void updateNotice(Long noticeNo);
     void deleteNotice(Long noticeNo);
     void updateViewCnt(Long noticeNo);
 }

@@ -9,7 +9,7 @@ public interface NoticeService {
     void createNotice(NoticeDTO noticeDTO);
     List<NoticeDTO> getAllNotices();
     NoticeDTO getNoticeById(Long noticeNo);
-    void updateNotice(NoticeDTO noticeDTO);
+    void updateNotice(Long noticeNo);
     void deleteNotice(Long noticeNo);
     void updateViewCnt(Long noticeNo);
 
