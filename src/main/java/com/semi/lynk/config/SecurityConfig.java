@@ -42,7 +42,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             // permitAll() -> 인증되지 않은(로그인 되지 않은) 사용자들이 접근할 수 있는 URL 기술
-            auth.requestMatchers("/login", "/function/login/empAdd").permitAll();
+            auth.requestMatchers("/login", "/login/empAdd").permitAll();
             // hasAnyAuthority -> 해당하는 URL 은 권한을 가진 사람만 접근할 수 있다.
 //            auth.requestMatchers("/admin/*").hasAnyAuthority(UserRole.ADMIN.getRole());
             // /uesr/* 요청은 일반회원 권한을 가진 사람만 접근할 수 있다.
