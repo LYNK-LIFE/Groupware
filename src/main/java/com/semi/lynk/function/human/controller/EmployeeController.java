@@ -1,6 +1,7 @@
 package com.semi.lynk.function.human.controller;
 
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import com.semi.lynk.function.human.model.dto.*;
 import com.semi.lynk.function.human.service.CalendarService;
 import com.semi.lynk.function.human.service.EmployeeService;
@@ -96,10 +97,10 @@ public class EmployeeController {
 
         if (result == 1) {
             response.put("status", "success");
-            response.put("message", "직원이 성공적으로 수정되었습니다.");
+            response.put("message", "직원 정보가 성공적으로 수정되었습니다.");
         } else {
             response.put("status", "error");
-            response.put("message", "직원 수정에 실패했습니다.");
+            response.put("message", "직원 정보 수정에 실패했습니다.");
         }
         return response;
     }
@@ -166,6 +167,22 @@ public class EmployeeController {
     public List<CalendarDTO> appStatusList () {
         List<CalendarDTO> appStatus = calendarService.myAppStatusService();
         return appStatus;
+    }
+
+    // 연차 사용 계획서 작성에 본인 연차 정보 들어가고 , insert도 동시에 해주는 애
+    @GetMapping(value = "vacationSelect", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String , Object> vacationSelect (@RequestBody VacationApplicationDTO vacationApplicationDTO) {
+        Map<String , Object> map = new HashMap<>();
+        int updateResult = calendarService.vacationStatus(vacationApplicationDTO);
+
+        if (updateResult == 1){
+            map.put("vacStatus" , "success");
+        } else {
+            map.put("vacStatus" , "fail");
+        }
+
+        return map;
     }
 
 }

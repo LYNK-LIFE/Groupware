@@ -29,7 +29,7 @@
         <div id='calendar'></div>
 
         <div id="eventModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog" role="document"> <!-- 일정 눌렀을 때 상세 정보 모달창 -->
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">일정 상세 정보</h5>
@@ -53,31 +53,42 @@
         </div>
 
 
-        <script>
-            // // 서버에 저장하는 로직
-            // console.log("전송할 데이터:", dadata); // dadata는 값 담을 애...?
-            //
-            // fetch("/api/calendar", {
-            //     method: "GET", // HTTP 메서드
-            //     headers: {
-            //         "Content-Type": "application/json" // JSON 형식으로 데이터 전송
-            //     },
-            //     body: JSON.stringify(dadata) // 객체를 JSON 문자열로 변환
-            // })
-            //     .then(res => res.json()) // JSON 형태로 응답 파싱
-            //     .then(data => {
-            //
-            //     })
-            //     .catch(err => console.error("캘린더 저장 실패:", err));
-        </script>
-
         <div class="button-container">
             <div class="left-buttons">
         <button class="application-vacation-button" id="vacation-button-id">휴가 신청</button>
         <button class="application-overtime-button" id="overtime-button-id">연장 근무 신청</button>
             </div>
+
+            <div id="vacationModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document"> <!-- 휴가 신청 모달챵 -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">연차 사용 계획서 작성</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="allLeaveDay">총 연차 개수</label><br>
+                            <input type="text" id="allLeaveDay" class="form-control" disabled><br><br>
+                            <label for="startDay">시작일</label><br>
+                            <input type="datetime-local" id="startDay" class="form-control"><br><br>
+                            <label for="endDay">종료일</label><br>
+                            <input type="datetime-local" id="endDay" class="form-control"><br><br>
+                            <label for="useDay">총 사용 개수</label><br>
+                            <input type="number" id="useDay" class="form-control" disabled><br><br>
+                            <label for="remainingDay">남은 연차 개수</label><br>
+                            <input type="text" id="remainingDay" class="form-control" disabled>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button id="vacationApp" type="button" class="btn btn-primary">제출</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="right-buttons">
-        <button class="application-approval-button" id="approval-button-id">결재 승인 현황</button>
+        <button class="application-approval-button" id="approval-button-id">
+                결재 승인 현황</button>
         <button class="application-my-button" id="status-my-id"
                 onclick="location.href='/employee/appStatus'">나의 신청 현황</button>
             </div>

@@ -1,6 +1,7 @@
 package com.semi.lynk.function.human.model.dao;
 
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface CalendarMapper {
 
     List<CalendarDTO> showMyAppStatus();
 
+    int vacationAppMapper(VacationApplicationDTO vacationApplicationDTO);
 }

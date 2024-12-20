@@ -1,3 +1,4 @@
+// 달력에 데이터 띄우눈 애
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
     const modalEl = new bootstrap.Modal(document.getElementById('eventModal'), {}); // Bootstrap 모달 객체 생성
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         },
 
+        // 클릭 했을 때 상세 정보 나오는 애
         eventClick: function (info) {
             const props = info.event.extendedProps;
 
@@ -79,8 +81,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 });
+/////////////////////////////// 휴가 신청 눌렀을 때 동작하는 애
+document.getElementById("vacation-button-id").addEventListener("click" , (e) => {
 
+    const startTime = document.getElementById("startDay");
 
+    startTime.addEventListener("change", () => {
+        const date = new Date(startTime.value);
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+
+        if((hour === 9 || minute === 0) && (hour === 14 || minute === 0)){
+            startTime.value = '';
+        }
+    })
+
+    // const result = {
+    //     allLeaveDay: document.getElementById("allLeaveDay").textContent,
+    //     startDay: document.getElementById("startDay").textContent,
+    //     endDay: document.getElementById("endDay").textContent,
+    //     useDay: document.getElementById("useDay").textContent,
+    //     remainingDay: document.getElementById("remainingDay").textContent
+    // };
+
+    const modalElement = new bootstrap.Modal(document.getElementById("vacationModal"), {});
+    modalElement.show();
+})
 
 // document.addEventListener('DOMContentLoaded', function () {
 //     const calendarEl = document.getElementById('calendar');

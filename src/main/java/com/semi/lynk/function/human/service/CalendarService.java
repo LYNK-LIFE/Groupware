@@ -1,5 +1,6 @@
 package com.semi.lynk.function.human.service;
 
+import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import com.semi.lynk.function.human.model.dao.CalendarMapper;
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,12 @@ public class CalendarService {
     public List<CalendarDTO> myAppStatusService() {
         List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus();
         return appStatus;
+    }
+
+    public int vacationStatus(VacationApplicationDTO vacationApplicationDTO) {
+
+        int result = calendarMapper.vacationAppMapper(vacationApplicationDTO);
+
+        return result >= 1 ? 1 : 0;
     }
 }

@@ -103,7 +103,9 @@ button:hover {
     background-color: #5a6268; /* 더 어두운 회색 */
 }
 
-
+label {
+    font-weight: bold;
+}
 
 /* 달력 위에 원 연차  / 연장근무 표시를 위한 원 */
 /*.subHeader-class::after {*/
