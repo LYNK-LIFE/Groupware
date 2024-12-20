@@ -12,5 +12,7 @@ public class ApprovalServiceImpl implements ApprovalService {
     private ApprovalMapper approvalMapper;
 
     @Override
-    public void approve(ApprovalDTO approvalDTO){};
+    public void approve(ApprovalDTO approvalDTO){
+
+    };
 }
