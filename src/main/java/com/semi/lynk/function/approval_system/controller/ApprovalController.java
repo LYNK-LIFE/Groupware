@@ -20,48 +20,50 @@ import java.time.LocalDateTime;
 public class ApprovalController {
 
     @Autowired
-    private ApprovalService approvalservice;
+    private ApprovalService approvalService;
 
     @GetMapping("/credraft")
     public String creDraft(Model model) {
-        model.addAttribute("approvalDTO", new ApprovalDTO());
-        return "function/approval_system/creatdraft";
+        model.addAttribute("draftDTO", new DraftDTO());
+        return "function/approval_system/createdraft";
     }
 
-    @PostMapping("/create")
-    public String createNotice(@ModelAttribute("approvalDTO") DraftDTO draftDTO, HttpSession session) {
+    @PostMapping("/credraft")
+    public String createDraft(@ModelAttribute("draftDTO") DraftDTO draftDTO, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
-        draftDTO.setNoticeDate(LocalDateTime.now());
         draftDTO.setEmployeeNo(empNo);
-        noticeDTO.setViewerCount(1);
-        noticeService.createNotice(noticeDTO);
-        return "redirect:/notice/list";
+        draftDTO.setDraftCurrentStep(1);
+        draftDTO.setDraftState(0);
+        draftDTO.setDraftDate(LocalDateTime.now());
+        draftDTO.setDraftLastStep(9);
+        approvalService.createDraft(draftDTO);
+        return "redirect:/";
     }
 
 
 
-    @GetMapping("/curdraft")
-    public String curDraft(Model model) {
-        return "function/approval_system/currentdraft";
-    }
-
-    @GetMapping("/findraft")
-    public String finDraft(Model model) {
-        return "function/approval_system/finishdraft";
-    }
-
-    @GetMapping("/dindraft")
-    public String dinDraft(Model model) {
-        return "function/approval_system/dindraft";
-    }
-
-    @GetMapping("/doapproval")
-    public String doapproval(Model model) {
-        return "function/approval_system/doapproval";
-    }
-
-    @GetMapping("/finapproval")
-    public String finapproval(Model model) {
-        return "function/approval_system/finapproval";
-    }
+//    @GetMapping("/curdraft")
+//    public String curDraft(Model model) {
+//        return "function/approval_system/currentdraft";
+//    }
+//
+//    @GetMapping("/findraft")
+//    public String finDraft(Model model) {
+//        return "function/approval_system/finishdraft";
+//    }
+//
+//    @GetMapping("/dindraft")
+//    public String dinDraft(Model model) {
+//        return "function/approval_system/dindraft";
+//    }
+//
+//    @GetMapping("/doapproval")
+//    public String doapproval(Model model) {
+//        return "function/approval_system/doapproval";
+//    }
+//
+//    @GetMapping("/finapproval")
+//    public String finapproval(Model model) {
+//        return "function/approval_system/finapproval";
+//    }
 }
