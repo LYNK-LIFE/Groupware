@@ -33,6 +33,9 @@ public class LoginService implements UserDetailsService {
     @Transactional
     public int addEmployee(EmpAddDTO empAddDTO) {
         empAddDTO.setUserPass(encoder.encode(empAddDTO.getUserPass()));
+        if (empAddDTO.getImage() != null) {
+            empAddDTO.setImage(empAddDTO.getImage());
+        }
         int result = loginMapper.addEmployee(empAddDTO);
         return result;
     }

@@ -40,3 +40,21 @@ document.addEventListener('click', function (event) {
         userDetail.classList.add('hidden'); // 숨김
     }
 });
+
+// 로그아웃
+document.getElementById('logoutImage').addEventListener('click', function () {
+    fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+        }
+    }).then(() => {
+        window.location.href = '/login'; // 로그아웃 성공 후 이동
+    }).catch(err => console.error('Logout failed:', err));
+});
+// 중복 클릭 방지
+document.getElementById('logoutImage').addEventListener('click', function (event) {
+    event.target.style.pointerEvents = 'none';
+    event.target.style.opacity = '0.5';
+});

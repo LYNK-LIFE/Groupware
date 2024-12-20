@@ -339,4 +339,13 @@ body {
 .userButton > .leave {
     background-color: #BEBEBE;
 }
+
+img[data-value="logout"] {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+img[data-value="logout"]:hover {
+    transform: scale(1.1);
+}
 /*************************************************************/

@@ -43,12 +43,21 @@ public class ManagedService {
         return managedMapper.getInactiveEmployee();
     }
 
+    // 계정 삭제
     public void deactivateAccounts(List<String> empIDs) {
         System.out.println("서비스단 empIDs = " + empIDs);
         if (empIDs == null || empIDs.isEmpty()) {
             System.out.println("empIDs가 비어 있습니다!");
         }
         managedMapper.deactivateAccounts(empIDs);
+    }
+
+    // 계정 복구
+    public void restoreAccounts(List<String> empIDs) {
+        if (empIDs == null || empIDs.isEmpty()) {
+            System.out.println("empIDs가 비어 있습니다!");
+        }
+        managedMapper.restoreAccounts(empIDs);
     }
 
     //****************************************************************
