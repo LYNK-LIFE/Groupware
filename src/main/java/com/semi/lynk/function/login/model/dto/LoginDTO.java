@@ -29,6 +29,8 @@ public class LoginDTO {
     private String depName; // 부서이름
     private String position;            // 직책
 
+
+
 //    public List<String> getRole() {
 //        if (this.role.getRole().length() > 0) {
 //            return Arrays.asList(this.role.getRole().split(","));

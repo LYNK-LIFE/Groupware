@@ -2,6 +2,7 @@ package com.semi.lynk.function.login.controller;
 
 import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
+import com.semi.lynk.function.login.service.LoginLogService;
 import com.semi.lynk.function.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,9 @@ public class LoginController {
     //****************************************************************
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private LoginLogService loginLogService;
 
     @GetMapping("empAdd")
     public String empAddPage() {
@@ -65,5 +69,22 @@ public class LoginController {
         mv.setViewName("failLogin");
         return mv;
     }
+
+    //****************************************************************
+    // 로그인 시간 기록
+    //****************************************************************
+    @PostMapping("/login")
+    public String login(String empNo) {
+        loginLogService.logLogin((empNo));
+        return "Login logged";
+    }
+
+    @PostMapping("/logout")
+    public String logout(String empNo) {
+        loginLogService.logLogin((empNo));
+        return "Logout logged";
+    }
+
+
 
 }
