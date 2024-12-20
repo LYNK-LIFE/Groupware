@@ -124,7 +124,8 @@ public class EmployeeController {
     @GetMapping("regist")
     public String moveRegistPage () {
         return "forward:/employee/join";
-    } // forward를 이용해서 join에 처리 위임
+    }
+    // forward를 이용해서 join에 처리 위임
     // forward 안 쓰고 function/human/registPage 그대로 쓰면 값이 안 담겨 있고,
     // 값 담으려면 중복되는 값을 또 넣어줘야 하지만 forward로 끝.
 
@@ -180,19 +181,21 @@ public class EmployeeController {
         return vacStatusResult;
     }
     // 연차 사용 계획서 제출 시에 update 되는 애
-    // 글고 ResponseBody로 제출 완료 / 실패 여부 확인
+    // 글고 ResponseBody로 제출 완료 / 실패 여부 확인함
     @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public Map<String , Object> vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO) {
-        Map<String , Object> map = new HashMap<>();
+    public String vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO
+                                 ,EmpAndDepDTO empAndDepDTO // 신청 하고 이름 뜨게 할라고
+                                 , RedirectAttributes rttr, Locale locale) {
 
         int result = calendarService.vacAppService(vacationApplicationDTO);
         if (result == 1){
-            map.put("vacStatus" , "success");
+            rttr.addFlashAttribute("vacAppMessage",
+                    messageSource.getMessage("vacAppSuccess",
+                            new Object[]{empAndDepDTO.getName()} ,locale));
+            return "redirect:/employee/attendance";
         } else {
-            map.put("vacStatus" , "fail");
+            return "redirect:/employee/attendance";
         }
-        return map;
     }
 //@PostMapping("vacAppResult")
 //@ResponseBody

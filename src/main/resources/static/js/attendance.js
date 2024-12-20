@@ -199,28 +199,76 @@ preventPastDate("endDay");
 
 //// 제출 버튼 누르면 서버에 데이터 저장하는애
 document.getElementById("vacationApp").addEventListener("click", () => {
-    const payload = {
-        totalLeave: parseFloat(document.getElementById("allLeaveDay").value),
-        startDay: document.getElementById("startDay").value,
-        endDay: document.getElementById("endDay").value,
-        usedLeave: parseFloat(document.getElementById("useDay").value),
-        remainingLeave: parseFloat(document.getElementById("remainingDay").value)
-    };
+    const usedLeave = parseFloat(document.getElementById("useDay").value);
 
-    fetch("employee/vacAppResult", { // 이거로 데이터 보내주고
-        method: 'POST',
+    if (isNaN(usedLeave) || usedLeave <= 0) {
+        alert("총 사용 개수를 확인하고 제출해주세요.");
+        return;
+    }
+
+    const payload = { usedLeave }; // 서버로 보낼 데이터
+
+    // 데이터 전송
+    fetch("/employee/vacAppResult", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
     })
-        .then(response => response.json())
-        .then(data => { // 다시 받아와서 성공 , 실패 여부 반환
-            if (data.vacStatus === "success") {
-                alert("휴가 신청이 성공적으로 저장되었습니다!");
-                location.reload(); // 페이지를 새로고침하여 업데이트된 정보 반영
-            } else {
-                alert("휴가 신청에 실패했습니다. 다시 시도해주세요.");
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("서버 응답 오류");
             }
+
+            // 모달 닫기
+            const modalElement = document.getElementById("vacationModal");
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide(); // 모달창 닫기
+        })
+        .catch((error) => {
+            console.error("휴가 신청 오류:", error);
+            alert("서버와 통신에 문제가 발생했습니다.");
         });
 });
+
+
+// 모달 안뜸!! 다시 해야 함
+// document.addEventListener("DOMContentLoaded", () => {
+//     console.log("DOMContentLoaded event fired."); // 기본 확인용 로그
+//
+//     // DOM 변경 관찰
+//     const targetNode = document.body;
+//     const observer = new MutationObserver(() => {
+//         const successMessageElement = document.getElementById("vacAppMessage");
+//
+//         if (successMessageElement) {
+//             console.log("Success message element found:", successMessageElement.textContent.trim());
+//             const successMessage = successMessageElement.textContent.trim();
+//
+//             if (successMessage) {
+//                 console.log("Success message present:", successMessage);
+//
+//                 const modalElement = document.getElementById("myModal2");
+//                 if (modalElement) {
+//                     console.log("Modal element found.");
+//                     const modalMessage = modalElement.querySelector(".modal-body2");
+//                     if (modalMessage) {
+//                         modalMessage.textContent = successMessage;
+//                         const myModal = new bootstrap.Modal(modalElement);
+//                         myModal.show();
+//                     } else {
+//                         console.error("Modal message body not found.");
+//                     }
+//                 } else {
+//                     console.error("Modal element not found.");
+//                 }
+//
+//                 // 관찰 중지
+//                 observer.disconnect();
+//             }
+//         }
+//     });
+//
+//     observer.observe(targetNode, { childList: true, subtree: true });
+// });
