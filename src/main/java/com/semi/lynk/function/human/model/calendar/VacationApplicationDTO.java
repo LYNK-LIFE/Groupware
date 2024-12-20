@@ -12,7 +12,8 @@ import java.util.Date;
 @ToString
 public class VacationApplicationDTO {
 
-    private int id;
+    private int id;                 // 사번
+    private String name;
     private float totalLeave;       // 총 연차 발생 일수
     private float usedLeave;        // 사용 연차
     private int leaveType;          // 휴가 타입

@@ -170,52 +170,51 @@ public class EmployeeController {
         return appStatus;
     }
 
-//    // 연차 사용 계획서 작성에 본인 연차 정보 들어가는 애
-//    @GetMapping(value = "vacationSelect", produces = "application/json; charset=UTF-8")
-//    @ResponseBody
-//    public List<VacationApplicationDTO> vacationSelect () {
-//
-//        List<VacationApplicationDTO> vacStatusResult = calendarService.vacationStatus();
-//
-//        return vacStatusResult;
-//    }
-//    // 연차 사용 계획서 제출 시에 update 되는 애
-//    // 글고 ResponseBody로 제출 완료 / 실패 여부 확인
-//    @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
-//    @ResponseBody
-//    public Map<String , Object> vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO) {
-//        Map<String , Object> map = new HashMap<>();
-//
-//        int result = calendarService.vacAppService(vacationApplicationDTO);
-//        if (result == 1){
-//            map.put("vacStatus" , "success");
-//        } else {
-//            map.put("vacStatus" , "fail");
-//        }
-//        return map;
-//    }
-@PostMapping("vacAppResult")
-@ResponseBody
-public Map<String, Object> submitVacation(@RequestBody VacationApplicationDTO dto) {
-    Map<String, Object> result = new HashMap<>();
+    // 연차 사용 계획서 작성에 본인 연차 정보 들어가는 애
+    @GetMapping(value = "vacationSelect", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<VacationApplicationDTO> vacationSelect () {
 
-    try {
-        // 기본적으로 시작일과 종료일 확인
-        if (dto.getScheduleDate().isBefore(LocalDateTime.now())) {
-            result.put("vacStatus", "fail");
-            result.put("message", "휴가 시작일은 과거일 수 없습니다.");
-            return result;
-        }
-
-        // 연차 업데이트
-        int updateCount = calendarService.vacAppService(dto);
-
-        result.put("vacStatus", updateCount > 0 ? "success" : "fail");
-    } catch (Exception e) {
-        result.put("vacStatus", "error");
-        result.put("message", "서버에서 오류가 발생했습니다.");
+        List<VacationApplicationDTO> vacStatusResult = calendarService.vacationStatus();
+        System.out.println(vacStatusResult);
+        return vacStatusResult;
     }
-    return result;
-}
+    // 연차 사용 계획서 제출 시에 update 되는 애
+    // 글고 ResponseBody로 제출 완료 / 실패 여부 확인
+    @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String , Object> vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO) {
+        Map<String , Object> map = new HashMap<>();
+
+        int result = calendarService.vacAppService(vacationApplicationDTO);
+        if (result == 1){
+            map.put("vacStatus" , "success");
+        } else {
+            map.put("vacStatus" , "fail");
+        }
+        return map;
+    }
+//@PostMapping("vacAppResult")
+//@ResponseBody
+//public Map<String, Object> submitVacation(@RequestBody VacationApplicationDTO dto) {
+//    Map<String, Object> result = new HashMap<>();
+//
+//    try {
+//        // 기본적으로 시작일과 종료일 확인
+//        if (dto.getScheduleDate().isBefore(LocalDateTime.now())) {
+//            result.put("vacStatus", "fail");
+//            result.put("message", "휴가 시작일은 과거일 수 없습니다.");
+//            return result;
+//        }
+//        // 연차 업데이트
+//        int updateCount = calendarService.vacAppService(dto);
+//
+//        result.put("vacStatus", updateCount > 0 ? "success" : "fail");
+//    } catch (Exception e) {
+//        result.put("vacStatus", "error");
+//        result.put("message", "서버에서 오류가 발생했습니다.");
+//    }
+//    return result;
+//}
 
 }

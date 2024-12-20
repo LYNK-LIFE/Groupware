@@ -93,7 +93,19 @@
             join schedule h on (a.employee_no = h.employee_no)
     </select>
 
-    <select id="vacationAppMapper" resultMap="selectResultMap">
+
+    <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        <id property="id" column="employee_no"/>
+        <result property="name" column="employee_name"/>
+        <result property="totalLeave" column="totalLeave"/>
+        <result property="usedLeave" column="usedLeave"/>
+        <result property="leaveType" column="leave_type"/>
+        <result property="scheduleDate" column="schedule_date"/>
+        <result property="leaveDate" column="leave_date"/>
+        <result property="scheduleBound" column="schedule_bound"/>
+    </resultMap>
+
+    <select id="vacationAppMapper" resultMap="vacationStatusMapper">
     select distinct
         a.employee_no
         ,a.employee_name
