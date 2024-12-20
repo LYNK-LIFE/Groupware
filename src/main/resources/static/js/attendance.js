@@ -81,32 +81,132 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.render();
 });
+
+
 /////////////////////////////// 휴가 신청 눌렀을 때 동작하는 애
-document.getElementById("vacation-button-id").addEventListener("click" , (e) => {
-
-    const startTime = document.getElementById("startDay");
-
-    startTime.addEventListener("change", () => {
-        const date = new Date(startTime.value);
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-
-        if((hour === 9 || minute === 0) && (hour === 14 || minute === 0)){
-            startTime.value = '';
-        }
-    })
-
-    // const result = {
-    //     allLeaveDay: document.getElementById("allLeaveDay").textContent,
-    //     startDay: document.getElementById("startDay").textContent,
-    //     endDay: document.getElementById("endDay").textContent,
-    //     useDay: document.getElementById("useDay").textContent,
-    //     remainingDay: document.getElementById("remainingDay").textContent
-    // };
+document.getElementById("vacation-button-id").addEventListener("click", () => {
+    fetch("/employee/vacationSelect")
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.length > 0) {
+                const leaveInfo = data[0]; // 특정 사용자의 데이터 매핑
+                document.getElementById("allLeaveDay").value = leaveInfo.totalLeave;
+                document.getElementById("useDay").value = leaveInfo.usedLeave;
+                document.getElementById("remainingDay").value = (leaveInfo.totalLeave - leaveInfo.usedLeave).toFixed(2);
+            } else {
+                alert("연차 데이터를 불러오지 못했습니다.");
+            }
+        });
 
     const modalElement = new bootstrap.Modal(document.getElementById("vacationModal"), {});
     modalElement.show();
-})
+});
+
+function calculateLeave() {
+    const startDate = new Date(document.getElementById("startDay").value);
+    const endDate = new Date(document.getElementById("endDay").value);
+    const allLeave = parseFloat(document.getElementById("allLeaveDay").value);
+    const usedLeave = parseFloat(document.getElementById("useDay").value) || 0;
+
+    // 시작/종료 날짜와 시간이 유효해야 함
+    if (startDate && endDate && startDate <= endDate) {
+        const startHour = startDate.getHours();
+        const endHour = endDate.getHours();
+
+        let leaveDays = 0;
+
+        if (
+            (startHour === 9 || startHour === 14) && // 시작시간이 09:00 또는 14:00
+            (endHour === 14 || endHour === 18) // 종료시간이 14:00 또는 18:00
+        ) {
+            const diffInMs = endDate - startDate; // 두 시간의 차이 (밀리초)
+            const diffInHours = diffInMs / (1000 * 60 * 60); // 차이를 시간 단위로 계산
+
+            if (diffInHours <= 4) {
+                leaveDays = 0.5; // 반차
+            } else if (diffInHours <= 9) {
+                leaveDays = 1; // 하루 휴가
+            } else {
+                leaveDays = Math.ceil(diffInHours / 9); // 하루 단위 이상
+            }
+
+            document.getElementById("useDay").value = leaveDays.toFixed(1);
+            document.getElementById("remainingDay").value = (allLeave - (usedLeave + leaveDays)).toFixed(2);
+        } else {
+            alert("시작/종료 시간은 지정된 시간만 선택 가능합니다. (시작: 09:00/14:00, 종료: 14:00/18:00)");
+            document.getElementById("useDay").value = '';
+            document.getElementById("remainingDay").value = allLeave - usedLeave;
+        }
+    } else {
+        document.getElementById("useDay").value = '';
+        document.getElementById("remainingDay").value = allLeave - usedLeave;
+    }
+}
+
+document.getElementById("startDay").addEventListener("change", calculateLeave);
+document.getElementById("endDay").addEventListener("change", calculateLeave);
+
+// 시작/종료 시간 선택 제한
+document.getElementById("startDay").addEventListener("change", () => {
+    const startTimeInput = document.getElementById("startDay");
+    const startTime = new Date(startTimeInput.value);
+    const hour = startTime.getHours();
+
+    if (hour !== 9 && hour !== 14) {
+        alert("시작 시간은 09:00 또는 14:00만 선택 가능합니다.");
+        startTimeInput.value = '';
+    }
+});
+
+document.getElementById("endDay").addEventListener("change", () => {
+    const endTimeInput = document.getElementById("endDay");
+    const endTime = new Date(endTimeInput.value);
+    const hour = endTime.getHours();
+
+    if (hour !== 14 && hour !== 18) {
+        alert("종료 시간은 14:00 또는 18:00만 선택 가능합니다.");
+        endTimeInput.value = '';
+    }
+});
+
+
+//// 제출 버튼 누르면 서버에 데이터 저장하는애
+document.getElementById("vacationApp").addEventListener("click", () => {
+    const payload = {
+        totalLeave: parseFloat(document.getElementById("allLeaveDay").value),
+        startDay: document.getElementById("startDay").value,
+        endDay: document.getElementById("endDay").value,
+        usedLeave: parseFloat(document.getElementById("useDay").value),
+        remainingLeave: parseFloat(document.getElementById("remainingDay").value)
+    };
+
+    fetch("employee/vacAppResult", { // 이거로 데이터 보내주고
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+        .then(response => response.json())
+        .then(data => { // 다시 받아와서 성공 , 실패 여부 반환
+            if (data.vacStatus === "success") {
+                alert("휴가 신청이 성공적으로 저장되었습니다!");
+                location.reload(); // 페이지를 새로고침하여 업데이트된 정보 반영
+            } else {
+                alert("휴가 신청에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
+});
+
+
+// const result = {
+//     allLeaveDay: document.getElementById("allLeaveDay").textContent,
+//     startDay: document.getElementById("startDay").textContent,
+//     endDay: document.getElementById("endDay").textContent,
+//     useDay: document.getElementById("useDay").textContent,
+//     remainingDay: document.getElementById("remainingDay").textContent
+// };
+
 
 // document.addEventListener('DOMContentLoaded', function () {
 //     const calendarEl = document.getElementById('calendar');

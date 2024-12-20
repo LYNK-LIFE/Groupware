@@ -12,5 +12,7 @@ public interface CalendarMapper {
 
     List<CalendarDTO> showMyAppStatus();
 
-    int vacationAppMapper(VacationApplicationDTO vacationApplicationDTO);
+    List<VacationApplicationDTO> vacationAppMapper();
+
+    int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
 }

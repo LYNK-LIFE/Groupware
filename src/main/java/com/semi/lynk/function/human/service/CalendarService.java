@@ -28,9 +28,13 @@ public class CalendarService {
         return appStatus;
     }
 
-    public int vacationStatus(VacationApplicationDTO vacationApplicationDTO) {
+    public List<VacationApplicationDTO> vacationStatus() {
 
-        int result = calendarMapper.vacationAppMapper(vacationApplicationDTO);
+        return calendarMapper.vacationAppMapper();
+    }
+
+    public int vacAppService(VacationApplicationDTO vacationApplicationDTO) {
+        int result = calendarMapper.vacAppUpdateMapper(vacationApplicationDTO);
 
         return result >= 1 ? 1 : 0;
     }
