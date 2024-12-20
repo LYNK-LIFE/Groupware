@@ -20,10 +20,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("Authentication Object: " + authentication);  // 로그 추가
-        String empNo = authentication.getName();    // 로그인 사용자 정보
+        String empNo = authentication.getName();       // 로그인 사용자 정보
         System.out.println("로그인 성공~ : " + empNo);
         loginLogService.logLogin(empNo);               // 로그인 기록
-        response.sendRedirect("/");              // 성공 후 이동
+        response.sendRedirect("/");                 // 성공 후 이동
     }
 
 }

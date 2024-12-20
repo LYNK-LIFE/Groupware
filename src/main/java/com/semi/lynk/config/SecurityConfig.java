@@ -65,7 +65,8 @@ public class SecurityConfig {
                     // 사용자가 PWD 를 입력하는 필드(input 타입 name 과 반드시 일치)
                     login.passwordParameter("empPwd");
                     // 사용자가 로그인에 성공했을 시 보내줄 URL 기술
-                    login.defaultSuccessUrl("/", true);
+                    // 바로 넘어가지는 거 같아서 우선 주석 처리      // 이게 문제였어!!!!!!!!!!!!!!!!!!!!!!!!!!
+//                    login.defaultSuccessUrl("/", true);
                     // 로그인에 실패했을 시 내용을 기술한 객체 호출 (아직 미작성)
                     login.failureHandler(authFailHandler);
                 }).logout(logout -> {
