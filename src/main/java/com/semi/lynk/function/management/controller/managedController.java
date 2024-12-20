@@ -68,6 +68,24 @@ public class managedController {
         return "function/management/inactiveAccountList";
     }
 
+    // 활성화 계정 목록 - 복구
+    @PostMapping("/restoreAccounts")
+    public String restoreAccounts(@RequestParam @Param("empIDs") List<String> empIDs, RedirectAttributes redirectAttributes) {
+        System.out.println("restoreAccounts controller 단 empIDs = " + empIDs);
+        if (empIDs.isEmpty()) {
+            System.out.println("empIDs가 비어 있습니다!");
+            redirectAttributes.addFlashAttribute("message", "선택된 계정이 없습니다.");
+            return "redirect:/management/inactiveAccountList";
+        }
+
+        // 선택된 계정들의 memberStatus를 2으로 업데이트
+        managedService.restoreAccounts(empIDs);
+
+        // 복구 후 활성화 계정 목록 페이지로
+        redirectAttributes.addFlashAttribute("message", "선택된 계정이 성공적으로 복구되었습니다.");
+        return "redirect:/management/activeAccountList";
+    }
+
     // 계정 수정
     @GetMapping("editAccount/{empID}")
     public String editAccountPage(@PathVariable("empID") String empID, Model model) {

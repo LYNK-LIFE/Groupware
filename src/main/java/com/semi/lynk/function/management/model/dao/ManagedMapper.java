@@ -21,6 +21,9 @@ public interface ManagedMapper {
     Map<String, Object> getMemberStatusCountsInac();
     List<Map<String, Object>> getInactiveEmployee();
 
+    // 삭제 계정 복구
+    void restoreAccounts(@Param("empIDs") List<String> empIDs);
+
     //계정 편집
     AccountDTO getAccountByEmpID(String empID);
 }

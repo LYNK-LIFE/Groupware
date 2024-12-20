@@ -22,7 +22,7 @@
         INSERT INTO EMPLOYEE
         (EMPLOYEE_NO, EMPLOYEE_NAME, PASSWORD, EMAIL, MEMBER_STATUS, LOGIN_FAIL_COUNT, WORKING_STATUS, DEPARTMENT_NO, IMAGE)
         VALUES
-        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, 0000)
+        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, #{image})
     </insert>
 
     <select id="findByUsername" resultMap="login">

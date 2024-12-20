@@ -45,14 +45,29 @@
           FROM EMPLOYEE a
           JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
           LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
-          LEFT JOIN LOGIN_DATA d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
-         WHERE MEMBER_STATUS IN (1, 2);
+          LEFT JOIN (SELECT EMPLOYEE_NO, LOGIN_TIME
+                       FROM (SELECT EMPLOYEE_NO, LOGIN_TIME,
+                                    ROW_NUMBER() OVER (PARTITION BY EMPLOYEE_NO ORDER BY LOGIN_TIME DESC) AS RN
+                               FROM LOGIN_DATA) sub
+                      WHERE RN = 1) d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
+         WHERE a.MEMBER_STATUS IN (1, 2);
+
     </select>
 
-    <!-- 활성화 계정 삭제 상태로 변경 -->
+    <!-- 활성화 계정 삭제 상태로 변경(삭제) -->
     <update id="deactivateAccounts" parameterType="map">
         UPDATE EMPLOYEE
            SET MEMBER_STATUS = 3
+         WHERE EMPLOYEE_NO IN
+        <foreach collection="empIDs" item="empID" open="(" separator="," close=")">
+            #{empID}
+        </foreach>
+    </update>
+
+    <!-- 삭제 계정 활성화 상태로 변경(복구) -->
+    <update id="restoreAccounts" parameterType="map">
+        UPDATE EMPLOYEE
+           SET MEMBER_STATUS = 2
          WHERE EMPLOYEE_NO IN
         <foreach collection="empIDs" item="empID" open="(" separator="," close=")">
             #{empID}
@@ -83,6 +98,7 @@
              , DEPARTMENT_NO
              , PASSWORD
              , EMAIL
+             , IMAGE
           FROM EMPLOYEE
          WHERE EMPLOYEE_NO = #{empID}
     </select>
