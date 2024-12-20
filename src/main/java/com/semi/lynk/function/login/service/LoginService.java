@@ -4,6 +4,7 @@ import com.semi.lynk.function.login.model.EmpDetails;
 import com.semi.lynk.function.login.model.dao.LoginMapper;
 import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
+import com.semi.lynk.function.login.model.dto.LoginLogDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Service
 public class LoginService implements UserDetailsService {
@@ -57,6 +61,5 @@ public class LoginService implements UserDetailsService {
         }
         return new EmpDetails(login);
     }
-
 
 }

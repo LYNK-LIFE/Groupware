@@ -39,4 +39,32 @@
          WHERE a.EMPLOYEE_NO = #{empName}
     </select>
 
+    <!-- 로그인/아웃 시간 삽입 -->
+    <insert id="insertLoginLog">
+        INSERT INTO LOGIN_DATA
+        (LOGIN_STATUS, LOGIN_TIME, EMPLOYEE_NO)
+        VALUE
+        (#{loginStatus}, #{loginTime}, #{empNo})
+    </insert>
+
+    <!-- 사용자 가장 최근 로그인 기록 -->
+    <select id="selectLatestLogByEmpNo" resultType="com.semi.lynk.function.login.model.dto.LoginLogDTO">
+          SELECT EMPLOYEE_NO
+               , LOGIN_STATUS
+               , LOGIN_TIME
+            FROM LOGIN_DATA
+           WHERE EMPLOYEE_NO = #{empNo}
+        ORDER BY LOGIN_TIME DESC
+           LIMIT 1
+    </select>
+
+    <select id="selectLogsByEmpNo" resultType="com.semi.lynk.function.login.model.dto.LoginLogDTO">
+          SELECT EMPLOYEE_NO
+               , LOGIN_STATUS
+               , LOGIN_TIME
+            FROM LOGIN_DATA
+           WHERE EMPLOYEE_NO = #{empNo}
+        ORDER BY LOGIN_TIME DESC
+    </select>
+
 </mapper>
