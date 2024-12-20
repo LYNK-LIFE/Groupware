@@ -71,7 +71,7 @@
 
     <select id="showMyAppStatus" resultMap="selectResultMap">
         select distinct
-            a.employee_name
+             a.employee_name
             ,b.approver
             ,h.schedule_bound
             ,h.schedule_date
@@ -93,4 +93,44 @@
             join schedule h on (a.employee_no = h.employee_no)
     </select>
 
+
+    <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        <id property="id" column="employee_no"/>
+        <result property="name" column="employee_name"/>
+        <result property="totalLeave" column="totalLeave"/>
+        <result property="usedLeave" column="usedLeave"/>
+        <result property="leaveType" column="leave_type"/>
+        <result property="scheduleDate" column="schedule_date"/>
+        <result property="leaveDate" column="leave_date"/>
+        <result property="scheduleBound" column="schedule_bound"/>
+    </resultMap>
+
+    <select id="vacationAppMapper" resultMap="vacationStatusMapper">
+    select distinct
+        a.employee_no
+        ,a.employee_name
+        ,c.totalLeave
+        ,c.usedLeave
+        ,d.leave_type
+        ,d.leave_date
+        ,e.schedule_date
+        ,e.schedule_bound
+    from employee a
+        join department b on (a.department_no = b.department_no)
+        join human_resource c on (a.employee_no = c.employee_no)
+        join dayoff d on (a.employee_no = d.employee_no)
+        join schedule e on (a.employee_no = e.employee_no)
+    where
+        a.employee_no = 12 <!-- 이 사번은 나중에 로그인 연동 할 거-->
+    </select>
+
+    <update id="vacAppUpdateMapper" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        update
+            human_resource
+        set
+            usedLeave = usedLeave + #{usedLeave}
+        where
+            employee_no = 12; <!-- 이 사번은 나중에 로그인 연동 할 거-->
+<!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
+    </update>
 </mapper>

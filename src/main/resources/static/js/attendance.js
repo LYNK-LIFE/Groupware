@@ -1,3 +1,4 @@
+// 달력에 데이터 띄우눈 애
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
     const modalEl = new bootstrap.Modal(document.getElementById('eventModal'), {}); // Bootstrap 모달 객체 생성
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         },
 
+        // 클릭 했을 때 상세 정보 나오는 애
         eventClick: function (info) {
             const props = info.event.extendedProps;
 
@@ -81,119 +83,192 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+/////////////////////////////// 휴가 신청 눌렀을 때 동작하는 애
+let initialTotalLeave = 0;      // 총 연차
+let initialUsedLeave = 0;       // 이미 사용한 연차
+let initialRemainingLeave = 0;  // 초기 남은 연차
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     const calendarEl = document.getElementById('calendar');
-//     const modalEl = document.getElementById('eventModal'); // 모달 엘리먼트
-//     const calendar = new FullCalendar.Calendar(calendarEl, {
-//         headerToolbar: {
-//             left: 'prev,next today',
-//             center: 'title',
-//             right: 'dayGridMonth,dayGridWeek,dayGridDay'
-//         },
-//         initialDate: '2024-12-17',
-//         navLinks: true,
-//         editable: false,
-//         dayMaxEvents: true, // "더보기" 링크
+document.getElementById("vacation-button-id").addEventListener("click", () => {
+    fetch("/employee/vacationSelect")
+        .then((res) => res.json())
+        .then((data) => {
+            if (data && data.length > 0) {
+                const leaveInfo = data[0];
+
+                // 초기 값 저장
+                initialTotalLeave = leaveInfo.totalLeave;
+                initialUsedLeave = leaveInfo.usedLeave;
+                initialRemainingLeave = initialTotalLeave - initialUsedLeave;
+
+                // 모달 초기 UI에 표시
+                document.getElementById("allLeaveDay").value = initialTotalLeave.toFixed(1);
+                document.getElementById("remainingDay").value = initialRemainingLeave.toFixed(1);
+                document.getElementById("useDay").value = ''; // 사용 연차 초기화
+            } else {
+                alert("데이터를 불러오지 못했습니다.");
+            }
+        })
+        .catch((error) => {
+            console.error("데이터 로드 실패:", error);
+        });
+
+    const modalElement = new bootstrap.Modal(document.getElementById("vacationModal"), {});
+    modalElement.show();
+});
+
+function getDateTime(divId) {
+    const date = document.querySelector(`#${divId} input[type="date"]`).value;
+    const time = document.querySelector(`#${divId} select`).value;
+    if (date && time) {
+        return new Date(`${date}T${time}`); // 'yyyy-MM-ddTHH:mm'
+    }
+    return null; // 값이 없으면 null 반환
+}
+
+document.getElementById("startDay").addEventListener("change", (event) => {
+    const startDate = event.target.value;
+    if (startDate) {
+        document.getElementById("endDay").setAttribute("min", startDate);
+    }
+});
+
+function calculateLeave() {
+    const startDateTime = getDateTime("startDateTime");
+    const endDateTime = getDateTime("endDateTime");
+
+    if (!startDateTime || !endDateTime) {
+        resetFields(); // 필드 초기화
+        return;
+    }
+
+    if (endDateTime < startDateTime) {
+        alert("종료일과 시간이 시작일과 시간보다 빠를 수 없습니다.");
+        resetFields();
+        return;
+    }
+
+    const diffInMs = endDateTime - startDateTime;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // 날짜 차이
+    const remainingHours = (diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60); // 남은 시간
+
+    let leaveDays = diffInDays; // 기본 날짜 수
+
+    if (remainingHours > 0) {
+        if (remainingHours <= 5) {
+            leaveDays += 0.5; // 반차
+        } else if (remainingHours <= 9) {
+            leaveDays += 1.0; // 하루
+        } else {
+            leaveDays += Math.ceil(remainingHours / 9); // 9시간 단위로 추가
+        }
+    }
+
+    const remainingLeave = initialRemainingLeave - leaveDays; // 남은 연차 계산
+    if (remainingLeave < 0) {
+        alert("사용 연차가 총 연차를 초과할 수 없습니다.");
+        resetFields();
+        return;
+    }
+
+    document.getElementById("useDay").value = leaveDays.toFixed(1);
+    document.getElementById("remainingDay").value = remainingLeave.toFixed(1);
+}
+
+
+["startDay", "startTime", "endDay", "endTime"].forEach((id) => {
+    document.getElementById(id).addEventListener("change", calculateLeave);
+});
+
+
+function resetFields() {
+    document.getElementById("useDay").value = '';
+    document.getElementById("remainingDay").value = initialRemainingLeave.toFixed(1);
+}
+
+// 과거 일자 선택 못함
+function preventPastDate(inputId) {
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById(inputId).setAttribute("min", today);
+}
+
+preventPastDate("startDay");
+preventPastDate("endDay");
+
+//////////////////////////////////////////////////////////
+
+
+//// 제출 버튼 누르면 서버에 데이터 저장하는애
+document.getElementById("vacationApp").addEventListener("click", () => {
+    const usedLeave = parseFloat(document.getElementById("useDay").value);
+
+    if (isNaN(usedLeave) || usedLeave <= 0) {
+        alert("총 사용 개수를 확인하고 제출해주세요.");
+        return;
+    }
+
+    const payload = { usedLeave }; // 서버로 보낼 데이터
+
+    // 데이터 전송
+    fetch("/employee/vacAppResult", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("서버 응답 오류");
+            }
+
+            // 모달 닫기
+            const modalElement = document.getElementById("vacationModal");
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide(); // 모달창 닫기
+        })
+        .catch((error) => {
+            console.error("휴가 신청 오류:", error);
+            alert("서버와 통신에 문제가 발생했습니다.");
+        });
+});
+
+
+// 모달 안뜸!! 다시 해야 함
+// document.addEventListener("DOMContentLoaded", () => {
+//     console.log("DOMContentLoaded event fired."); // 기본 확인용 로그
 //
-//         events: function (fetchInfo, successCallback, failureCallback) {
-//             fetch('/api/calendar')
-//                 .then((response) => {
-//                     if (!response.ok) {
-//                         throw new Error(`HTTP error! status: ${response.status}`);
+//     // DOM 변경 관찰
+//     const targetNode = document.body;
+//     const observer = new MutationObserver(() => {
+//         const successMessageElement = document.getElementById("vacAppMessage");
+//
+//         if (successMessageElement) {
+//             console.log("Success message element found:", successMessageElement.textContent.trim());
+//             const successMessage = successMessageElement.textContent.trim();
+//
+//             if (successMessage) {
+//                 console.log("Success message present:", successMessage);
+//
+//                 const modalElement = document.getElementById("myModal2");
+//                 if (modalElement) {
+//                     console.log("Modal element found.");
+//                     const modalMessage = modalElement.querySelector(".modal-body2");
+//                     if (modalMessage) {
+//                         modalMessage.textContent = successMessage;
+//                         const myModal = new bootstrap.Modal(modalElement);
+//                         myModal.show();
+//                     } else {
+//                         console.error("Modal message body not found.");
 //                     }
-//                     return response.json();
-//                 })
-//                 .then((data) => {
-//                     const result = data.cal || data; // 응답 구조에 따라 "cal" 키 확인
-//                     if (!Array.isArray(result)) {
-//                         throw new TypeError('Expected result to be an array');
-//                     }
+//                 } else {
+//                     console.error("Modal element not found.");
+//                 }
 //
-//                     const events = [];
-//                     const seenDates = new Set(); // 중복 일정 처리용 Set
-//
-//                     result.forEach((item) => {
-//                         const name = item.employeeDTO?.name || 'Unknown'; // 이름
-//                         const position = item.humanDTO?.position || ''; // 직급
-//                         const workOff = item.commuteDTO?.workOff; // 퇴근 시간
-//                         const scheduleDate = item.scheduleDTO?.scheduleDate; // 기타 일정 날짜
-//                         const leaveDate = item.dayOffDTO?.leaveDate; // 휴가 날짜
-//                         const leaveType = item.dayOffDTO?.leaveType; // 휴가 타입
-//
-//                         // 1. 연차/반차 처리
-//                         if (leaveDate && leaveType !== undefined) {
-//                             if (leaveType === 2 && !seenDates.has(leaveDate)) {
-//                                 // 연차
-//                                 events.push({
-//                                     title: `${name} ${position} (연차)`,
-//                                     start: leaveDate,
-//                                     backgroundColor: 'green',
-//                                     extendedProps: {
-//                                         type: '연차',
-//                                         memo: item.dayOffDTO?.leaveMemo,
-//                                         startDate: leaveDate,
-//                                         endDate: leaveDate
-//                                     }
-//                                 });
-//                                 seenDates.add(leaveDate);
-//                             } else if (leaveType === 1 && !seenDates.has(leaveDate)) {
-//                                 // 반차
-//                                 events.push({
-//                                     title: `${name} ${position} (반차)`,
-//                                     start: leaveDate,
-//                                     backgroundColor: 'lightgreen',
-//                                     extendedProps: {
-//                                         type: '반차',
-//                                         memo: item.dayOffDTO?.leaveMemo,
-//                                         startDate: leaveDate,
-//                                         endDate: leaveDate
-//                                     }
-//                                 });
-//                                 seenDates.add(leaveDate);
-//                             }
-//                         }
-//
-//                         // 2. 초과근무 처리
-//                         if (workOff && scheduleDate && workOff.slice(11, 16) > "18:00" && !seenDates.has(scheduleDate)) {
-//                             events.push({
-//                                 title: `${name} ${position} (연장근무)`,
-//                                 start: scheduleDate,
-//                                 backgroundColor: 'orange',
-//                                 extendedProps: {
-//                                     type: '연장근무',
-//                                     workOff,
-//                                     startDate: scheduleDate,
-//                                     endDate: scheduleDate
-//                                 }
-//                             });
-//                             seenDates.add(scheduleDate);
-//                         }
-//                     });
-//
-//                     successCallback(events); // FullCalendar에 이벤트 전달
-//                 })
-//                 .catch((error) => {
-//                     console.error('Error fetching calendar events:', error);
-//                     failureCallback(error);
-//                 });
-//         },
-//         eventClick: function (info) {
-//             // 이벤트 클릭 시 동작
-//             const props = info.event.extendedProps;
-//             modalEl.querySelector('h3').textContent = '일정 조회';
-//             modalEl.querySelector('p:nth-of-type(1)').textContent = `구 분 : ${props.type}`;
-//             modalEl.querySelector('p:nth-of-type(2)').textContent = `시작일 : ${props.startDate}`;
-//             modalEl.querySelector('p:nth-of-type(3)').textContent = `종료일 : ${props.endDate}`;
-//             modalEl.querySelector('p:nth-of-type(4)').textContent = `메모 : ${props.memo || '없음'}`;
-//             modalEl.style.display = 'block'; // 모달 표시
+//                 // 관찰 중지
+//                 observer.disconnect();
+//             }
 //         }
 //     });
 //
-//     // 모달 닫기
-//     modalEl.addEventListener('click', function () {
-//         modalEl.style.display = 'none'; // 모달 숨김
-//     });
-//
-//     calendar.render();
+//     observer.observe(targetNode, { childList: true, subtree: true });
 // });

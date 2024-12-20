@@ -1,6 +1,7 @@
 package com.semi.lynk.function.human.controller;
 
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import com.semi.lynk.function.human.model.dto.*;
 import com.semi.lynk.function.human.service.CalendarService;
 import com.semi.lynk.function.human.service.EmployeeService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -96,10 +98,10 @@ public class EmployeeController {
 
         if (result == 1) {
             response.put("status", "success");
-            response.put("message", "직원이 성공적으로 수정되었습니다.");
+            response.put("message", "직원 정보가 성공적으로 수정되었습니다.");
         } else {
             response.put("status", "error");
-            response.put("message", "직원 수정에 실패했습니다.");
+            response.put("message", "직원 정보 수정에 실패했습니다.");
         }
         return response;
     }
@@ -122,7 +124,8 @@ public class EmployeeController {
     @GetMapping("regist")
     public String moveRegistPage () {
         return "forward:/employee/join";
-    } // forward를 이용해서 join에 처리 위임
+    }
+    // forward를 이용해서 join에 처리 위임
     // forward 안 쓰고 function/human/registPage 그대로 쓰면 값이 안 담겨 있고,
     // 값 담으려면 중복되는 값을 또 넣어줘야 하지만 forward로 끝.
 
@@ -167,5 +170,54 @@ public class EmployeeController {
         List<CalendarDTO> appStatus = calendarService.myAppStatusService();
         return appStatus;
     }
+
+    // 연차 사용 계획서 작성에 본인 연차 정보 들어가는 애
+    @GetMapping(value = "vacationSelect", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<VacationApplicationDTO> vacationSelect () {
+
+        List<VacationApplicationDTO> vacStatusResult = calendarService.vacationStatus();
+        System.out.println(vacStatusResult);
+        return vacStatusResult;
+    }
+    // 연차 사용 계획서 제출 시에 update 되는 애
+    // 글고 ResponseBody로 제출 완료 / 실패 여부 확인함
+    @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
+    public String vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO
+                                 ,EmpAndDepDTO empAndDepDTO // 신청 하고 이름 뜨게 할라고
+                                 , RedirectAttributes rttr, Locale locale) {
+
+        int result = calendarService.vacAppService(vacationApplicationDTO);
+        if (result == 1){
+            rttr.addFlashAttribute("vacAppMessage",
+                    messageSource.getMessage("vacAppSuccess",
+                            new Object[]{empAndDepDTO.getName()} ,locale));
+            return "redirect:/employee/attendance";
+        } else {
+            return "redirect:/employee/attendance";
+        }
+    }
+//@PostMapping("vacAppResult")
+//@ResponseBody
+//public Map<String, Object> submitVacation(@RequestBody VacationApplicationDTO dto) {
+//    Map<String, Object> result = new HashMap<>();
+//
+//    try {
+//        // 기본적으로 시작일과 종료일 확인
+//        if (dto.getScheduleDate().isBefore(LocalDateTime.now())) {
+//            result.put("vacStatus", "fail");
+//            result.put("message", "휴가 시작일은 과거일 수 없습니다.");
+//            return result;
+//        }
+//        // 연차 업데이트
+//        int updateCount = calendarService.vacAppService(dto);
+//
+//        result.put("vacStatus", updateCount > 0 ? "success" : "fail");
+//    } catch (Exception e) {
+//        result.put("vacStatus", "error");
+//        result.put("message", "서버에서 오류가 발생했습니다.");
+//    }
+//    return result;
+//}
 
 }
