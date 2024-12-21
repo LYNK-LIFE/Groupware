@@ -5,12 +5,12 @@
 
 <mapper namespace="com.semi.lynk.function.db_management.model.dao.DbMapper">
 
-    <insert id="insertMeritz">
+    <insert id="insertinsurance">
         INSERT INTO productManage(product_category,product_no, product_name)
         VALUES (#{productCategory}, #{productNo}, #{productName})
     </insert>
 
-    <select id="selectMeritz" resultType="com.semi.lynk.function.db_management.model.dto.ProductManageDTO">
+    <select id="selectinsurance" resultType="com.semi.lynk.function.db_management.model.dto.ProductManageDTO">
         SELECT
             product_category AS productCategory,
             product_no AS productNo,
@@ -18,6 +18,14 @@
         FROM
             productManage;
     </select>
+
+    <delete id="deleteProduct" parameterType="String">
+        DELETE
+        FROM
+            productManage
+        WHERE
+            product_no = #{productNo};
+    </delete>
 
 
 

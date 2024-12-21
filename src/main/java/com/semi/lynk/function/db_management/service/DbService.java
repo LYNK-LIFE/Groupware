@@ -15,12 +15,27 @@ public class DbService {
     @Autowired
     public DbService (DbMapper dbMapper){this.dbMapper=dbMapper;}
 
-    public void meritzRegistration(ProductManageDTO productManageDTO) {
-        dbMapper.insertMeritz(productManageDTO);
+
+    public void insuranceRegistration(ProductManageDTO productManageDTO) {
+        dbMapper.insertinsurance(productManageDTO);
     }
 
 
-    public List<ProductManageDTO> MeritzProducts() {
-        return dbMapper.selectMeritz();
+    public List<ProductManageDTO> insuranceProducts() {
+        return dbMapper.selectinsurance();
     }
+
+
+    public void deleteProduct(String productNo) {
+
+        int rowsAffected = dbMapper.deleteProduct(productNo);
+
+        if (rowsAffected == 0) {
+            throw new RuntimeException("Failed to delete product. Product not found.");
+        }
+    }
+
+
+
+
 }
