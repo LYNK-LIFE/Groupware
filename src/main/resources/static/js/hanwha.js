@@ -3,7 +3,7 @@
 async function registerProduct() {
     // 폼 데이터 가져오기
     const formData = {
-        productCategory: 1,
+        productCategory: 3,
         productNo: document.getElementById('productNo').value, // 상품번호
         productName: document.getElementById('productName').value, // 상품이름
     };
@@ -15,7 +15,7 @@ async function registerProduct() {
     }
 
     // 중복 확인을 위해 서버에서 기존 상품 목록을 가져옴
-    const response = await fetch('/db/meritz/products');
+    const response = await fetch('/db/hanwha/products');
     if (!response.ok) {
         console.error('Failed to fetch products for duplicate check:', response.statusText);
         return;
@@ -42,7 +42,7 @@ async function registerProduct() {
 
     // 확인 버튼 클릭 시 데이터 저장 요청
     confirmButton.onclick = async () => {
-        const saveResponse = await fetch('/db/meritz', {
+        const saveResponse = await fetch('/db/hanwha', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData),
@@ -62,14 +62,14 @@ async function registerProduct() {
 
 
 async function loadProducts() {
-    const response = await fetch('/db/meritz/products'); // 서버에서 상품 목록 가져오기
+    const response = await fetch('/db/hanwha/products'); // 서버에서 상품 목록 가져오기
     if (!response.ok) {
         console.error('Failed to load products:', response.statusText);
         return;
     }
 
 
-    const filterCategory = 1;
+    const filterCategory = 3;
     const products = await response.json();
 
 
@@ -107,8 +107,8 @@ async function deleteProduct(productNo) {
     if (!confirmDelete) return;
 
     try{
-        console.log(`Requesting DELETE for: /db/meritz/${productNo}`);
-        const response = await fetch(`/db/meritz/${productNo}`, {
+        console.log(`Requesting DELETE for: /db/hanwha/${productNo}`);
+        const response = await fetch(`/db/hanwha/${productNo}`, {
             method: 'DELETE',
         });
 

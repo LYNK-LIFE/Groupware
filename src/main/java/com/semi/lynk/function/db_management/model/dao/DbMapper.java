@@ -8,8 +8,13 @@ import java.util.List;
 @Mapper
 public interface DbMapper {
 
-    void insertMeritz(ProductManageDTO productManageDTO);
+    void insertinsurance(ProductManageDTO productManageDTO);
 
 
-    List<ProductManageDTO> selectMeritz();
+    List<ProductManageDTO> selectinsurance();
+
+
+    int deleteProduct(String productNo);
+
+
 }
