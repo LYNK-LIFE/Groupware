@@ -3,22 +3,55 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.semi.lynk.function.notice_board.model.dao.ApprovalMapper">
-    <resultMap id="approvalResultMap" type="com.semi.lynk.function.notice_board.model.dto.NoticeDTO">
-        <id property="noticeNo" column="notice_no"/>
-        <result property="noticeDate" column="notice_date"/>
-        <result property="noticeVote" column="notice_vote"/>
-        <result property="noticeTitle" column="notice_title"/>
-        <result property="noticeContent" column="notice_content"/>
-        <result property="noticeHide" column="notice_hide"/>
-        <result property="viewerCount" column="viewer_count"/>
+<mapper namespace="com.semi.lynk.function.approval_system.model.dao.ApprovalMapper">
+    <resultMap id="draftResultMap" type="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
+        <id property="draftNo" column="draft_no"/>
         <result property="employeeNo" column="employee_no"/>
-        <result property="noticePreNo" column="notice_preno"/>
-        <result property="employeeName" column="employee_name"/>
+        <result property="draftTitle" column="draft_title"/>
+        <result property="draftDate" column="draft_date"/>
+        <result property="draftCompletionTime" column="draft_completion_time"/>
+        <result property="draftRetentionSchedule" column="draft_retention_schedule"/>
+        <result property="draftState" column="draft_state"/>
+        <result property="draftCost" column="draft_cost"/>
+        <result property="draftLastStep" column="draft_last_step"/>
+        <result property="draftCurrentStep" column="draft_current_step"/>
+        <result property="draftMemo" column="draft_memo"/>
+    </resultMap><!-- -->
+
+    <resultMap id="approvalResultMap" type="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
+        <id property="draftNo" column="draft_no"/>
+        <result property="employeeNo" column="employee_no"/>
+        <result property="approvalState" column="approval_state"/>
+        <result property="approvalStep" column="approval_step"/>
+        <result property="approvalPosible" column="approval_posible"/>
+        <result property="approvalCompletionTime" column="approval_completion_time"/>
+        <result property="approvalMemo" column="approval_memo"/>
     </resultMap>
 
-    <insert id="insertApproval" parameterType="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
-
+    <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
+        INSERT INTO draftsh (
+        employee_no,
+        draft_title,
+        draft_date,
+        draft_completion_time,
+        draft_retention_schedule,
+        draft_state,
+        draft_cost,
+        draft_last_step,
+        draft_current_step,
+        draft_memo
+        ) VALUES (
+        #{employeeNo},
+        #{draftTitle},
+        #{draftDate},
+        #{draftCompletionTime},
+        #{draftRetentionSchedule},
+        #{draftState},
+        #{draftCost},
+        #{draftLastStep},
+        #{draftCurrentStep},
+        #{draftMemo}
+        );
     </insert>
 
 </mapper>
