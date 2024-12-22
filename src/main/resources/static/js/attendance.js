@@ -233,42 +233,41 @@ document.getElementById("vacationApp").addEventListener("click", () => {
 });
 
 
-// 모달 안뜸!! 다시 해야 함
-// document.addEventListener("DOMContentLoaded", () => {
-//     console.log("DOMContentLoaded event fired."); // 기본 확인용 로그
-//
-//     // DOM 변경 관찰
-//     const targetNode = document.body;
-//     const observer = new MutationObserver(() => {
-//         const successMessageElement = document.getElementById("vacAppMessage");
-//
-//         if (successMessageElement) {
-//             console.log("Success message element found:", successMessageElement.textContent.trim());
-//             const successMessage = successMessageElement.textContent.trim();
-//
-//             if (successMessage) {
-//                 console.log("Success message present:", successMessage);
-//
-//                 const modalElement = document.getElementById("myModal2");
-//                 if (modalElement) {
-//                     console.log("Modal element found.");
-//                     const modalMessage = modalElement.querySelector(".modal-body2");
-//                     if (modalMessage) {
-//                         modalMessage.textContent = successMessage;
-//                         const myModal = new bootstrap.Modal(modalElement);
-//                         myModal.show();
-//                     } else {
-//                         console.error("Modal message body not found.");
-//                     }
-//                 } else {
-//                     console.error("Modal element not found.");
-//                 }
-//
-//                 // 관찰 중지
-//                 observer.disconnect();
-//             }
-//         }
-//     });
-//
-//     observer.observe(targetNode, { childList: true, subtree: true });
-// });
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded event fired."); // 기본 확인용 로그
+
+    // DOM 변경 관찰
+    const targetNode = document.body;
+    const observer = new MutationObserver(() => {
+        const successMessageElement = document.getElementById("vacAppMessage");
+
+        if (successMessageElement) {
+            console.log("Success message element found:", successMessageElement.textContent.trim());
+            const successMessage = successMessageElement.textContent.trim();
+
+            if (successMessage) {
+                console.log("Success message present:", successMessage);
+
+                const modalElement = document.getElementById("myModal2");
+                if (modalElement) {
+                    console.log("Modal element found.");
+                    const modalMessage = modalElement.querySelector(".modal-body2");
+                    if (modalMessage) {
+                        modalMessage.textContent = successMessage;
+                        const myModal = new bootstrap.Modal(modalElement);
+                        myModal.show();
+                    } else {
+                        console.error("Modal message body not found.");
+                    }
+                } else {
+                    console.error("Modal element not found.");
+                }
+
+                // 관찰 중지
+                observer.disconnect();
+            }
+        }
+    });
+
+    observer.observe(targetNode, { childList: true, subtree: true });
+});

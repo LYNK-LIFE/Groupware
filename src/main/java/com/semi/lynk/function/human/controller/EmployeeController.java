@@ -136,7 +136,7 @@ public class EmployeeController {
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
 
-        System.out.println("Human DTO: " + registHumDTO);
+        System.out.println("registHumDTO: " + registHumDTO);
         int result = employeeService.humanRegist(registHumDTO);
 
         if (result == 1) {
@@ -186,6 +186,8 @@ public class EmployeeController {
     public String vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO
                                  ,EmpAndDepDTO empAndDepDTO // 신청 하고 이름 뜨게 할라고
                                  , RedirectAttributes rttr, Locale locale) {
+
+        System.out.println("vacationApplicationDTO: " + vacationApplicationDTO);
 
         int result = calendarService.vacAppService(vacationApplicationDTO);
         if (result == 1){
