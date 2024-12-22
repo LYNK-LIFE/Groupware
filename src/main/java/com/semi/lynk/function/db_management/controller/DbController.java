@@ -163,6 +163,136 @@ public class DbController {
 //====================================================================================================================
 
 
+    @GetMapping("/metlife")
+    public String metlifeSelect(Model model) {
+        model.addAttribute("productManageDTO", new ProductManageDTO());
+        return "function/db_management/metlife";
+    }
+
+    @PostMapping("/metlife")
+    public ResponseEntity<String> metlifeRegistration(@RequestBody ProductManageDTO productManageDTO) {
+        dbService.insuranceRegistration(productManageDTO);
+        return ResponseEntity.ok("Product registered successfully");
+    }
+
+    @GetMapping("/metlife/products")
+    @ResponseBody
+    public List<ProductManageDTO> metlifeProducts() {return dbService.insuranceProducts();}
+
+
+    @DeleteMapping("/metlife/{productNo}")
+    public ResponseEntity<Void> metlifedeleteProduct(@PathVariable("productNo") String productNo) {
+        dbService.deleteProduct(productNo);
+        return ResponseEntity.ok().build();
+    }
+
+//=====================================================================================================================
+
+
+    @GetMapping("/hanwhalife")
+    public String hanwhalifeSelect(Model model) {
+        model.addAttribute("productManageDTO", new ProductManageDTO());
+        return "function/db_management/hanwhalife";
+    }
+
+    @PostMapping("/hanwhalife")
+    public ResponseEntity<String> hanwhalifeRegistration(@RequestBody ProductManageDTO productManageDTO) {
+        dbService.insuranceRegistration(productManageDTO);
+        return ResponseEntity.ok("Product registered successfully");
+    }
+
+    @GetMapping("/hanwhalife/products")
+    @ResponseBody
+    public List<ProductManageDTO> hanwhalifeProducts() {return dbService.insuranceProducts();}
+
+
+    @DeleteMapping("/hanwhalife/{productNo}")
+    public ResponseEntity<Void> hanwhalifedeleteProduct(@PathVariable("productNo") String productNo) {
+        dbService.deleteProduct(productNo);
+        return ResponseEntity.ok().build();
+    }
+
+
+//    ==================================================================================================================
+
+    @GetMapping("/shinhan")
+    public String shinhanSelect(Model model) {
+        model.addAttribute("productManageDTO", new ProductManageDTO());
+        return "function/db_management/shinhan";
+    }
+
+    @PostMapping("/shinhan")
+    public ResponseEntity<String> shinhanRegistration(@RequestBody ProductManageDTO productManageDTO) {
+        dbService.insuranceRegistration(productManageDTO);
+        return ResponseEntity.ok("Product registered successfully");
+    }
+
+    @GetMapping("/shinhan/products")
+    @ResponseBody
+    public List<ProductManageDTO> shinhanProducts() {return dbService.insuranceProducts();}
+
+
+    @DeleteMapping("/shinhan/{productNo}")
+    public ResponseEntity<Void> shinhandeleteProduct(@PathVariable("productNo") String productNo) {
+        dbService.deleteProduct(productNo);
+        return ResponseEntity.ok().build();
+    }
+
+//====================================================================================================================
+
+
+    @GetMapping("/heungkuk")
+    public String heungkukSelect(Model model) {
+        model.addAttribute("productManageDTO", new ProductManageDTO());
+        return "function/db_management/heungkuk";
+    }
+
+    @PostMapping("/heungkuk")
+    public ResponseEntity<String> heungkukRegistration(@RequestBody ProductManageDTO productManageDTO) {
+        dbService.insuranceRegistration(productManageDTO);
+        return ResponseEntity.ok("Product registered successfully");
+    }
+
+    @GetMapping("/heungkuk/products")
+    @ResponseBody
+    public List<ProductManageDTO> heungkukProducts() {return dbService.insuranceProducts();}
+
+
+    @DeleteMapping("/heungkuk/{productNo}")
+    public ResponseEntity<Void> heungkukdeleteProduct(@PathVariable("productNo") String productNo) {
+        dbService.deleteProduct(productNo);
+        return ResponseEntity.ok().build();
+    }
+
+
+//======================================================================================================================
+
+    @GetMapping("/lina")
+    public String linaSelect(Model model) {
+        model.addAttribute("productManageDTO", new ProductManageDTO());
+        return "function/db_management/lina";
+    }
+
+    @PostMapping("/lina")
+    public ResponseEntity<String> linaRegistration(@RequestBody ProductManageDTO productManageDTO) {
+        dbService.insuranceRegistration(productManageDTO);
+        return ResponseEntity.ok("Product registered successfully");
+    }
+
+    @GetMapping("/lina/products")
+    @ResponseBody
+    public List<ProductManageDTO> linaProducts() {return dbService.insuranceProducts();}
+
+
+    @DeleteMapping("/lina/{productNo}")
+    public ResponseEntity<Void> linadeleteProduct(@PathVariable("productNo") String productNo) {
+        dbService.deleteProduct(productNo);
+        return ResponseEntity.ok().build();
+    }
+
+
+
+
 
 
 
