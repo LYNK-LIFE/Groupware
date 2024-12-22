@@ -93,6 +93,7 @@ document.getElementById("vacation-button-id").addEventListener("click", () => {
         .then((res) => res.json())
         .then((data) => {
             if (data && data.length > 0) {
+
                 const leaveInfo = data[0];
 
                 // 초기 값 저장
@@ -104,6 +105,17 @@ document.getElementById("vacation-button-id").addEventListener("click", () => {
                 document.getElementById("allLeaveDay").value = initialTotalLeave.toFixed(1);
                 document.getElementById("remainingDay").value = initialRemainingLeave.toFixed(1);
                 document.getElementById("useDay").value = ''; // 사용 연차 초기화
+
+                // 24-12-22에 결재자 추가로 때려박음
+                const leaderSelect2 = document.getElementById("leader2"); //[241222 추가]
+                leaderSelect2.innerHTML = "";// [241222 추가]
+
+                data.forEach(item => {
+                    const option2 = document.createElement("option");// [241222 추가]
+                    option2.value = item.id; // 사번 또는 고유 ID [241222 추가]
+                    option2.innerText = item.name; // 이름 표시 [241222 추가]
+                    leaderSelect2.appendChild(option2); // 차일드로 박아 넣음 [241222 추가]
+                });
             } else {
                 alert("데이터를 불러오지 못했습니다.");
             }
@@ -216,24 +228,57 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         },
         body: JSON.stringify(payload),
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("서버 응답 오류");
+        .then(res => res.json()) // JSON 형태로 응답 파싱
+        .then(data => {
+            if (data.status === "success") {
+                alert(data.message);
+                location.reload(); // 페이지 새로고침으로 업데이트된 데이터 표시
+            } else {
+                alert(data.message);
             }
-
-            // 모달 닫기
-            const modalElement = document.getElementById("vacationModal");
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            modal.hide(); // 모달창 닫기
         })
-        .catch((error) => {
-            console.error("휴가 신청 오류:", error);
-            alert("서버와 통신에 문제가 발생했습니다.");
-        });
+        .catch(err => console.error("직원 수정 실패:", err));
+
+    // 모달 닫기
+    const myModal = document.getElementById("myModal");
+    myModal.style.display = "none";
 });
 
-
-// 모달 안뜸!! 다시 해야 함
+// document.getElementById("vacationApp").addEventListener("click", () => {
+//     const usedLeave = parseFloat(document.getElementById("useDay").value);
+//
+//     if (isNaN(usedLeave) || usedLeave <= 0) {
+//         alert("총 사용 개수를 확인하고 제출해주세요.");
+//         return;
+//     }
+//
+//     const payload = { usedLeave }; // 서버로 보낼 데이터
+//
+//     // 데이터 전송
+//     fetch("/employee/vacAppResult", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(payload),
+//     })
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw new Error("서버 응답 오류");
+//             }
+//
+//             // 모달 닫기
+//             const modalElement = document.getElementById("vacationModal");
+//             const modal = bootstrap.Modal.getInstance(modalElement);
+//             modal.hide(); // 모달창 닫기
+//         })
+//         .catch((error) => {
+//             console.error("휴가 신청 오류:", error);
+//             alert("서버와 통신에 문제가 발생했습니다.");
+//         });
+// });
+//
+//
 // document.addEventListener("DOMContentLoaded", () => {
 //     console.log("DOMContentLoaded event fired."); // 기본 확인용 로그
 //

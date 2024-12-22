@@ -1,6 +1,7 @@
 package com.semi.lynk.function.human.model.dao;
 
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO;
 import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,8 @@ public interface CalendarMapper {
     List<VacationApplicationDTO> vacationAppMapper();
 
     int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
+
+    List<OverTimeApplicationDTO> overTimeAppMapper();
+
+    int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
 }

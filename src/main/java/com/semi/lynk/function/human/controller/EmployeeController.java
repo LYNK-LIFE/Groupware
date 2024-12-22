@@ -1,6 +1,7 @@
 package com.semi.lynk.function.human.controller;
 
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
+import com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO;
 import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import com.semi.lynk.function.human.model.dto.*;
 import com.semi.lynk.function.human.service.CalendarService;
@@ -90,7 +91,7 @@ public class EmployeeController {
 //    }
 
     @PostMapping("modify")
-    @ResponseBody // JSON 응답으로 변환
+    @ResponseBody // JSON 응답으로 변환!!
     public Map<String, Object> modifyMethod(@RequestBody ModifyDTO modifyDTO) {
         System.out.println("수신된 DTO: " + modifyDTO);
         int result = employeeService.modifyService(modifyDTO);
@@ -136,7 +137,7 @@ public class EmployeeController {
                                ,RedirectAttributes rtt
                                 ,Locale locale) {
 
-        System.out.println("Human DTO: " + registHumDTO);
+        System.out.println("registHumDTO: " + registHumDTO);
         int result = employeeService.humanRegist(registHumDTO);
 
         if (result == 1) {
@@ -183,41 +184,65 @@ public class EmployeeController {
     // 연차 사용 계획서 제출 시에 update 되는 애
     // 글고 ResponseBody로 제출 완료 / 실패 여부 확인함
     @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
-    public String vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO
-                                 ,EmpAndDepDTO empAndDepDTO // 신청 하고 이름 뜨게 할라고
-                                 , RedirectAttributes rttr, Locale locale) {
-
+    @ResponseBody
+    public Map<String, Object> vacAppResult(@RequestBody VacationApplicationDTO vacationApplicationDTO) {
+        System.out.println("vacationApplicationDTO: " + vacationApplicationDTO);
         int result = calendarService.vacAppService(vacationApplicationDTO);
-        if (result == 1){
-            rttr.addFlashAttribute("vacAppMessage",
-                    messageSource.getMessage("vacAppSuccess",
-                            new Object[]{empAndDepDTO.getName()} ,locale));
-            return "redirect:/employee/attendance";
-        } else {
-            return "redirect:/employee/attendance";
-        }
-    }
-//@PostMapping("vacAppResult")
-//@ResponseBody
-//public Map<String, Object> submitVacation(@RequestBody VacationApplicationDTO dto) {
-//    Map<String, Object> result = new HashMap<>();
-//
-//    try {
-//        // 기본적으로 시작일과 종료일 확인
-//        if (dto.getScheduleDate().isBefore(LocalDateTime.now())) {
-//            result.put("vacStatus", "fail");
-//            result.put("message", "휴가 시작일은 과거일 수 없습니다.");
-//            return result;
-//        }
-//        // 연차 업데이트
-//        int updateCount = calendarService.vacAppService(dto);
-//
-//        result.put("vacStatus", updateCount > 0 ? "success" : "fail");
-//    } catch (Exception e) {
-//        result.put("vacStatus", "error");
-//        result.put("message", "서버에서 오류가 발생했습니다.");
-//    }
-//    return result;
-//}
+        Map<String, Object> map = new HashMap<>();
 
+        if (result == 1) {
+            map.put("status", "success");
+            map.put("message", "휴가 신청이 완료되었습니다.");
+        } else {
+            map.put("status", "error");
+            map.put("message", "휴가 신청에 실패하였습니다..");
+        }
+        return map;
+    }
+
+    // 모달 시도하려 했던 애. 모달 안 돼서 일단 얼러트로 바꿈.
+//    @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
+//    public String vacAppResult (@RequestBody VacationApplicationDTO vacationApplicationDTO
+//                                 ,EmpAndDepDTO empAndDepDTO // 신청 하고 이름 뜨게 할라고
+//                                 , RedirectAttributes rttr, Locale locale) {
+//
+//        System.out.println("vacationApplicationDTO: " + vacationApplicationDTO);
+//
+//        int result = calendarService.vacAppService(vacationApplicationDTO);
+//        if (result == 1){
+//            rttr.addFlashAttribute("vacAppMessage",
+//                    messageSource.getMessage("vacAppSuccess",
+//                            new Object[]{empAndDepDTO.getName()} ,locale));
+//            return "redirect:/employee/attendance";
+//        } else {
+//            return "redirect:/employee/attendance";
+//        }
+//    }
+
+    @GetMapping (value = "overTimeAppSelect" , produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<OverTimeApplicationDTO> overTimeSelect () {
+
+        List<OverTimeApplicationDTO> approver = calendarService.overTimeAppService();
+
+        return approver;
+    }
+
+    @PostMapping (value = "overTimeAppResult", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> overTimeResult (@RequestBody OverTimeApplicationDTO overTimeDTO) {
+        System.out.println("overTimeDTO: " + overTimeDTO);
+        Map<String, Object> map = new HashMap<>();
+
+        int result = calendarService.overTimeAppDataService(overTimeDTO);
+        if (result == 1) {
+            map.put("status" , "overTimeAppSuccess");
+            map.put("message" , "연장 근무 신청이 완료되었습니다.");
+        } else {
+            map.put("status" , "overTimeAppFail");
+            map.put("message" , "연장 근무 신청에 실패하였습니다.");
+        }
+
+        return map;
+    }
 }
