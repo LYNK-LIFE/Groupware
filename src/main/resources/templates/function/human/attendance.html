@@ -52,13 +52,13 @@
             </div>
         </div>
 
-
         <div class="button-container">
             <div class="left-buttons">
         <button class="application-vacation-button" id="vacation-button-id">휴가 신청</button>
         <button class="application-overtime-button" id="overtime-button-id">연장 근무 신청</button>
             </div>
 
+<!--            연차 신청 모달-->
             <div id="vacationModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -67,6 +67,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <label for="leader2">담당자</label>
+                            <select id="leader2" class="form-control"></select>
+                            <br><br>
+
                             <label for="allLeaveDay">총 연차 개수</label>
                             <input type="text" id="allLeaveDay" class="form-control" disabled><br><br>
 
@@ -104,24 +108,217 @@
                 </div>
             </div>
 
-            <div id="vacAppMessage" style="display: none;" th:text="${vacAppMessage ?: ''}"></div>
-<!--             모랄 메씨지 -->
-            <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+            <!-- 연장 근무 신청 모달 -->
+            <div id="overTimeModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myModalLabel">알림</h5>
+                            <h5 class="modal-title">연장 근무 계획서 작성</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body2">
-                            모달 메시지가 여기에 표시됩니다.
+                        <div class="modal-body">
+                            <label for="leader">담당자</label>
+                            <select id="leader" class="form-control"></select>
+                            <br><br>
+
+                            <div id="startOverTimeDay">
+                                <label for="startOverDay">시작 시간</label>
+                                <input type="date" id="startOverDay" class="form-control">
+                                <select id="startOverTime" class="form-control">
+                                    <option value="18:00">18:00</option>
+                                    <option value="19:00">19:00</option>
+                                </select>
+                            </div><br>
+
+                            <div id="endOverTimeDay">
+                                <label for="endOverDay">종료 시간</label>
+                                <input type="date" id="endOverDay" class="form-control">
+                                <select id="endOverTime" class="form-control">
+                                    <option value="19:00">19:00</option>
+                                    <option value="20:00">20:00</option>
+                                    <option value="21:00">21:00</option>
+                                    <option value="22:00">22:00</option>
+                                </select>
+                            </div><br>
+
+                            <label for="allOverTime">총 연장 근무 시간</label>
+                            <input type="number" id="allOverTime" class="form-control" disabled><br><br>
+
+                            <label for="overTimeReason">사 유</label>
+                            <select id="overTimeReason" class="form-control">
+                                <option value="">사유 선택</option>
+                                <option value="reason1">사유 1</option>
+                                <option value="reason2">사유 2</option>
+                                <option value="reason3">사유 3</option>
+                                <option value="selfInput">직접 입력</option>
+                            </select>
+                            <input type="text" id="selfReasonInput" class="form-control mt-2" style="display:none;" placeholder="사유를 입력하세요">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button id="overTimeApp" type="button" class="btn btn-primary">제출</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <script>
+                // 연장 근무 신청 버튼 클릭
+                document.getElementById("overtime-button-id").addEventListener("click", () => {
+                    fetch("/employee/overTimeAppResult")
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log("결재자 목록 가져왔나~?", data);
+                            const leaderSelect = document.getElementById("leader");
+
+                            // 기존 옵션 초기화
+                            leaderSelect.innerHTML = "";
+
+                            // 새 옵션 추가
+                            data.forEach(item => {
+                                const option = document.createElement("option");
+                                option.value = item.id; // 사번 또는 고유 ID
+                                option.innerText = item.name; // 이름 표시
+                                leaderSelect.appendChild(option); // 차일드로 박아 넣음
+                            });
+                        })
+                        .catch(err => console.error("결재자 목록 가져오기 실패:", err));
+
+                    // 모달 창 뜨게
+                    const modalElement = new bootstrap.Modal(document.getElementById("overTimeModal"), {});
+                    modalElement.show();
+                });
+
+                // 날짜 및 시간 변경 시 동작
+                const startOverDay = document.getElementById("startOverDay");
+                const endOverDay = document.getElementById("endOverDay");
+                const startOverTime = document.getElementById("startOverTime");
+                const endOverTime = document.getElementById("endOverTime");
+                const allOverTime = document.getElementById("allOverTime");
+
+                // 종료일은 시작일과 같게 강제
+                startOverDay.addEventListener("change", () => {
+                    endOverDay.value = startOverDay.value; // 종료일 = 시작일
+                    endOverDay.setAttribute("min", startOverDay.value); // 종료일 최소값 설정
+                });
+
+                // 연장 근무 시간 계산
+                [startOverTime, endOverTime].forEach(el => el.addEventListener("change", () => {
+                    if (startOverTime.value && endOverTime.value) {
+                        const start = new Date(`1970-01-01T${startOverTime.value}:00`);
+                        const end = new Date(`1970-01-01T${endOverTime.value}:00`);
+                        const hours = (end - start) / (1000 * 60 * 60); // 시간 차이 계산
+
+                        if (hours > 0) {
+                            allOverTime.value = hours.toFixed(1); // 총 시간 표시
+                        } else {
+                            alert("종료 시간이 시작 시간보다 빠를 수 없습니다.");
+                            allOverTime.value = "";
+                        }
+                    }
+                }));
+
+                // 사유 선택 시 동작
+                const overTimeReason = document.getElementById("overTimeReason");
+                const selfReasonInput = document.getElementById("selfReasonInput");
+
+                overTimeReason.addEventListener("change", () => {
+                    if (overTimeReason.value === "selfInput") {
+                        selfReasonInput.style.display = "block"; // 직접 입력 필드 표시
+                    } else {
+                        selfReasonInput.style.display = "none"; // 숨김
+                        selfReasonInput.value = ""; // 입력값 초기화
+                    }
+                });
+
+                // 오늘보다 이전 날짜 선택 방지
+                function preventPastDate(inputId) {
+                    const today = new Date().toISOString().split("T")[0];
+                    document.getElementById(inputId).setAttribute("min", today);
+                }
+
+                // 시작일과 종료일 초기화
+                preventPastDate("startOverDay");
+                preventPastDate("endOverDay");
+
+                // 모달 열릴 때 초기화
+                document.getElementById("overtime-button-id").addEventListener("click", () => {
+                    const startDay = document.getElementById("startOverDay");
+                    const endDay = document.getElementById("endOverDay");
+                    const startTime = document.getElementById("startOverTime");
+                    const endTime = document.getElementById("endOverTime");
+
+                    // 시작일과 종료일 초기값 설정
+                    const today = new Date().toISOString().split("T")[0];
+                    startDay.value = today;
+                    endDay.value = today;
+                    endDay.setAttribute("min", today); // 종료일 최소값 추가
+                    endDay.setAttribute("max", today); // 종료일 최대값 추가 (시작일과 동일)
+
+                    // 시작 시간 초기값 설정
+                    startTime.value = "18:00";
+
+                    // 종료 시간 초기값 설정 (1시간 이후)
+                    endTime.value = "19:00";
+
+                    calculateOverTime(); // 시간 계산 초기화
+                });
+
+                // 시작일 변경 시 종료일 강제 동기화
+                document.getElementById("startOverDay").addEventListener("change", () => {
+                    const startDay = document.getElementById("startOverDay").value;
+                    const endDay = document.getElementById("endOverDay");
+
+                    if (startDay) {
+                        endDay.value = startDay; // 종료일 = 시작일로 강제
+                        endDay.setAttribute("min", startDay); // 종료일 최소값 설정
+                        endDay.setAttribute("max", startDay); // 종료일 최대값 설정
+                        calculateOverTime(); // 계산 함수 호출
+                    }
+                });
+
+                // 종료일 변경 시 유효성 검증 (비정상적인 값 방지)
+                document.getElementById("endOverDay").addEventListener("change", () => {
+                    const startDay = document.getElementById("startOverDay").value;
+                    const endDay = document.getElementById("endOverDay").value;
+
+                    if (endDay !== startDay) {
+                        alert("종료일은 시작일과 같아야 합니다.");
+                        document.getElementById("endOverDay").value = startDay; // 강제 동기화
+                    }
+                    calculateOverTime(); // 계산 함수 호출
+                });
+
+                // 시간 변경 이벤트 핸들러 등록
+                [document.getElementById("startOverTime"), document.getElementById("endOverTime")].forEach(el =>
+                    el.addEventListener("change", calculateOverTime)
+                );
+
+                // 총 연장 근무 시간 계산
+                function calculateOverTime() {
+                    const startTime = document.getElementById("startOverTime").value;
+                    const endTime = document.getElementById("endOverTime").value;
+                    const totalTime = document.getElementById("allOverTime");
+
+                    if (startTime && endTime) {
+                        const start = new Date(`1970-01-01T${startTime}:00`);
+                        const end = new Date(`1970-01-01T${endTime}:00`);
+                        const hours = (end - start) / (1000 * 60 * 60); // 시간 계산
+
+                        if (hours > 0) {
+                            totalTime.value = hours.toFixed(1); // 유효한 시간 차이
+                        } else {
+                            totalTime.value = ""; // 잘못된 경우
+                            alert("종료 시간이 시작 시간보다 빠를 수 없습니다.");
+                        }
+                    } else {
+                        totalTime.value = ""; // 값 비우기
+                    }
+                }
+            </script>
+
+
+
 
             <div class="right-buttons">
         <button class="application-approval-button" id="approval-button-id">
@@ -132,6 +329,26 @@
         </div>
 
     </section>
+    <!--            휴가 신청서 제출 했을 때 모달 안 됨! 일단 얼러트로 대체-->
+    <!--            <div id="vacAppMessage" style="display: none;" th:text="${vacAppMessage ?: ''}"></div>-->
+    <!--&lt;!&ndash;             모랄 메씨지 &ndash;&gt;-->
+    <!--            <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--                <div class="modal-dialog">-->
+    <!--                    <div class="modal-content">-->
+    <!--                        <div class="modal-header">-->
+    <!--                            <h5 class="modal-title" id="myModalLabel">알림</h5>-->
+    <!--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+    <!--                        </div>-->
+    <!--                        <div class="modal-body2">-->
+    <!--                            모달 메시지가 여기에 표시됩니다.-->
+    <!--                        </div>-->
+    <!--                        <div class="modal-footer">-->
+    <!--                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+
     <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
     <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
 </div>

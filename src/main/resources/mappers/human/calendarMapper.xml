@@ -69,6 +69,7 @@
             join department f on (a.department_no = f.department_no)
     </select>
 
+    <!-- 내 신청현황 드가면 보이는 애들 -->
     <select id="showMyAppStatus" resultMap="selectResultMap">
         select distinct
              a.employee_name
@@ -133,4 +134,22 @@
             employee_no = 12; <!-- 이 사번은 나중에 로그인 연동 할 거-->
 <!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
     </update>
+
+    <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
+        <id property="id" column="employee_no"/>
+        <result property="name" column="employee_name"/>
+        <result property="scheduleDate" column="schedule_date"/>
+        <result property="scheduleType" column="schedule_type"/>
+        <result property="scheduleNote" column="schedule_note"/>
+        <result property="workOff" column="work_off"/>
+    </resultMap>
+
+    <select id="overTimeAppMapper" resultMap="overTimeAppResultMap">
+        select distinct
+             employee_name <!-- 결재자 : 사번 , 이름 나중에 연결 / option에 들어갈 애들 -->
+        from
+            employee
+<!--        where-->
+<!--            employee_no = 12 &lt;!&ndash; 신청 올리는 애 : 나중에 연결&ndash;&gt;-->
+    </select >
 </mapper>

@@ -1,5 +1,6 @@
 package com.semi.lynk.function.human.service;
 
+import com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO;
 import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import com.semi.lynk.function.human.model.dao.CalendarMapper;
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
@@ -37,5 +38,9 @@ public class CalendarService {
         int result = calendarMapper.vacAppUpdateMapper(vacationApplicationDTO);
 
         return result >= 1 ? 1 : 0;
+    }
+
+    public List<OverTimeApplicationDTO> overTimeAppService() {
+        return calendarMapper.overTimeAppMapper();
     }
 }
