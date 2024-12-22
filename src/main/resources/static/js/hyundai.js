@@ -3,7 +3,7 @@
 async function registerProduct() {
     // 폼 데이터 가져오기
     const formData = {
-        productCategory: 1,
+        productCategory: 2,
         productNo: document.getElementById('productNo').value, // 상품번호
         productName: document.getElementById('productName').value, // 상품이름
     };
@@ -15,7 +15,7 @@ async function registerProduct() {
     }
 
     // 중복 확인을 위해 서버에서 기존 상품 목록을 가져옴
-    const response = await fetch('/db/meritz/products');
+    const response = await fetch('/db/hyundai/products');
     if (!response.ok) {
         console.error('Failed to fetch products for duplicate check:', response.statusText);
         return;
@@ -42,7 +42,7 @@ async function registerProduct() {
 
     // 확인 버튼 클릭 시 데이터 저장 요청
     confirmButton.onclick = async () => {
-        const saveResponse = await fetch('/db/meritz', {
+        const saveResponse = await fetch('/db/hyundai', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData),
@@ -61,43 +61,43 @@ async function registerProduct() {
 
 
 
-async function loadProducts() {
-    const response = await fetch('/db/meritz/products'); // 서버에서 상품 목록 가져오기
-    if (!response.ok) {
-        console.error('Failed to load products:', response.statusText);
-        return;
-    }
+    async function loadProducts() {
+        const response = await fetch('/db/hyundai/products'); // 서버에서 상품 목록 가져오기
+        if (!response.ok) {
+            console.error('Failed to load products:', response.statusText);
+            return;
+        }
 
 
-    const filterCategory = 1;
-    const products = await response.json();
+        const filterCategory = 2;
+        const products = await response.json();
 
 
-    const filteredProducts = products.filter(product => product.productCategory === filterCategory);
+        const filteredProducts = products.filter(product => product.productCategory === filterCategory);
 
-    const productList = document.getElementById('productList'); // 상품 목록을 표시할 html 요소
-    productList.innerHTML = '';
+        const productList = document.getElementById('productList'); // 상품 목록을 표시할 html 요소
+        productList.innerHTML = '';
 
 
-    // 필터링된 상품 목록을 화면에 추가
-    filteredProducts.forEach(product => {
-        const li = document.createElement('li');
-        li.innerHTML = `보험회사코드: ${product.productCategory}, 
+        // 필터링된 상품 목록을 화면에 추가
+        filteredProducts.forEach(product => {
+            const li = document.createElement('li');
+            li.innerHTML = `보험회사코드: ${product.productCategory}, 
                             상품번호: ${product.productNo}, 
                             상품이름: ${product.productName}
                             <button data-product-no="${product.productNo}">삭제</button> `;
 
-        productList.appendChild(li);
-    });
-}
+            productList.appendChild(li);
+        });
+    }
 
 // 삭제 버튼 클릭 이벤트 처리 (Event Delegation)
-document.getElementById('productList').addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON') {
-        const productNo = event.target.getAttribute('data-product-no');
-        deleteProduct(productNo);
-    }
-});
+    document.getElementById('productList').addEventListener('click', (event) => {
+        if (event.target.tagName === 'BUTTON') {
+            const productNo = event.target.getAttribute('data-product-no');
+            deleteProduct(productNo);
+        }
+    });
 
 
 
@@ -107,8 +107,8 @@ async function deleteProduct(productNo) {
     if (!confirmDelete) return;
 
     try{
-        console.log(`Requesting DELETE for: /db/meritz/${productNo}`);
-        const response = await fetch(`/db/meritz/${productNo}`, {
+        console.log(`Requesting DELETE for: /db/hyundai/${productNo}`);
+        const response = await fetch(`/db/hyundai/${productNo}`, {
             method: 'DELETE',
         });
 
@@ -119,9 +119,9 @@ async function deleteProduct(productNo) {
         }
 
 
-        console.log('Product deleted successfully');
+            console.log('Product deleted successfully');
 
-        loadProducts(); // 삭제 후 상품 목록 갱신
+                 loadProducts(); // 삭제 후 상품 목록 갱신
 
 
     } catch (error) {
@@ -134,4 +134,4 @@ async function deleteProduct(productNo) {
 
 
 // 페이지 로드 시 상품 목록 초기화
-loadProducts();
+    loadProducts();
