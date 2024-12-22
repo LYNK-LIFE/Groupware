@@ -43,4 +43,9 @@ public class CalendarService {
     public List<OverTimeApplicationDTO> overTimeAppService() {
         return calendarMapper.overTimeAppMapper();
     }
+
+    public int overTimeAppDataService(OverTimeApplicationDTO overTimeDTO) {
+        int result = calendarMapper.overTimeAppDataMapper(overTimeDTO);
+        return result >= 1 ? 1 : 0;
+    }
 }

@@ -163,9 +163,9 @@
             </div>
 
             <script>
-                // 연장 근무 신청 버튼 클릭
+                // 연장 근무 신청 버튼 클릭 시 동작하는 애
                 document.getElementById("overtime-button-id").addEventListener("click", () => {
-                    fetch("/employee/overTimeAppResult")
+                    fetch("/employee/overTimeAppSelect")
                         .then(res => res.json())
                         .then(data => {
                             console.log("결재자 목록 가져왔나~?", data);
@@ -315,10 +315,58 @@
                         totalTime.value = ""; // 값 비우기
                     }
                 }
+
+                /// 연장 근무 계획서 작성 후, 제출 누를 때 서버에 저장하는 애
+                document.getElementById("overTimeApp").addEventListener("click", () => {
+                    // 입력 데이터 가져오기
+                    const leaderId = document.getElementById("leader").value; // 담당자 사번
+                    const startDay = document.getElementById("startOverDay").value; // 시작일
+                    const startTime = document.getElementById("startOverTime").value; // 시작 시간
+                    const endDay = document.getElementById("endOverDay").value; // 종료일
+                    const endTime = document.getElementById("endOverTime").value; // 종료 시간
+                    const scheduleNote = document.getElementById("overTimeReason").value === "selfInput"
+                        ? document.getElementById("selfReasonInput").value // 직접 입력값
+                        : document.getElementById("overTimeReason").value; // 선택된 사유
+
+                    // 필수 값 체크
+                    // if (!leaderId || !startDay || !startTime || !endDay || !endTime || !scheduleNote) {
+                    //     alert("모든 필수 값을 입력해주세요.");
+                    //     return;
+                    // }
+
+                    // dto로 모음
+                    const overTimeDTO = {
+                        id: leaderId, // 담당자 사번 / 얜 나중에 쓸 듯.
+                        startOverDay: startDay,
+                        // startOverTime: `${startDay}T${startTime}:00`, // LocalDateTime 형식으로 변환
+                        scheduleDate: `${startDay}T${startTime}:00`, // 일단은 얘만 보냄. 나중에 수정 해야 함.
+                        endOverDay: endDay,
+                        endOverTime: `${endDay}T${endTime}:00`,
+                        scheduleNote: scheduleNote // 메모 (사유)
+                    };
+
+                    console.log("보낼 데이터:", overTimeDTO); // 디버깅용 로그
+
+                    // 서버로 데이터 전송
+                    fetch("/employee/overTimeAppResult", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(overTimeDTO),
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            if (data.status === "overTimeAppSuccess") {
+                                alert(data.message);
+                                location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch((err) => console.error("연장 근무 신청 실패:", err));
+                });
             </script>
-
-
-
 
             <div class="right-buttons">
         <button class="application-approval-button" id="approval-button-id">

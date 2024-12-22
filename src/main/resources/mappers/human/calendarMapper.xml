@@ -151,5 +151,14 @@
             employee
 <!--        where-->
 <!--            employee_no = 12 &lt;!&ndash; 신청 올리는 애 : 나중에 연결&ndash;&gt;-->
-    </select >
+    </select>
+
+    <update id="overTimeAppDataMapper" parameterType="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
+        update schedule <!-- 난중에 고쳐야 함 -->
+             set
+             schedule_date = #{scheduleDate}
+            ,schedule_note = #{scheduleNote}
+        where
+            employee_no = 12; <!-- 나중에 신청 보내는 애(로그인)랑 연결할 거 -->
+    </update>
 </mapper>

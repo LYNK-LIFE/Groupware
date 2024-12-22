@@ -19,4 +19,5 @@ public interface CalendarMapper {
 
     List<OverTimeApplicationDTO> overTimeAppMapper();
 
+    int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
 }

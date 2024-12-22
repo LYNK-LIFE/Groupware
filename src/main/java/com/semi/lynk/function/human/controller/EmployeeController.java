@@ -219,12 +219,30 @@ public class EmployeeController {
 //        }
 //    }
 
-    @GetMapping (value = "overTimeAppResult" , produces = "application/json; charset=UTF-8")
+    @GetMapping (value = "overTimeAppSelect" , produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<OverTimeApplicationDTO>  overTileSelect () {
+    public List<OverTimeApplicationDTO> overTimeSelect () {
 
         List<OverTimeApplicationDTO> approver = calendarService.overTimeAppService();
 
         return approver;
+    }
+
+    @PostMapping (value = "overTimeAppResult", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> overTimeResult (@RequestBody OverTimeApplicationDTO overTimeDTO) {
+        System.out.println("overTimeDTO: " + overTimeDTO);
+        Map<String, Object> map = new HashMap<>();
+
+        int result = calendarService.overTimeAppDataService(overTimeDTO);
+        if (result == 1) {
+            map.put("status" , "overTimeAppSuccess");
+            map.put("message" , "연장 근무 신청이 완료되었습니다.");
+        } else {
+            map.put("status" , "overTimeAppFail");
+            map.put("message" , "연장 근무 신청에 실패하였습니다.");
+        }
+
+        return map;
     }
 }
