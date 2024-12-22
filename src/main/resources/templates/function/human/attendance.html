@@ -171,14 +171,13 @@
                             console.log("결재자 목록 가져왔나~?", data);
                             const leaderSelect = document.getElementById("leader");
 
-                            // 기존 옵션 초기화
-                            leaderSelect.innerHTML = "";
+                            leaderSelect.innerHTML = ""; // 옵션 초기화
 
                             // 새 옵션 추가
                             data.forEach(item => {
                                 const option = document.createElement("option");
-                                option.value = item.id; // 사번 또는 고유 ID
-                                option.innerText = item.name; // 이름 표시
+                                option.value = item.id;
+                                option.innerText = item.name;
                                 leaderSelect.appendChild(option); // 차일드로 박아 넣음
                             });
                         })
