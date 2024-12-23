@@ -28,7 +28,11 @@ function renderTable(data) {
 
     data.forEach(item => {
         const row = document.createElement("tr");
-        row.innerHTML = `
+
+        // 24-12-23 추가 , 얘는 상세 정보 클릭 했을 때만 출력되는 애.
+        row.setAttribute("data-join-date",item.humanDTO.joinDate);
+
+        row.innerHTML = ` <!-- 얘는 페이지 들어오면 나오는 애 -->
             <td>${item.id}</td>
             <td>${item.name}</td>
             <td>${item.departmentDTO.depName}</td>
@@ -79,35 +83,32 @@ document.getElementById("lookupInput").addEventListener("keyup", (event) => {
     }
 });
 
-// 클릭 이벤트: 테이블 행 클릭 시 모달 창 표시
+// 클릭 했을 때 수정 가능한 모달창 띄우는 거
 document.getElementById("employee-table-body").addEventListener("click", (event) => {
-    // 이벤트 위임을 사용해 클릭된 요소를 탐색
-    const row = event.target.closest("tr"); // 클릭된 셀의 가장 가까운 "tr" 행
+    const row = event.target.closest("tr"); // 클릭된 행 가져오기
     if (row) {
-        const cells = row.getElementsByTagName("td"); // 클릭된 행의 모든 <td> 가져오기
+        const cells = row.getElementsByTagName("td"); // 클릭한 행 모든 td 가져오기
 
-        const employeeData = {
-            id: cells[0].textContent,
-            name: cells[1].textContent,
-            depNo: cells[2].textContent,
-            position: cells[3].textContent,
-            employeementStatus: cells[4].textContent,
-            phoneNumber: cells[5].textContent
-        };
+        // 행의 ID 및 Join Date 가져오기
+        const employeeId = cells[0].textContent; // 사번
+        const joinDate = row.getAttribute("data-join-date");
+        // 24-12-23 추가한 애 / data-join-date 속성 읽기
 
-        // 모달 폼에 데이터 설정
-        document.getElementById("editId").value = employeeData.id;
-        document.getElementById("editName").value = employeeData.name;
-        document.getElementById("editDepNo").value = employeeData.depNo;
-        document.getElementById("editPosition").value = employeeData.position;
-        document.getElementById("editStatus").value = employeeData.employeementStatus;
-        document.getElementById("editPhone").value = employeeData.phoneNumber;
-
-        // Bootstrap 모달 표시
-        const modalElement = new bootstrap.Modal(document.getElementById("myModal"), {});
-        modalElement.show(); // 모달 열기
+        // 모달 창에 데이타 삽입
+        document.getElementById("editId").value = employeeId;
+        document.getElementById("editName").value = cells[1].textContent;
+        document.getElementById("editDepNo").value = cells[2].textContent;
+        document.getElementById("editPosition").value = cells[3].textContent;
+        document.getElementById("editStatus").value = cells[4].textContent;
+        document.getElementById("editPhone").value = cells[5].textContent;
+        document.getElementById("editJoinDate").value = joinDate || ""; // Join Date 데이터 설정 (없으면 빈 값)
     }
+
+    // Bootstrap 모달 표시
+    const modalElement = new bootstrap.Modal(document.getElementById("myModal"), {});
+    modalElement.show(); // 모달 열기
 });
+
 
 // 클릭 시 수정 가능 모달
 // 직원 테이블에서 행 클릭 이벤트
@@ -120,6 +121,7 @@ document.getElementById("saveChanges").addEventListener("click", () => {
             position: document.getElementById("editPosition").value,
             employeementStatus: document.getElementById("editStatus").value,
             phoneNumber: document.getElementById("editPhone").value,
+            joinDate: document.getElementById("editJoinDate").value // 24-12-23 입사 일자 추가
         }
     };
 
