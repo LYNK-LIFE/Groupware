@@ -13,7 +13,7 @@ public class ContractDTO {
     private int contractMngNo; // 계약일련번호
     private String contractNo; // 계약번호
     private Date contractDate; // 계약일자
-    private int contractDuration; // 납입기간
+    private int contractDuration; // 계약기간
     private int eachPayment; // 납입금액
     private String basicPayWith; // 기본결제수단
     private int paymentTerm; //납입주기
