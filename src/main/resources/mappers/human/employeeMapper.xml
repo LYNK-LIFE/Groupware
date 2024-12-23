@@ -113,6 +113,7 @@
         select
              a.employee_no
             ,a.employee_name
+            ,a.image <!-- 24-12-23 추가, 상세조회 클릭 했을 때만 나오게-->
             ,c.department_name
             ,b.position
             ,b.employeement_status

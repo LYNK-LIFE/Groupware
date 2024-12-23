@@ -13,4 +13,6 @@ public class LookUpDTO {
     private String name;
     private HumanDTO humanDTO;
     private DepartmentDTO departmentDTO;
+
+    private String image;
 }
