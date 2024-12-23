@@ -31,12 +31,13 @@ function renderTable(data) {
 
         // 24-12-23 추가 , 얘는 상세 정보 클릭 했을 때만 출력되는 애.
         row.setAttribute("data-join-date",item.humanDTO.joinDate);
-        row.setAttribute("data-image" , item.image);
+        // row.setAttribute("data-image" , item.image);
+        row.setAttribute("data-department", item.departmentDTO.depName || "");
 
         row.innerHTML = ` <!-- 얘는 페이지 들어오면 나오는 애 -->
             <td>${item.id}</td>
             <td>${item.name}</td>
-            <td>${item.departmentDTO.depName}</td>
+            <td>${item.departmentDTO.depName || "N/A"}</td>
             <td>${item.humanDTO.position}</td>
             <td>${item.humanDTO.employeementStatus}</td>
             <td>${item.humanDTO.phoneNumber}</td>
@@ -94,17 +95,18 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
         const employeeId = cells[0].textContent; // 사번
         const joinDate = row.getAttribute("data-join-date");
         // 24-12-23 추가한 애 / data-join-date 속성 읽기
-        const image = row.getAttribute("data-image");
+        // const image = row.getAttribute("data-image");
+        const depName = row.getAttribute("data-department") || "";
 
         // 모달 창에 데이타 삽입
         document.getElementById("editId").value = employeeId;
         document.getElementById("editName").value = cells[1].textContent;
-        document.getElementById("editDepNo").value = cells[2].textContent;
+        document.getElementById("editDepName").value = depName;
         document.getElementById("editPosition").value = cells[3].textContent;
         document.getElementById("editStatus").value = cells[4].textContent;
         document.getElementById("editPhone").value = cells[5].textContent;
         document.getElementById("editJoinDate").value = joinDate || ""; // Join Date 데이터 설정 (없으면 빈 값)
-        document.getElementById("editImage").value = image || "image 없음";
+        // document.getElementById("editImage").value = image || "image 없음";
     }
 
     // Bootstrap 모달 표시
@@ -117,9 +119,10 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
 // 직원 테이블에서 행 클릭 이벤트
 document.getElementById("saveChanges").addEventListener("click", () => {
     const updatedEmployee = {
+        // image: document.getElementById("editImage").value,
         id: document.getElementById("editId").value,
         name: document.getElementById("editName").value,
-        depNo: document.getElementById("editDepNo").value,
+        depName: document.getElementById("editDepNo").value,
         humanDTO: { // HumanDTO 객체를 포함
             position: document.getElementById("editPosition").value,
             employeementStatus: document.getElementById("editStatus").value,

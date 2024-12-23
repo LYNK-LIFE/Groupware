@@ -55,6 +55,8 @@ button {
     font-weight: bold;
     font-size: 14px;
     transition: background-color 0.3s ease;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
 }
 
 button:hover {

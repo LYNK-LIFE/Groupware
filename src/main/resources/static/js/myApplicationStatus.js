@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     let allEmployees = [];
     const lookupSelect = document.getElementById("lookupSelect2");
+    const lookupInput = document.getElementById("lookupInput2");
     const tableBody = document.getElementById("employee-table-body2");
 
     // 페이지 로드 시 데이터 요청
@@ -24,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
         data.forEach(item => {
             const row = document.createElement("tr");
 
+            // 별도 추가하기!!! (클릭 했을 때 가져온 데이터를 고대로 넣는 게 아니라서!!)
+            row.setAttribute("data-leader" , item.employeeDTO.name);
+
             // 상태별 CSS 클래스 추가
             const statusClass = getStatusClass(item.approver);
             if (statusClass) {
@@ -36,9 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
                 <td>${getStatusLabel(item.approver)}</td>
                 <td>${category}</td>
-                <td>${item.departmentDTO?.depName || 'N/A'}</td>
-                <td>${item.employeeDTO?.name || 'N/A'}</td>
-                <td>${item.humanDTO?.position || 'N/A'}</td>
+                <td>${item.departmentDTO?.depName || "N/A"}</td>
+                <td>${item.employeeDTO?.name || "N/A"}</td>
+                <td>${item.humanDTO?.position || "N/A"}</td>
                 <td>${formatDate(item.draftTime)}</td>
                 <td>${formatDate(item.approveTime)}</td>
             `;
@@ -47,13 +51,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 검색 버튼 클릭 시 동작
-    document.getElementById("select-button-id").addEventListener("click", () => {
-        const selectedStatus = lookupSelect.value; // 선택된 검색 상태
+    function performSearch2() {
+        const type = lookupSelect.value; // 검색 타입
+        const keyword = lookupInput.value.trim(); // 입력 키워드
+
+        if (!keyword) {
+            alert("검색어를 입력해 주세요.");
+            return;
+        }
+
         const filteredData = allEmployees.filter(item => {
-            return getStatusLabel(item.approver) === selectedStatus;
+            if (type === "상태") {
+                return getStatusLabel(item.approver).includes(keyword);
+            } else if (type === "구분") {
+                return getCategory(item).includes(keyword);
+            } else if (type === "이름") {
+                return item.employeeDTO?.name?.includes(keyword);
+            }
+            return false;
         });
 
         renderTable(filteredData);
+        lookupInput.value = ""; // 검색 후 입력창 초기화
+    }
+
+// 검색 버튼 클릭 이벤트
+    document.getElementById("select-button-id").addEventListener("click", performSearch2);
+
+// Enter 키 이벤트 추가 (검색 입력창)
+    document.getElementById("lookupInput2").addEventListener("keyup", (event) => {
+        if (event.key === "Enter") {
+            performSearch2();
+        }
     });
 
     // 상태 라벨 반환
@@ -66,20 +95,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 상태별 CSS 클래스 반환
     function getStatusClass(status) {
-        if (status === 0) return "status-waiting";
-        if (status === 1) return "status-approved";
-        if (status === 2) return "status-rejected";
+        if (status === 0) return "status-waiting"; // 대기
+        if (status === 1) return "status-approved"; // 승인
+        if (status === 2) return "status-rejected"; // 반려
         return null;
     }
 
     // 구분값 반환 함수
-    function getCategory(item) { // 연장 근무만 떴었는데 if 줄 바꾸니까 잘 적용
-        // 휴가 조건: leaveDate 존재
+    function getCategory(item) {
         if (item.dayOffDTO?.leaveDate) {
             if (item.dayOffDTO.leaveType === 2) return "연차";
             if (item.dayOffDTO.leaveType === 1) return "반차";
         }
-        // 연장 근무 조건: workOff > 18:00
         if (item.commuteDTO?.workOff && item.commuteDTO.workOff.slice(0, 5) > "18:00") {
             return "연장근무";
         }
@@ -88,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 날짜 포맷 함수
     function formatDate(datetime) {
-        if (!datetime) return "N/A"; // 값이 없을 경우 표시하지 않음
+        if (!datetime) return "N/A";
         const date = new Date(datetime);
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -99,95 +126,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+document.getElementById("employee-table-body2").addEventListener("click" , (event) => {
+    const row = event.target.closest("tr");
 
+    if (row) {
+        // const cells = document.getElementsByTagName("td"); 이러면 첫번째 행만 가져옴!!
+        const cells = row.getElementsByTagName("td");
+        // 이 한 줄 차이로 조회가 잘 되나 하나만 되나~ 그게 갈림
 
-// document.addEventListener("DOMContentLoaded", () => {
-//     let allEmployees = [];
-//     const lookupSelect = document.getElementById("lookupSelect2");
-//     const lookupInput = document.getElementById("lookupInput2");
-//     const tableBody = document.getElementById("employee-table-body2");
+        // 담당자 별도 추가하기!
+        const leader = row.getAttribute("data-leader")
+
+        document.getElementById("status").value = cells[0].textContent;
+
+        // 별도로 꺼내줌 (얘 나중에 바꿔 줘야함. 지금은 지 이름 돼있음)
+        document.getElementById("leader").value = leader || "";
+        document.getElementById("position").value = cells[4].textContent;
+        document.getElementById("applicationOverTime").value = cells[5].textContent;
+        document.getElementById("approvalOverTime").value = cells[6].textContent;
+        // document.getElementById("overTime").value = cells[5].textContent;
+        // document.getElementById("workTime").value = cells[6].textContent;
+
+    }
+
+    const modalElement = new bootstrap.Modal(document.getElementById("myModal3"), {});
+    modalElement.show();
+
+});
+
+// 연장 근무 시간 계산
+
+// 이거 이제 해야 하3!!!! 추가로, 연차 / 연장 근무 별로 조회 모달 따로...
+                        // 연장 근무는 계산만 하면 되3.
+
+// [startOverTime, endOverTime].forEach(el => el.addEventListener("change", () => {
+//     if (startOverTime.value && endOverTime.value) {
+//         const start = new Date(`1970-01-01T${startOverTime.value}:00`);
+//         const end = new Date(`1970-01-01T${endOverTime.value}:00`);
+//         const hours = (end - start) / (1000 * 60 * 60); // 시간 차이 계산
 //
-//     // 페이지 로드 시 데이터 요청
-//     fetch("/employee/appStatusList")
-//         .then(res => res.json())
-//         .then(data => {
-//             allEmployees = Array.from(
-//                 new Map(data.map(item => [JSON.stringify(item), item])).values()
-//             ); // JSON.stringify를 기준으로 중복 제거
-//             renderTable(allEmployees);
-//             console.log("데이터 로드 성공:", allEmployees);
-//         })
-//         .catch(err => console.error("데이터 로드 실패:", err));
-//
-//     // 테이블 데이터 렌더링 함수
-//     function renderTable(data) {
-//         tableBody.innerHTML = "";
-//         if (data.length === 0) {
-//             tableBody.innerHTML = `<tr><td colspan="7">검색 결과가 없습니다.</td></tr>`;
-//             return;
+//         if (hours > 0) {
+//             allOverTime.value = hours.toFixed(1); // 총 시간 표시
+//         } else {
+//             alert("종료 시간이 시작 시간보다 빠를 수 없습니다.");
+//             allOverTime.value = "";
 //         }
-//
-//         data.forEach(item => {
-//             const row = document.createElement("tr");
-//
-//             // 상태별 배경색 추가
-//             const statusClass = getStatusClass(item.approver);
-//             row.className = statusClass;
-//
-//             // 구분값 설정
-//             const category = getCategory(item);
-//
-//             row.innerHTML = `
-//                 <td>${getStatusLabel(item.approver)}</td>
-//                 <td>${category}</td>
-//                 <td>${item.departmentDTO?.depName || 'N/A'}</td>
-//                 <td>${item.employeeDTO?.name || 'N/A'}</td>
-//                 <td>${item.humanDTO?.position || 'N/A'}</td>
-//                 <td>${item.draftTime ? formatDate(item.draftTime) : 'N/A'}</td>
-//                 <td>${item.approveTime ? formatDate(item.approveTime) : 'N/A'}</td>
-//             `;
-//             tableBody.appendChild(row);
-//         });
 //     }
-//
-//     // 상태 라벨 반환
-//     function getStatusLabel(status) {
-//         if (status === 0) return "대기";
-//         if (status === 1) return "승인";
-//         if (status === 2) return "반려";
-//         return "알 수 없음";
-//     }
-//
-//     // 상태별 CSS 클래스 반환
-//     function getStatusClass(status) {
-//         if (status === 0) return "status-waiting";
-//         if (status === 1) return "status-approved";
-//         if (status === 2) return "status-rejected";
-//         return "";
-//     }
-//
-//     // 구분값 반환 함수
-//     function getCategory(item) {
-//         // 연장 근무 조건: workOff > 18:00
-//         if (item.commuteDTO?.workOff && item.commuteDTO.workOff.slice(0, 5) > "18:00") {
-//             return "연장근무";
-//         }
-//         // 휴가 조건: leaveDate 존재
-//         if (item.dayOffDTO?.leaveDate) {
-//             if (item.dayOffDTO.leaveType === 2) return "연차";
-//             if (item.dayOffDTO.leaveType === 1) return "반차";
-//         }
-//         return "기타";
-//     }
-//
-//     // 날짜 포맷 함수
-//     function formatDate(datetime) {
-//         const date = new Date(datetime);
-//         const yyyy = date.getFullYear();
-//         const mm = String(date.getMonth() + 1).padStart(2, "0");
-//         const dd = String(date.getDate()).padStart(2, "0");
-//         const hh = String(date.getHours()).padStart(2, "0");
-//         const mi = String(date.getMinutes()).padStart(2, "0");
-//         return `${yyyy}-${mm}-${dd} ${hh}:${mi}`;
-//     }
-// });
+// }));
