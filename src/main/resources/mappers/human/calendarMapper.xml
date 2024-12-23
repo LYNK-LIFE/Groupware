@@ -85,7 +85,7 @@
             ,g.draft_completion_time
             ,b.approve_completion_time
         from employee a
-            join approve b on (a.employee_no = b.employee_no)
+            join approval b on (a.employee_no = b.employee_no)
             join dayoff c on (a.employee_no = c.employee_no)
             join working_time_data d on (a.employee_no = d.employee_no)
             join department e on (a.department_no = e.department_no)

@@ -100,6 +100,7 @@
             <result property="employeementStatus" column="employeement_status"/>
             <result property="phoneNumber" column="mobile_no"/>
             <result property="ssn" column="ssn"/>
+            <result property="joinDate" column="join_date"/> <!-- 24-12-23 추가, 상세조회 클릭 했을 때만 나오게-->
         </association>
         <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
             <id property="depNo" column="department_no"/>
@@ -112,10 +113,12 @@
         select
              a.employee_no
             ,a.employee_name
+            ,a.image <!-- 24-12-23 추가, 상세조회 클릭 했을 때만 나오게-->
             ,c.department_name
             ,b.position
             ,b.employeement_status
             ,b.mobile_no
+            ,b.join_date <!-- 24-12-23 추가, 상세조회 클릭 했을 때만 나오게-->
         from
             employee a join human_resource b
                               on (a.employee_no = b.employee_no)
@@ -134,6 +137,7 @@
             ,b.position = #{humanDTO.position}
             ,b.employeement_status = #{humanDTO.employeementStatus}
             ,b.mobile_no = #{humanDTO.phoneNumber}
+            ,b.join_date = #{humanDTO.joinDate} <!-- 24-12-23 추가, 상세조회 클릭 했을 때만 나오게-->
         where
             a.employee_no = #{id} and b.employee_no = #{id}
         <!-- and b.employee_no도 추가해야 전체 다 안 바뀜!! -->

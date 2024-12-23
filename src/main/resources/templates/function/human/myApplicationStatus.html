@@ -31,31 +31,97 @@
 
         <article class="lookupSelect-class">
             <select id="lookupSelect2" name="lookupSelect2" class="form-select">
-                <option value="대기">대기</option>
-                <option value="반려">반려</option>
-                <option value="승인">승인</option>
+                <option value="상태">상태</option>
+                <option value="구분">구분</option>
+                <option value="이름">이름</option>
             </select>
             <input type="text" id="lookupInput2" placeholder="검색어를 입력해 주세요." class="form-control">
             <button class="select-button" id="select-button-id">조 회</button>
         </article>
 
-        <table class="basicInfo2-class">
-            <thead>
-            <tr>
-                <th>상 태</th>
-                <th>구 분</th>
-                <th>부서명</th>
-                <th>이 름</th>
-                <th>직 책</th>
-                <th>신청 일시</th>
-                <th>결재 일시</th>
-            </tr>
-            </thead>
-            <tbody id="employee-table-body2" aria-disabled="true">
-            <!-- fetch로 가져온 애 여기 추가됨!! -->
-            </tbody>
+<!--        <table class="basicInfo2-class">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>상 태</th>-->
+<!--                <th>구 분</th>-->
+<!--                <th>부서명</th>-->
+<!--                <th>이 름</th>-->
+<!--                <th>직 책</th>-->
+<!--                <th>신청 일시</th>-->
+<!--                <th>결재 일시</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody id="employee-table-body2" aria-disabled="true">-->
+<!--            &lt;!&ndash; fetch로 가져온 애 여기 추가됨!! &ndash;&gt;-->
+<!--            </tbody>-->
+<!--        </table>-->
 
-        </table>
+        <article class="account-list">
+            <div class="list-section">
+                <table class="activeAccountListHeader">
+                    <tr class="fix-th">
+                        <th style="width: 10%">상 태</th>
+                        <th style="width: 10%">구 분</th>
+                        <th style="width: 10%">부서명</th>
+                        <th style="width: 10%">이 름</th>
+                        <th style="width: 10%">직 책</th>
+                        <th style="width: 25%">신청 일시</th>
+                        <th style="width: 25%">결재 일시</th>
+                    </tr>
+                </table>
+                <div class="table-body-container" style="max-height: 500px; overflow-y: auto;">
+                    <table class="activeAccountListBody">
+                        <colgroup>
+                            <col style="width: 127px">
+                            <col style="width: 126px">
+                            <col style="width: 127px">
+                            <col style="width: 127px">
+                            <col style="width: 126px">
+                            <col style="width: 317px">
+                            <col style="width: 317px">
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <tbody id="employee-table-body2" aria-disabled="true">
+                            <!-- fetch로 가져온 애 여기 추가됨!! -->
+                            </tbody>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </article>
+
+        <!-- 클릭 했을 때 상세 정보 나오는 애 -->
+        <div id="myModal3" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg2" role="document"> <!-- 모달 크기! -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">연장 근로 조회</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="status">상 태</label>
+                        <input type="text" id="status" class="form-control" disabled><br>
+                        <label for="leader">담당자</label>
+                        <input type="text" id="leader" class="form-control" disabled><br>
+                        <label for="position">직 책</label>
+                        <input type="text" id="position" class="form-control" disabled><br>
+                        <label for="applicationOverTime">신청 일시</label><br>
+                        <input type="datetime-local" id="applicationOverTime" class="form-control" disabled><br>
+                        <label for="approvalOverTime">승인 일시</label><br>
+                        <input type="datetime-local" id="approvalOverTime" class="form-control" disabled><br>
+                        <label for="overTime">연장 근로 시간</label><br>
+                        <input type="text" id="overTime" class="form-control" disabled><br>
+                        <label for="workTime">근무 일시</label><br>
+                        <input type="datetime-local" id="workTime" class="form-control" disabled>
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </section>
     <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>

@@ -6,6 +6,7 @@ import com.semi.lynk.function.human.model.dto.HumanDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +32,15 @@ public class CalendarDTO {
     private int approver;               // 상태 (0 개인 1 부서 2 전사)
     private LocalDateTime approveTime; // 결재 승인 시간
     private LocalDateTime draftTime;    // 기안한 시간
+
+
+    // 나의 신청 조회 - 상세 조회 - 연장 근무 시간 때문에...
+    private Date startOverDay;          // 시작일
+    private LocalDateTime startOverTime; // 시작 시간
+
+    private Date endOverDay;            // 종료일
+    private LocalDateTime endOverTime;  //종료 시간
+    //
+    private LocalDateTime workOff;    // 퇴근 시간
+    // 기본 퇴근시간(18:00) + (종료시간 - 시작시간)
 }
