@@ -158,7 +158,7 @@ input[type="text"], input[type="email"], input[type="number"], input[type="tel"]
     border-radius: 10px; /* 모서리 둥글게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
     overflow-x: auto; /* 테이블 스크롤 가능 */
-    max-height: 400px;
+    max-height: 500px;
 }
 
 /* 제목 스타일 */

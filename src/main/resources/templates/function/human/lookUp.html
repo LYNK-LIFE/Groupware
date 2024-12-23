@@ -41,22 +41,53 @@
             <a class="subHeaderLink-class" href="/employee/inform">인사 기본 정보</a>
         </div>
 
-        <table class="basicInfo-class"> <!-- 얘 아래로 appendChild로 들어온 거 ! -->
-            <thead>
-            <tr>
-                <th>사 번</th>
-                <th>이 름</th>
-                <th>부서명</th>
-                <th>직 책</th>
-                <th>고용 구분</th>
-                <th>전화 번호</th>
-            </tr>
-            </thead>
-            <tbody id="employee-table-body" aria-disabled="true">
-            <!-- fetch로 가져온 애 여기 추가됨!! -->
-            </tbody>
-
-        </table>
+<!--        <table class="basicInfo-class"> &lt;!&ndash; 얘 아래로 appendChild로 들어온 거 ! &ndash;&gt;-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>사 번</th>-->
+<!--                <th>이 름</th>-->
+<!--                <th>부서명</th>-->
+<!--                <th>직 책</th>-->
+<!--                <th>고용 구분</th>-->
+<!--                <th>전화 번호</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody id="employee-table-body" aria-disabled="true">-->
+<!--            &lt;!&ndash; fetch로 가져온 애 여기 추가됨!! &ndash;&gt;-->
+<!--            </tbody>-->
+<!--        </table>-->
+        <article class="account-list">
+            <div class="list-section">
+                <table class="activeAccountListHeader">
+                    <tr class="fix-th">
+                        <th style="width: 13%">사 번</th>
+                        <th style="width: 13%">이 름</th>
+                        <th style="width: 13%">부서명</th>
+                        <th style="width: 10%">직 책</th>
+                        <th style="width: 16%">고용 구분</th>
+                        <th style="width: 16%">전화 번호</th>
+                    </tr>
+                </table>
+                <div class="table-body-container" style="max-height: 400px; overflow-y: auto;">
+                    <table class="activeAccountListBody">
+                        <colgroup>
+                            <col style="width: 203px">
+                            <col style="width: 203.5px">
+                            <col style="width: 203px">
+                            <col style="width: 156px">
+                            <col style="width: 251px">
+                            <col style="width: 249.5px">
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <tbody id="employee-table-body" aria-disabled="true">
+                            <!-- fetch로 가져온 애 여기 추가됨!! -->
+                            </tbody>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </article>
 
         <!-- 클릭 했을 때 상세 정보 나오는 애 -->
         <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

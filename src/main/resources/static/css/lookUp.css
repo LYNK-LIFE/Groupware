@@ -7,7 +7,7 @@
     background-color: whitesmoke;
     width: 1200px;
     padding: 30px;
-    border: 1px solid black;
+    border-radius: 15px;
 }
 
 .lookupSelect-class label {
@@ -178,4 +178,75 @@
 #saveChanges:disabled {
     background-color: #d6d6d6;
     cursor: not-allowed;
+}
+
+/* 인사 기본 정보 css .....*/
+.account-list {
+    border-radius: 15px;
+    background-color: #efefef;
+    padding: 20px;
+    margin-top: 30px;
+    margin-left: 95px; /* 요거 바꾸면 nav 이동. */
+    margin-right: 220px;
+    height: 640px;
+    max-height: 640px;
+    overflow-y: auto;
+}
+
+.button-section button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: end;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table td input[type="checkbox"] {
+    margin: 0;
+}
+
+/* 테이블 표 폭 맞추기 *********************************/
+.fix-th {
+    position: sticky;
+    display: inline-table;
+    top: 0;
+    z-index: 2;
+    width: calc(100% - 17px);
+}
+
+.list-section {
+    max-height: 500px; /* 본문 높이 설정 */
+}
+
+/* 테이블 내부의 스타일 조정 */
+table.activeAccountList,
+table.activeAccountListBody {
+    width: 100%;
+    table-layout: fixed; /* 고정 레이아웃 */
+    border-collapse: collapse;
+}
+
+table.activeAccountList th,
+table.activeAccountList td {
+    padding: 8px;
+    border: 1px solid #383838;
+    box-sizing: border-box;
+    /*white-space: nowrap; !* 텍스트 줄바꿈 방지 *!*/
+    overflow: hidden;
+    /*text-overflow: ellipsis; !* 텍스트 넘칠 경우 말줄임표 *!*/
 }
