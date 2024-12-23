@@ -25,7 +25,7 @@ public class NoticeController {
     @GetMapping("/list")
     public String listNotices(Model model,
                               @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "13") int size) {
+                              @RequestParam(defaultValue = "12") int size) {
         Page<NoticeDTO> noticePage = noticeService.getAllNoticesPaged(page, size);
 
         model.addAttribute("notices", noticePage.getContent());

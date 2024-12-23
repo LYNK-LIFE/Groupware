@@ -23,12 +23,16 @@
     </insert>
 
     <select id="getAllNotices" resultMap="noticeResultMap">
+        <![CDATA[
         SELECT
         notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
         FROM
         notice join employee using(employee_no)
+        WHERE
+        notice_hide != 1
         ORDER BY
         notice_date DESC
+    ]]>
     </select>
 
     <select id="selectNoticeById" parameterType="Long" resultMap="noticeResultMap">
