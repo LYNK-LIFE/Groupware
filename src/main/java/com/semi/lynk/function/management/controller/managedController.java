@@ -7,8 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -91,24 +97,67 @@ public class managedController {
     public String editAccountPage(@PathVariable("empID") String empID, Model model) {
         // empID를 기반으로 계정 정보를 조회
         AccountDTO accountInfo = managedService.getAccountByEmpID(empID);
+        System.out.println("서비스 리턴 accountInfo: " + accountInfo);
 
         // 계정 정보를 모델에 추가하여 뷰로 전달
         model.addAttribute("accountInfo", accountInfo);
+        System.out.println("accountInfo 컨트롤러 = " + LocalDateTime.now() + accountInfo);
 
         // 계정 편집 페이지로 이동
         return "function/management/editAccount";
     }
 
     @PostMapping("/updateAccount")
-    public String updateAccount(@ModelAttribute AccountDTO accountInfo) {
-        String empID = accountInfo.getEmpID();
-        String empName = accountInfo.getEmpName();
-        String deptName = accountInfo.getDeptName();
-        String position = accountInfo.getPosition();
-        String email = accountInfo.getEmail();
+    public String updateAccount(@ModelAttribute AccountDTO accountInfo,
+                                @RequestParam("profileImage") MultipartFile file) {
+        String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/profile/";
+        String imagePath = null;
 
-        // 서비스 메서드를 호출하여 계정 정보 업데이트
-        managedService.updateAccount(empID, empName, deptName, position, email);
+        try {
+            if (file != null && !file.isEmpty()) {
+                String fileType = file.getContentType();
+                if (!fileType.startsWith("image/")) {
+                    throw new IllegalArgumentException("Only image files are allowed.");
+                }
+
+                // 디렉토리 생성
+                Path uploadPath = Paths.get(uploadDir);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                // 고유 파일명 생성
+                String sanitizedFileName = file.getOriginalFilename().replaceAll("[^a-zA-Z0-9\\.\\-_]", "_");
+                String fileName = System.currentTimeMillis() + "_" + sanitizedFileName;
+//                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+
+                // 파일 저장
+                file.transferTo(filePath.toFile());
+
+                // 저장된 경로를 설정
+                imagePath = "/profile/" + fileName;
+
+                System.out.println("File saved at: " + filePath);
+                System.out.println("Accessing file at: " + imagePath);
+            }
+
+            // 이미지 경로를 DTO에 설정
+            accountInfo.setImage(imagePath);
+
+            // 서비스 호출
+            managedService.updateAccount(
+                    accountInfo.getEmpID(),
+                    accountInfo.getEmpName(),
+                    accountInfo.getDeptNo(),
+//                    accountInfo.getDeptName(),
+                    accountInfo.getPosition(),
+                    accountInfo.getEmail(),
+                    accountInfo.getImage()
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // 업데이트 후 목록 페이지로 리디렉션
         return "redirect:/management/activeAccountList";

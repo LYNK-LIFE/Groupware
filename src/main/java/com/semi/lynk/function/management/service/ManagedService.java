@@ -1,6 +1,5 @@
 package com.semi.lynk.function.management.service;
 
-import com.semi.lynk.function.human.model.dao.EmployeeMapper;
 import com.semi.lynk.function.management.model.dao.ManagedMapper;
 import com.semi.lynk.function.management.model.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +65,8 @@ public class ManagedService {
         return managedMapper.getAccountByEmpID(empID);
     }
 
-    public void updateAccount(String empID, String empName, String deptName, String position, String email) {
+    public void updateAccount(String empID, String empName, int deptNo, String position, String email, String image) {
+        managedMapper.updateAccount(empID, empName, deptNo, position, email, image);
     }
+
 }

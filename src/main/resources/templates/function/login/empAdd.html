@@ -18,10 +18,21 @@
                 <hr>
             </div>
             <article class="signup">
-                <form action="/login/empAdd" method="post">
+                <form action="/login/empAdd" method="post" enctype="multipart/form-data">
                     <table>
                         <tr>
-                            <td rowspan="5"><div class="photo" id="formPhoto">사 진</div></td>
+                            <td rowspan="5">
+                                <div class="profilePhoto" id="formPhoto" style="width: 120px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;">
+                                    <!-- 숨겨진 파일 입력 -->
+                                    <input type="file" id="profileImage" name="profileImage" accept="image/*" style="display:none;" />
+
+                                    <!-- 미리보기 이미지 -->
+                                    <img id="preview" src="#" alt="Click to Upload" style="max-width: 100%; max-height: 100%; display: none;" />
+
+                                    <!-- 초기 텍스트 -->
+                                    <span id="placeholderText" style="position: absolute; text-align: center; color: #aaa;">사 진</span>
+                                </div>
+                            </td>
                             <td></td>
                             <td></td>
                         </tr>

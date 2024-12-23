@@ -31,6 +31,8 @@ public class MainController {
         session.setAttribute("empDetails", empDetails);
         session.setAttribute("deptName", empDetails.getLoginDTO().getDepName());
         session.setAttribute("position", empDetails.getLoginDTO().getPosition());
+        session.setAttribute("image", empDetails.getLoginDTO().getImage());
+        System.out.println("Session image: " + session.getAttribute("image"));
 
         // 모델에 추가
         mv.addObject("user", empDetails);

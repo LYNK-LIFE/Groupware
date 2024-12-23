@@ -16,6 +16,7 @@
         <result property="deptNo" column="department_no"/>
         <result property="depName" column="department_name"/>
         <result property="position" column="position"/>
+        <result property="image" column="image"/>
     </resultMap>
 
     <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">

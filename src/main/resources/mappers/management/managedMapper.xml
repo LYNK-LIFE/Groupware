@@ -15,6 +15,7 @@
         <result property="memberStatus" column="member_status"/>
         <result property="empPwd" column="password"/>
         <result property="deptNo" column="department_no"/>
+        <result property="image" column="image"/>
     </resultMap>
 
     <!-- 활성화 계정 카운트 -->
@@ -90,7 +91,7 @@
          WHERE MEMBER_STATUS IN (0, 3);
     </select>
 
-    <!-- 사원 정보 수정 -->
+    <!-- 사원 정보 조회 -->
 <!--    <select id="getAccountByEmpID" parameterType="String" resultType="com.semi.lynk.function.management.model.dto.AccountDTO">-->
     <select id="getAccountByEmpID" parameterType="String" resultMap="AccountList">
         SELECT EMPLOYEE_NO
@@ -102,6 +103,19 @@
           FROM EMPLOYEE
          WHERE EMPLOYEE_NO = #{empID}
     </select>
+
+    <!-- 사원 정보 수정 -->
+    <update id="updateAccount" parameterType="map">
+        UPDATE EMPLOYEE a
+          JOIN HUMAN_RESOURCE b ON a.EMPLOYEE_NO = b.EMPLOYEE_NO
+           SET a.EMPLOYEE_NAME = #{empName}
+             , a.DEPARTMENT_NO = #{deptNo}
+             , b.POSITION = #{position}
+             , a.EMAIL = #{email}
+             , a.IMAGE = #{image}
+         WHERE a.EMPLOYEE_NO = #{empID}
+    </update>
+
 
     <!--  -->
 
