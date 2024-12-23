@@ -1,7 +1,9 @@
 package com.semi.lynk.function.db_management.model.dao;
 
+import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +17,19 @@ public interface DbMapper {
 
 
     int deleteProduct(String productNo);
+
+
+
+
+
+
+    void insertCustomer(CustomerDTO customerDTO);
+
+
+    List<CustomerDTO> insuranceCustomer();
+
+
+
 
 
 }

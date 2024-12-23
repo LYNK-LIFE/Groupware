@@ -28,6 +28,13 @@
     </delete>
 
 
+    <insert id="insertCustomer">
+        INSERT INTO customers (customer_no, customer_name, customer_ssn, customer_mobile, customer_addr, customer_email)
+        VALUES (#{customerNo}, #{customerName}, #{customerSsn}, #{customerMobile}, #{customerAddr}, #{customer_email})
+    </insert>
+
+
+
 
 
 </mapper>

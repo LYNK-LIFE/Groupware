@@ -1,6 +1,7 @@
 package com.semi.lynk.function.db_management.service;
 
 import com.semi.lynk.function.db_management.model.dao.DbMapper;
+import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,17 @@ public class DbService {
             throw new RuntimeException("Failed to delete product. Product not found.");
         }
     }
+
+//=====================================================================================================================
+
+
+    public void registerCustomer(CustomerDTO customerDTO) {
+        dbMapper.insertCustomer(customerDTO);
+    }
+
+
+    public List<CustomerDTO> insuranceCustomer () {return dbMapper.insuranceCustomer();}
+
 
 
 
