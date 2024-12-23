@@ -52,6 +52,12 @@ public class EmpDetails implements UserDetails {
         return loginDTO.getEmpName();
     }
 
+    // 이미지 반환 메소드
+    public String getImage() {
+        return loginDTO.getImage();
+    }
+
+
     // 부서 반환 메소드
 //    public String getDeptName() {
 //        return loginDTO.getDepartmentDTO().getDepName();
