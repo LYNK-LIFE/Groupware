@@ -2,7 +2,6 @@ package com.semi.lynk.function.db_management.controller;
 
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import com.semi.lynk.function.db_management.service.DbService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -290,10 +289,13 @@ public class DbController {
         return ResponseEntity.ok().build();
     }
 
+//======================================================================================================================
 
 
-
-
+    @GetMapping("/contractregistration")
+    public String Contractregistration () {
+        return "function/db_management/contractregistration";
+    }
 
 
 
