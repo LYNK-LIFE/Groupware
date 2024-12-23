@@ -25,7 +25,7 @@
     <section class="main-content">
 
         <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/notice/list">공지사항</a>
+            <a class="subHeaderLink-class" href="/notice/manager">관리자페이지</a>
         </div>
 
 
@@ -37,6 +37,7 @@
                 <tr>
                     <th class="number-cell">번호</th>
                     <th class="type-cell">속성</th>
+                    <th class="type-cell">상태</th>
                     <th>제목</th>
                     <th class="name-cell">작성자</th>
                     <th class="date-cell">게시일자</th>
@@ -51,6 +52,9 @@
                     <!-- noticeVote 글 종류 0공지 1투표 2완료 -->
                     <td>
                         <span th:text="${notice.noticeVote == 0 ? '공지' : (notice.noticeVote == 1 ? '투표' : '완료')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${notice.noticeHide == 0 ? '일반' : (notice.noticeHide == 1 ? '숨김' : '고정')}"></span>
                     </td>
                     <td>
                         <a th:href="@{/notice/{noticeNo}(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a>
@@ -68,17 +72,17 @@
             <div th:if="${totalPages > 1}" class="pagination-container">
                 <ul class="pagination">
                     <li th:class="${currentPage == 0} ? 'disabled' : ''">
-                        <a th:if="${currentPage > 0}" th:href="@{/notice/list(page=${currentPage - 1})}" class="page-link">Previous</a>
+                        <a th:if="${currentPage > 0}" th:href="@{/notice/manager(page=${currentPage - 1})}" class="page-link">Previous</a>
                         <span th:unless="${currentPage > 0}" class="page-link disabled">Previous</span>
                     </li>
 
                     <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                         th:class="${pageNum == currentPage} ? 'active' : ''">
-                        <a th:href="@{/notice/list(page=${pageNum})}" th:text="${pageNum + 1}" class="page-link"></a>
+                        <a th:href="@{/notice/manager(page=${pageNum})}" th:text="${pageNum + 1}" class="page-link"></a>
                     </li>
 
                     <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                        <a th:if="${currentPage < totalPages - 1}" th:href="@{/notice/list(page=${currentPage + 1})}" class="page-link">Next</a>
+                        <a th:if="${currentPage < totalPages - 1}" th:href="@{/notice/manager(page=${currentPage + 1})}" class="page-link">Next</a>
                         <span th:unless="${currentPage < totalPages - 1}" class="page-link disabled">Next</span>
                     </li>
                 </ul>
@@ -86,17 +90,10 @@
 
             <!-- 하부 메뉴  -->
             <div class="search-container">
-                <a href="/notice/manager" class="btn btn-primary">관리자페이지</a>
                 <form id="searchForm" th:action="@{/notice/search}" method="get">
-                    <select name="searchType">
-                        <option value="공지번호">공지번호</option>
-                        <option value="제목">제목</option>
-                        <option value="작성자">작성자</option>
-                    </select>
-                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요..." th:value="${keyword}">
+                    <input type="text" id="keyword" placeholder="검색어를 입력하세요..." th:value="${keyword}">
                     <button type="submit">검색</button>
                 </form>
-                <a href="/notice/create" class="btn btn-primary">새 글 작성</a>
             </div>
         </article>
     </section>

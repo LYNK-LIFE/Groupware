@@ -113,6 +113,11 @@
     border: 1px solid #ddd;
     background-color: #f9f9f9;
 }
+.notice-list {
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
 .notice-info {
     display: flex;
@@ -187,7 +192,7 @@
 /* 검색 */
 .search-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
     margin-top: 20px;

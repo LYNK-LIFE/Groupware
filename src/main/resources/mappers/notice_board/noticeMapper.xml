@@ -23,19 +23,59 @@
     </insert>
 
     <select id="getAllNotices" resultMap="noticeResultMap">
-        <![CDATA[
         SELECT
         notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
         FROM
         notice join employee using(employee_no)
         WHERE
-        notice_hide != 1
+        notice_hide != 2
         ORDER BY
-        notice_date DESC
-    ]]>
+        notice_no DESC
+        limit #{pageNo}, #{count}
     </select>
 
-    <select id="selectNoticeById" parameterType="Long" resultMap="noticeResultMap">
+    <select id="getPinedNotices" resultMap="noticeResultMap">
+        SELECT
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
+        FROM
+        notice join employee using(employee_no)
+        WHERE
+        notice_hide = 2
+        ORDER BY
+        notice_no DESC
+        limit #{pageNo}, #{count}
+    </select>
+
+    <select id="getNormalNotices" resultMap="noticeResultMap">
+        SELECT
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
+        FROM
+        notice join employee using(employee_no)
+        WHERE
+        notice_hide = 0
+        ORDER BY
+        notice_no DESC
+        limit #{pageNo}, #{count}
+    </select>
+
+    <select id="getPinedCount" parameterType="int">
+        SELECT COUNT(*)
+        FROM notice
+        WHERE notice_hide = 2
+    </select>
+
+    <select id="getNormalCount" parameterType="int">
+        SELECT COUNT(*)
+        FROM notice
+        WHERE notice_hide = 0
+    </select>
+
+    <select id="getAllCount" parameterType="int">
+        SELECT COUNT(*)
+        FROM notice
+    </select>
+
+    <select id="selectNoticeByNNO" parameterType="Long" resultMap="noticeResultMap">
         SELECT
         notice_no, notice_preno, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name
         FROM
@@ -58,6 +98,62 @@
         viewer_count = viewer_count +1
         where notice_no = #{noticeNo}
     </update>
+
+    <select id="getSearchNoCount" parameterType="int">
+        SELECT COUNT(*)
+        FROM notice
+        WHERE (notice_hide != 1) AND ( notice_no = #{keyword})
+    </select>
+
+    <select id="searchByNoticeNo" resultMap="noticeResultMap">
+        SELECT
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
+        FROM
+        notice join employee using(employee_no)
+        WHERE
+        notice_hide != 1 AND notice_no = #{keyword}
+        ORDER BY
+        notice_no
+        limit #{page}, #{count}
+    </select>
+
+    <select id="getSearchTitleCount" parameterType="int">
+        SELECT COUNT(*)
+        FROM notice
+        WHERE (notice_hide != 1) AND ( notice_no = #{keyword})
+    </select>
+
+    <select id="searchByNoticeTitle" resultMap="noticeResultMap">
+        SELECT
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
+        FROM
+        notice join employee using(employee_no)
+        WHERE
+        notice_hide != 1
+        ORDER BY
+        notice_no
+        limit #{page}, #{count}
+    </select>
+
+    <select id="getSearchEmpCount" parameterType="int">
+        SELECT COUNT(*)
+        FROM notice
+        WHERE (notice_hide != 1) AND ( notice_no = #{keyword})
+    </select>
+
+    <select id="searchByNoticeEmp" resultMap="noticeResultMap">
+        SELECT
+        notice_no, notice_date, notice_vote, notice_title, notice_content, notice_hide, viewer_count, employee_no, employee_name, notice_preno
+        FROM
+        notice join employee using(employee_no)
+        WHERE
+        notice_hide != 1
+        ORDER BY
+        notice_no
+        limit #{page}, #{count}
+    </select>
+
+
 
 
 </mapper>

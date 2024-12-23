@@ -67,6 +67,7 @@
 
                 </div>
                 <div th:if="${currentUser == notice.employeeNo}">
+                    <a th:href="@{/notice/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" class="btn btn-primary mb-3">삭제</a>
                     <a th:href="@{/notice/{noticeNo}/edit(noticeNo=${notice.noticeNo})}" class="btn btn-primary mb-3">수정</a>
                     <a href="/notice/list" class="btn btn-primary mb-3">목록으로 돌아가기</a>
                 </div>
