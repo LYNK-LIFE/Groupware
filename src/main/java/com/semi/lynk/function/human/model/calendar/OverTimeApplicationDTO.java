@@ -23,7 +23,10 @@ public class OverTimeApplicationDTO { // 뭘 쓸지 정해야 함.
     private LocalDateTime workOff;    // 퇴근 시간
                // 기본 퇴근시간(18:00) + (종료시간 - 시작시간)
 //
-    private LocalDateTime scheduleDate; // 일시
+//    private LocalDateTime scheduleDate; // 일시
+
+    private LocalDateTime scheduleStartDate;    // 일정 시작일
+    private LocalDateTime scheduleEndDate;    // 일정 종료일
 //    private int scheduleType;           // 스케쥴 타입
     private String scheduleNote;        // 스케쥴 메모 (사 유)
 }

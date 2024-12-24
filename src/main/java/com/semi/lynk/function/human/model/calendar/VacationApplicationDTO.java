@@ -17,12 +17,14 @@ public class VacationApplicationDTO {
     private float totalLeave;       // 총 연차 발생 일수
     private float usedLeave;        // 사용 연차
     private int leaveType;          // 휴가 타입
-    private Date leaveDate;         // 휴가 일자
+//    private Date leaveDate;         // 휴가 일자
 
-    private LocalDateTime scheduleDate; // 일시
-    private int scheduleBound;
+    private Date leaveStartDate;    // 휴가 시작일
+    private Date leaveEndDate;      // 휴가 종료일
 
-    //
+    private LocalDateTime scheduleStartDate;    // 일정 시작일
+    private LocalDateTime scheduleEndDate;      // 일정 종료일
+
     private Date startOverDay;          // 시작일
     private LocalDateTime startOverTime; // 시작 시간
 

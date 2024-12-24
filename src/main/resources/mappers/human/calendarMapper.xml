@@ -27,8 +27,8 @@
         </association>
         <association property="scheduleDTO" javaType="com.semi.lynk.function.human.model.calendar.ScheduleDTO">
             <id property="id" column="employee_no"/>
-            <result property="scheduleBound" column="schedule_bound"/>
-            <result property="scheduleDate" column="schedule_date"/>
+            <result property="scheduleStartDate" column="schedule_start_date"/>
+            <result property="scheduleEndDate" column="schedule_end_date"/>
             <result property="scheduleType" column="schedule_type"/>
             <result property="scheduleNote" column="schedule_note"/>
         </association>
@@ -38,7 +38,8 @@
         </association>
         <association property="dayOffDTO" javaType="com.semi.lynk.function.human.model.calendar.DayOffDTO">
             <id property="id" column="employee_no"/>
-            <result property="leaveDate" column="leave_date"/>
+            <result property="leaveStartDate" column="leave_start_date"/>
+            <result property="leaveEndDate" column="leave_end_date"/>
             <result property="leaveType" column="leave_type"/>
             <result property="leaveMemo" column="leave_memo"/>
         </association>
@@ -55,10 +56,11 @@
             ,b.totalLeave
             ,b.usedLeave
             ,c.work_off
-            ,d.schedule_bound
-            ,d.schedule_date
+            ,d.schedule_start_date
+            ,d.schedule_end_date
             ,e.leave_type
-            ,e.leave_date
+            ,e.leave_start_date
+            ,e.leave_end_date
             ,f.department_name
         from
         employee a
@@ -74,9 +76,10 @@
         select distinct
              a.employee_name
             ,b.approver
-            ,h.schedule_bound
-            ,h.schedule_date
-            ,c.leave_date
+            ,h.schedule_start_date
+            ,h.schedule_end_date
+            ,c.leave_start_date
+            ,c.leave_end_date
             ,c.leave_type
             ,d.work_on
             ,d.work_off
@@ -101,11 +104,13 @@
         <result property="totalLeave" column="totalLeave"/>
         <result property="usedLeave" column="usedLeave"/>
         <result property="leaveType" column="leave_type"/>
-        <result property="scheduleDate" column="schedule_date"/>
-        <result property="leaveDate" column="leave_date"/>
-        <result property="scheduleBound" column="schedule_bound"/>
+        <result property="scheduleStartDate" column="schedule_start_date"/>
+        <result property="scheduleEndDate" column="schedule_end_date"/>
+        <result property="leaveStartDate" column="leave_start_date"/>
+        <result property="leaveEndDate" column="leave_end_date"/>
     </resultMap>
 
+    <!-- 휴가 신청 누를 때 데이터 가져와서 보여주는 애 -->
     <select id="vacationAppMapper" resultMap="vacationStatusMapper">
     select distinct
         a.employee_no
@@ -113,9 +118,10 @@
         ,c.totalLeave
         ,c.usedLeave
         ,d.leave_type
-        ,d.leave_date
-        ,e.schedule_date
-        ,e.schedule_bound
+        ,d.leave_start_date
+        ,d.leave_end_date
+        ,e.schedule_start_date
+        ,e.schedule_end_date
     from employee a
         join department b on (a.department_no = b.department_no)
         join human_resource c on (a.employee_no = c.employee_no)
@@ -136,20 +142,23 @@
 <!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
     </update>
 
-<!--    <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">-->
-<!--        insert into schedule (employee_no, schedule_date, schedule_bound, schedule_type, schedule_note)-->
-<!--        values (12 , #{scheduleDate} , #{} , #{} , #{scheduleNote})-->
-<!--    </insert>-->
+    <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        insert into schedule (employee_no, schedule_start_date,
+                            schedule_end_date, schedule_note, schedule_type)
+        values (12, #{scheduleStartDate}, #{scheduleEndDate}, #{scheduleNote}, 2)
+    </insert>
 
-<!--    <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">-->
-<!--        insert into dayoff (employee_no, leave_date, leave_type, leave_memo, draft_no)-->
-<!--        values (12 , #{leaveDate}, #{leaveType}, #{leaveMemo}, 1)-->
-<!--    </insert>-->
+    <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        insert into dayoff (employee_no, leave_start_date, leave_end_date,
+                            leave_type)
+        values (12 , #{leaveStartDate}, #{leaveEndDate},2)
+    </insert>
 
     <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         <id property="id" column="employee_no"/>
         <result property="name" column="employee_name"/>
-        <result property="scheduleDate" column="schedule_date"/>
+        <result property="scheduleStartDate" column="schedule_start_date"/>
+        <result property="scheduleEndDate" column="schedule_end_date"/>
         <result property="scheduleType" column="schedule_type"/>
         <result property="scheduleNote" column="schedule_note"/>
         <result property="workOff" column="work_off"/>
@@ -167,7 +176,8 @@
     <update id="overTimeAppDataMapper" parameterType="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         update schedule <!-- 난중에 고쳐야 함 -->
              set
-             schedule_date = #{scheduleDate}
+             schedule_start_date = #{scheduleStartDate}
+            ,schedule_end_date = #{scheduleEndDate}
             ,schedule_note = #{scheduleNote}
         where
             employee_no = 12; <!-- 나중에 신청 보내는 애(로그인)랑 연결할 거 -->
