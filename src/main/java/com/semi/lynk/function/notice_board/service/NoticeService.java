@@ -7,11 +7,15 @@ import java.util.List;
 
 public interface NoticeService {
     void createNotice(NoticeDTO noticeDTO);
-    List<NoticeDTO> getAllNotices();
-    NoticeDTO getNoticeById(Long noticeNo);
+
+    NoticeDTO getNoticeByNNO(Long noticeNo);
     void updateNotice(Long noticeNo);
     void deleteNotice(Long noticeNo);
     void updateViewCnt(Long noticeNo);
 
-    Page<NoticeDTO> getAllNoticesPaged(int page, int size);
+    Page<NoticeDTO> getNoticesPaged(int page, int size);
+
+    Page<NoticeDTO> getAllNotices(int page, int size);
+
+    Page<NoticeDTO> searchNotices(String searchType, String keyword, int page, int size);
 }

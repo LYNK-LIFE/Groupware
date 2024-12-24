@@ -5,14 +5,12 @@ import com.semi.lynk.function.notice_board.service.NoticeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Controller
@@ -25,8 +23,8 @@ public class NoticeController {
     @GetMapping("/list")
     public String listNotices(Model model,
                               @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "13") int size) {
-        Page<NoticeDTO> noticePage = noticeService.getAllNoticesPaged(page, size);
+                              @RequestParam(defaultValue = "12") int size) {
+        Page<NoticeDTO> noticePage = noticeService.getNoticesPaged(page, size);
 
         model.addAttribute("notices", noticePage.getContent());
         model.addAttribute("currentPage", page);
@@ -34,6 +32,39 @@ public class NoticeController {
         model.addAttribute("totalItems", noticePage.getTotalElements());
 
         return "function/notice_board/list";
+    }
+
+    @GetMapping("/search")
+    public String searchNotices(@RequestParam String searchType,
+                                @RequestParam String keyword,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "12") int size,
+                                Model model) {
+
+        Page<NoticeDTO> noticePage = noticeService.searchNotices(searchType, keyword, page, size);
+        System.out.println("여긴 컨트롤러________________________________________________________");
+
+        model.addAttribute("notices", noticePage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", noticePage.getTotalPages());
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
+
+        return "function/notice_board/list";
+    }
+
+    @GetMapping("/manager")
+    public String manageNotices(Model model,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "12") int size) {
+        Page<NoticeDTO> noticePage = noticeService.getAllNotices(page, size);
+
+        model.addAttribute("notices", noticePage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", noticePage.getTotalPages());
+        model.addAttribute("totalItems", noticePage.getTotalElements());
+
+        return "function/notice_board/manager";
     }
 
     @GetMapping("/create")
@@ -55,12 +86,12 @@ public class NoticeController {
     @GetMapping("/{noticeNo}")
     public String viewNotice(@PathVariable("noticeNo") Long noticeNo, Model model, HttpSession session) {
         noticeService.updateViewCnt(noticeNo);
-        NoticeDTO currentNotice = noticeService.getNoticeById(noticeNo);
+        NoticeDTO currentNotice = noticeService.getNoticeByNNO(noticeNo);
         model.addAttribute("notice", currentNotice);
         model.addAttribute("currentUser", session.getAttribute("empNo"));
 
         if (currentNotice.getNoticePreNo() != null) {
-            NoticeDTO previousNotice = noticeService.getNoticeById(currentNotice.getNoticePreNo());
+            NoticeDTO previousNotice = noticeService.getNoticeByNNO(currentNotice.getNoticePreNo());
             model.addAttribute("preNotice", previousNotice);
         }
 
@@ -69,7 +100,7 @@ public class NoticeController {
 
     @GetMapping("/{noticeNo}/edit")
     public String editNoticeForm(@PathVariable Long noticeNo, Model model) {
-        NoticeDTO noticeDTO = noticeService.getNoticeById(noticeNo);
+        NoticeDTO noticeDTO = noticeService.getNoticeByNNO(noticeNo);
         model.addAttribute("noticeDTO", noticeDTO);
         return "function/notice_board/edit";
     }
@@ -77,7 +108,7 @@ public class NoticeController {
     @PostMapping("/{noticeNo}/edit")
     public String editNotice(@PathVariable Long noticeNo, @ModelAttribute("noticeDTO") NoticeDTO noticeDTO, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
-        NoticeDTO existingNotice = noticeService.getNoticeById(noticeNo);
+        NoticeDTO existingNotice = noticeService.getNoticeByNNO(noticeNo);
 
         if (!existingNotice.getEmployeeNo().equals(empNo)) {
             // 권한 없음 처리
@@ -93,9 +124,9 @@ public class NoticeController {
         return "redirect:/notice/list";
     }
 
-    @PostMapping("/{noticeNo}/delete")
+    @GetMapping("/{noticeNo}/delete")
     public String deleteNotice(@PathVariable("noticeNo") Long noticeNo) {
         noticeService.deleteNotice(noticeNo);
-        return "redirect:/notice";
+        return "redirect:/notice/list";
     }
 }
