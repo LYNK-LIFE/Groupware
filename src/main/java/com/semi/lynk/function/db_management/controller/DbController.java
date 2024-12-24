@@ -10,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation .*;
 
-import java.util.Collections;
 import java.util.List;
 
-    @Controller
+
+@Controller
     @RequestMapping("/db")
     public class DbController {
 
@@ -82,23 +82,31 @@ import java.util.List;
         }
 
 
-//=====================================================================================================================
-
-        // 설계사 이름 검색
-        @GetMapping("/contract/search")
-        @ResponseBody
-        public ResponseEntity<List<EmployeeDTO>> searchEmployees(@RequestParam(required = false) String employeeName) {
-            if (employeeName == null || employeeName.isEmpty()) {
-                return ResponseEntity.ok(Collections.emptyList());
-            }
-            return ResponseEntity.ok(dbService.searchEmployees(employeeName));
-        }
+//==================    ===================================================================================================
 
 
 
 
-
-
+    // 계약 등록 페이지 로드
+    @GetMapping("/contract")
+    public String loadContractPage(Model model) {
+        List<EmployeeDTO> employees = dbService.getAllEmployees();
+        System.out.println("Employees: " + employees); // 로그 출력
+        model.addAttribute("employees", employees);
+        return "function/db_management/contract";
     }
+
+
+
+    // 설계사 목록 조회 (JSON 응답)
+    @GetMapping("/employees")
+    @ResponseBody
+    public List<EmployeeDTO> getEmployees() {
+        return dbService.getAllEmployees();
+    }
+
+
+
+}
 
 

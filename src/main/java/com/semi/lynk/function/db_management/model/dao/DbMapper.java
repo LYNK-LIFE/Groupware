@@ -23,12 +23,11 @@ public interface DbMapper {
 
     void insertCustomer(CustomerDTO customerDTO);
 
-    List<CustomerDTO> insuranceCustomer();
+    List<EmployeeDTO> selectAllEmployees();
 
 
 //=====================================================================================================================
 
-    List<EmployeeDTO> findEmployeesByName(@Param("employeeName") String employeeName);
 
 
 

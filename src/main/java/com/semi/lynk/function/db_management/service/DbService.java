@@ -39,18 +39,11 @@ public class DbService {
 
 //=====================================================================================================================
 
-
     public void registerCustomer(CustomerDTO customerDTO) {
         dbMapper.insertCustomer(customerDTO);
     }
 
-
-    public List<CustomerDTO> insuranceCustomer () {return dbMapper.insuranceCustomer();}
-
-    public List<EmployeeDTO> searchEmployees(String employeeName) {
-        return dbMapper.findEmployeesByName(employeeName);
-    }
-
+    public List<EmployeeDTO> getAllEmployees() { return dbMapper.selectAllEmployees();}
 
 //==================================================================================================================
 

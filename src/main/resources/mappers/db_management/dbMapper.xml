@@ -33,31 +33,13 @@
         VALUES (#{customerNo}, #{customerName}, #{customerSsn}, #{customerMobile}, #{customerAddr}, #{customerEmail})
     </insert>
 
-
-    <select id="findEmployeesByName" resultType="com.semi.lynk.function.db_management.model.dto.EmployeeDTO">
+    <select id="selectAllEmployees" resultType="com.semi.lynk.function.db_management.model.dto.EmployeeDTO">
         SELECT
             employee_no AS employeeNo,
             employee_name AS employeeName
         FROM
-            employee
-        WHERE
-            employee_name LIKE CONCAT('%', #{employeeName}, '%')
+            employee;
     </select>
-
-
-
-    <select id="searchCustomers" resultType="com.semi.lynk.function.db_management.model.dto.CustomerDTO">
-        SELECT customer_id AS customerId,
-        customer_name AS customerName,
-        customer_ssn AS customerSsn,
-        customer_mobile AS customerMobile
-        FROM customer
-        WHERE customer_name LIKE CONCAT('%', #{keyword}, '%')
-        OR customer_ssn LIKE CONCAT('%', #{keyword}, '%')
-        OR customer_mobile LIKE CONCAT('%', #{keyword}, '%')
-    </select>
-
-
 
 
 
