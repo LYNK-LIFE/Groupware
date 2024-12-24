@@ -30,6 +30,8 @@
 
         <div class="subHeader-class">
             <a class="subHeaderLink-class" href="/notice/list">공지사항</a>
+            <span class="separator">/</span>
+            <a class="subHeaderLink-class" href="/notice/search">검색결과</a>
         </div>
 
 
@@ -72,17 +74,22 @@
             <div th:if="${totalPages > 1}" class="pagination-container">
                 <ul class="pagination">
                     <li th:class="${currentPage == 0} ? 'disabled' : ''">
-                        <a th:if="${currentPage > 0}" th:href="@{/notice/list(page=${currentPage - 1})}" class="page-link">Previous</a>
+                        <a th:if="${currentPage > 0}"
+                           th:href="@{/notice/search(page=${currentPage - 1}, searchType=${param.searchType}, keyword=${param.keyword})}"
+                           class="page-link">Previous</a>
                         <span th:unless="${currentPage > 0}" class="page-link disabled">Previous</span>
                     </li>
 
                     <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                         th:class="${pageNum == currentPage} ? 'active' : ''">
-                        <a th:href="@{/notice/list(page=${pageNum})}" th:text="${pageNum + 1}" class="page-link"></a>
+                        <a th:href="@{/notice/search(page=${pageNum}, searchType=${param.searchType}, keyword=${param.keyword})}"
+                           th:text="${pageNum + 1}" class="page-link"></a>
                     </li>
 
                     <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                        <a th:if="${currentPage < totalPages - 1}" th:href="@{/notice/list(page=${currentPage + 1})}" class="page-link">Next</a>
+                        <a th:if="${currentPage < totalPages - 1}"
+                           th:href="@{/notice/search(page=${currentPage + 1}, searchType=${param.searchType}, keyword=${param.keyword})}"
+                           class="page-link">Next</a>
                         <span th:unless="${currentPage < totalPages - 1}" class="page-link disabled">Next</span>
                     </li>
                 </ul>

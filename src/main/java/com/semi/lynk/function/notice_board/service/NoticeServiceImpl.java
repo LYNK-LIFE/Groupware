@@ -70,7 +70,7 @@ public class NoticeServiceImpl implements NoticeService {
             try {
                 int searchNoCount = noticeMapper.getSearchNoCount(Integer.parseInt(keyword));
                 int end = Math.min(searchNoCount, start+size)-start;
-                List<NoticeDTO> allNotices = noticeMapper.searchByNoticeNo(keyword, page, end);
+                List<NoticeDTO> allNotices = noticeMapper.searchByNoticeNo(keyword, start, end);
                 return new PageImpl<>(allNotices, PageRequest.of(page, size), searchNoCount);
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("숫자만 입력 가능합니다.");
@@ -78,15 +78,16 @@ public class NoticeServiceImpl implements NoticeService {
         }else if(searchType==2){
             int searchTitleCount = noticeMapper.getSearchTitleCount(keyword);
             int end = Math.min(searchTitleCount, start+size)-start;
-            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeTitle(keyword, page, end);
+            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeTitle(keyword, start, end);
             return new PageImpl<>(allNotices, PageRequest.of(page, size), searchTitleCount);
         }else {
             int searchEmpCount = noticeMapper.getSearchEmpCount(keyword);
             int end = Math.min(searchEmpCount, start+size)-start;
-            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeEmp(keyword, page, end);
+            System.out.println("start = " + start);
+            System.out.println("end = " + end);
+            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeEmp(keyword, start, end);
             return new PageImpl<>(allNotices, PageRequest.of(page, size), searchEmpCount);
         }
-
     }
 
 
