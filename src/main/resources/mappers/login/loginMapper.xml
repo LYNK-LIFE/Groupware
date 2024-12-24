@@ -16,13 +16,14 @@
         <result property="deptNo" column="department_no"/>
         <result property="depName" column="department_name"/>
         <result property="position" column="position"/>
+        <result property="image" column="image"/>
     </resultMap>
 
     <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
         INSERT INTO EMPLOYEE
         (EMPLOYEE_NO, EMPLOYEE_NAME, PASSWORD, EMAIL, MEMBER_STATUS, LOGIN_FAIL_COUNT, WORKING_STATUS, DEPARTMENT_NO, IMAGE)
         VALUES
-        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, #{image})
+        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, 0)
     </insert>
 
     <select id="findByUsername" resultMap="login">
@@ -31,6 +32,7 @@
              , a.EMPLOYEE_NAME
              , a.EMAIL
              , a.MEMBER_STATUS
+             , a.IMAGE
              , b.DEPARTMENT_NAME
              , c.POSITION
           FROM EMPLOYEE a

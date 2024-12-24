@@ -1,6 +1,7 @@
 package com.semi.lynk.function.management.model.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 
@@ -17,6 +18,8 @@ public class AccountDTO {
     private String email;
     private Date loginTime;
     private int memberStatus;
+    private String image;
+    private MultipartFile profileImage;
 
     private String empPwd;
     private int deptNo;

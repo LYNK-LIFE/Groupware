@@ -17,10 +17,27 @@
 <div class="right-container">
     <header th:replace="~{/common/header :: headerFragment}"></header>
 
-    <section class="main-content">
-
-
-
+    <section class="main-content mainPageSection">
+        <article class="board-section box1">
+            <!-- 공지사항 영역 -->
+            <span class="articleName">공지사항</span>
+            <hr class="custom-hr">
+        </article>
+        <article class="maturity-section box2">
+            <!-- 만기 도래 고객 목록 영역 -->
+            <span class="articleName">만기 도래 고객</span>
+            <hr class="custom-hr">
+        </article>
+        <article class="notify-section box3">
+            <!-- 알림 영역 -->
+            <span class="articleName">알림</span>
+            <hr class="custom-hr">
+        </article>
+        <article class="resultPresentCondition-section box4">
+            <!-- 실적 현황표 영역 -->
+            <span class="articleName">금월 영업 실적 현황판</span>
+            <hr class="custom-hr">
+        </article>
     </section>
 
     <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>

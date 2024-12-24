@@ -1,6 +1,7 @@
 package com.semi.lynk.function.login.model.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +19,6 @@ public class EmpAddDTO {
     private int workingStatus;
     private String deptNo;
     private String image;
+    private MultipartFile profileImage;
 
 }
