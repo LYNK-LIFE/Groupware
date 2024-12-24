@@ -121,8 +121,9 @@
         join human_resource c on (a.employee_no = c.employee_no)
         join dayoff d on (a.employee_no = d.employee_no)
         join schedule e on (a.employee_no = e.employee_no)
-    where
-        a.employee_no = 12 <!-- 이 사번은 나중에 로그인 연동 할 거-->
+<!--    where-->
+<!--        a.employee_no = 12-->
+        <!-- 이 사번은 나중에 로그인 연동 할 거-->
     </select>
 
     <update id="vacAppUpdateMapper" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
@@ -131,9 +132,19 @@
         set
             usedLeave = usedLeave + #{usedLeave}
         where
-            employee_no = 12; <!-- 이 사번은 나중에 로그인 연동 할 거-->
+            employee_no = 12;  <!-- 이 사번은 나중에 로그인 연동 할 거-->
 <!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
     </update>
+
+    <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        insert into schedule (employee_no, schedule_date, schedule_bound, schedule_type, schedule_note)
+        values (12 , #{scheduleDate} , #{} , #{} , #{scheduleNote})
+    </insert>
+
+    <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        insert into dayoff (employee_no, leave_date, leave_type, leave_memo, draft_no)
+        values (12 , #{leaveDate}, #{leaveType}, #{leaveMemo}, 1)
+    </insert>
 
     <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         <id property="id" column="employee_no"/>

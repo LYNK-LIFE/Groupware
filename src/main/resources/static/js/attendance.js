@@ -208,9 +208,19 @@ preventPastDate("endDay");
 
 //////////////////////////////////////////////////////////
 
-
 //// 제출 버튼 누르면 서버에 데이터 저장하는애
 document.getElementById("vacationApp").addEventListener("click", () => {
+
+    // const name = document.getElementById("leader2").value;
+    // const scheduleDate = document.getElementById("startDateTime").value;
+
+    const startDay = document.getElementById("startDay").value;
+    const startTime = document.getElementById("startTime").value;
+
+    // 이렇게 ISO8601 형식으로 타입 맞춰줘야함
+    const scheduleDate = `${startDay}T${startTime}`;
+
+    const leaveDate = document.getElementById("startDay").value;
     const usedLeave = parseFloat(document.getElementById("useDay").value);
 
     if (isNaN(usedLeave) || usedLeave <= 0) {
@@ -218,7 +228,12 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         return;
     }
 
-    const payload = { usedLeave }; // 서버로 보낼 데이터
+    const vacationApplicationDTO = {
+        // name: name,
+        scheduleDate: scheduleDate,
+        leaveDate: leaveDate,
+        usedLeave: usedLeave,
+    }; // 서버로 보낼 데이터
 
     // 데이터 전송
     fetch("/employee/vacAppResult", {
@@ -226,7 +241,7 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(vacationApplicationDTO),
     })
         .then(res => res.json()) // JSON 형태로 응답 파싱
         .then(data => {
@@ -237,7 +252,7 @@ document.getElementById("vacationApp").addEventListener("click", () => {
                 alert(data.message);
             }
         })
-        .catch(err => console.error("직원 수정 실패:", err));
+        .catch(err => console.error("휴가 신청 실패:", err));
 
     // 모달 닫기
     const myModal = document.getElementById("myModal");
