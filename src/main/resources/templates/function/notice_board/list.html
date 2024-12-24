@@ -88,13 +88,13 @@
             <div class="search-container">
                 <a href="/notice/manager" class="btn btn-primary">관리자페이지</a>
                 <form id="searchForm" th:action="@{/notice/search}" method="get">
-                    <select name="searchType">
-                        <option value="공지번호">공지번호</option>
-                        <option value="제목">제목</option>
-                        <option value="작성자">작성자</option>
+                    <select name="searchType" class="styled-select">
+                        <option value="1">공지번호</option>
+                        <option value="2">제목</option>
+                        <option value="3">작성자</option>
                     </select>
                     <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요..." th:value="${keyword}">
-                    <button type="submit">검색</button>
+                    <button type="submit" class="btn btn-primary">검색</button>
                 </form>
                 <a href="/notice/create" class="btn btn-primary">새 글 작성</a>
             </div>

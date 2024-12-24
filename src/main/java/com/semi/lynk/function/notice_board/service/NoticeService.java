@@ -17,5 +17,5 @@ public interface NoticeService {
 
     Page<NoticeDTO> getAllNotices(int page, int size);
 
-    Page<NoticeDTO> searchNotices(String searchType, String keyword, int page, int size);
+    Page<NoticeDTO> searchNotices(int searchType, String keyword, int page, int size);
 }

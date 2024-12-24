@@ -35,7 +35,7 @@ public class NoticeController {
     }
 
     @GetMapping("/search")
-    public String searchNotices(@RequestParam String searchType,
+    public String searchNotices(@RequestParam int searchType,
                                 @RequestParam String keyword,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "12") int size,
