@@ -35,9 +35,11 @@ public class CalendarService {
     }
 
     public int vacAppService(VacationApplicationDTO vacationApplicationDTO) {
-        int result = calendarMapper.vacAppUpdateMapper(vacationApplicationDTO);
+        int result1 = calendarMapper.vacAppUpdateMapper(vacationApplicationDTO);
+        int result2 = calendarMapper.vacAppInsertMapper1(vacationApplicationDTO);
+        int result3 = calendarMapper.vacAppInsertMapper2(vacationApplicationDTO);
 
-        return result >= 1 ? 1 : 0;
+        return (result1 >= 1) && (result2 >= 1) && (result3 >= 1) ? 1 : 0;
     }
 
     public List<OverTimeApplicationDTO> overTimeAppService() {

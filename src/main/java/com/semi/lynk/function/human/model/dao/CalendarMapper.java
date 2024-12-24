@@ -17,6 +17,10 @@ public interface CalendarMapper {
 
     int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
 
+    int vacAppInsertMapper1(VacationApplicationDTO vacationApplicationDTO);
+
+    int vacAppInsertMapper2(VacationApplicationDTO vacationApplicationDTO);
+
     List<OverTimeApplicationDTO> overTimeAppMapper();
 
     int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);

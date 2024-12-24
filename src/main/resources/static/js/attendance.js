@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     const events = [];
 
                     data.forEach(item => {
-                        const uniqueKey = `${item.employeeDTO?.name}-${item.scheduleDTO?.scheduleDate}-${item.dayOffDTO?.leaveType}`;
+                        const uniqueKey = `${item.employeeDTO?.name}-${item.scheduleDTO?.scheduleStartDate}-${item.dayOffDTO?.leaveType}`;
                         // 각 일정의 고유 키 생성
 
                         if (!seenEvents.has(uniqueKey)) { // 중복 확인
                             events.push({
                                 title: `${item.employeeDTO?.name || 'Unknown'} ${item.humanDTO?.position || ''}`,
-                                start: item.scheduleDTO?.scheduleDate || item.dayOffDTO?.leaveDate,
+                                start: item.scheduleDTO?.scheduleStartDate || item.dayOffDTO?.leaveStartDate,
                                 backgroundColor: item.dayOffDTO?.leaveType === 2 ? 'green' :
                                     item.dayOffDTO?.leaveType === 1 ? 'lightgreen' :
                                         'orange',
@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                     department: item.departmentDTO?.depName || 'N/A',
                                     position: item.humanDTO?.position || 'N/A',
                                     // memo: item.dayOffDTO?.leaveMemo || '없음',
-                                    startDate: item.scheduleDTO?.scheduleDate || item.dayOffDTO?.leaveDate,
-                                    endDate: item.scheduleDTO?.scheduleDate || item.dayOffDTO?.leaveDate
+                                    startDate: item.scheduleDTO?.scheduleStartDate || item.dayOffDTO?.leaveStartDate,
+                                    endDate: item.scheduleDTO?.scheduleEndDate || item.dayOffDTO?.leaveEndDate
                                 }
                             });
                             seenEvents.add(uniqueKey); // 고유 키를 Set에 추가
@@ -208,9 +208,22 @@ preventPastDate("endDay");
 
 //////////////////////////////////////////////////////////
 
-
 //// 제출 버튼 누르면 서버에 데이터 저장하는애
 document.getElementById("vacationApp").addEventListener("click", () => {
+
+    // const name = document.getElementById("leader2").value;
+    // const scheduleDate = document.getElementById("startDateTime").value;
+
+    const startDay = document.getElementById("startDay").value || "00:00";
+    const startTime = document.getElementById("startTime").value
+
+    const endDay = document.getElementById("endDay").value;
+    const endTime = document.getElementById("endTime").value || "23:59";
+
+    // 이렇게 ISO8601 형식으로 타입 맞춰줘야함
+    const scheduleStartDate = `${startDay}T${startTime}`;
+    const scheduleEndDate = `${endDay}T${endTime}`;
+
     const usedLeave = parseFloat(document.getElementById("useDay").value);
 
     if (isNaN(usedLeave) || usedLeave <= 0) {
@@ -218,7 +231,14 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         return;
     }
 
-    const payload = { usedLeave }; // 서버로 보낼 데이터
+    const vacationApplicationDTO = {
+        // name: name,
+        scheduleStartDate: scheduleStartDate,
+        scheduleEndDate: scheduleEndDate,
+        leaveStartDate: startDay,
+        leaveEndDate: endDay,
+        usedLeave: usedLeave,
+    }; // 서버로 보낼 데이터
 
     // 데이터 전송
     fetch("/employee/vacAppResult", {
@@ -226,7 +246,7 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(vacationApplicationDTO),
     })
         .then(res => res.json()) // JSON 형태로 응답 파싱
         .then(data => {
@@ -237,7 +257,7 @@ document.getElementById("vacationApp").addEventListener("click", () => {
                 alert(data.message);
             }
         })
-        .catch(err => console.error("직원 수정 실패:", err));
+        .catch(err => console.error("휴가 신청 실패:", err));
 
     // 모달 닫기
     const myModal = document.getElementById("myModal");

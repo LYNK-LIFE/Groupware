@@ -181,6 +181,7 @@ public class EmployeeController {
         System.out.println(vacStatusResult);
         return vacStatusResult;
     }
+
     // 연차 사용 계획서 제출 시에 update 되는 애
     // 글고 ResponseBody로 제출 완료 / 실패 여부 확인함
     @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
@@ -242,7 +243,6 @@ public class EmployeeController {
             map.put("status" , "overTimeAppFail");
             map.put("message" , "연장 근무 신청에 실패하였습니다.");
         }
-
         return map;
     }
 }
