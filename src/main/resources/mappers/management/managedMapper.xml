@@ -18,6 +18,19 @@
         <result property="image" column="image"/>
     </resultMap>
 
+    <resultMap id="AccountRole" type="com.semi.lynk.function.management.model.dto.AccountDTO">
+        <id property="empID" column="employee_no"/>
+        <result property="empName" column="employee_name"/>
+        <result property="deptName" column="department_name"/>
+        <result property="position" column="position"/>
+        <result property="roleAdmin" column="auth_of_admin"/>
+        <result property="roleDraft" column="auth_of_document"/>
+        <result property="roleLeave" column="auth_of_leave"/>
+        <result property="roleDepartment" column="auth_of_department"/>
+        <result property="roleNotice" column="auth_of_notice"/>
+        <result property="roleSchedule" column="auth_of_schedule"/>
+    </resultMap>
+
     <!-- 활성화 계정 카운트 -->
     <select id="getMemberStatusCounts" resultType="map">
         SELECT
@@ -52,7 +65,6 @@
                                FROM LOGIN_DATA) sub
                       WHERE RN = 1) d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
          WHERE a.MEMBER_STATUS IN (1, 2);
-
     </select>
 
     <!-- 활성화 계정 삭제 상태로 변경(삭제) -->
@@ -114,6 +126,50 @@
              , a.EMAIL = #{email}
              , a.IMAGE = #{image}
          WHERE a.EMPLOYEE_NO = #{empID}
+    </update>
+
+    <!-- 활성화 사원별 권한 조회 -->
+    <select id="getActiveAccountRole" resultMap="AccountRole">
+        SELECT a.EMPLOYEE_NO
+             , a.EMPLOYEE_NAME
+             , b.DEPARTMENT_NAME
+             , c.POSITION
+             , d.AUTH_OF_DOCUMENT
+             , d.AUTH_OF_LEAVE
+             , d.AUTH_OF_DEPARTMENT
+             , d.AUTH_OF_NOTICE
+             , d.AUTH_OF_SCHEDULE
+          FROM EMPLOYEE a
+          JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
+          LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
+          LEFT JOIN AUTHORIZATION d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
+         WHERE a.MEMBER_STATUS IN (1, 2);
+    </select>
+
+    <!-- 사원 권한 변경 -->
+    <update id="updateAccountRole" parameterType="map">
+        UPDATE AUTHORIZATION
+           SET
+               AUTH_OF_DOCUMENT = #{roleDraft}
+             , AUTH_OF_LEAVE = #{roleLeave}
+             , AUTH_OF_DEPARTMENT = #{roleDepartment}
+             , AUTH_OF_NOTICE = #{roleNotice}
+             , AUTH_OF_SCHEDULE = #{roleSchedule}
+         WHERE EMPLOYEE_NO = #{empID}
+           AND (
+                   AUTH_OF_DOCUMENT != #{roleDraft}
+                OR AUTH_OF_LEAVE != #{roleLeave}
+                OR AUTH_OF_DEPARTMENT != #{roleDepartment}
+                OR AUTH_OF_NOTICE != #{roleNotice}
+                OR AUTH_OF_SCHEDULE != #{roleSchedule}
+           )
+<!--        UPDATE AUTHORIZATION-->
+<!--           SET AUTH_OF_DOCUMENT = #{roleDraft}-->
+<!--             , AUTH_OF_LEAVE = #{roleLeave}-->
+<!--             , AUTH_OF_DEPARTMENT = #{roleDepartment}-->
+<!--             , AUTH_OF_NOTICE = #{roleNotice}-->
+<!--             , AUTH_OF_SCHEDULE = #{roleSchedule}-->
+<!--         WHERE EMPLOYEE_NO = #{empID}-->
     </update>
 
 

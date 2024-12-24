@@ -4,19 +4,13 @@ import com.semi.lynk.function.login.model.EmpDetails;
 import com.semi.lynk.function.login.model.dao.LoginMapper;
 import com.semi.lynk.function.login.model.dto.EmpAddDTO;
 import com.semi.lynk.function.login.model.dto.LoginDTO;
-import com.semi.lynk.function.login.model.dto.LoginLogDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Service
 public class LoginService implements UserDetailsService {
@@ -37,6 +31,7 @@ public class LoginService implements UserDetailsService {
             empAddDTO.setImage(empAddDTO.getImage());
         }
         int result = loginMapper.addEmployee(empAddDTO);
+        loginMapper.addAuthorization(empAddDTO);
         return result;
     }
 
@@ -52,16 +47,14 @@ public class LoginService implements UserDetailsService {
     //****************************************************************
     // 로그인 관련 내용들
     //****************************************************************
-    public LoginDTO getLoginUsername(String empName) {
-        return loginMapper.findByUsername(empName);
-    }
-
     @Override
-    public UserDetails loadUserByUsername(String empname) throws UsernameNotFoundException {
-        LoginDTO login = findByUsername(empname);
+    public UserDetails loadUserByUsername(String empNo) throws UsernameNotFoundException {
+        LoginDTO login = loginMapper.findByUsername(empNo);
         if (login == null) {
-            throw new UsernameNotFoundException("사번 정보가 존재하지 않습니다.");
+            throw new UsernameNotFoundException(empNo + "사번 정보를 찾을 수 없습니다.");
         }
+
+        // 반환
         return new EmpDetails(login);
     }
 

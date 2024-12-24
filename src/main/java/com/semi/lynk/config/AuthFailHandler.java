@@ -20,12 +20,6 @@ public class AuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        /*
-         *   request : 사용자 요청 객체
-         *   response : 서버의 응답 값
-         *   exception : 발생한 오류를 담는 객체
-         * */
-
         String errorMessage = null;
 
         if (exception instanceof BadCredentialsException) {
@@ -44,11 +38,13 @@ public class AuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
             errorMessage = "알 수 없는 에러 발생!!!!!! 비상!!!!!!!!!";
         }
 
+        System.out.println("errorMessage = " + errorMessage);
         // 에러 메세지를 URL 통해 전달
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");
+//        request.setAttribute("message", errorMessage);
 
         // 오류가 발생했을 때 이동할 페이지 URL 작성
-        setDefaultFailureUrl("/function/login/failLogin?message="+errorMessage);
+        setDefaultFailureUrl("/login/failLogin?message="+errorMessage);
 
         super.onAuthenticationFailure(request, response, exception);
     }

@@ -21,4 +21,11 @@ public class EmpAddDTO {
     private String image;
     private MultipartFile profileImage;
 
+    private int roleAdmin;
+    private int roleDraft;
+    private int roleLeave;
+    private int roleDepartment;
+    private int roleNotice;
+    private int roleSchedule;
+
 }

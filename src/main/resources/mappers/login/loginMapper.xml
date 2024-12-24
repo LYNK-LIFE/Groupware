@@ -17,6 +17,12 @@
         <result property="depName" column="department_name"/>
         <result property="position" column="position"/>
         <result property="image" column="image"/>
+        <result property="roleAdmin" column="auth_of_admin"/>
+        <result property="roleDraft" column="auth_of_document"/>
+        <result property="roleLeave" column="auth_of_leave"/>
+        <result property="roleDepartment" column="auth_of_department"/>
+        <result property="roleNotice" column="auth_of_notice"/>
+        <result property="roleSchedule" column="auth_of_schedule"/>
     </resultMap>
 
     <insert id="addEmployee" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
@@ -25,7 +31,14 @@
         VALUES
         (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, 0)
     </insert>
+    <insert id="addAuthorization" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
+        INSERT INTO AUTHORIZATION
+        (AUTH_OF_ADMIN, AUTH_OF_DOCUMENT, AUTH_OF_LEAVE, AUTH_OF_DEPARTMENT, AUTH_OF_NOTICE, AUTH_OF_SCHEDULE, EMPLOYEE_NO)
+        VALUES
+        (0, 0, 0, 0, 0, 0, #{userID});
+    </insert>
 
+    <!-- 사용자 정보 가져오기 -->
     <select id="findByUsername" resultMap="login">
         SELECT a.EMPLOYEE_NO
              , a.PASSWORD
@@ -35,9 +48,16 @@
              , a.IMAGE
              , b.DEPARTMENT_NAME
              , c.POSITION
+             , d.AUTH_OF_ADMIN
+             , d.AUTH_OF_DOCUMENT
+             , d.AUTH_OF_LEAVE
+             , d.AUTH_OF_DEPARTMENT
+             , d.AUTH_OF_NOTICE
+             , d.AUTH_OF_SCHEDULE
           FROM EMPLOYEE a
           JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
           LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
+          LEFT JOIN AUTHORIZATION d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
          WHERE a.EMPLOYEE_NO = #{empName}
     </select>
 
