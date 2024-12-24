@@ -28,8 +28,9 @@
 
         <div id='calendar'></div>
 
+        <!-- 일정 눌렀을 때 상세 정보 모달창 -->
         <div id="eventModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document"> <!-- 일정 눌렀을 때 상세 정보 모달창 -->
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">일정 상세 정보</h5>
@@ -327,11 +328,13 @@
                         ? document.getElementById("selfReasonInput").value // 직접 입력값
                         : document.getElementById("overTimeReason").value; // 선택된 사유
 
-                    // 필수 값 체크
-                    // if (!leaderId || !startDay || !startTime || !endDay || !endTime || !scheduleNote) {
-                    //     alert("모든 필수 값을 입력해주세요.");
-                    //     return;
-                    // }
+                    const totalHours = document.getElementById("allOverTime").value;
+
+                    // 필수 값 체크 (다 입력해야 제출 됨)
+                    if (!leaderId || !startDay || !startTime || !endDay || !endTime || !scheduleNote) {
+                        alert("모든 필수 값을 입력해주세요.");
+                        return;
+                    }
 
                     // dto로 모음
                     const overTimeDTO = {
@@ -341,7 +344,9 @@
                         scheduleDate: `${startDay}T${startTime}:00`, // 일단은 얘만 보냄. 나중에 수정 해야 함.
                         endOverDay: endDay,
                         endOverTime: `${endDay}T${endTime}:00`,
-                        scheduleNote: scheduleNote // 메모 (사유)
+                        scheduleNote: scheduleNote, // 메모 (사유)
+
+                        totalHours: totalHours,
                     };
 
                     console.log("보낼 데이터:", overTimeDTO); // 디버깅용 로그

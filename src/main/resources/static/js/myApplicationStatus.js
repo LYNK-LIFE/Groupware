@@ -28,6 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // 별도 추가하기!!! (클릭 했을 때 가져온 데이터를 고대로 넣는 게 아니라서!!)
             row.setAttribute("data-leader" , item.employeeDTO.name);
 
+            // 연장 근무 신청시 데이터 가져오기 위한 설정 (담당자↑, 시작시간(근무일시)↓, 연장 근로시간↓)
+            row.setAttribute("data-start-over-day" , item.startOverTime || "N/A");
+            row.setAttribute("data-total-over-time", item.totalOverTime || "N/A");
+
             // 상태별 CSS 클래스 추가
             const statusClass = getStatusClass(item.approver);
             if (statusClass) {
@@ -126,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// 클릭 시 상세 조회 모달창
 document.getElementById("employee-table-body2").addEventListener("click" , (event) => {
     const row = event.target.closest("tr");
 
@@ -135,12 +140,21 @@ document.getElementById("employee-table-body2").addEventListener("click" , (even
         // 이 한 줄 차이로 조회가 잘 되나 하나만 되나~ 그게 갈림
 
         // 담당자 별도 추가하기!
-        const leader = row.getAttribute("data-leader")
+        const leader = row.getAttribute("data-leader");
+
+        const startOverTime = row.getAttribute("data-start-over-day");
+        const totalOverTime = row.getAttribute("data-total-over-time");
 
         document.getElementById("status").value = cells[0].textContent;
 
         // 별도로 꺼내줌 (얘 나중에 바꿔 줘야함. 지금은 지 이름 돼있음)
         document.getElementById("leader").value = leader || "";
+        // 연장 근무 신청의 데이터를 나의 현황 페이지 상세 조회에서 확인 하게 별도 꺼내기
+
+        // 얘네는 아직 못 불러오고 있음 나중에 수정해야 함.
+        document.getElementById("overTime").value = `${totalOverTime || "N/A"} 시간`;
+        document.getElementById("workTime").value = `${startOverTime || "N/A"}`;
+
         document.getElementById("position").value = cells[4].textContent;
         document.getElementById("applicationOverTime").value = cells[5].textContent;
         document.getElementById("approvalOverTime").value = cells[6].textContent;

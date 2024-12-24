@@ -43,4 +43,6 @@ public class CalendarDTO {
     //
     private LocalDateTime workOff;    // 퇴근 시간
     // 기본 퇴근시간(18:00) + (종료시간 - 시작시간)
+
+    private LocalDateTime totalOverTime; // 종료시간 - 시작 시간 = 총 연장 근로 시간
 }
