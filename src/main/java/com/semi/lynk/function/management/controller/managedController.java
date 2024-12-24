@@ -1,5 +1,8 @@
 package com.semi.lynk.function.management.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.semi.lynk.function.management.model.dto.AccountDTO;
 import com.semi.lynk.function.management.service.ManagedService;
 import org.apache.ibatis.annotations.Param;
@@ -15,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,11 +101,11 @@ public class managedController {
     public String editAccountPage(@PathVariable("empID") String empID, Model model) {
         // empID를 기반으로 계정 정보를 조회
         AccountDTO accountInfo = managedService.getAccountByEmpID(empID);
-        System.out.println("서비스 리턴 accountInfo: " + accountInfo);
+//        System.out.println("서비스 리턴 accountInfo: " + accountInfo);
 
         // 계정 정보를 모델에 추가하여 뷰로 전달
         model.addAttribute("accountInfo", accountInfo);
-        System.out.println("accountInfo 컨트롤러 = " + LocalDateTime.now() + accountInfo);
+//        System.out.println("accountInfo 컨트롤러 = " + LocalDateTime.now() + accountInfo);
 
         // 계정 편집 페이지로 이동
         return "function/management/editAccount";
@@ -138,8 +142,8 @@ public class managedController {
                 // 저장된 경로를 설정
                 imagePath = "/profile/" + fileName;
 
-                System.out.println("File saved at: " + filePath);
-                System.out.println("Accessing file at: " + imagePath);
+//                System.out.println("File saved at: " + filePath);
+//                System.out.println("Accessing file at: " + imagePath);
             }
 
             // 이미지 경로를 DTO에 설정
@@ -163,6 +167,118 @@ public class managedController {
         return "redirect:/management/activeAccountList";
     }
 
+    // 권한 관리 페이지
+    @GetMapping("accountRoleSetting")
+    public String accountRoleSettingPage(Model model) {
+        // 계정 목록 조회
+        List<Map<String, Object>> accountRoles = managedService.getActiveAccountRole();
+        model.addAttribute("accountRoles", accountRoles);
 
+        System.out.println("accountRoles = " + accountRoles);
+
+        return "function/management/accountRoleSetting";
+    }
+
+    @PostMapping("updateRoles")
+    public String updateAccountRoles(@RequestParam Map<String, String> updatedRoles) {
+        // empId별 권한 데이터를 저장할 Map
+        Map<String, Map<String, String>> empRolesMap = new HashMap<>();
+
+        // 모든 키-값 처리
+        updatedRoles.forEach((key, value) -> {
+            String roleType = null;
+            String empId = null;
+
+            // 키 분석: roleType과 empId 추출
+            if (key.startsWith("roleDraft-")) {
+                roleType = "roleDraft";
+                empId = key.substring("roleDraft-".length());
+            } else if (key.startsWith("roleLeave-")) {
+                roleType = "roleLeave";
+                empId = key.substring("roleLeave-".length());
+            } else if (key.startsWith("roleDepartment-")) {
+                roleType = "roleDepartment";
+                empId = key.substring("roleDepartment-".length());
+            } else if (key.startsWith("roleNotice-")) {
+                roleType = "roleNotice";
+                empId = key.substring("roleNotice-".length());
+            } else if (key.startsWith("roleSchedule-")) {
+                roleType = "roleSchedule";
+                empId = key.substring("roleSchedule-".length());
+            }
+
+            // empId가 추출되었을 경우 처리
+            if (empId != null) {
+                // 값 변환: "on"을 1로, "off" 또는 null을 0으로 치환
+                String transformedValue = value.equals("on") ? "1" : "0";
+                empRolesMap.putIfAbsent(empId, new HashMap<>());
+                empRolesMap.get(empId).put(roleType, transformedValue);
+            }
+        });
+
+        // 모든 empId에 대해 업데이트 실행
+        empRolesMap.forEach((empId, roles) -> {
+            String roleDraftValue = roles.getOrDefault("roleDraft", "0");
+            String roleLeaveValue = roles.getOrDefault("roleLeave", "0");
+            String roleDepartmentValue = roles.getOrDefault("roleDepartment", "0");
+            String roleNoticeValue = roles.getOrDefault("roleNotice", "0");
+            String roleScheduleValue = roles.getOrDefault("roleSchedule", "0");
+
+            // 업데이트 실행
+            managedService.updateAccountRole(empId, roleDraftValue, roleLeaveValue, roleDepartmentValue, roleNoticeValue, roleScheduleValue);
+        });
+        System.out.println("DB update successful");
+        return "redirect:/management/accountRoleSetting";
+    }
+
+//    @PostMapping("updateRoles")
+//    public String updateAccountRoles(@RequestParam Map<String, String> updatedRoles) {
+//        // empId별 권한 데이터를 저장할 Map
+//        Map<String, Map<String, String>> empRolesMap = new HashMap<>();
+//
+//        // 모든 키-값 처리
+//        updatedRoles.forEach((key, value) -> {
+//            String roleType = null;
+//            String empId = null;
+//
+//            // 키 분석: roleType과 empId 추출
+//            if (key.startsWith("roleDraft-")) {
+//                roleType = "roleDraft";
+//                empId = key.substring("roleDraft-".length());
+//            } else if (key.startsWith("roleLeave-")) {
+//                roleType = "roleLeave";
+//                empId = key.substring("roleLeave-".length());
+//            } else if (key.startsWith("roleDepartment-")) {
+//                roleType = "roleDepartment";
+//                empId = key.substring("roleDepartment-".length());
+//            } else if (key.startsWith("roleNotice-")) {
+//                roleType = "roleNotice";
+//                empId = key.substring("roleNotice-".length());
+//            } else if (key.startsWith("roleSchedule-")) {
+//                roleType = "roleSchedule";
+//                empId = key.substring("roleSchedule-".length());
+//            }
+//
+//            // empId가 추출되었을 경우 처리
+//            if (empId != null) {
+//                empRolesMap.putIfAbsent(empId, new HashMap<>());
+//                empRolesMap.get(empId).put(roleType, value != null ? value : "0");
+//            }
+//        });
+//
+//        // 모든 empId에 대해 업데이트 실행
+//        empRolesMap.forEach((empId, roles) -> {
+//            String roleDraftValue = roles.getOrDefault("roleDraft", "0");
+//            String roleLeaveValue = roles.getOrDefault("roleLeave", "0");
+//            String roleDepartmentValue = roles.getOrDefault("roleDepartment", "0");
+//            String roleNoticeValue = roles.getOrDefault("roleNotice", "0");
+//            String roleScheduleValue = roles.getOrDefault("roleSchedule", "0");
+//
+//            // 업데이트 실행
+//            managedService.updateAccountRole(empId, roleDraftValue, roleLeaveValue, roleDepartmentValue, roleNoticeValue, roleScheduleValue);
+//        });
+//
+//        return "redirect:/management/accountRoleSetting";
+//    }
 
 }

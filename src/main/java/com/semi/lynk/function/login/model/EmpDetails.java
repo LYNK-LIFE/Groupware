@@ -22,18 +22,24 @@ public class EmpDetails implements UserDetails {
     private LoginDTO loginDTO;
 
     // 권한 정보 반환 메소드 (잘 모르겠음...)
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Collection<GrantedAuthority> authorities = new ArrayList<>();
-//        loginDTO.getRole().forEach(role -> authorities.add(() -> role));
-//        return authorities;
-//    }
-
-    // 기본값
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        if (loginDTO.getRoleAdmin() == 1) {
+            authorities.add(() -> "ROLE_ADMIN");
+        } else {
+            authorities.add(() -> "ROLE_USER");
+        }
+        System.out.println("loginDTO.getRoleAdmin() = " + loginDTO.getRoleAdmin());
+        System.out.println("authorities = " + authorities);
+        return authorities;
     }
+
+    // 기본값
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of();
+//    }
 
     // 비밀번호 반환 메소드
     @Override
@@ -57,16 +63,13 @@ public class EmpDetails implements UserDetails {
         return loginDTO.getImage();
     }
 
-
-    // 부서 반환 메소드
-//    public String getDeptName() {
-//        return loginDTO.getDepartmentDTO().getDepName();
-//    }
-
-    // 직급 반환 메소드
-//    public String getPosition() {
-//        return loginDTO.getHumanDTO().getPosition();
-//    }
+    // 권한 반환 메소드
+    public int getRoleAdmin() { return loginDTO.getRoleAdmin(); }             // 관리자 권한, management 페이지 접근 가능자, 0:권한 없음 / 1:권한 있음
+    public int getRoleDraft() { return loginDTO.getRoleDraft(); }             // 기안 승인 권한, 0:권한 없음 / 1:권한 있음
+    public int getRoleLeave() { return loginDTO.getRoleLeave(); }             // 연차 승인 권한, 0:권한 없음 / 1:권한 있음
+    public int getRoleDepartment() { return loginDTO.getRoleDepartment(); }   // 부서 관리 권한, 0:권한 없음 / 1:권한 있음
+    public int getRoleNotice() { return loginDTO.getRoleNotice(); }           // 게시글 작성 권한, 0:권한 없음 / 1:권한 있음
+    public int getRoleSchedule() { return loginDTO.getRoleSchedule(); }       // 일정 관리 권한, 0:개인 / 1:부서 / 2:전사
 
     // 계정 만료 여부 (잘 모르겠음2)
     @Override
@@ -74,7 +77,7 @@ public class EmpDetails implements UserDetails {
         return true;
     }
 
-    // 잠겨있는 계정 확인 메소드-
+    // 잠겨있는 계정 확인 메소드
     @Override
     public boolean isAccountNonLocked() {
         return true;

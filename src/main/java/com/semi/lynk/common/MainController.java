@@ -33,6 +33,15 @@ public class MainController {
         session.setAttribute("position", empDetails.getLoginDTO().getPosition());
         session.setAttribute("image", empDetails.getLoginDTO().getImage());
 
+        // 권한 관련 데이터
+        session.setAttribute("roleAdmin", empDetails.getLoginDTO().getRoleAdmin());             // 관리자 권한, management 페이지 접근 가능자, 0:권한 없음 / 1:권한 있음
+        System.out.println("roleAdmin: " + empDetails.getLoginDTO().getRoleAdmin());
+        session.setAttribute("roleDraft", empDetails.getLoginDTO().getRoleDraft());             // 기안 승인 권한, 0:권한 없음 / 1:권한 있음
+        session.setAttribute("roleLeave", empDetails.getLoginDTO().getRoleLeave());             // 연차 승인 권한, 0:권한 없음 / 1:권한 있음
+        session.setAttribute("roleDepartment", empDetails.getLoginDTO().getRoleDepartment());   // 부서 관리 권한, 0:권한 없음 / 1:권한 있음
+        session.setAttribute("roleNotice", empDetails.getLoginDTO().getRoleNotice());           // 게시글 작성 권한, 0:권한 없음 / 1:권한 있음
+        session.setAttribute("roleSchedule", empDetails.getLoginDTO().getRoleSchedule());       // 일정 관리 권한, 0:개인 / 1:부서 / 2:전사
+
         // 모델에 추가
         mv.addObject("user", empDetails);
         System.out.println("session = " + session.getAttribute("empName"));

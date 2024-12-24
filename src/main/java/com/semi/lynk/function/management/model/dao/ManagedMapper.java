@@ -25,7 +25,13 @@ public interface ManagedMapper {
     void restoreAccounts(@Param("empIDs") List<String> empIDs);
 
     //계정 편집
-        AccountDTO getAccountByEmpID(String empID);
+    AccountDTO getAccountByEmpID(String empID);
 
-        void updateAccount(String empID, String empName, int deptNo, String position, String email, String image);
+    void updateAccount(String empID, String empName, int deptNo, String position, String email, String image);
+
+    //계정 권한
+    List<Map<String, Object>> getActiveAccountRole();
+
+    void updateAccountRole(Map<String, Object> roleData);
+
 }

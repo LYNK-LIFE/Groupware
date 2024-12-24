@@ -11,12 +11,13 @@ import java.util.List;
 public interface LoginMapper {
 
     int addEmployee(EmpAddDTO empAddDTO);
+    int addAuthorization(EmpAddDTO empAddDTO);
 
+    // 사용자 정보 가져오기
     LoginDTO findByUsername(String empName);
 
     // 로그인 로깅
     void insertLoginLog(LoginLogDTO loginLogDTO);       // 로그 기록
     LoginLogDTO selectLatestLogByEmpNo(String empNo);   // 최근 로그인 시간
     List<LoginLogDTO> selectLogsByEmpNo(String empNo);  // 계정별 로그인 시간 목록
-
 }

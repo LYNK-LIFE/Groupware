@@ -23,4 +23,11 @@ public class AccountDTO {
 
     private String empPwd;
     private int deptNo;
+
+    private Integer roleAdmin;
+    private Integer roleDraft;
+    private Integer roleLeave;
+    private Integer roleDepartment;
+    private Integer roleNotice;
+    private Integer roleSchedule;
 }

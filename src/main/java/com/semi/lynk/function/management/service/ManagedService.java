@@ -5,6 +5,7 @@ import com.semi.lynk.function.management.model.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,4 +70,21 @@ public class ManagedService {
         managedMapper.updateAccount(empID, empName, deptNo, position, email, image);
     }
 
+    // 계정 권한
+    public List<Map<String, Object>> getActiveAccountRole() {
+        return managedMapper.getActiveAccountRole();
+    }
+
+    public void updateAccountRole(String empId, String roleDraft, String roleLeave, String roleDepartment, String roleNotice, String roleSchedule) {
+        Map<String, Object> roleData = new HashMap<>();
+        roleData.put("empID", empId);
+        roleData.put("roleDraft", roleDraft);
+        roleData.put("roleLeave", roleLeave);
+        roleData.put("roleDepartment", roleDepartment);
+        roleData.put("roleNotice", roleNotice);
+        roleData.put("roleSchedule", roleSchedule);
+
+        // Mapper 호출하여 DB 업데이트
+        managedMapper.updateAccountRole(roleData);
+    }
 }
