@@ -18,6 +18,8 @@ public class DbService {
     public DbService (DbMapper dbMapper){this.dbMapper=dbMapper;}
 
 //====================================================================================================================
+    //각종 보험사 등록
+
     public void insuranceRegistration(ProductManageDTO productManageDTO) {
         dbMapper.insertinsurance(productManageDTO);
     }
@@ -38,18 +40,26 @@ public class DbService {
     }
 
 //=====================================================================================================================
+    //고객등록
 
     public void registerCustomer(CustomerDTO customerDTO) {
         dbMapper.insertCustomer(customerDTO);
     }
 
+//=====================================================================================================================
+    //신규계약 등록
+
     public List<EmployeeDTO> getAllEmployees() { return dbMapper.selectAllEmployees();}
 
-//==================================================================================================================
+
+    public List<CustomerDTO> getAllCustomers() {
+        return dbMapper.selectAllCustomers();
+    }
 
 
-
-
+    public List<ProductManageDTO> getAllProducts() {
+        return dbMapper.selectAllProducts();
+    }
 
 
 }
