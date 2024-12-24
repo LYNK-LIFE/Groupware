@@ -63,33 +63,31 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public Page<NoticeDTO> searchNotices(String searchType, String keyword, int page, int size){
+    public Page<NoticeDTO> searchNotices(int searchType, String keyword, int page, int size){
         int start = page * size;
-        String number = "공지번호";
-        String title = "제목";
 
-        System.out.println("여긴 서비스+++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-        if(searchType.equals(number)) {
-            System.out.println("여긴 if문=======================================================");
-            int searchNoCount = noticeMapper.getSearchNoCount(Integer.parseInt(keyword));
-            System.out.println("searchNoCount = " + searchNoCount);
-            int end = Math.min(searchNoCount, start+size)-start;
-            System.out.println("end = " + end);
-            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeNo(keyword, page, end);
-            return new PageImpl<>(allNotices, PageRequest.of(page, size), searchNoCount);
-        }else if(title.equals(searchType)){
+        if(searchType==1) {
+            try {
+                int searchNoCount = noticeMapper.getSearchNoCount(Integer.parseInt(keyword));
+                int end = Math.min(searchNoCount, start+size)-start;
+                List<NoticeDTO> allNotices = noticeMapper.searchByNoticeNo(keyword, start, end);
+                return new PageImpl<>(allNotices, PageRequest.of(page, size), searchNoCount);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+            }
+        }else if(searchType==2){
             int searchTitleCount = noticeMapper.getSearchTitleCount(keyword);
             int end = Math.min(searchTitleCount, start+size)-start;
-            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeTitle(keyword, page, end);
+            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeTitle(keyword, start, end);
             return new PageImpl<>(allNotices, PageRequest.of(page, size), searchTitleCount);
         }else {
             int searchEmpCount = noticeMapper.getSearchEmpCount(keyword);
             int end = Math.min(searchEmpCount, start+size)-start;
-            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeEmp(keyword, page, end);
+            System.out.println("start = " + start);
+            System.out.println("end = " + end);
+            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeEmp(keyword, start, end);
             return new PageImpl<>(allNotices, PageRequest.of(page, size), searchEmpCount);
         }
-
     }
 
 

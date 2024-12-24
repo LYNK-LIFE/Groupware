@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,12 @@ public class NoticeController {
 
     @Autowired
     private NoticeService noticeService;
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException e, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/notice/list";
+    }
 
     @GetMapping("/list")
     public String listNotices(Model model,
@@ -35,22 +42,25 @@ public class NoticeController {
     }
 
     @GetMapping("/search")
-    public String searchNotices(@RequestParam String searchType,
-                                @RequestParam String keyword,
+    public String searchNotices(@RequestParam(required = false) int searchType,
+                                @RequestParam(required = false) String keyword,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "12") int size,
                                 Model model) {
+        try {
+            Page<NoticeDTO> noticePage = noticeService.searchNotices(searchType, keyword, page, size);
 
-        Page<NoticeDTO> noticePage = noticeService.searchNotices(searchType, keyword, page, size);
-        System.out.println("여긴 컨트롤러________________________________________________________");
+            model.addAttribute("notices", noticePage.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", noticePage.getTotalPages());
+            model.addAttribute("searchType", searchType);
+            model.addAttribute("keyword", keyword);
 
-        model.addAttribute("notices", noticePage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", noticePage.getTotalPages());
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("keyword", keyword);
-
-        return "function/notice_board/list";
+            return "function/notice_board/search";
+        } catch (IllegalArgumentException e) {
+            // 예외 처리는 @ExceptionHandler 메서드에서 수행됩니다
+            throw e;
+        }
     }
 
     @GetMapping("/manager")

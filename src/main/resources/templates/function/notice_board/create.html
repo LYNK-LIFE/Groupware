@@ -22,50 +22,56 @@
     <script src="/js/calendar.js"></script>
 
     <section class="main-content">
+        <div class="notice-scroll-container">
+            <div class="subHeader-class">
+                <a class="subHeaderLink-class" href="/notice/list">공지사항</a>
+                <span class="separator">/</span>
+                <a class="subHeaderLink-class" href="/notice/create">공지사항작성</a>
+            </div>
 
-        <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/notice/list">공지사항</a>
+            <article class="notice-list">
+                <form th:action="@{/notice/create}" th:object="${noticeDTO}" method="post" class="notice-form">
+                    <div class="form-group">
+                        <label for="noticeTitle">제목:</label>
+                        <input type="text" class="form-control" id="noticeTitle" th:field="*{noticeTitle}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>작성자:</label>
+                        <span th:text="${session.empName}" class="author-name">Employee Name</span>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="noticeHide">글 우선순위:</label>
+                            <select id="noticeHide" class="styled-select form-control" th:field="*{noticeHide}">
+                                <option value="0">표시</option>
+                                <option value="1">숨김</option>
+                                <option value="2">고정</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="noticeVote">글 종류:</label>
+                            <select id="noticeVote" class="styled-select form-control" th:field="*{noticeVote}">
+                                <option value="0">공지</option>
+                                <option value="1">투표</option>
+                                <option value="2">투표완료</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="noticeContent">내용:</label>
+                        <textarea id="noticeContent" th:field="*{noticeContent}" rows="10" required></textarea>
+                    </div>
+
+                    <input type="hidden" th:field="*{employeeNo}" required>
+                    <input type="hidden" th:field="*{noticeDate}">
+                    <input type="hidden" th:field="*{viewerCount}">
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">저장</button>
+                        <a href="/notice/list" class="btn btn-secondary">목록으로 돌아가기</a>
+                    </div>
+                </form>
+            </article>
         </div>
-
-        <article class="main-content">
-            <h1>공지사항 작성</h1>
-            <form th:action="@{/notice/create}" th:object="${noticeDTO}" method="post">
-                <div>
-                    <label for="noticeTitle">제목:</label>
-                    <input type="text" size="50" id="noticeTitle" th:field="*{noticeTitle}" required>
-                </div>
-                <div>
-                    작성자 : <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px">Employee Name</span>
-                </div>
-                <div>
-                    <label for="noticeHide">글 우선순위:</label>
-                    <select id="noticeHide" th:field="*{noticeHide}">
-                        <option value="0">표시</option>
-                        <option value="1">숨김</option>
-                        <option value="2">고정</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="noticeContent">내용:</label>
-                    <textarea id="noticeContent" th:field="*{noticeContent}" rows="10" required></textarea>
-                </div>
-                <div>
-                    <label for="noticeVote">글 종류:</label>
-                    <select id="noticeVote" th:field="*{noticeVote}">
-                        <option value="0">공지</option>
-                        <option value="1">투표</option>
-                        <option value="2">투표완료</option>
-                    </select>
-                </div>
-
-
-                <input type="hidden" th:field="*{employeeNo}" required>
-                <input type="hidden" th:field="*{noticeDate}">
-                <input type="hidden" th:field="*{viewerCount}">
-                <button type="submit">저장</button>
-            </form>
-            <a href="/notice/list">목록으로 돌아가기</a>
-        </article>
     </section>
 
     <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>

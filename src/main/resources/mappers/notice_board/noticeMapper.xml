@@ -113,14 +113,14 @@
         WHERE
         notice_hide != 1 AND notice_no = #{keyword}
         ORDER BY
-        notice_no
+        notice_no DESC
         limit #{page}, #{count}
     </select>
 
-    <select id="getSearchTitleCount" parameterType="int">
+    <select id="getSearchTitleCount" parameterType="String">
         SELECT COUNT(*)
         FROM notice
-        WHERE (notice_hide != 1) AND ( notice_no = #{keyword})
+        WHERE (notice_hide != 1) AND (notice_title LIKE CONCAT('%', #{keyword}, '%'))
     </select>
 
     <select id="searchByNoticeTitle" resultMap="noticeResultMap">
@@ -129,16 +129,16 @@
         FROM
         notice join employee using(employee_no)
         WHERE
-        notice_hide != 1
+        (notice_hide != 1) AND (notice_title LIKE CONCAT('%', #{keyword}, '%'))
         ORDER BY
-        notice_no
+        notice_no DESC
         limit #{page}, #{count}
     </select>
 
-    <select id="getSearchEmpCount" parameterType="int">
+    <select id="getSearchEmpCount" parameterType="String">
         SELECT COUNT(*)
-        FROM notice
-        WHERE (notice_hide != 1) AND ( notice_no = #{keyword})
+        FROM notice join employee using(employee_no)
+        WHERE (notice_hide != 1) AND (employee_name LIKE CONCAT('%', #{keyword}, '%'))
     </select>
 
     <select id="searchByNoticeEmp" resultMap="noticeResultMap">
@@ -147,9 +147,9 @@
         FROM
         notice join employee using(employee_no)
         WHERE
-        notice_hide != 1
+        (notice_hide != 1) AND (employee_name LIKE CONCAT('%', #{keyword}, '%'))
         ORDER BY
-        notice_no
+        notice_no DESC
         limit #{page}, #{count}
     </select>
 

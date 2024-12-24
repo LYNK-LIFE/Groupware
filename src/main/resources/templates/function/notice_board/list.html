@@ -12,6 +12,10 @@
 
 </head>
 <body>
+<!-- 오류 메시지 표시를 위한 스크립트 추가 -->
+<script th:if="${errorMessage != null}">
+    alert("[[${errorMessage}]]");
+</script>
 <!-- 네비게이션 바 -->
 <nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
 <script src="/js/common.js"></script>
@@ -88,13 +92,13 @@
             <div class="search-container">
                 <a href="/notice/manager" class="btn btn-primary">관리자페이지</a>
                 <form id="searchForm" th:action="@{/notice/search}" method="get">
-                    <select name="searchType">
-                        <option value="공지번호">공지번호</option>
-                        <option value="제목">제목</option>
-                        <option value="작성자">작성자</option>
+                    <select name="searchType" class="styled-select">
+                        <option value="2" th:selected="${param.searchType == '2'}">제목</option>
+                        <option value="1" th:selected="${param.searchType == '1'}">공지번호</option>
+                        <option value="3" th:selected="${param.searchType == '3'}">작성자</option>
                     </select>
                     <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요..." th:value="${keyword}">
-                    <button type="submit">검색</button>
+                    <button type="submit" class="btn btn-primary">검색</button>
                 </form>
                 <a href="/notice/create" class="btn btn-primary">새 글 작성</a>
             </div>
