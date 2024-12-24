@@ -42,7 +42,7 @@ public class ApprovalController {
 
 
 
-//    @GetMapping("/curdraft")
+//    @GetMapping("/ondraft")
 //    public String curDraft(Model model) {
 //        return "function/approval_system/currentdraft";
 //    }
