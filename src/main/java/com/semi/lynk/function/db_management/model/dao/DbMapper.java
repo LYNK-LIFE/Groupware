@@ -23,16 +23,15 @@ public interface DbMapper {
 
     void insertCustomer(CustomerDTO customerDTO);
 
+//===========================================================================
+
     List<EmployeeDTO> selectAllEmployees();
 
+    List<CustomerDTO> selectAllCustomers();
 
-//=====================================================================================================================
-
-
-
+    List<ProductManageDTO> selectAllProducts();
 
 
 
-
-
+    
 }

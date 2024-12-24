@@ -75,28 +75,49 @@
                             </select>
                         </div>
 
+
+
+                        <!-- 고객 선택 모달 -->
+                        <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="customerModalLabel">고객 목록</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" id="customerSearch" class="form-control" placeholder="고객 이름 검색">
+                                        <ul id="customerList" class="list-group mt-3">
+                                            <!-- 고객 데이터가 여기에 추가됩니다 -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- 고객명 -->
                         <div class="form-group">
                             <label for="customerName">고객명</label>
-                            <input type="text" id="customerName" name="customerName" required>
+                            <input type="text" id="customerName" name="customerName" readonly>
+                            <button type="button" id="searchCustomerBtn" class="btn btn-primary">조회</button>
                         </div>
 
                         <!-- 주민등록번호 -->
                         <div class="form-group">
                             <label for="customerSsn">주민등록번호</label>
-                            <input type="text" id="customerSsn" name="customerSsn" required>
+                            <input type="text" id="customerSsn" name="customerSsn" readonly>
                         </div>
 
                         <!-- 이메일 -->
                         <div class="form-group">
                             <label for="customerEmail">이메일</label>
-                            <input type="email" id="customerEmail" name="customerEmail" required>
+                            <input type="email" id="customerEmail" name="customerEmail" readonly>
                         </div>
 
                         <!-- 연락처 -->
                         <div class="form-group">
                             <label for="customerMobile">연락처</label>
-                            <input type="text" id="customerMobile" name="customerMobile" required>
+                            <input type="text" id="customerMobile" name="customerMobile" readonly>
                         </div>
 
                         <!-- 피보험자 -->
@@ -113,8 +134,10 @@
 
                         <!-- 보험회사명코드 -->
                         <div class="form-group">
-                            <label for="insuranceCode">보험회사명코드</label>
-                            <input type="text" id="insuranceCode" name="insuranceCode" required>
+                            <label for="insuranceCode">보험회사</label>
+                            <select id="insuranceCode" name="insuranceCode" class="form-control">
+                                <!-- 옵션은 JavaScript에서 동적으로 추가 -->
+                            </select>
                         </div>
 
                         <!-- 계약일자 -->
@@ -129,10 +152,31 @@
                             <input type="text" id="contractNo" name="contractNo" required>
                         </div>
 
+
+
+
+                        <!-- 상품 조회 모달 -->
+                        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="productModalLabel">상품 목록</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" id="productSearch" class="form-control" placeholder="상품명 검색">
+                                        <ul id="productList" class="list-group mt-3">
+                                            <!-- 상품 데이터가 여기에 동적으로 추가됩니다 -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- 상품 -->
                         <div class="form-group">
-                            <label for="product">상품</label>
-                            <input type="text" id="product" name="product" required>
+                            <label for="productName">상품</label>
+                            <input type="text" id="productName" name="productName" readonly>
+                            <button type="button" id="searchProductBtn" class="btn btn-primary">조회</button>
                         </div>
 
                         <!-- 기본결제수단 -->
