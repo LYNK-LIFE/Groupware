@@ -16,6 +16,7 @@
         <result property="draftLastStep" column="draft_last_step"/>
         <result property="draftCurrentStep" column="draft_current_step"/>
         <result property="draftMemo" column="draft_memo"/>
+        <result property="employeeName" column="employee_name"/>
     </resultMap><!-- -->
 
     <resultMap id="approvalResultMap" type="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
@@ -43,13 +44,19 @@
 
     <select id="getDrafts" parameterType="String" resultMap="draftResultMap">
         <![CDATA[
-        SELECT employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employeeName
-        FROM draftsh
+        SELECT draft_no, employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
+        FROM draftsh join employee using(employee_no)
         WHERE (employee_no = #{empno}) and (${state})
         ORDER BY
         draft_no DESC
         limit #{page}, #{count}
         ]]>
+    </select>
+
+    <select id="selectDraftByDNO" parameterType="Long" resultMap="draftResultMap">
+        SELECT draft_no, employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
+        FROM draftsh join employee using(employee_no)
+        WHERE draft_no = #{draftNo}
     </select>
 
 </mapper>
