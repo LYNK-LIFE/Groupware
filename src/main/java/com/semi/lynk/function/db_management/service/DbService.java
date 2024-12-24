@@ -2,6 +2,7 @@ package com.semi.lynk.function.db_management.service;
 
 import com.semi.lynk.function.db_management.model.dao.DbMapper;
 import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
+import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class DbService {
     @Autowired
     public DbService (DbMapper dbMapper){this.dbMapper=dbMapper;}
 
-
+//====================================================================================================================
     public void insuranceRegistration(ProductManageDTO productManageDTO) {
         dbMapper.insertinsurance(productManageDTO);
     }
@@ -38,13 +39,14 @@ public class DbService {
 
 //=====================================================================================================================
 
-
     public void registerCustomer(CustomerDTO customerDTO) {
         dbMapper.insertCustomer(customerDTO);
     }
 
+    public List<EmployeeDTO> getAllEmployees() { return dbMapper.selectAllEmployees();}
 
-    public List<CustomerDTO> insuranceCustomer () {return dbMapper.insuranceCustomer();}
+//==================================================================================================================
+
 
 
 

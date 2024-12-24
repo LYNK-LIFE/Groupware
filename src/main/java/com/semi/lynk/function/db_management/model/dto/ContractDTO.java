@@ -19,14 +19,15 @@ public class ContractDTO {
     private int paymentTerm; //납입주기
     private int paymentDay; //납입예정일자
     private String insuredName; // 피보험자
-    private int insuredSsn; // 피보험자 주민번호
+    private String insuredSsn; // 피보험자 주민번호
     private  String otherMatters; // 기타사항
     private  String productNo; // 상품번호 FK
     private  int customerNo; //고객번호 FK
-    private  int employeeNo; // 사번 FK
+    private  String employeeNo; // 사번 FK
     private  Date lastReformDate; // 최종 수정일자
     private String lastInseminatee; //최종 수정자
 
+    private  String employeeName; // 설계사 이름 ( 조인? 필)
 
 
 

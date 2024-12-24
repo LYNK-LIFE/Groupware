@@ -29,11 +29,17 @@
 
 
     <insert id="insertCustomer">
-        INSERT INTO customers (customer_no, customer_name, customer_ssn, customer_mobile, customer_addr, customer_email)
-        VALUES (#{customerNo}, #{customerName}, #{customerSsn}, #{customerMobile}, #{customerAddr}, #{customer_email})
+        INSERT INTO customer (customer_no, customer_name, customer_ssn, customer_mobile, customer_addr, customer_email)
+        VALUES (#{customerNo}, #{customerName}, #{customerSsn}, #{customerMobile}, #{customerAddr}, #{customerEmail})
     </insert>
 
-
+    <select id="selectAllEmployees" resultType="com.semi.lynk.function.db_management.model.dto.EmployeeDTO">
+        SELECT
+            employee_no AS employeeNo,
+            employee_name AS employeeName
+        FROM
+            employee;
+    </select>
 
 
 
