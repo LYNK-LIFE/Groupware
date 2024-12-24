@@ -65,16 +65,16 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public Page<NoticeDTO> searchNotices(int searchType, String keyword, int page, int size){
         int start = page * size;
-        String number = "공지번호";
-        String title = "제목";
-
-        System.out.println("여긴 서비스+++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         if(searchType==1) {
-            int searchNoCount = noticeMapper.getSearchNoCount(Integer.parseInt(keyword));
-            int end = Math.min(searchNoCount, start+size)-start;
-            List<NoticeDTO> allNotices = noticeMapper.searchByNoticeNo(keyword, page, end);
-            return new PageImpl<>(allNotices, PageRequest.of(page, size), searchNoCount);
+            try {
+                int searchNoCount = noticeMapper.getSearchNoCount(Integer.parseInt(keyword));
+                int end = Math.min(searchNoCount, start+size)-start;
+                List<NoticeDTO> allNotices = noticeMapper.searchByNoticeNo(keyword, page, end);
+                return new PageImpl<>(allNotices, PageRequest.of(page, size), searchNoCount);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+            }
         }else if(searchType==2){
             int searchTitleCount = noticeMapper.getSearchTitleCount(keyword);
             int end = Math.min(searchTitleCount, start+size)-start;

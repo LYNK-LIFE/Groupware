@@ -42,7 +42,6 @@ public class NoticeController {
                                 Model model) {
 
         Page<NoticeDTO> noticePage = noticeService.searchNotices(searchType, keyword, page, size);
-        System.out.println("여긴 컨트롤러________________________________________________________");
 
         model.addAttribute("notices", noticePage.getContent());
         model.addAttribute("currentPage", page);
