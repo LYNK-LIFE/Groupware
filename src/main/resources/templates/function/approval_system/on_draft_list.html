@@ -29,7 +29,7 @@
     <section class="main-content">
 
         <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/approval/ondraft">공지사항</a>
+            <a class="subHeaderLink-class" href="/approval/ondraft">진행중기안목록</a>
         </div>
 
 
@@ -40,28 +40,31 @@
                 <thead>
                 <tr>
                     <th class="number-cell">번호</th>
-                    <th class="type-cell">속성</th>
-                    <th>제목</th>
+                    <th class="date-cell">작성일자</th>
                     <th class="name-cell">작성자</th>
-                    <th class="date-cell">게시일자</th>
-                    <th class="views-cell">조회수</th>
+                    <th>제목</th>
+                    <th class="type-cell">결재상태</th>
+                    <th class="date-cell">결재일자</th>
+                    <th class="type-cell">현재단계</th>
+                    <th class="type-cell">최종단계</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- 공지사항 (연한 초록색 배경) -->
-                <tr th:each="notice : ${notices}"
-                    th:class="${notice.noticeHide == 2 ? 'notice-row' : ''}">
-                    <td th:text="${notice.noticeNo}"></td>
+
+                <tr th:each="draft : ${drafts}">
+                    <td th:text="${draft.draftNo}"></td>
+                    <td th:text="${#temporals.format(draft.draftDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${draft.employeeNo}"></td>
                     <!-- noticeVote 글 종류 0공지 1투표 2완료 -->
                     <td>
-                        <span th:text="${notice.noticeVote == 0 ? '공지' : (notice.noticeVote == 1 ? '투표' : '완료')}"></span>
+                        <a th:href="@{/approval/{draftNo}(draftNo=${draft.draftNo})}" th:text="${draft.draftTitle}"></a>
                     </td>
                     <td>
-                        <a th:href="@{/notice/{noticeNo}(noticeNo=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a>
+                        <span th:text="${draft.draftState == 0 ? '미확인' : '확인'}"></span>
                     </td>
-                    <td th:text="${notice.employeeName}"></td>
-                    <td th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${notice.viewerCount}"></td>
+                    <td th:text="${#temporals.format(draft.draftCompletionTime, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${draft.draftCurrentStep}"></td>
+                    <td th:text="${draft.draftLastStep}"></td>
 
                 </tr>
 
@@ -72,17 +75,17 @@
             <div th:if="${totalPages > 1}" class="pagination-container">
                 <ul class="pagination">
                     <li th:class="${currentPage == 0} ? 'disabled' : ''">
-                        <a th:if="${currentPage > 0}" th:href="@{/notice/list(page=${currentPage - 1})}" class="page-link">Previous</a>
+                        <a th:if="${currentPage > 0}" th:href="@{/approval/ondraft(page=${currentPage - 1})}" class="page-link">Previous</a>
                         <span th:unless="${currentPage > 0}" class="page-link disabled">Previous</span>
                     </li>
 
                     <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                         th:class="${pageNum == currentPage} ? 'active' : ''">
-                        <a th:href="@{/notice/list(page=${pageNum})}" th:text="${pageNum + 1}" class="page-link"></a>
+                        <a th:href="@{/approval/ondraft(page=${pageNum})}" th:text="${pageNum + 1}" class="page-link"></a>
                     </li>
 
                     <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                        <a th:if="${currentPage < totalPages - 1}" th:href="@{/notice/list(page=${currentPage + 1})}" class="page-link">Next</a>
+                        <a th:if="${currentPage < totalPages - 1}" th:href="@{/approval/ondraft(page=${currentPage + 1})}" class="page-link">Next</a>
                         <span th:unless="${currentPage < totalPages - 1}" class="page-link disabled">Next</span>
                     </li>
                 </ul>
@@ -90,17 +93,10 @@
 
             <!-- 하부 메뉴  -->
             <div class="search-container">
-                <a href="/notice/manager" class="btn btn-primary">관리자페이지</a>
                 <form id="searchForm" th:action="@{/notice/search}" method="get">
-                    <select name="searchType" class="styled-select">
-                        <option value="2" th:selected="${param.searchType == '2'}">제목</option>
-                        <option value="1" th:selected="${param.searchType == '1'}">공지번호</option>
-                        <option value="3" th:selected="${param.searchType == '3'}">작성자</option>
-                    </select>
                     <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요..." th:value="${keyword}">
-                    <button type="submit" class="btn btn-primary">검색</button>
+                    <button type="submit" class="btn btn-primary">제목검색</button>
                 </form>
-                <a href="/notice/create" class="btn btn-primary">새 글 작성</a>
             </div>
         </article>
     </section>

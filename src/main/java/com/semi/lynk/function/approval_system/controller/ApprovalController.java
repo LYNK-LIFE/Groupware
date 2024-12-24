@@ -1,17 +1,14 @@
 package com.semi.lynk.function.approval_system.controller;
 
-import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
 import com.semi.lynk.function.approval_system.service.ApprovalService;
 import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +22,7 @@ public class ApprovalController {
     @GetMapping("/credraft")
     public String creDraft(Model model) {
         model.addAttribute("draftDTO", new DraftDTO());
-        return "function/approval_system/createdraft";
+        return "function/approval_system/create";
     }
 
     @PostMapping("/credraft")
@@ -37,15 +34,25 @@ public class ApprovalController {
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
         approvalService.createDraft(draftDTO);
-        return "redirect:/";
+        return "redirect:/approval/ondraft";
     }
 
 
 
-//    @GetMapping("/ondraft")
-//    public String curDraft(Model model) {
-//        return "function/approval_system/currentdraft";
-//    }
+    @GetMapping("/ondraft")
+    public String onDraft(Model model, HttpSession session,
+                           @RequestParam(defaultValue = "draft_state < 2") String state,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "12") int size) {
+        String empNo = (String) session.getAttribute("empNo");
+        Page<DraftDTO> draftPage = approvalService.getDraftsPaged(empNo, state, page, size);
+
+        model.addAttribute("drafts", draftPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", draftPage.getTotalPages());
+        model.addAttribute("totalItems", draftPage.getTotalElements());
+        return "function/approval_system/on_draft_list";
+    }
 //
 //    @GetMapping("/findraft")
 //    public String finDraft(Model model) {

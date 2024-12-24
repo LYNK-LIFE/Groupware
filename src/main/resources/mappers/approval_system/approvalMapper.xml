@@ -29,29 +29,27 @@
     </resultMap>
 
     <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
-        INSERT INTO draftsh (
-        employee_no,
-        draft_title,
-        draft_date,
-        draft_completion_time,
-        draft_retention_schedule,
-        draft_state,
-        draft_cost,
-        draft_last_step,
-        draft_current_step,
-        draft_memo
-        ) VALUES (
-        #{employeeNo},
-        #{draftTitle},
-        #{draftDate},
-        #{draftCompletionTime},
-        #{draftRetentionSchedule},
-        #{draftState},
-        #{draftCost},
-        #{draftLastStep},
-        #{draftCurrentStep},
-        #{draftMemo}
-        );
+        INSERT INTO draftsh (employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo)
+        VALUES (#{employeeNo}, #{draftTitle}, #{draftDate}, #{draftCompletionTime}, #{draftRetentionSchedule}, #{draftState}, #{draftCost}, #{draftLastStep}, #{draftCurrentStep}, #{draftMemo});
     </insert>
+
+    <select id="getDraftsCount" parameterType="String">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM draftsh
+        WHERE (employee_no = #{empno}) and (${state})
+        ]]>
+    </select>
+
+    <select id="getDrafts" parameterType="String" resultMap="draftResultMap">
+        <![CDATA[
+        SELECT employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employeeName
+        FROM draftsh
+        WHERE (employee_no = #{empno}) and (${state})
+        ORDER BY
+        draft_no DESC
+        limit #{page}, #{count}
+        ]]>
+    </select>
 
 </mapper>
