@@ -54,14 +54,14 @@
                 <tr th:each="draft : ${drafts}">
                     <td th:text="${draft.draftNo}"></td>
                     <td th:text="${#temporals.format(draft.draftDate, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${draft.employeeNo}"></td>
-                    <!-- noticeVote 글 종류 0공지 1투표 2완료 -->
+                    <td th:text="${draft.employeeName}"></td>
+
                     <td>
                         <a th:href="@{/approval/{draftNo}(draftNo=${draft.draftNo})}" th:text="${draft.draftTitle}"></a>
                     </td>
                     <td>
                         <span th:text="${draft.draftState == 0 ? '미확인' : '확인'}"></span>
-                    </td>
+                    </td><!-- draftState 0미확인 1확인 2결재 9반려 -->
                     <td th:text="${#temporals.format(draft.draftCompletionTime, 'yyyy-MM-dd HH:mm')}"></td>
                     <td th:text="${draft.draftCurrentStep}"></td>
                     <td th:text="${draft.draftLastStep}"></td>

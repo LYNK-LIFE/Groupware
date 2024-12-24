@@ -34,4 +34,9 @@ public class ApprovalServiceImpl implements ApprovalService {
         System.out.println("drafts = " + drafts);
         return new PageImpl<>(drafts, PageRequest.of(page, size), count);
     }
+
+    @Override
+    public DraftDTO getDraftByDNO(Long draftNo){
+        return approvalMapper.selectDraftByDNO(draftNo);
+    }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface ApprovalMapper {
+    DraftDTO selectDraftByDNO(Long draftNo);
+
     void insertDraft(DraftDTO draftDTO);
 
     int getDraftsCount(String empno, String state);

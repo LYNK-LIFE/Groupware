@@ -37,6 +37,16 @@ public class ApprovalController {
         return "redirect:/approval/ondraft";
     }
 
+    @GetMapping("/{draftNo}")
+    public String viewDraft(@PathVariable("draftNo") Long draftNo, Model model) {
+
+        DraftDTO draft = approvalService.getDraftByDNO(draftNo);
+
+        model.addAttribute("draft", draft);
+
+        return "function/approval_system/view";
+    }
+
 
 
     @GetMapping("/ondraft")
@@ -52,6 +62,16 @@ public class ApprovalController {
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
         return "function/approval_system/on_draft_list";
+    }
+
+    @GetMapping("/{draftNo}/delete")
+    public String deleteDraft(@PathVariable("draftNo") Long draftNo, Model model) {
+        return "function/approval_system/view";
+    }
+
+    @GetMapping("/{draftNo}/edit")
+    public String editDraft(@PathVariable("draftNo") Long draftNo, Model model) {
+        return "function/approval_system/view";
     }
 //
 //    @GetMapping("/findraft")
