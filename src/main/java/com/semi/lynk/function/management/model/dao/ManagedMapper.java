@@ -32,6 +32,8 @@ public interface ManagedMapper {
     //계정 권한
     List<Map<String, Object>> getActiveAccountRole();
 
-    void updateAccountRole(Map<String, Object> roleData);
+//    void updateAccountRole(Map<String, Object> roleData);
+    void updateRoles(List<Map<String, Object>> roles);
+    void resetRoles(List<String> empIDs);
 
 }

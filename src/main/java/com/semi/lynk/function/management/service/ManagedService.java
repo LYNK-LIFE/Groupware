@@ -75,16 +75,23 @@ public class ManagedService {
         return managedMapper.getActiveAccountRole();
     }
 
-    public void updateAccountRole(String empId, String roleDraft, String roleLeave, String roleDepartment, String roleNotice, String roleSchedule) {
-        Map<String, Object> roleData = new HashMap<>();
-        roleData.put("empID", empId);
-        roleData.put("roleDraft", roleDraft);
-        roleData.put("roleLeave", roleLeave);
-        roleData.put("roleDepartment", roleDepartment);
-        roleData.put("roleNotice", roleNotice);
-        roleData.put("roleSchedule", roleSchedule);
+//    public void updateAccountRole(String empId, String roleDraft, String roleLeave, String roleDepartment, String roleNotice, String roleSchedule) {
+//        Map<String, Object> roleData = new HashMap<>();
+//        roleData.put("empID", empId);
+//        roleData.put("roleDraft", roleDraft);
+//        roleData.put("roleLeave", roleLeave);
+//        roleData.put("roleDepartment", roleDepartment);
+//        roleData.put("roleNotice", roleNotice);
+//        roleData.put("roleSchedule", roleSchedule);
+//
+//        // Mapper 호출하여 DB 업데이트
+//        managedMapper.updateAccountRole(roleData);
+//    }
+    public void updateRoles(List<Map<String, Object>> roles) {
+        managedMapper.updateRoles(roles);
+    }
 
-        // Mapper 호출하여 DB 업데이트
-        managedMapper.updateAccountRole(roleData);
+    public void resetRoles(List<String> empIDs) {
+        managedMapper.resetRoles(empIDs);
     }
 }

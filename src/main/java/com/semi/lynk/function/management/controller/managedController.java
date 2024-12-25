@@ -180,56 +180,68 @@ public class managedController {
     }
 
     @PostMapping("updateRoles")
-    public String updateAccountRoles(@RequestParam Map<String, String> updatedRoles) {
-        // empId별 권한 데이터를 저장할 Map
-        Map<String, Map<String, String>> empRolesMap = new HashMap<>();
-
-        // 모든 키-값 처리
-        updatedRoles.forEach((key, value) -> {
-            String roleType = null;
-            String empId = null;
-
-            // 키 분석: roleType과 empId 추출
-            if (key.startsWith("roleDraft-")) {
-                roleType = "roleDraft";
-                empId = key.substring("roleDraft-".length());
-            } else if (key.startsWith("roleLeave-")) {
-                roleType = "roleLeave";
-                empId = key.substring("roleLeave-".length());
-            } else if (key.startsWith("roleDepartment-")) {
-                roleType = "roleDepartment";
-                empId = key.substring("roleDepartment-".length());
-            } else if (key.startsWith("roleNotice-")) {
-                roleType = "roleNotice";
-                empId = key.substring("roleNotice-".length());
-            } else if (key.startsWith("roleSchedule-")) {
-                roleType = "roleSchedule";
-                empId = key.substring("roleSchedule-".length());
-            }
-
-            // empId가 추출되었을 경우 처리
-            if (empId != null) {
-                // 값 변환: "on"을 1로, "off" 또는 null을 0으로 치환
-                String transformedValue = value.equals("on") ? "1" : "0";
-                empRolesMap.putIfAbsent(empId, new HashMap<>());
-                empRolesMap.get(empId).put(roleType, transformedValue);
-            }
-        });
-
-        // 모든 empId에 대해 업데이트 실행
-        empRolesMap.forEach((empId, roles) -> {
-            String roleDraftValue = roles.getOrDefault("roleDraft", "0");
-            String roleLeaveValue = roles.getOrDefault("roleLeave", "0");
-            String roleDepartmentValue = roles.getOrDefault("roleDepartment", "0");
-            String roleNoticeValue = roles.getOrDefault("roleNotice", "0");
-            String roleScheduleValue = roles.getOrDefault("roleSchedule", "0");
-
-            // 업데이트 실행
-            managedService.updateAccountRole(empId, roleDraftValue, roleLeaveValue, roleDepartmentValue, roleNoticeValue, roleScheduleValue);
-        });
-        System.out.println("DB update successful");
-        return "redirect:/management/accountRoleSetting";
+    public String updateRoles(@RequestBody List<Map<String, Object>> roles) {
+        managedService.updateRoles(roles);
+        return "권한 업데이트가 완료되었습니다.";
     }
+
+    @PostMapping("/resetRoles")
+    public String resetRoles(@RequestBody List<String> empIDs) {
+        managedService.resetRoles(empIDs);
+        return "권한 초기화가 완료되었습니다.";
+    }
+
+//    @PostMapping("updateRoles")
+//    public String updateAccountRoles(@RequestParam Map<String, String> updatedRoles) {
+//        // empId별 권한 데이터를 저장할 Map
+//        Map<String, Map<String, String>> empRolesMap = new HashMap<>();
+//
+//        // 모든 키-값 처리
+//        updatedRoles.forEach((key, value) -> {
+//            String roleType = null;
+//            String empId = null;
+//
+//            // 키 분석: roleType과 empId 추출
+//            if (key.startsWith("roleDraft-")) {
+//                roleType = "roleDraft";
+//                empId = key.substring("roleDraft-".length());
+//            } else if (key.startsWith("roleLeave-")) {
+//                roleType = "roleLeave";
+//                empId = key.substring("roleLeave-".length());
+//            } else if (key.startsWith("roleDepartment-")) {
+//                roleType = "roleDepartment";
+//                empId = key.substring("roleDepartment-".length());
+//            } else if (key.startsWith("roleNotice-")) {
+//                roleType = "roleNotice";
+//                empId = key.substring("roleNotice-".length());
+//            } else if (key.startsWith("roleSchedule-")) {
+//                roleType = "roleSchedule";
+//                empId = key.substring("roleSchedule-".length());
+//            }
+//
+//            // empId가 추출되었을 경우 처리
+//            if (empId != null) {
+//                // 값 변환: "on"을 1로, "off" 또는 null을 0으로 치환
+//                String transformedValue = value.equals("on") ? "1" : "0";
+//                empRolesMap.putIfAbsent(empId, new HashMap<>());
+//                empRolesMap.get(empId).put(roleType, transformedValue);
+//            }
+//        });
+//
+//        // 모든 empId에 대해 업데이트 실행
+//        empRolesMap.forEach((empId, roles) -> {
+//            String roleDraftValue = roles.getOrDefault("roleDraft", "0");
+//            String roleLeaveValue = roles.getOrDefault("roleLeave", "0");
+//            String roleDepartmentValue = roles.getOrDefault("roleDepartment", "0");
+//            String roleNoticeValue = roles.getOrDefault("roleNotice", "0");
+//            String roleScheduleValue = roles.getOrDefault("roleSchedule", "0");
+//
+//            // 업데이트 실행
+//            managedService.updateAccountRole(empId, roleDraftValue, roleLeaveValue, roleDepartmentValue, roleNoticeValue, roleScheduleValue);
+//        });
+//        System.out.println("DB update successful");
+//        return "redirect:/management/accountRoleSetting";
+//    }
 
 //    @PostMapping("updateRoles")
 //    public String updateAccountRoles(@RequestParam Map<String, String> updatedRoles) {

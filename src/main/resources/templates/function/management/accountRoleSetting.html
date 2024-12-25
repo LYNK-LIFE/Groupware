@@ -25,26 +25,28 @@
             <div class="list-section">
                 <table class="activeAccountListHeader">
                     <thead class="fix-th">
-                        <tr>
-                            <th style="width: 10%" rowspan="2">사번</th>
-                            <th style="width: 8%" rowspan="2">이름</th>
-                            <th style="width: 10%" rowspan="2">부서</th>
-                            <th style="width: 7%" rowspan="2">직책</th>
-                            <th colspan="5">권한</th>
-                        </tr>
-                        <tr>
-                            <th style="width: 13%">기안 승인</th>
-                            <th style="width: 13%">연차 승인</th>
-                            <th style="width: 13%">부서 관리</th>
-                            <th style="width: 13%">게시글 작성</th>
-                            <th>일정 등록</th>
-                        </tr>
+                    <tr>
+                        <th style="width: 5%" rowspan="2"><input type="checkbox" id="checkAll" name="checkAll"></th>
+                        <th style="width: 10%" rowspan="2">사번</th>
+                        <th style="width: 8%" rowspan="2">이름</th>
+                        <th style="width: 10%" rowspan="2">부서</th>
+                        <th style="width: 7%" rowspan="2">직책</th>
+                        <th colspan="5">권한</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 12%">기안 승인</th>
+                        <th style="width: 12%">연차 승인</th>
+                        <th style="width: 12%">부서 관리</th>
+                        <th style="width: 12%">게시글 작성</th>
+                        <th>일정 등록</th>
+                    </tr>
                     </thead>
                 </table>
                 <form id="updateForm" method="POST" th:action="@{/management/updateRoles}">
                     <div class="table-body-container" style="max-height: 530px; overflow-y: auto;">
                         <table class="activeAccountListBody">
                             <colgroup>
+                                <col style="width: 5%">
                                 <col style="width: 10%">
                                 <col style="width: 8%">
                                 <col style="width: 10%">
@@ -56,6 +58,9 @@
                                 <col>
                             </colgroup>
                             <tr th:each="accountRoles : ${accountRoles}">
+                                <td>
+                                    <input type="checkbox" name="check" th:value="${accountRoles.empID}">
+                                </td>
                                 <td>
                                     <a th:href="@{/management/editAccount/{empID}(empID=${accountRoles.empID})}">
                                         <span th:text="${accountRoles.empID}"></span>
@@ -109,62 +114,107 @@
     <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
 </div>
 <script>
-    document.getElementById('saveButton').addEventListener('click', function () {
-        const form = document.getElementById('updateForm');
-        const changedData = {}; // 변경된 데이터를 저장할 객체 선언
+    document.addEventListener('DOMContentLoaded', function () {
+        const saveButton = document.getElementById('saveButton');
+        const resetButton = document.getElementById('resetButton');
+        const checkAll = document.getElementById('checkAll');
+        const checkboxes = document.querySelectorAll('input[name="check"]');
+        const rows = document.querySelectorAll('.activeAccountListBody tr');
 
-        // 체크박스 처리
-        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(function (checkbox) {
-            const empId = checkbox.id.split('-')[1]; // empId 추출
-            const roleType = checkbox.name.split('-')[0]; // role type 추출
-            const initialChecked = checkbox.hasAttribute('data-initial-checked'); // 초기 상태 확인
-            let value = checkbox.checked ? "on" : "off"; // 체크 상태에 따라 "on"/"off" 저장
+        // 권한 변경 시 자동 체크 설정
+        rows.forEach(row => {
+            const mainCheckbox = row.querySelector('input[name="check"]');
+            const roleCheckboxes = row.querySelectorAll('input[type="checkbox"][id^="role"]');
 
-            // 체크박스가 비활성화(disabled) 상태라면 value를 "off"로 초기화
-            if (checkbox.disabled) {
-                value = "off";
+            roleCheckboxes.forEach(roleCheckbox => {
+                roleCheckbox.addEventListener('change', function () {
+                    if (mainCheckbox) {
+                        mainCheckbox.checked = true;
+                    }
+                });
+            });
+        });
+
+        // 저장 버튼 클릭 이벤트
+        saveButton.addEventListener('click', function () {
+            const updates = [];
+
+            rows.forEach(row => {
+                const empID = row.querySelector('input[name="check"]').value;
+                const roles = {
+                    roleDraft: row.querySelector(`#roleDraft-${empID}`).checked ? 1 : 0,
+                    roleLeave: row.querySelector(`#roleLeave-${empID}`).checked ? 1 : 0,
+                    roleDepartment: row.querySelector(`#roleDepartment-${empID}`).checked ? 1 : 0,
+                    roleNotice: row.querySelector(`#roleNotice-${empID}`).checked ? 1 : 0,
+                    roleSchedule: row.querySelector(`#roleSchedule-${empID}`).value
+                };
+
+                updates.push({ empID, roles });
+            });
+
+            fetch('/management/updateRoles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updates)
+            }).then(response => {
+                if (response.ok) {
+                    alert('변경사항이 저장되었습니다.');
+                } else {
+                    alert('저장 중 오류가 발생했습니다.');
+                }
+            });
+        });
+
+        // 초기화 버튼 클릭 이벤트
+        resetButton.addEventListener('click', function () {
+            const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+            const selectedEmpIDs = selectedCheckboxes.map(checkbox => checkbox.value);
+
+            if (selectedEmpIDs.length === 0) {
+                alert('선택한 계정이 없습니다.');
+                return;
             }
 
-            // 초기 상태와 다를 경우에만 저장
-            if ((initialChecked && !checkbox.checked) || (!initialChecked && checkbox.checked) || checkbox.disabled) {
-                if (!changedData[empId]) {
-                    changedData[empId] = {};
-                }
-                changedData[empId][roleType] = value;
+            if (confirm('선택한 계정의 권한을 초기화하시겠습니까?')) {
+                fetch('/management/resetRoles', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(selectedEmpIDs)
+                }).then(response => {
+                    if (response.ok) {
+                        selectedCheckboxes.forEach(checkbox => {
+                            const row = checkbox.closest('tr');
+                            const empID = checkbox.value;
+
+                            row.querySelector(`#roleDraft-${empID}`).checked = false;
+                            row.querySelector(`#roleLeave-${empID}`).checked = false;
+                            row.querySelector(`#roleDepartment-${empID}`).checked = false;
+                            row.querySelector(`#roleNotice-${empID}`).checked = false;
+                            row.querySelector(`#roleSchedule-${empID}`).value = '';
+                        });
+                        alert('권한이 초기화되었습니다.');
+                    } else {
+                        alert('초기화 중 오류가 발생했습니다.');
+                    }
+                });
             }
         });
 
-        // select 처리
-        const selects = form.querySelectorAll('select');
-        selects.forEach(function (select) {
-            const empId = select.id.split('-')[1]; // empId 추출
-            const roleType = select.name.split('-')[0]; // role type 추출
-            const initialValue = select.getAttribute('data-initial-value') || "0"; // 초기 값 확인
-            const value = select.value || "0"; // 선택하지 않았을 경우 기본값 0 설정
-
-            // 초기 값과 다를 경우에만 저장
-            if (value !== initialValue) {
-                if (!changedData[empId]) {
-                    changedData[empId] = {};
-                }
-                changedData[empId][roleType] = value;
-            }
+        // "모두 선택" 체크박스 동작
+        checkAll.addEventListener('change', function () {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = checkAll.checked;
+            });
         });
-
-        console.log('Changed Data:', changedData);
-
-        // 변경된 데이터가 있을 경우만 전송
-        if (Object.keys(changedData).length > 0) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'changedData';
-            input.value = JSON.stringify(changedData);
-            form.appendChild(input);
-            form.submit();
-        } else {
-            alert('변경 사항이 없습니다.');
-        }
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                checkAll.checked = Array.from(checkboxes).every(cb => cb.checked);
+            });
+        });
     });
 </script>
 </body>
