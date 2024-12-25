@@ -30,5 +30,10 @@ public class ContractDTO {
     private  String employeeName; // 설계사 이름 ( 조인? 필)
 
 
+//    private String lastReformDate = ""; //최종 수정일자 기본값 설정
+//    private String lastInseminatee = ""; //최종 수정자 기본값 설정
 
+        // 게터와 세터
 }
+
+

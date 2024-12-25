@@ -1,10 +1,12 @@
 package com.semi.lynk.function.db_management.model.dao;
 
+import com.semi.lynk.function.db_management.model.dto.ContractDTO;
 import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
 import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -29,9 +31,12 @@ public interface DbMapper {
 
     List<CustomerDTO> selectAllCustomers();
 
-    List<ProductManageDTO> selectAllProducts();
+    List<ProductManageDTO> searchProducts(@Param("keyword") String keyword,
+                                          @Param("insuranceCode") Integer insuranceCode);
 
 
+    void insertContract(ContractDTO contractDTO);
 
-    
+    ContractDTO findLatestContract();
 }
+
