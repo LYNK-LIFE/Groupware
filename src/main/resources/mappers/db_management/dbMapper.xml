@@ -116,8 +116,7 @@
         last_reform_date AS lastReformDate,
         last_inseminatee AS lastInseminatee
         FROM contract
-        ORDER BY last_reform_date DESC
-        LIMIT 1
+        ORDER BY last_reform_date
     </select>
 
 

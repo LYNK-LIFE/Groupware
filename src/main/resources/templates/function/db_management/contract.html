@@ -36,11 +36,6 @@
 
 
                 <form action="/db/contract" method="POST">
-                    <!-- 최종 수정일자 , 수정자-->
-                    <div class="contract-info">
-                        <span>최종 수정일자: <span th:text="${contract.lastReformDate != null ? contract.lastReformDate : '정보 없음'}"></span></span>
-                        <span>/ 수정자: <span th:text="${contract.lastInseminatee != null ? contract.lastInseminatee : '정보 없음'}"></span></span>
-                    </div>
 
                     <!-- 설계사명 -->
                     <div class="form-group">
@@ -70,7 +65,6 @@
 
 
 
-
                     <!-- 납입일 -->
                     <div class="form-group">
                         <label for="paymentDate">납입일</label>
@@ -82,7 +76,6 @@
                             <option value="25">25일</option>
                         </select>
                     </div>
-
 
 
                     <!-- 고객 선택 모달 -->
@@ -168,6 +161,7 @@
                         <input type="hidden" id="productNo" name="productNo">
                         <button type="button" id="searchProductBtn" class="btn btn-primary">상품 조회</button>
                     </div>
+
                     <!--상품조회 모달창-->
                     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -198,12 +192,7 @@
                         <label for="contractDuration">계약기간</label>
                         <div class="radio-group">
                             <input type="number" id="contractDuration" name="contractDuration" required>
-                            <label>
-                                <input type="radio" name="contractDurationUnit" value="년" required> 년
-                            </label>
-                            <label>
-                                <input type="radio" name="contractDurationUnit" value="세" required> 세
-                            </label>
+                            <label>년</label>
                         </div>
                     </div>
 
@@ -234,13 +223,10 @@
                     </div>
 
 
-
-
                     <!-- 버튼 -->
                     <div class="form-group">
                         <button type="submit">등록하기</button>
                     </div>
-
                 </form>
             </div>
         </article>
