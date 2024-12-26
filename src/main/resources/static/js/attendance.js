@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then((data) => {
                     const seenEvents = new Set(); // 중복 방지를 위한 Set
                     const events = [];
-
+                    console.log(JSON.stringify(data));
                     data.forEach(item => {
-                        const uniqueKey = `${item.employeeDTO?.name}-${item.scheduleDTO?.scheduleStartDate}-${item.dayOffDTO?.leaveType}`;
+                        const uniqueKey = `${item.employeeDTO?.name}-${item.dayOffDTO?.leaveStartDate}-${item.dayOffDTO?.leaveType}`;
                         // 각 일정의 고유 키 생성
                         // console.log('uniqueKey : ' + uniqueKey);
 

@@ -27,6 +27,7 @@ public class CalendarController {
     @GetMapping(value = "calendar", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<CalendarDTO> calendarList() {
+        System.out.println("calendar 컨트롤러 : " + calendarService.calendarService());
         return calendarService.calendarService();
     }
 
