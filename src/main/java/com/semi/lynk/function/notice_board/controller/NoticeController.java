@@ -100,7 +100,7 @@ public class NoticeController {
         model.addAttribute("notice", currentNotice);
         model.addAttribute("currentUser", session.getAttribute("empNo"));
 
-        if (currentNotice.getNoticePreNo() != null) {
+        if (currentNotice!=null && currentNotice.getNoticePreNo() != null) {
             NoticeDTO previousNotice = noticeService.getNoticeByNNO(currentNotice.getNoticePreNo());
             model.addAttribute("preNotice", previousNotice);
         }
