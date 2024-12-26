@@ -6,19 +6,19 @@
 <mapper namespace="com.semi.lynk.function.human.model.dao.CalendarMapper">
 
     <resultMap id="selectResultMap" type="com.semi.lynk.function.human.model.calendar.CalendarDTO">
-        <id property="id" column="employee_no"/>
-        <result property="title" column="id"/>
+<!--        <id property="id" column="employee_no"/>-->
+<!--        <result property="title" column="id"/>-->
 <!--        <result property="approveTime" column="approve_completion_time"/>-->
         <result property="draftDate" column="draft_date"/>
         <result property="draftTime" column="draft_completion_time"/>
         <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
-            <id property="id" column="employee_no"/>
+<!--            <id property="id" column="employee_no"/>-->
             <result property="totalLeave" column="totalLeave"/>
             <result property="usedLeave" column="usedLeave"/>
             <result property="position" column="position"/>
         </association>
         <association property="commuteDTO" javaType="com.semi.lynk.function.human.model.calendar.CommuteDTO">
-            <id property="id" column="employee_no"/>
+<!--            <id property="id" column="employee_no"/>-->
             <result property="workDate" column="work_date"/>
             <result property="workOn" column="work_on"/>
             <result property="workOff" column="work_off"/>
@@ -26,7 +26,7 @@
             <result property="workOffOutside" column="work_off_outside"/>
         </association>
         <association property="scheduleDTO" javaType="com.semi.lynk.function.human.model.calendar.ScheduleDTO">
-            <id property="id" column="employee_no"/>
+<!--            <id property="id" column="employee_no"/>-->
             <result property="scheduleStartDate" column="schedule_start_date"/>
             <result property="scheduleEndDate" column="schedule_end_date"/>
             <result property="scheduleType" column="schedule_type"/>
@@ -59,25 +59,12 @@
 
     <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
     <select id="showCalendar" resultMap="selectResultMap">
-        select distinct
-             a.employee_name
-            ,b.position
-<!--            ,b.totalLeave-->
-<!--            ,b.usedLeave-->
-<!--            ,c.work_off-->
-            ,d.schedule_start_date
-            ,d.schedule_end_date
-            ,e.leave_type
-<!--            ,e.leave_start_date-->
-<!--            ,e.leave_end_date-->
-            ,f.department_name
-        from
-        employee a
-            join human_resource b on (a.employee_no = b.employee_no)
-<!--            join working_time_data c on (a.employee_no = c.employee_no)-->
-            join schedule d on (a.employee_no = d.employee_no)
-            join dayoff e on (a.employee_no = e.employee_no)
-            join department f on (a.department_no = f.department_no)
+        select *
+        from dayoff a
+            join employee b on (a.employee_no = b.employee_no)
+            join human_resource c on (a.employee_no = c.employee_no)
+            join department e on (b.department_no = e.department_no)
+        where a.employee_no = '12'
     </select>
 
     <!-- 내 신청현황 드가면 보이는 애들 -->
@@ -198,13 +185,9 @@
 <!--            employee_no = 12 &lt;!&ndash; 신청 올리는 애 : 나중에 연결&ndash;&gt;-->
     </select>
 
-    <update id="overTimeAppDataMapper" parameterType="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
-        update schedule <!-- 난중에 고쳐야 함 -->
-             set
-             schedule_start_date = #{scheduleStartDate}
-            ,schedule_end_date = #{scheduleEndDate}
-            ,schedule_note = #{scheduleNote} -- 'overtime'
-        where
-            employee_no = 12; <!-- 나중에 신청 보내는 애(로그인)랑 연결할 거 -->
-    </update>
+    <insert id="overTimeAppDataMapper" parameterType="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
+        insert into schedule (schedule_start_date, schedule_type, employee_no,
+                            schedule_note, schedule_end_date)
+        values (#{scheduleStartDate} , 0 , 12, #{scheduleNote}, #{scheduleEndDate})
+    </insert>
 </mapper>
