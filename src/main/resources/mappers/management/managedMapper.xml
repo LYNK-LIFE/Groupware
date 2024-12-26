@@ -16,6 +16,7 @@
         <result property="empPwd" column="password"/>
         <result property="deptNo" column="department_no"/>
         <result property="image" column="image"/>
+        <result property="loginStatus" column="login_status"/>
     </resultMap>
 
     <resultMap id="AccountRole" type="com.semi.lynk.function.management.model.dto.AccountDTO">
@@ -147,43 +148,52 @@
     </select>
 
     <!-- 사원 권한 변경 -->
-    <update id="updateAccountRole" parameterType="list">
-        <foreach collection="list" item="role" separator=";">
+    <update id="updateRoles" parameterType="java.util.List">
+        <foreach collection="list" item="role" open="" close="" separator=";">
             UPDATE AUTHORIZATION
-               SET AUTH_OF_DOCUMENT = #{role.roleDraft}
-                 , AUTH_OF_LEAVE = #{role.roleLeave}
-                 , AUTH_OF_DEPARTMENT = #{role.roleDepartment}
-                 , AUTH_OF_NOTICE = #{role.roleNotice}
-                 , AUTH_OF_SCHEDULE = #{role.roleSchedule}
-             WHERE EMPLOYEE_NO = #{role.empID}
-        </foreach>
-    </update>
-    <update id="updateAccountRoleBatch" parameterType="map">
-        UPDATE AUTHORIZATION
-        SET
-        AUTH_OF_DOCUMENT = CASE WHEN EMPLOYEE_NO = #{role1.empID} THEN #{role1.roleDraft}
-        WHEN EMPLOYEE_NO = #{role2.empID} THEN #{role2.roleDraft} END,
-        AUTH_OF_LEAVE = ...
-        WHERE EMPLOYEE_NO IN
-        <foreach collection="roles" item="role" open="(" separator="," close=")">
-            #{role.empID}
+            SET AUTH_OF_DOCUMENT = #{role.roleDraft},
+            AUTH_OF_LEAVE = #{role.roleLeave},
+            AUTH_OF_DEPARTMENT = #{role.roleDepartment},
+            AUTH_OF_NOTICE = #{role.roleNotice},
+            AUTH_OF_SCHEDULE = #{role.roleSchedule}
+            WHERE EMPLOYEE_NO = #{role.empID}
         </foreach>
     </update>
 
+    <!-- 최근 접속 목록 가져오기 -->
+    <select id="getLatestAccessList" resultMap="AccountList">
+        SELECT a.EMPLOYEE_NO
+             , a.EMPLOYEE_NAME
+             , b.DEPARTMENT_NAME
+             , c.POSITION
+             , a.EMAIL
+             , d.LOGIN_TIME
+             , a.MEMBER_STATUS
+          FROM EMPLOYEE a
+          JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
+          LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
+          LEFT JOIN (SELECT EMPLOYEE_NO, LOGIN_TIME
+                       FROM (SELECT EMPLOYEE_NO, LOGIN_TIME,
+                                    ROW_NUMBER() OVER (PARTITION BY EMPLOYEE_NO ORDER BY LOGIN_TIME DESC) AS RN
+                               FROM LOGIN_DATA) sub
+                      WHERE RN = 1) d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO;
+    </select>
 
-    <!-- 초기화 -->
-    <update id="resetRoles" parameterType="list">
-        <foreach collection="list" item="empID" separator=";">
-            UPDATE AUTHORIZATION
-               SET AUTH_OF_DOCUMENT = 0
-                 , AUTH_OF_LEAVE = 0
-                 , AUTH_OF_DEPARTMENT = 0
-                 , AUTH_OF_NOTICE = 0
-                 , AUTH_OF_SCHEDULE = 0
-             WHERE EMPLOYEE_NO = #{empID}
-        </foreach>
-    </update>
-
+    <select id="getAccessDetailByEmpID" parameterType="String" resultMap="AccountList">
+          SELECT a.EMPLOYEE_NO
+               , a.EMPLOYEE_NAME
+               , b.DEPARTMENT_NAME
+               , c.POSITION
+               , a.EMAIL
+               , d.LOGIN_TIME
+               , d.LOGIN_STATUS
+            FROM EMPLOYEE a
+            JOIN DEPARTMENT b ON a.DEPARTMENT_NO = b.DEPARTMENT_NO
+            LEFT JOIN HUMAN_RESOURCE c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
+            LEFT JOIN LOGIN_DATA d ON a.EMPLOYEE_NO = d.EMPLOYEE_NO
+           WHERE a.EMPLOYEE_NO = #{empID}
+        ORDER BY d.LOGIN_TIME DESC;
+    </select>
 
     <!--  -->
 

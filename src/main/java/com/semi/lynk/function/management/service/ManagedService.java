@@ -4,10 +4,9 @@ import com.semi.lynk.function.management.model.dao.ManagedMapper;
 import com.semi.lynk.function.management.model.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ManagedService {
@@ -75,23 +74,43 @@ public class ManagedService {
         return managedMapper.getActiveAccountRole();
     }
 
-//    public void updateAccountRole(String empId, String roleDraft, String roleLeave, String roleDepartment, String roleNotice, String roleSchedule) {
-//        Map<String, Object> roleData = new HashMap<>();
-//        roleData.put("empID", empId);
-//        roleData.put("roleDraft", roleDraft);
-//        roleData.put("roleLeave", roleLeave);
-//        roleData.put("roleDepartment", roleDepartment);
-//        roleData.put("roleNotice", roleNotice);
-//        roleData.put("roleSchedule", roleSchedule);
-//
-//        // Mapper 호출하여 DB 업데이트
-//        managedMapper.updateAccountRole(roleData);
-//    }
-    public void updateRoles(List<Map<String, Object>> roles) {
-        managedMapper.updateRoles(roles);
+    @Transactional
+    public void updateRoles(List<AccountDTO> roles) {
+        for (AccountDTO role : roles) {
+            managedMapper.updateRoles(Collections.singletonList(role));
+        }
+
     }
 
-    public void resetRoles(List<String> empIDs) {
-        managedMapper.resetRoles(empIDs);
+    public List<Map<String, Object>> getLatestAccessList() {
+        return managedMapper.getLatestAccessList();
     }
+
+//    public List<AccountDTO> getAccessDetailByEmpID(String empID) {
+//        List<Map<String, Object>> result = managedMapper.getAccessDetailByEmpID(empID);
+//        List<AccountDTO> dtoList = new ArrayList<>();
+//
+//        for (Map<String, Object> map : result) {
+//            AccountDTO dto = new AccountDTO();
+//            dto.setEmpID((String) map.get("EMPLOYEE_NO"));
+//            dto.setEmpName((String) map.get("EMPLOYEE_NAME"));
+//            dto.setDeptName((String) map.get("DEPARTMENT_NAME"));
+//            dto.setPosition((String) map.get("POSITION"));
+//            dto.setEmail((String) map.get("EMAIL"));
+//            dto.setLoginTime((Date) map.get("LOGIN_TIME"));
+//            dto.setLoginStatus((Integer) map.get("LOGIN_STATUS"));
+//            dtoList.add(dto);
+//        }
+//
+//        return dtoList;
+//    }
+
+    public List<AccountDTO> getAccessDetailByEmpID(String empID) {
+        System.out.println("서비스 empID = " + empID);
+        List<AccountDTO> result = managedMapper.getAccessDetailByEmpID(empID);
+        System.out.println("result = " + result);
+        return result;
+    }
+
+
 }

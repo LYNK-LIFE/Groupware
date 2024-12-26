@@ -73,7 +73,7 @@
                                 <td th:text="${activeAccs.deptName}"></td>
                                 <td th:text="${activeAccs.position}"></td>
                                 <td th:text="${activeAccs.email}"></td>
-                                <td th:text="${#dates.format(activeAccs.loginTime, 'yyyy-mm-dd HH:mm:ss')}"></td>
+                                <td th:text="${#dates.format(activeAccs.loginTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${activeAccs.memberStatus == 1 ? '정상' : (activeAccs.memberStatus == 2 ? '정지' : '알 수 없음')}"></td>
                             </tr>
                         </table>
