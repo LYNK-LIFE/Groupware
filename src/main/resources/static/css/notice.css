@@ -299,6 +299,7 @@
     font-weight: bold;
     padding: 5px 10px;
     transition: color 0.3s ease;
+    margin-bottom: 10px;
 }
 
 .subHeaderLink-class:hover {

@@ -29,7 +29,14 @@
     <section class="main-content">
 
         <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/approval/ondraft">진행중기안목록</a>
+            <a class="subHeaderLink-class"
+               th:href="${action == 'ondraft'} ? @{/approval/ondraft} :
+              (${action == 'findraft'} ? @{/approval/findraft} :
+              (${action == 'dindraft'} ? @{/approval/dindraft} : '#'))"
+               th:text="${action == 'ondraft'} ? '진행중기안목록' :
+              (${action == 'findraft'} ? '완료된기안목록' :
+              (${action == 'dindraft'} ? '반려된기안목록' : ''))">
+            </a>
         </div>
 
 
