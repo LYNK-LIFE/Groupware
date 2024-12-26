@@ -68,12 +68,58 @@
 
 
     <!-- 상품 데이터 조회 -->
-    <select id="selectAllProducts" resultType="com.semi.lynk.function.db_management.model.dto.ProductManageDTO">
+    <select id="searchProducts" parameterType="map"  resultType="com.semi.lynk.function.db_management.model.dto.ProductManageDTO">
         SELECT
+            product_category AS productCategory,
             product_no AS productNo,
             product_name AS productName
         FROM
-            product;
+            productManage
+        WHERE
+            (#{keyword} IS NULL OR product_name LIKE CONCAT('%', #{keyword}, '%'))
+            AND (#{insuranceCode} IS NULL OR product_category = #{insuranceCode})
+        ORDER BY
+            product_category;
     </select>
+
+<!--==================================================================================================================-->
+
+    <insert id="insertContract" parameterType="com.semi.lynk.function.db_management.model.dto.ContractDTO">
+        INSERT INTO contract (
+        contract_no, contract_date, contract_duration, each_payment, basic_pay_with,
+        payment_term, payment_day, insured_name, insured_ssn, other_matters, product_no,
+        customer_no, employee_no, last_reform_date, last_inseminatee
+        )
+        VALUES (
+        #{contractNo}, #{contractDate}, #{contractDuration}, #{eachPayment}, #{basicPayWith},
+        #{paymentTerm}, #{paymentDay}, #{insuredName}, #{insuredSsn}, #{otherMatters}, #{productNo},
+        #{customerNo}, #{employeeNo}, #{lastReformDate}, #{lastInseminatee}
+        )
+    </insert>
+
+
+    <select id="findLatestContract" resultType="com.semi.lynk.function.db_management.model.dto.ContractDTO">
+        SELECT
+        contract_no AS contractNo,
+        contract_date AS contractDate,
+        contract_duration AS contractDuration,
+        each_payment AS eachPayment,
+        basic_pay_with AS basicPayWith,
+        payment_term AS paymentTerm,
+        payment_day AS paymentDay,
+        insured_name AS insuredName,
+        insured_ssn AS insuredSsn,
+        other_matters AS otherMatters,
+        product_no AS productNo,
+        customer_no AS customerNo,
+        employee_no AS employeeNo,
+        last_reform_date AS lastReformDate,
+        last_inseminatee AS lastInseminatee
+        FROM contract
+        ORDER BY last_reform_date DESC
+        LIMIT 1
+    </select>
+
+
 
 </mapper>

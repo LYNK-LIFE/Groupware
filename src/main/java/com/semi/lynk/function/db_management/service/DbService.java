@@ -1,12 +1,14 @@
 package com.semi.lynk.function.db_management.service;
 
 import com.semi.lynk.function.db_management.model.dao.DbMapper;
+import com.semi.lynk.function.db_management.model.dto.ContractDTO;
 import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
 import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -57,9 +59,29 @@ public class DbService {
     }
 
 
-    public List<ProductManageDTO> getAllProducts() {
-        return dbMapper.selectAllProducts();
+    public List<ProductManageDTO> searchProducts(String keyword, Integer insuranceCode) {
+        return dbMapper.searchProducts(keyword, insuranceCode);
     }
 
 
+    public void registerContract(ContractDTO contractDTO) {
+        dbMapper.insertContract(contractDTO);
+    }
+
+    public ContractDTO getLatestContract() {
+        ContractDTO contract = dbMapper.findLatestContract();
+        if (contract == null) {
+            contract = new ContractDTO();
+            contract.setLastReformDate(new Date());
+            contract.setLastInseminatee("Unknown User");
+        }
+        return contract;
+    }
 }
+
+
+
+
+
+
+
