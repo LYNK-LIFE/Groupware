@@ -1,6 +1,8 @@
 package com.semi.lynk.function.db_management.model.dto;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 @AllArgsConstructor
@@ -12,7 +14,10 @@ public class ContractDTO {
     // 계약
     private int contractMngNo; // 계약일련번호
     private String contractNo; // 계약번호
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date contractDate; // 계약일자
+
     private int contractDuration; // 계약기간
     private int eachPayment; // 납입금액
     private String basicPayWith; // 기본결제수단
@@ -26,14 +31,19 @@ public class ContractDTO {
     private  String employeeNo; // 사번 FK
     private  Date lastReformDate; // 최종 수정일자
     private String lastInseminatee; //최종 수정자
-
     private  String employeeName; // 설계사 이름 ( 조인? 필)
 
 
-//    private String lastReformDate = ""; //최종 수정일자 기본값 설정
-//    private String lastInseminatee = ""; //최종 수정자 기본값 설정
+    public String getBasicPayWith() {
+        return basicPayWith;
+    }
 
-        // 게터와 세터
+    public void setBasicPayWith(String basicPayWith) {
+        this.basicPayWith = (basicPayWith == null || basicPayWith.isEmpty()) ? "default_value" : basicPayWith;
+    }
+
+
+
 }
 
 
