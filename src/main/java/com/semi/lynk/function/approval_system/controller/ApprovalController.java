@@ -2,13 +2,13 @@ package com.semi.lynk.function.approval_system.controller;
 
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
 import com.semi.lynk.function.approval_system.service.ApprovalService;
-import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +18,12 @@ public class ApprovalController {
 
     @Autowired
     private ApprovalService approvalService;
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException e, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/notice/list";
+    }
 
     @GetMapping("/credraft")
     public String creDraft(Model model) {
@@ -34,7 +40,7 @@ public class ApprovalController {
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
         approvalService.createDraft(draftDTO);
-        return "redirect:/approval/ondraft";
+        return "redirect:/approval/list/ondraft";
     }
 
     @GetMapping("/{draftNo}")
@@ -49,11 +55,17 @@ public class ApprovalController {
 
 
 
-    @GetMapping("/ondraft")
-    public String onDraft(Model model, HttpSession session,
-                           @RequestParam(defaultValue = "draft_state < 2") String state,
+    @GetMapping("/list/{action}")
+    public String list(Model model, HttpSession session,
+                          @PathVariable String action,
                            @RequestParam(defaultValue = "0") int page,
                            @RequestParam(defaultValue = "12") int size) {
+        String state = "draft_state < 2";
+        switch (action) {
+            case "findraft" : state = "draft_state = 2"; break;
+            case "dindraft" : state = "draft_state = 9"; break;
+        }
+
         String empNo = (String) session.getAttribute("empNo");
         Page<DraftDTO> draftPage = approvalService.getDraftsPaged(empNo, state, page, size);
 
@@ -61,7 +73,8 @@ public class ApprovalController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
-        return "function/approval_system/on_draft_list";
+        model.addAttribute("action", action);
+        return "function/approval_system/list";
     }
 
     @GetMapping("/{draftNo}/delete")
@@ -73,17 +86,7 @@ public class ApprovalController {
     public String editDraft(@PathVariable("draftNo") Long draftNo, Model model) {
         return "function/approval_system/view";
     }
-//
-//    @GetMapping("/findraft")
-//    public String finDraft(Model model) {
-//        return "function/approval_system/finishdraft";
-//    }
-//
-//    @GetMapping("/dindraft")
-//    public String dinDraft(Model model) {
-//        return "function/approval_system/dindraft";
-//    }
-//
+
 //    @GetMapping("/doapproval")
 //    public String doapproval(Model model) {
 //        return "function/approval_system/doapproval";
