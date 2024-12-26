@@ -17,10 +17,9 @@
         <div class="subHeader-class">
             <a class="subHeaderLink-class" href="">계정별 권한 설정</a>
         </div>
-        <article class="account-role-list">
+        <article class="account-full-list">
             <div class="button-section">
                 <button id="saveButton">저장</button>
-                <button id="resetButton">초기화</button>
             </div>
             <div class="list-section">
                 <table class="activeAccountListHeader">
@@ -59,7 +58,7 @@
                             </colgroup>
                             <tr th:each="accountRoles : ${accountRoles}">
                                 <td>
-                                    <input type="checkbox" name="check" th:value="${accountRoles.empID}">
+                                    <input type="checkbox" name="check" th:value="${accountRoles.empID}" data-emp-id="${accountRoles.empID}">
                                 </td>
                                 <td>
                                     <a th:href="@{/management/editAccount/{empID}(empID=${accountRoles.empID})}">
@@ -70,33 +69,33 @@
                                 <td th:text="${accountRoles.deptName}"></td>
                                 <td th:text="${accountRoles.position}"></td>
                                 <td>
-                                    <input type="checkbox" id="roleDraft-${accountRoles.empID}" name="roleDraft-${accountRoles.empID}"
+                                    <input type="checkbox" th:id="'roleDraft-' + ${accountRoles.empID}" th:name="'roleDraft-' + ${accountRoles.empID}"
                                            th:checked="${accountRoles.roleDraft == 1}"
                                            th:disabled="${accountRoles.roleDraft == null}"
                                            th:attr="data-initial-checked=${accountRoles.roleDraft == 1}">
                                 </td>
                                 <td>
-                                    <input type="checkbox" id="roleLeave-${accountRoles.empID}" name="roleLeave-${accountRoles.empID}"
+                                    <input type="checkbox" th:id="'roleLeave-' + ${accountRoles.empID}" th:name="'roleLeave-' + ${accountRoles.empID}"
                                            th:checked="${accountRoles.roleLeave == 1}"
                                            th:disabled="${accountRoles.roleLeave == null}"
                                            th:attr="data-initial-checked=${accountRoles.roleLeave == 1}">
                                 </td>
                                 <td>
-                                    <input type="checkbox" id="roleDepartment-${accountRoles.empID}" name="roleDepartment-${accountRoles.empID}"
+                                    <input type="checkbox" th:id="'roleDepartment-' + ${accountRoles.empID}" th:name="'roleDepartment-' + ${accountRoles.empID}"
                                            th:checked="${accountRoles.roleDepartment == 1}"
                                            th:disabled="${accountRoles.roleDepartment == null}"
                                            th:attr="data-initial-checked=${accountRoles.roleDepartment == 1}">
                                 </td>
                                 <td>
-                                    <input type="checkbox" id="roleNotice-${accountRoles.empID}" name="roleNotice-${accountRoles.empID}"
+                                    <input type="checkbox" th:id="'roleNotice-' + ${accountRoles.empID}" th:name="'roleNotice-' + ${accountRoles.empID}"
                                            th:checked="${accountRoles.roleNotice == 1}"
                                            th:disabled="${accountRoles.roleNotice == null}"
                                            th:attr="data-initial-checked=${accountRoles.roleNotice == 1}">
                                 </td>
                                 <td>
-                                    <select name="roleSchedule-${accountRoles.empID}" id="roleSchedule-${accountRoles.empID}"
+                                    <select th:name="'roleSchedule-' + ${accountRoles.empID}" th:id="'roleSchedule-' + ${accountRoles.empID}"
                                             th:attr="data-initial-value=${accountRoles.roleSchedule}">
-                                        <option value="" th:disabled="${accountRoles.roleSchedule == null}">선택</option>
+<!--                                        <option value="" th:disabled="${accountRoles.roleSchedule == null}">선택</option>-->
                                         <option value="0" th:selected="${accountRoles.roleSchedule == 0}">개인</option>
                                         <option value="1" th:selected="${accountRoles.roleSchedule == 1}">부서</option>
                                         <option value="2" th:selected="${accountRoles.roleSchedule == 2}">전사</option>
@@ -115,22 +114,35 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const accountRoles = /*[[${accountRoles}]]*/ [];
+
         const saveButton = document.getElementById('saveButton');
         const resetButton = document.getElementById('resetButton');
         const checkAll = document.getElementById('checkAll');
         const checkboxes = document.querySelectorAll('input[name="check"]');
         const rows = document.querySelectorAll('.activeAccountListBody tr');
 
+        if (!rows.length) {
+            console.warn('No rows found in table body');
+            return;
+        };
+
         // 권한 변경 시 자동 체크 설정
         rows.forEach(row => {
             const mainCheckbox = row.querySelector('input[name="check"]');
+            if (!mainCheckbox || !mainCheckbox.checked) return; // 체크된 항목만 처리
+
             const roleCheckboxes = row.querySelectorAll('input[type="checkbox"][id^="role"]');
+            if (!roleCheckboxes.length) {
+                console.warn('Role checkboxes not found in row:', row);
+                return;
+            }
 
             roleCheckboxes.forEach(roleCheckbox => {
+                const roleCheckboxId = `#roleDraft-${accountRoles.empID}`;
                 roleCheckbox.addEventListener('change', function () {
-                    if (mainCheckbox) {
-                        mainCheckbox.checked = true;
-                    }
+                    const mainCheckbox = row.querySelector('input[name="check"]');
+                    mainCheckbox.checked = true;
                 });
             });
         });
@@ -140,67 +152,57 @@
             const updates = [];
 
             rows.forEach(row => {
+                const mainCheckbox = row.querySelector('input[name="check"]');
+                if (!mainCheckbox) return;
+
                 const empID = row.querySelector('input[name="check"]').value;
-                const roles = {
+
+                // 초기 상태와 현재 상태를 비교하기 위해 값 수집
+                const currentRoles = {
                     roleDraft: row.querySelector(`#roleDraft-${empID}`).checked ? 1 : 0,
                     roleLeave: row.querySelector(`#roleLeave-${empID}`).checked ? 1 : 0,
                     roleDepartment: row.querySelector(`#roleDepartment-${empID}`).checked ? 1 : 0,
                     roleNotice: row.querySelector(`#roleNotice-${empID}`).checked ? 1 : 0,
-                    roleSchedule: row.querySelector(`#roleSchedule-${empID}`).value
+                    roleSchedule: row.querySelector(`#roleSchedule-${empID}`).value || 0
                 };
 
-                updates.push({ empID, roles });
-            });
+                // 초기 상태는 데이터-속성에서 가져옵니다.
+                const initialRoles = {
+                    roleDraft: row.querySelector(`#roleDraft-${empID}`).dataset.initialValue === 'true' ? 1 : 0,
+                    roleLeave: row.querySelector(`#roleLeave-${empID}`).dataset.initialValue === 'true' ? 1 : 0,
+                    roleDepartment: row.querySelector(`#roleDepartment-${empID}`).dataset.initialValue === 'true' ? 1 : 0,
+                    roleNotice: row.querySelector(`#roleNotice-${empID}`).dataset.initialValue === 'true' ? 1 : 0,
+                    // roleSchedule은 데이터-속성에서 가져온 값이 비어있으면 기본값 설정
+                    roleSchedule: row.querySelector(`#roleSchedule-${empID}`).dataset.initialValue || 0
+                };
 
-            fetch('/management/updateRoles', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updates)
-            }).then(response => {
-                if (response.ok) {
-                    alert('변경사항이 저장되었습니다.');
-                } else {
-                    alert('저장 중 오류가 발생했습니다.');
+                // 변경 사항 확인
+                const isChanged = Object.keys(currentRoles).some(key => currentRoles[key] !== initialRoles[key]);
+
+                if (isChanged) {
+                    updates.push({ empID, roles: currentRoles });
                 }
             });
-        });
 
-        // 초기화 버튼 클릭 이벤트
-        resetButton.addEventListener('click', function () {
-            const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
-            const selectedEmpIDs = selectedCheckboxes.map(checkbox => checkbox.value);
+            // 업데이트가 있을 때만 서버로 전송
+            if (updates.length > 0) {
+                console.log('Updates to save:', updates);
 
-            if (selectedEmpIDs.length === 0) {
-                alert('선택한 계정이 없습니다.');
-                return;
-            }
-
-            if (confirm('선택한 계정의 권한을 초기화하시겠습니까?')) {
-                fetch('/management/resetRoles', {
+                fetch('/management/updateRoles', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(selectedEmpIDs)
+                    body: JSON.stringify(updates)
                 }).then(response => {
                     if (response.ok) {
-                        selectedCheckboxes.forEach(checkbox => {
-                            const row = checkbox.closest('tr');
-                            const empID = checkbox.value;
-
-                            row.querySelector(`#roleDraft-${empID}`).checked = false;
-                            row.querySelector(`#roleLeave-${empID}`).checked = false;
-                            row.querySelector(`#roleDepartment-${empID}`).checked = false;
-                            row.querySelector(`#roleNotice-${empID}`).checked = false;
-                            row.querySelector(`#roleSchedule-${empID}`).value = '';
-                        });
-                        alert('권한이 초기화되었습니다.');
+                        alert('변경사항이 저장되었습니다.');
                     } else {
-                        alert('초기화 중 오류가 발생했습니다.');
+                        alert('저장 중 오류가 발생했습니다.');
                     }
                 });
+            } else {
+                alert('변경된 항목이 없습니다.');
             }
         });
 
