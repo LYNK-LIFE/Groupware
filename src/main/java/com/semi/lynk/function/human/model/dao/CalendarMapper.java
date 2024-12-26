@@ -17,11 +17,15 @@ public interface CalendarMapper {
 
     int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
 
+    List<OverTimeApplicationDTO> overTimeAppMapper();
+
+    int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
+
     int vacAppInsertMapper1(VacationApplicationDTO vacationApplicationDTO);
 
     int vacAppInsertMapper2(VacationApplicationDTO vacationApplicationDTO);
 
-    List<OverTimeApplicationDTO> overTimeAppMapper();
+    // draft 1씩 늘려주기 위한 selet
+    int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO);
 
-    int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
 }

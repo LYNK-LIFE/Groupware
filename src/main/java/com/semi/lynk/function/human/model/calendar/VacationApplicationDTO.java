@@ -9,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+//@ToString
 public class VacationApplicationDTO {
 
     private int id;                 // 담당자 사번
@@ -33,5 +33,8 @@ public class VacationApplicationDTO {
 
     private int scheduleType;           // 스케쥴 타입
     private String scheduleNote;        // 스케쥴 메모 (사 유)
+
+    private int draftNo;
+//    private int employeeNo;
 
 }
