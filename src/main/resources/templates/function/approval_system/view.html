@@ -48,7 +48,9 @@
                 <div th:if="${draft.draftState == 0}" style="margin-top: 10px;">
                     <a th:href="@{/apploval/{draftNo}/delete(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">삭제</a>
                     <a th:href="@{/apploval/{draftNo}/edit(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">수정</a>
-                    <a href="/approval/ondraft" class="btn btn-primary mb-3">목록으로 돌아가기</a>
+                    <a th:href="@{${draft.draftState == 2 ? '/approval/list/findraft' :
+                    (draft.draftState == 9 ? '/approval/list/dindraft' : '/approval/list/ondraft')}}"
+                       class="btn btn-primary mb-3">목록으로 돌아가기</a>
                 </div>
             </div>
         </article>

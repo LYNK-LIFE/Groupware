@@ -12,7 +12,7 @@ public interface ApprovalMapper {
 
     void insertDraft(DraftDTO draftDTO);
 
-    int getDraftsCount(String empno, String state);
+    int getDraftsCount(String empno, String state, String keyword);
 
-    List<DraftDTO> getDrafts(String empno, String state, int page, int count);
+    List<DraftDTO> getDrafts(String empno, String state, int page, int count, String keyword);
 }

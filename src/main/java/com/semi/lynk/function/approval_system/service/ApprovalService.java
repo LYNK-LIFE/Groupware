@@ -9,7 +9,7 @@ public interface ApprovalService {
 
     void createDraft(DraftDTO draftDTO);
 
-    Page<DraftDTO> getDraftsPaged(String empNo, String state, int page, int size);
+    Page<DraftDTO> getDraftsPaged(String empNo, String state, int page, int size, String keyword);
 
     DraftDTO getDraftByDNO(Long draftNo);
 }
