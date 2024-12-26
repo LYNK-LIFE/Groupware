@@ -151,14 +151,14 @@
     <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         insert into schedule (employee_no, schedule_start_date,
                             schedule_end_date, schedule_note, schedule_type)
-        values (12, #{scheduleStartDate}, #{scheduleEndDate}, #{scheduleNote}, 2)
+        values (12, #{scheduleStartDate}, #{scheduleEndDate}, #{scheduleNote}, #{leaveType})
     </insert>
 
     <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         INSERT INTO dayoff
                 (employee_no, leave_start_date, leave_end_date, leave_type, draft_no)
         VALUES
-                (12, #{leaveStartDate}, #{leaveEndDate}, 2, #{draftNo})
+                (12, #{leaveStartDate}, #{leaveEndDate}, #{leaveType}, #{draftNo})
     </insert>
 
     <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">

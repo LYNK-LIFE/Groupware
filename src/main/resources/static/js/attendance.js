@@ -231,6 +231,8 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         return;
     }
 
+    const leaveType = usedLeave === 0.5 ? 1 : 2;
+
     const vacationApplicationDTO = {
         // name: name,
         scheduleStartDate: scheduleStartDate,
@@ -238,6 +240,7 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         leaveStartDate: startDay,
         leaveEndDate: endDay,
         usedLeave: usedLeave,
+        leaveType: leaveType, // 반차 구분 지으려고 추가
     }; // 서버로 보낼 데이터
 
     // 데이터 전송
