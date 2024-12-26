@@ -147,29 +147,41 @@
     </select>
 
     <!-- 사원 권한 변경 -->
-    <update id="updateAccountRole" parameterType="map">
+    <update id="updateAccountRole" parameterType="list">
+        <foreach collection="list" item="role" separator=";">
+            UPDATE AUTHORIZATION
+               SET AUTH_OF_DOCUMENT = #{role.roleDraft}
+                 , AUTH_OF_LEAVE = #{role.roleLeave}
+                 , AUTH_OF_DEPARTMENT = #{role.roleDepartment}
+                 , AUTH_OF_NOTICE = #{role.roleNotice}
+                 , AUTH_OF_SCHEDULE = #{role.roleSchedule}
+             WHERE EMPLOYEE_NO = #{role.empID}
+        </foreach>
+    </update>
+    <update id="updateAccountRoleBatch" parameterType="map">
         UPDATE AUTHORIZATION
-           SET
-               AUTH_OF_DOCUMENT = #{roleDraft}
-             , AUTH_OF_LEAVE = #{roleLeave}
-             , AUTH_OF_DEPARTMENT = #{roleDepartment}
-             , AUTH_OF_NOTICE = #{roleNotice}
-             , AUTH_OF_SCHEDULE = #{roleSchedule}
-         WHERE EMPLOYEE_NO = #{empID}
-           AND (
-                   AUTH_OF_DOCUMENT != #{roleDraft}
-                OR AUTH_OF_LEAVE != #{roleLeave}
-                OR AUTH_OF_DEPARTMENT != #{roleDepartment}
-                OR AUTH_OF_NOTICE != #{roleNotice}
-                OR AUTH_OF_SCHEDULE != #{roleSchedule}
-           )
-<!--        UPDATE AUTHORIZATION-->
-<!--           SET AUTH_OF_DOCUMENT = #{roleDraft}-->
-<!--             , AUTH_OF_LEAVE = #{roleLeave}-->
-<!--             , AUTH_OF_DEPARTMENT = #{roleDepartment}-->
-<!--             , AUTH_OF_NOTICE = #{roleNotice}-->
-<!--             , AUTH_OF_SCHEDULE = #{roleSchedule}-->
-<!--         WHERE EMPLOYEE_NO = #{empID}-->
+        SET
+        AUTH_OF_DOCUMENT = CASE WHEN EMPLOYEE_NO = #{role1.empID} THEN #{role1.roleDraft}
+        WHEN EMPLOYEE_NO = #{role2.empID} THEN #{role2.roleDraft} END,
+        AUTH_OF_LEAVE = ...
+        WHERE EMPLOYEE_NO IN
+        <foreach collection="roles" item="role" open="(" separator="," close=")">
+            #{role.empID}
+        </foreach>
+    </update>
+
+
+    <!-- 초기화 -->
+    <update id="resetRoles" parameterType="list">
+        <foreach collection="list" item="empID" separator=";">
+            UPDATE AUTHORIZATION
+               SET AUTH_OF_DOCUMENT = 0
+                 , AUTH_OF_LEAVE = 0
+                 , AUTH_OF_DEPARTMENT = 0
+                 , AUTH_OF_NOTICE = 0
+                 , AUTH_OF_SCHEDULE = 0
+             WHERE EMPLOYEE_NO = #{empID}
+        </foreach>
     </update>
 
 
