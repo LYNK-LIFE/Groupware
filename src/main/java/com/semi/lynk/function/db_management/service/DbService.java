@@ -66,6 +66,10 @@ public class DbService {
 
     public void registerContract(ContractDTO contractDTO) {
         dbMapper.insertContract(contractDTO);
+        if (contractDTO.getBasicPayWith() == null || contractDTO.getBasicPayWith().isEmpty()) {
+            throw new IllegalArgumentException("basic_pay_with is required.");
+        }
+
     }
 
     public ContractDTO getLatestContract() {

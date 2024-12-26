@@ -43,12 +43,15 @@ function renderEmployeeList(employeeData) {
         li.textContent = `${employee.employeeName} (${employee.employeeNo})`;
         li.addEventListener('click', () => {
             document.getElementById('employeeName').value = employee.employeeName; // 선택한 사원 이름 설정
+            document.getElementById('employeeNo').value = employee.employeeNo; // 선택한 사원 사번 설정
             const modal = bootstrap.Modal.getInstance(document.getElementById('employeeModal'));
             modal.hide(); // 모달 닫기
         });
         list.appendChild(li);
     });
 }
+
+
 
 //=====================================================================================================================
 
@@ -132,43 +135,81 @@ function populateInsuranceDropdown(codes) {
 
 //======================================================================================================================
 
+let modalInstance = null;
+
 // 상품 검색 버튼 클릭 이벤트 핸들러
 document.getElementById('searchProductBtn').addEventListener('click', () => {
-    const insuranceCode = document.getElementById('insuranceCode').value; // 선택된 보험 회사 코드 가져오기
-    const modal = new bootstrap.Modal(document.getElementById('productModal'));
-    modal.show();
+    const insuranceCodeElement = document.getElementById('insuranceCode');
+    const modalElement = document.getElementById('productModal');
+    const productList = document.getElementById('productList');
 
+    if (!insuranceCodeElement || !modalElement || !productList) {
+        console.error('필수 HTML 요소가 누락되었습니다.');
+        alert('상품 조회를 위해 필요한 요소가 없습니다. 관리자에게 문의하세요.');
+        return;
+    }
+
+    const insuranceCode = insuranceCodeElement.value.trim();
+    if (!insuranceCode) {
+        alert('보험 코드를 입력하거나 선택하세요.');
+        return;
+    }
+
+    if (!modalInstance) {
+        modalInstance = new bootstrap.Modal(modalElement);
+    }
+    modalInstance.show();
+
+    // 로딩 메시지 표시
+    productList.innerHTML = '<li class="list-group-item text-info">상품 데이터를 불러오는 중입니다...</li>';
+
+    // 상품 데이터 요청
     fetch(`/db/products?insuranceCode=${insuranceCode}`)
-        .then(response => response.json()) // 응답 데이터를 JSON으로 파싱
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`서버 응답 오류: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             renderProductList(data);
         })
-        .catch(error => console.error('상품 데이터를 가져오는 중 오류 발생:', error)); // 오류 처리
+        .catch(error => {
+            console.error('상품 데이터를 가져오는 중 오류 발생:', error);
+            productList.innerHTML = '<li class="list-group-item text-danger">상품 데이터를 로드하는 중 문제가 발생했습니다. 관리자에게 문의하세요.</li>';
+        });
 });
 
 // 상품 데이터를 렌더링하는 함수
 function renderProductList(productData) {
-    const list = document.getElementById('productList');
-    list.innerHTML = ''; // 기존 데이터 초기화
+    const productList = document.getElementById('productList');
+    productList.innerHTML = ''; // 기존 데이터 초기화
 
-    if (productData.length === 0) {
-        list.innerHTML = '<li class="list-group-item">검색 결과가 없습니다.</li>'; // 검색 결과 없을 시 메시지 표시
+    if (!productData || productData.length === 0) {
+        productList.innerHTML = '<li class="list-group-item">검색 결과가 없습니다.</li>';
         return;
     }
 
-    // 상품 데이터를 기반으로 목록 생성
     productData.forEach(product => {
         const li = document.createElement('li');
         li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-        li.textContent = `${product.productName} (${product.productNo})`;
+        li.textContent = `${product.productName}/${product.productNo}`;
         li.addEventListener('click', () => {
-            document.getElementById('productName').value = product.productName; // 선택한 상품 이름 설정
+            const productNameField = document.getElementById('productName');
+            if (productNameField) {
+                productNameField.value = `${product.productName}/${product.productNo}`;
+            }
+
             const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
-            modal.hide(); // 모달 닫기
+            if (modal) {
+                modal.hide();
+            }
         });
-        list.appendChild(li);
+        productList.appendChild(li);
     });
 }
+
+
 
 //======================================================================================================================
 
@@ -188,7 +229,7 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
         otherMatters: document.getElementById('otherMatters').value,
         productNo: document.getElementById('productNo').value,
         customerNo: document.getElementById('customerName').dataset.customerNo,
-        employeeNo: document.getElementById('employeeName').dataset.employeeNo
+        employeeNo: document.getElementById('employeeNo').dataset.employeeNo
     };
 
     fetch('/db/contract', {
@@ -200,4 +241,6 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
         .then(message => alert(message))
         .catch(error => console.error('계약 등록 중 오류 발생:', error));
 });
+
+//======================================================================================================================
 

@@ -30,221 +30,220 @@
             <a class="subHeaderLink-class" href="/db/contract">신계약 등록</a>
         </div>
 
-            <article>
-                <div class="form-container">
-                    <h1>신 계약 등록</h1>
+        <article>
+            <div class="form-container">
+                <h1>신 계약 등록</h1>
 
 
-                    <form action="/db/contract" method="POST">
-                        <!-- 최종 수정일자 , 수정자-->
-                        <div class="contract-info">
-                            <span>최종 수정일자: <span th:text="${contract.lastReformDate != null ? contract.lastReformDate : '정보 없음'}"></span></span>
-                            <span>/ 수정자: <span th:text="${contract.lastInseminatee != null ? contract.lastInseminatee : '정보 없음'}"></span></span>
-                        </div>
+                <form action="/db/contract" method="POST">
+                    <!-- 최종 수정일자 , 수정자-->
+                    <div class="contract-info">
+                        <span>최종 수정일자: <span th:text="${contract.lastReformDate != null ? contract.lastReformDate : '정보 없음'}"></span></span>
+                        <span>/ 수정자: <span th:text="${contract.lastInseminatee != null ? contract.lastInseminatee : '정보 없음'}"></span></span>
+                    </div>
 
-                        <!-- 설계사명 -->
-                        <div class="form-group">
-                            <label for="employeeName">설계사명</label>
-                            <input type="text" id="employeeName" name="employeeName" class="form-control" readonly>
-                            <button type="button" id="searchEmployeeBtn" class="btn btn-primary">조회</button>
-                        </div>
+                    <!-- 설계사명 -->
+                    <div class="form-group">
+                        <label for="employeeName">설계사명</label>
+                        <input type="text" id="employeeName" name="employeeName" class="form-control" readonly>
+                        <input type="hidden" id="employeeNo" name="employeeNo"> <!-- 사번 저장 -->
+                        <button type="button" id="searchEmployeeBtn" class="btn btn-primary">조회</button>
+                    </div>
 
-                        <!-- 설계사 모달창 -->
-                        <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true" >
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="employeeModalLabel">설계사 목록</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="text" id="employeeSearch" class="form-control" placeholder="설계사 이름 검색">
-                                        <ul id="employeeList" class="list-group mt-3">
-                                            <!-- 설계사 목록이 동적으로 추가됩니다 -->
-                                        </ul>
-                                    </div>
+                    <!-- 설계사 모달창 -->
+                    <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="employeeModalLabel">설계사 목록</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" id="employeeSearch" class="form-control" placeholder="설계사 이름 검색">
+                                    <ul id="employeeList" class="list-group mt-3">
+                                        <!-- 설계사 목록이 동적으로 추가됩니다 -->
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
 
 
 
-                        <!-- 납입일 -->
-                        <div class="form-group">
-                            <label for="paymentDate">납입일</label>
-                            <select id="paymentDate" name="paymentDate" required>
-                                <option value="5일">5일</option>
-                                <option value="10일">10일</option>
-                                <option value="15일">15일</option>
-                                <option value="20일">20일</option>
-                                <option value="25일">25일</option>
-                            </select>
-                        </div>
+                    <!-- 납입일 -->
+                    <div class="form-group">
+                        <label for="paymentDate">납입일</label>
+                        <select id="paymentDate" name="paymentDate" required>
+                            <option value="5">5일</option>
+                            <option value="10">10일</option>
+                            <option value="15">15일</option>
+                            <option value="20">20일</option>
+                            <option value="25">25일</option>
+                        </select>
+                    </div>
 
 
 
-                        <!-- 고객 선택 모달 -->
-                        <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="customerModalLabel">고객 목록</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="text" id="customerSearch" class="form-control" placeholder="고객 이름 검색">
-                                        <ul id="customerList" class="list-group mt-3">
-                                            <!-- 고객 데이터가 여기에 추가됩니다 -->
-                                        </ul>
-                                    </div>
+                    <!-- 고객 선택 모달 -->
+                    <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="customerModalLabel">고객 목록</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" id="customerSearch" class="form-control" placeholder="고객 이름 검색">
+                                    <ul id="customerList" class="list-group mt-3">
+                                        <!-- 고객 데이터가 여기에 추가됩니다 -->
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- 고객명 -->
-                        <div class="form-group">
-                            <label for="customerName">고객명</label>
-                            <input type="text" id="customerName" name="customerName" readonly>
-                            <button type="button" id="searchCustomerBtn" class="btn btn-primary">조회</button>
-                        </div>
+                    <!-- 고객명 -->
+                    <div class="form-group">
+                        <label for="customerName">고객명</label>
+                        <input type="text" id="customerName" name="customerName" readonly>
+                        <button type="button" id="searchCustomerBtn" class="btn btn-primary">조회</button>
+                    </div>
 
-                        <!-- 주민등록번호 -->
-                        <div class="form-group">
-                            <label for="customerSsn">주민등록번호</label>
-                            <input type="text" id="customerSsn" name="customerSsn" readonly>
-                        </div>
+                    <!-- 주민등록번호 -->
+                    <div class="form-group">
+                        <label for="customerSsn">주민등록번호</label>
+                        <input type="text" id="customerSsn" name="customerSsn" readonly>
+                    </div>
 
-                        <!-- 이메일 -->
-                        <div class="form-group">
-                            <label for="customerEmail">이메일</label>
-                            <input type="email" id="customerEmail" name="customerEmail" readonly>
-                        </div>
+                    <!-- 이메일 -->
+                    <div class="form-group">
+                        <label for="customerEmail">이메일</label>
+                        <input type="email" id="customerEmail" name="customerEmail" readonly>
+                    </div>
 
-                        <!-- 연락처 -->
-                        <div class="form-group">
-                            <label for="customerMobile">연락처</label>
-                            <input type="text" id="customerMobile" name="customerMobile" readonly>
-                        </div>
+                    <!-- 연락처 -->
+                    <div class="form-group">
+                        <label for="customerMobile">연락처</label>
+                        <input type="text" id="customerMobile" name="customerMobile" readonly>
+                    </div>
 
-                        <!-- 피보험자 -->
-                        <div class="form-group">
-                            <label for="insuredName">피보험자</label>
-                            <input type="text" id="insuredName" name="insuredName" required>
-                        </div>
+                    <!-- 피보험자 -->
+                    <div class="form-group">
+                        <label for="insuredName">피보험자</label>
+                        <input type="text" id="insuredName" name="insuredName" required>
+                    </div>
 
-                        <!-- 피보험자 주민번호 -->
-                        <div class="form-group">
-                            <label for="insuredSsn">피보험자 주민번호</label>
-                            <input type="text" id="insuredSsn" name="insuredSsn" required>
-                        </div>
+                    <!-- 피보험자 주민번호 -->
+                    <div class="form-group">
+                        <label for="insuredSsn">피보험자 주민번호</label>
+                        <input type="text" id="insuredSsn" name="insuredSsn" required>
+                    </div>
 
-                        <!-- 보험회사명코드 -->
-                        <div class="form-group">
-                            <label for="insuranceCode">보험회사</label>
-                            <select id="insuranceCode" name="insuranceCode" class="form-select">
-                                <!-- 옵션은 JavaScript에서 동적으로 추가 -->
-                            </select>
-                        </div>
+                    <!-- 보험회사명코드 -->
+                    <div class="form-group">
+                        <label for="insuranceCode">보험회사</label>
+                        <select id="insuranceCode" name="insuranceCode" class="form-select">
+                            <!-- 옵션은 JavaScript에서 동적으로 추가 -->
+                        </select>
+                    </div>
 
-                        <!-- 계약일자 -->
-                        <div class="form-group">
-                            <label for="contractDate">계약일자</label>
-                            <input type="date" id="contractDate" name="contractDate" required>
-                        </div>
+                    <!-- 계약일자 -->
+                    <div class="form-group">
+                        <label for="contractDate">계약일자</label>
+                        <input type="date" id="contractDate" name="contractDate" required>
+                    </div>
 
-                        <!-- 계약번호 -->
-                        <div class="form-group">
-                            <label for="contractNo">계약번호</label>
-                            <input type="text" id="contractNo" name="contractNo" required>
-                        </div>
+                    <!-- 계약번호 -->
+                    <div class="form-group">
+                        <label for="contractNo">계약번호</label>
+                        <input type="text" id="contractNo" name="contractNo" required>
+                    </div>
 
-                        <!--상품조회 모달창-->
-                        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="productModalLabel">상품 목록</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ul id="productList" class="list-group"></ul>
-                                    </div>
+
+                    <!-- 상품 -->
+                    <div class="form-group mt-3">
+                        <label for="productName">상품</label>
+                        <input type="text" id="productName" name="productName" class="form-control" readonly>
+                        <input type="hidden" id="productNo" name="productNo">
+                        <button type="button" id="searchProductBtn" class="btn btn-primary">상품 조회</button>
+                    </div>
+                    <!--상품조회 모달창-->
+                    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="productModalLabel">상품 목록</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul id="productList" class="list-group"></ul>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- 상품 -->
-                        <div class="form-group mt-3">
-                            <label for="productName">상품</label>
-                            <input type="text" id="productName" name="productName" class="form-control" readonly>
-                            <button type="button" id="searchProductBtn" class="btn btn-primary">상품 조회</button>
+                    <!-- 기본결제수단 -->
+                    <div class="form-group mt-3">
+                        <label for="paymentMethod">기본 결제수단</label>
+                        <select id="paymentMethod" name="basicPayWith" class="form-select">
+                            <option value="카드">카드</option>
+                            <option value="자동이체">자동이체</option>
+                            <option value="직원수납">직원수납</option>
+                        </select>
+                    </div>
+
+                    <!-- 계약기간 -->
+                    <div class="form-group">
+                        <label for="contractDuration">계약기간</label>
+                        <div class="radio-group">
+                            <input type="number" id="contractDuration" name="contractDuration" required>
+                            <label>
+                                <input type="radio" name="contractDurationUnit" value="년" required> 년
+                            </label>
+                            <label>
+                                <input type="radio" name="contractDurationUnit" value="세" required> 세
+                            </label>
                         </div>
+                    </div>
 
-                        <!-- 기본결제수단 -->
-                        <div class="form-group mt-3">
-                            <label for="paymentMethod">기본 결제수단</label>
-                            <select id="paymentMethod" name="paymentMethod" class="form-select">
-                                <option value="card">카드</option>
-                                <option value="directDebit">자동이체</option>
-                                <option value="employeeCollection">직원수납</option>
-                            </select>
-                        </div>
+                    <!-- 납입금액 -->
+                    <div class="form-group">
+                        <label for="eachPayment">납입금액</label>
+                        <input type="number" id="eachPayment" name="eachPayment" required>
+                        <label>원</label>
+                    </div>
 
-
-                        <!-- 계약기간 -->
-                        <div class="form-group">
-                            <label for="contractDuration">계약기간</label>
-                            <div class="radio-group">
-                                <input type="number" id="contractDuration" name="contractDuration" required>
-                                <label>
-                                    <input type="radio" name="contractDurationUnit" value="년" required> 년
-                                </label>
-                                <label>
-                                    <input type="radio" name="contractDurationUnit" value="세" required> 세
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- 납입금액 -->
-                        <div class="form-group">
-                            <label for="eachPayment">납입금액</label>
-                            <input type="number" id="eachPayment" name="eachPayment" required>
-                            <label>원</label>
-                        </div>
-
-                        <!-- 납입주기 -->
-                        <div class="form-group">
-                            <label for="paymentTerm">납입주기</label>
-                            <select id="paymentTerm" name="paymentTerm" required>
-                                <option value="1년">1년</option>
-                                <option value="5년">5년</option>
-                                <option value="10년">10년</option>
-                                <option value="20년">20년</option>
-                                <option value="30일">30년</option>
-                            </select>
+                    <!-- 납입주기 -->
+                    <div class="form-group">
+                        <label for="paymentTerm">납입주기</label>
+                        <select id="paymentTerm" name="paymentTerm" required>
+                            <option value="1">1년</option>
+                            <option value="5">5년</option>
+                            <option value="10">10년</option>
+                            <option value="20">20년</option>
+                            <option value="30">30년</option>
+                        </select>
+                    </div>
 
 
-                        </div>
-
-                        <!-- 기타사항 -->
-                        <div class="form-group">
-                            <label for="otherMatters">기타사항</label>
-                            <textarea id="otherMatters" name="otherMatters"></textarea>
-                        </div>
+                    <!-- 기타사항 -->
+                    <div class="form-group">
+                        <label for="otherMatters">기타사항</label>
+                        <textarea id="otherMatters" name="otherMatters"></textarea>
+                    </div>
 
 
 
 
-                        <!-- 버튼 -->
-                        <div class="form-group">
-                            <button type="submit">등록하기</button>
-                        </div>
+                    <!-- 버튼 -->
+                    <div class="form-group">
+                        <button type="submit">등록하기</button>
+                    </div>
 
-                    </form>
-                </div>
-            </article>
-
+                </form>
+            </div>
+        </article>
 
     </section>
 
