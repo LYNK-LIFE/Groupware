@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     data.forEach(item => {
                         const uniqueKey = `${item.employeeDTO?.name}-${item.scheduleDTO?.scheduleStartDate}-${item.dayOffDTO?.leaveType}`;
                         // 각 일정의 고유 키 생성
+                        // console.log('uniqueKey : ' + uniqueKey);
 
                         if (!seenEvents.has(uniqueKey)) { // 중복 확인
                             events.push({
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     endDate: item.scheduleDTO?.scheduleEndDate || item.dayOffDTO?.leaveEndDate
                                 }
                             });
+                            console.log('events : ' + events);
                             seenEvents.add(uniqueKey); // 고유 키를 Set에 추가
                         }
                     });

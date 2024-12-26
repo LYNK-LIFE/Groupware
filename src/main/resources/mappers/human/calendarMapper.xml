@@ -8,9 +8,9 @@
     <resultMap id="selectResultMap" type="com.semi.lynk.function.human.model.calendar.CalendarDTO">
         <id property="id" column="employee_no"/>
         <result property="title" column="id"/>
-        <result property="approveTime" column="approve_completion_time"/>
+<!--        <result property="approveTime" column="approve_completion_time"/>-->
+        <result property="draftDate" column="draft_date"/>
         <result property="draftTime" column="draft_completion_time"/>
-        <result property="approver" column="approver"/>
         <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
             <id property="id" column="employee_no"/>
             <result property="totalLeave" column="totalLeave"/>
@@ -46,57 +46,75 @@
         <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
             <result property="depName" column="department_name"/>
         </association>
+        <association property="approvalDTO" javaType="com.semi.lynk.function.human.model.calendar.ApprovalDTO">
+            <id property="id" column="employee_no"/>
+            <id property="draftNo" column="draft_no"/>
+            <result property="approvalState" column="approval_state"/>
+            <result property="approvalStep" column="approval_step"/>
+            <result property="approvalPosible" column="approval_posible"/>
+            <result property="approvalCompletionTime" column="approval_completion_time"/>
+            <result property="approvalMemo" column="approval_memo"/>
+        </association>
     </resultMap>
 
     <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
     <select id="showCalendar" resultMap="selectResultMap">
-        select
+        select distinct
              a.employee_name
             ,b.position
-            ,b.totalLeave
-            ,b.usedLeave
+<!--            ,b.totalLeave-->
+<!--            ,b.usedLeave-->
 <!--            ,c.work_off-->
             ,d.schedule_start_date
             ,d.schedule_end_date
             ,e.leave_type
-            ,e.leave_start_date
-            ,e.leave_end_date
-<!--            ,f.department_name-->
+<!--            ,e.leave_start_date-->
+<!--            ,e.leave_end_date-->
+            ,f.department_name
         from
         employee a
             join human_resource b on (a.employee_no = b.employee_no)
 <!--            join working_time_data c on (a.employee_no = c.employee_no)-->
             join schedule d on (a.employee_no = d.employee_no)
             join dayoff e on (a.employee_no = e.employee_no)
-<!--            join department f on (a.department_no = f.department_no)-->
+            join department f on (a.department_no = f.department_no)
     </select>
 
     <!-- 내 신청현황 드가면 보이는 애들 -->
+<!--    <select id="showMyAppStatus" resultMap="selectResultMap">-->
+<!--        select distinct-->
+<!--            a.employee_name-->
+<!--            ,b.approval_state-->
+<!--            ,c.leave_type-->
+<!--            ,d.position-->
+<!--            ,e.schedule_start_date-->
+<!--            ,b.approval_completion_time-->
+<!--        from employee a-->
+<!--            join approval b on (a.employee_no = b.employee_no)-->
+<!--            join dayoff c on (a.employee_no = c.employee_no)-->
+<!--            join human_resource d on (a.employee_no = d.employee_no)-->
+<!--            join schedule e on (a.employee_no = e.employee_no)-->
+<!--    </select>-->
     <select id="showMyAppStatus" resultMap="selectResultMap">
         select distinct
-             a.employee_name
-            ,b.approver
-            ,h.schedule_start_date
-            ,h.schedule_end_date
-            ,c.leave_start_date
-            ,c.leave_end_date
-            ,c.leave_type
-            ,d.work_on
-            ,d.work_off
-            ,e.department_name
-            ,f.position
-            ,g.draft_completion_time
-            ,b.approve_completion_time
+            a.employee_name,        -- 이름
+            b.approval_state,       -- 결재 상태 (0, 1, 2, 9)
+        case
+            when c.leave_type = 1 then '반차'
+            when c.leave_type = 2 then '연차'
+            when c.leave_type = 0 then '연장근무'
+            end as category,        -- 구분 (leave_type 기준, 0이면 연장근무)
+            f.department_name,      -- 부서명
+            d.position,             -- 직책
+            e.schedule_start_date,  -- 신청 일시
+            b.approval_completion_time -- 결재 일시
         from employee a
             join approval b on (a.employee_no = b.employee_no)
             join dayoff c on (a.employee_no = c.employee_no)
-            join working_time_data d on (a.employee_no = d.employee_no)
-            join department e on (a.department_no = e.department_no)
-            join human_resource f on (a.employee_no = b.employee_no)
-            join draft g on (a.employee_no = g.employee_no)
-            join schedule h on (a.employee_no = h.employee_no)
+            join human_resource d on (a.employee_no = d.employee_no)
+            join schedule e on (a.employee_no = e.employee_no)
+            join department f on (a.department_no = f.department_no)
     </select>
-
 
     <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         <id property="id" column="employee_no"/>
@@ -185,7 +203,7 @@
              set
              schedule_start_date = #{scheduleStartDate}
             ,schedule_end_date = #{scheduleEndDate}
-            ,schedule_note = #{scheduleNote}
+            ,schedule_note = #{scheduleNote} -- 'overtime'
         where
             employee_no = 12; <!-- 나중에 신청 보내는 애(로그인)랑 연결할 거 -->
     </update>

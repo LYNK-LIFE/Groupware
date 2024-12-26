@@ -26,12 +26,14 @@ public class CalendarDTO {
     private CommuteDTO commuteDTO; // 출퇴근 이력 DTO
     private ScheduleDTO scheduleDTO; // 일정 DTO
     private DayOffDTO dayOffDTO;          // 휴가 DTO
+    private ApprovalDTO approvalDTO;   // 승인 관련 애들
 
     // 신청 현황
     private DepartmentDTO departmentDTO;  // 부서 DTO
-    private int approver;               // 상태 (0 개인 1 부서 2 전사)
+//    private int approver;               // 상태 (0 개인 1 부서 2 전사)
     private LocalDateTime approveTime; // 결재 승인 시간
-    private LocalDateTime draftTime;    // 기안한 시간
+    private LocalDateTime draftDate;    // 기안한 시간
+//    private LocalDateTime draftTime;    // 결재 완료 시간
 
 
     // 나의 신청 조회 - 상세 조회 - 연장 근무 시간 때문에...
