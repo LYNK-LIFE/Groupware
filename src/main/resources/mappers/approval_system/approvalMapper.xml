@@ -19,7 +19,7 @@
         <result property="employeeName" column="employee_name"/>
     </resultMap><!-- -->
 
-    <resultMap id="approvalResultMap" type="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
+    <resultMap id="ApprovalResultMap" type="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
         <id property="draftNo" column="draft_no"/>
         <result property="employeeNo" column="employee_no"/>
         <result property="approvalState" column="approval_state"/>
@@ -27,6 +27,9 @@
         <result property="approvalPosible" column="approval_posible"/>
         <result property="approvalCompletionTime" column="approval_completion_time"/>
         <result property="approvalMemo" column="approval_memo"/>
+        <result property="position" column="position"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="departmentName" column="department_name"/>
     </resultMap>
 
     <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
@@ -57,6 +60,26 @@
         SELECT draft_no, employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
         FROM draftsh join employee using(employee_no)
         WHERE draft_no = #{draftNo}
+    </select>
+
+    <insert id="insertApproval" parameterType="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
+        INSERT INTO approval (draft_no, employee_no, approval_state, approval_step, approval_posible, approval_completion_time, approval_memo)
+        VALUES (#{draftNo}, #{employeeNo}, #{approvalState}, #{approvalStep}, #{approvalPosible}, #{approvalCompletionTime}, #{approvalMemo})
+    </insert>
+
+    <select id="selectApproval" resultMap="ApprovalResultMap">
+        SELECT
+        a.draft_no, a.employee_no, a.approval_state, a.approval_step, a.approval_posible, a.approval_completion_time, a.approval_memo, hr.position, e.employee_name, d.department_name
+        FROM
+        approval a
+        LEFT JOIN
+        human_resource hr ON a.employee_no = hr.employee_no
+        LEFT JOIN
+        employee e ON a.employee_no = e.employee_no
+        LEFT JOIN
+        department d ON e.department_no = d.department_no
+        WHERE
+        a.draft_no = #{draftNo}
     </select>
 
 </mapper>
