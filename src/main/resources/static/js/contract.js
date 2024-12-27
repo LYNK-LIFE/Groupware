@@ -91,22 +91,49 @@ function renderCustomerList(customerData) {
         return;
     }
 
+
     // 고객 데이터를 기반으로 목록 생성
     customerData.forEach(customer => {
         const li = document.createElement('li');
         li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-        li.textContent = `${customer.customerName} (${customer.customerMobile})`;
+        li.textContent = `${customer.customerName} (${customer.customerNo})`;
 
         li.addEventListener('click', () => {
             document.getElementById('customerName').value = customer.customerName; // 선택한 고객 이름 설정
             document.getElementById('customerSsn').value = customer.customerSsn; // 선택한 고객 주민번호 설정
             document.getElementById('customerEmail').value = customer.customerEmail; // 선택한 고객 이메일 설정
             document.getElementById('customerMobile').value = customer.customerMobile; // 선택한 고객 전화번호 설정
+            document.getElementById('customerNo').value = customer.customerNo; // 선택한 고객 번호 설정
+
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('customerModal'));
             modal.hide(); // 모달 닫기
         });
 
+
+
+
+
+        li.addEventListener('click', () => {
+            const customerSsnField = document.getElementById('customerSsn');
+            const customerNiField = document.getElemenBYId('customerNo');
+
+
+            if (customerSsnField) {
+                customerSSnField.value = customer.customerSsn; // 고객 주민번호 설정
+            }
+
+
+            if(customerNoField){
+                customerNoField.value = customer.customerNo // 숨겨진 필드에 고객번호 설정
+                console.log("Hidden customerNo set :", customer, customerNo);
+            }
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('customerModal'));
+            if (modal) {
+                modal.hide(); // 모달 닫기
+            }
+        });
         list.appendChild(li);
     });
 }
@@ -149,19 +176,19 @@ document.getElementById('searchProductBtn').addEventListener('click', () => {
         return;
     }
 
+    //ps 보험 코드값 확인
     const insuranceCode = insuranceCodeElement.value.trim();
     if (!insuranceCode) {
         alert('보험 코드를 입력하거나 선택하세요.');
         return;
     }
 
+    //ps 모달창 생성 및 표시
     if (!modalInstance) {
         modalInstance = new bootstrap.Modal(modalElement);
     }
     modalInstance.show();
 
-    // 로딩 메시지 표시
-    productList.innerHTML = '<li class="list-group-item text-info">상품 데이터를 불러오는 중입니다...</li>';
 
     // 상품 데이터 요청
     fetch(`/db/products?insuranceCode=${insuranceCode}`)
@@ -170,9 +197,13 @@ document.getElementById('searchProductBtn').addEventListener('click', () => {
                 throw new Error(`서버 응답 오류: ${response.status}`);
             }
             return response.json();
+
+            // 상품 목록 렌더링
         })
         .then(data => {
             renderProductList(data);
+
+            //오류처리
         })
         .catch(error => {
             console.error('상품 데이터를 가져오는 중 오류 발생:', error);
@@ -180,9 +211,12 @@ document.getElementById('searchProductBtn').addEventListener('click', () => {
         });
 });
 
+// ===================================================================================================================
+
 // 상품 데이터를 렌더링하는 함수
 function renderProductList(productData) {
     const productList = document.getElementById('productList');
+
     productList.innerHTML = ''; // 기존 데이터 초기화
 
     if (!productData || productData.length === 0) {
@@ -190,22 +224,47 @@ function renderProductList(productData) {
         return;
     }
 
+    // 검색결과가 없는 경우 처리
     productData.forEach(product => {
+        // 데이터 유효성 검증
+        const productName = product.productName || '알 수 없음';
+        const productNo = product.productNo || '없음';
+
+        // 리스트 항목 생성
         const li = document.createElement('li');
         li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-        li.textContent = `${product.productName}/${product.productNo}`;
+        li.textContent = `${productName}/${productNo}`;
+
+        // 상품 선택 이벤트 등록
         li.addEventListener('click', () => {
+            // 상품 이름과 상품 번호 필드를 가져옴
             const productNameField = document.getElementById('productName');
-            if (productNameField) {
-                productNameField.value = `${product.productName}/${product.productNo}`;
+            const productNoField = document.getElementById('productNo');
+
+            // 데이터 유효성 검증 및 설정
+            if (productNameField && product.productName) {
+                productNameField.value = `${product.productName} (${product.productNo})`; // 상품 이름과 번호 표시
+            } else {
+                console.error("productNameField is missing or productName is invalid.");
             }
 
+            if (productNoField && product.productNo) {
+                productNoField.value = product.productNo; // 상품 번호 설정
+                console.log("Selected productNo:", product.productNo); // 설정된 값 로그 출력
+            } else {
+                console.error("productNoField is missing or productNo is invalid.");
+            }
+
+            // 모달 창 닫기
             const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
             if (modal) {
                 modal.hide();
             }
+
         });
+        // 리스트에 항목 추가
         productList.appendChild(li);
+
     });
 }
 
@@ -216,7 +275,20 @@ function renderProductList(productData) {
 // 등록 버튼 클릭으로 db 저장 생성하기
 
 document.getElementById('registerContractBtn').addEventListener('click', function () {
-    const contractData = {
+
+    const customerNoField = document.getElementById('customerNo');
+    const customerSsnField  = document.getElementById('customerSsn');
+
+    const customerNo = customerNoField ? customerNoField.value : null;
+    const customerSsn  = customerSsnField ? customerSsnField.value : null;
+
+    if(!customerNo || customerSsn){
+        alert('고객정보가 올바르게 설정되지 않았습니다. 고객을 확인해 주세요');
+        return;// 고객번호 또는 주민번호가 없으면 등록 중단
+    }
+    const contractDate = {
+        customerNo : customerNo,
+        customerSsn : customerSsn,
         contractNo: document.getElementById('contractNo').value,
         contractDate: document.getElementById('contractDate').value,
         contractDuration: document.getElementById('contractDuration').value,
@@ -228,18 +300,28 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
         insuredSsn: document.getElementById('insuredSsn').value,
         otherMatters: document.getElementById('otherMatters').value,
         productNo: document.getElementById('productNo').value,
-        customerNo: document.getElementById('customerName').dataset.customerNo,
+        customerNo: document.getElementById('customerNo').dataset.customerNo,
         employeeNo: document.getElementById('employeeNo').dataset.employeeNo
     };
 
+
+
+    console.log("Contract Data to be sent :" , contractData);
+
+    // 데이터 서버로 전송
     fetch('/db/contract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contractData)
     })
-        .then(response => response.text())
-        .then(message => alert(message))
-        .catch(error => console.error('계약 등록 중 오류 발생:', error));
+        .then(response => response.json())
+        .then(data =>{
+            alert("계약이 성공적으로 저장되었습니다.");
+        })
+        .catch(error => {
+            console.log("Error saving contract :" , error);
+            alert("계약 저장 중 오류가 발생 했습니다.");
+        });
 });
 
 //======================================================================================================================
