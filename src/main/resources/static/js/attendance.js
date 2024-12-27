@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then((data) => {
                     const seenEvents = new Set(); // 중복 방지를 위한 Set
                     const events = [];
-                    console.log(JSON.stringify(data));
                     data.forEach(item => {
                         const uniqueKey = `${item.employeeDTO?.name}-${item.dayOffDTO?.leaveStartDate}-${item.dayOffDTO?.leaveType}`;
                         // 각 일정의 고유 키 생성
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (!seenEvents.has(uniqueKey)) { // 중복 확인
                             events.push({
                                 title: `${item.employeeDTO?.name || 'Unknown'} ${item.humanDTO?.position || ''}`,
-                                start: item.scheduleDTO?.scheduleStartDate || item.dayOffDTO?.leaveStartDate,
+                                start: item.dayOffDTO?.leaveStartDate,
                                 backgroundColor: item.dayOffDTO?.leaveType === 2 ? 'green' :
                                     item.dayOffDTO?.leaveType === 1 ? 'lightgreen' :
                                         'orange',
@@ -46,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                     department: item.departmentDTO?.depName || 'N/A',
                                     position: item.humanDTO?.position || 'N/A',
                                     // memo: item.dayOffDTO?.leaveMemo || '없음',
-                                    startDate: item.scheduleDTO?.scheduleStartDate || item.dayOffDTO?.leaveStartDate,
-                                    endDate: item.scheduleDTO?.scheduleEndDate || item.dayOffDTO?.leaveEndDate
+                                    startDate: item.dayOffDTO?.leaveStartDate,
+                                    endDate: item.dayOffDTO?.leaveEndDate
                                 }
                             });
                             console.log('events : ' + events);
@@ -67,18 +66,35 @@ document.addEventListener('DOMContentLoaded', function () {
         eventClick: function (info) {
             const props = info.event.extendedProps;
 
+            // 시간 변환 함수
+            function formatLocalDateTime(isoString) {
+                if (!isoString) return "N/A"; // 데이터가 없을 경우 표시
+                const options = {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false
+                };
+                return new Date(isoString).toLocaleString("ko-KR", options);
+            }
+
             // 모달 내용 업데이트
             document.getElementById('eventType').textContent = props.type || '없음';
             document.getElementById('eventName').textContent = props.name || '없음';
             document.getElementById('eventDepartment').textContent = props.department || '없음';
             document.getElementById('eventPosition').textContent = props.position || '없음';
-            document.getElementById('eventStart').textContent = props.startDate || 'N/A';
-            document.getElementById('eventEnd').textContent = props.endDate || 'N/A';
-            // document.getElementById('eventMemo').textContent = props.memo || '없음';
 
-            // Bootstrap 모달 표시
+            // 날짜 출력 변환
+            document.getElementById('eventStart').textContent = formatLocalDateTime(props.startDate);
+            document.getElementById('eventEnd').textContent = formatLocalDateTime(props.endDate);
+
+            // 모달 표시
             modalEl.show();
         }
+
     });
 
     calendar.render();
@@ -216,31 +232,48 @@ document.getElementById("vacationApp").addEventListener("click", () => {
     // const name = document.getElementById("leader2").value;
     // const scheduleDate = document.getElementById("startDateTime").value;
 
-    const startDay = document.getElementById("startDay").value || "00:00";
-    const startTime = document.getElementById("startTime").value
+    const startDay = document.getElementById("startDay").value;
+    const startTime = document.getElementById("startTime").value || "00:00";
 
     const endDay = document.getElementById("endDay").value;
     const endTime = document.getElementById("endTime").value || "23:59";
 
+    // `Date` 객체 생성
+    const leaveStartDate = new Date(`${startDay}T${startTime}:00`);
+    const leaveEndDate = new Date(`${endDay}T${endTime}:00`);
+
+    // 9시간 빼기
+    const leaveStartAdjusted = new Date(leaveStartDate.getTime() - 18 * 60 * 60 * 1000); // 9시간을 밀리초로 계산해서 뺌
+    const leaveEndAdjusted = new Date(leaveEndDate.getTime() - 18 * 60 * 60 * 1000);
+
+    // ISO 8601 형식으로 변환
+    const leaveStartIso = leaveStartAdjusted.toISOString(); // 'yyyy-MM-ddTHH:mm:ssZ'
+    const leaveEndIso = leaveEndAdjusted.toISOString(); // 'yyyy-MM-ddTHH:mm:ssZ'
+
     // 이렇게 ISO8601 형식으로 타입 맞춰줘야함
-    const scheduleStartDate = `${startDay}T${startTime}`;
-    const scheduleEndDate = `${endDay}T${endTime}`;
+    // const leaveStartDate = `${startDay}T${startTime}`;
+    // const leaveEndDate = `${endDay}T${endTime}`;
 
+    // const usedLeave = parseFloat(document.getElementById("useDay").value);
     const usedLeave = parseFloat(document.getElementById("useDay").value);
-
     if (isNaN(usedLeave) || usedLeave <= 0) {
         alert("총 사용 개수를 확인하고 제출해주세요.");
         return;
     }
 
+    // if (isNaN(usedLeave) || usedLeave <= 0) {
+    //     alert("총 사용 개수를 확인하고 제출해주세요.");
+    //     return;
+    // }
+
     const leaveType = usedLeave === 0.5 ? 1 : 2;
 
     const vacationApplicationDTO = {
         // name: name,
-        scheduleStartDate: scheduleStartDate,
-        scheduleEndDate: scheduleEndDate,
-        leaveStartDate: startDay,
-        leaveEndDate: endDay,
+        // scheduleStartDate: scheduleStartDate,
+        // scheduleEndDate: scheduleEndDate,
+        leaveStartDate: leaveStartIso,
+        leaveEndDate: leaveEndIso,
         usedLeave: usedLeave,
         leaveType: leaveType, // 반차 구분 지으려고 추가
     }; // 서버로 보낼 데이터
@@ -264,81 +297,10 @@ document.getElementById("vacationApp").addEventListener("click", () => {
         })
         .catch(err => console.error("휴가 신청 실패:", err));
 
+    // // 모달 닫기
+    // const myModal = document.getElementById("myModal");
+    // myModal.style.display = "none";
     // 모달 닫기
-    const myModal = document.getElementById("myModal");
-    myModal.style.display = "none";
+    const myModal = new bootstrap.Modal(document.getElementById("vacationModal"), {});
+    myModal.hide();
 });
-
-// document.getElementById("vacationApp").addEventListener("click", () => {
-//     const usedLeave = parseFloat(document.getElementById("useDay").value);
-//
-//     if (isNaN(usedLeave) || usedLeave <= 0) {
-//         alert("총 사용 개수를 확인하고 제출해주세요.");
-//         return;
-//     }
-//
-//     const payload = { usedLeave }; // 서버로 보낼 데이터
-//
-//     // 데이터 전송
-//     fetch("/employee/vacAppResult", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(payload),
-//     })
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error("서버 응답 오류");
-//             }
-//
-//             // 모달 닫기
-//             const modalElement = document.getElementById("vacationModal");
-//             const modal = bootstrap.Modal.getInstance(modalElement);
-//             modal.hide(); // 모달창 닫기
-//         })
-//         .catch((error) => {
-//             console.error("휴가 신청 오류:", error);
-//             alert("서버와 통신에 문제가 발생했습니다.");
-//         });
-// });
-//
-//
-// document.addEventListener("DOMContentLoaded", () => {
-//     console.log("DOMContentLoaded event fired."); // 기본 확인용 로그
-//
-//     // DOM 변경 관찰
-//     const targetNode = document.body;
-//     const observer = new MutationObserver(() => {
-//         const successMessageElement = document.getElementById("vacAppMessage");
-//
-//         if (successMessageElement) {
-//             console.log("Success message element found:", successMessageElement.textContent.trim());
-//             const successMessage = successMessageElement.textContent.trim();
-//
-//             if (successMessage) {
-//                 console.log("Success message present:", successMessage);
-//
-//                 const modalElement = document.getElementById("myModal2");
-//                 if (modalElement) {
-//                     console.log("Modal element found.");
-//                     const modalMessage = modalElement.querySelector(".modal-body2");
-//                     if (modalMessage) {
-//                         modalMessage.textContent = successMessage;
-//                         const myModal = new bootstrap.Modal(modalElement);
-//                         myModal.show();
-//                     } else {
-//                         console.error("Modal message body not found.");
-//                     }
-//                 } else {
-//                     console.error("Modal element not found.");
-//                 }
-//
-//                 // 관찰 중지
-//                 observer.disconnect();
-//             }
-//         }
-//     });
-//
-//     observer.observe(targetNode, { childList: true, subtree: true });
-// });
