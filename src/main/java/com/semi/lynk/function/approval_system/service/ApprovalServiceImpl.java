@@ -37,11 +37,12 @@ public class ApprovalServiceImpl implements ApprovalService {
         System.out.println("draftDTO = " + draftDTO);approvalMapper.insertDraft(draftDTO);}
 
     @Override
-    public Page<DraftDTO> getDraftsPaged(String empNo, String state, int page, int size){
-        int count = approvalMapper.getDraftsCount(empNo, state);
+    public Page<DraftDTO> getDraftsPaged(String empNo, String state, int page, int size, String keyword){
+        // 여기서 state는 결재중, 결재완료, 반려의 상태에 따라 쿼리문이 변경됨
+        System.out.println("서비스의 keyword = " + keyword);
+        int count = approvalMapper.getDraftsCount(empNo, state, keyword);    // 페이징을 하기위해 먼저 전체 갯수 받아옴
         int start = page * size; // 해당페이지의 시작글번호
-        List<DraftDTO> drafts = approvalMapper.getDrafts(empNo, state, start, Math.min(count, start+size));
-        System.out.println("drafts = " + drafts);
+        List<DraftDTO> drafts = approvalMapper.getDrafts(empNo, state, start, Math.min(count, start+size),keyword);
         return new PageImpl<>(drafts, PageRequest.of(page, size), count);
     }
 

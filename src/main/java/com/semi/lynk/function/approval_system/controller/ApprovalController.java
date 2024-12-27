@@ -60,18 +60,49 @@ public class ApprovalController {
 
 
     @GetMapping("/list/{action}")
-    public String list(Model model, HttpSession session,
+    public String draftList(Model model, HttpSession session,
                           @PathVariable String action,
+                            @RequestParam(required = false) String keyword,
                            @RequestParam(defaultValue = "0") int page,
                            @RequestParam(defaultValue = "12") int size) {
-        String state = "draft_state < 2";
+        String state = "(draft_state < 2)";   // 조건에 따라 맞는 쿼리문을 넘기기 위한 변수, 기본값 ondraft
+
         switch (action) {
-            case "findraft" : state = "draft_state = 2"; break;
-            case "dindraft" : state = "draft_state = 9"; break;
+            case "findraft" : state = "(draft_state = 2)"; break;
+            case "dindraft" : state = "(draft_state = 9)"; break;
+        }
+        System.out.println("컨트롤러 keyword = " + keyword);
+
+
+        String empNo = (String) session.getAttribute("empNo");
+        Page<DraftDTO> draftPage = approvalService.getDraftsPaged(empNo, state, page, size, keyword);
+
+        model.addAttribute("drafts", draftPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", draftPage.getTotalPages());
+        model.addAttribute("totalItems", draftPage.getTotalElements());
+        model.addAttribute("action", action);
+        System.out.println("왜 두번씩 돌까???");
+        return "function/approval_system/list";
+    }
+
+    @GetMapping("/{action}/search")
+    public String search(Model model, HttpSession session,
+                        @PathVariable String action,
+                        @RequestParam(required = false) String keyword,
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "12") int size) {
+        String state = "(draft_state < 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))";
+        // 조건에 따라 맞는 쿼리문을 넘기기 위한 변수, 기본값 ondraft
+        System.out.println("action = " + action);
+        System.out.println("keyword = " + keyword);
+        switch (action) {
+            case "findraft" : state = "(draft_state = 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
+            case "dindraft" : state = "(draft_state = 9) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
         }
 
         String empNo = (String) session.getAttribute("empNo");
-        Page<DraftDTO> draftPage = approvalService.getDraftsPaged(empNo, state, page, size);
+        Page<DraftDTO> draftPage = approvalService.getDraftsPaged(empNo, state, page, size, keyword);
 
         model.addAttribute("drafts", draftPage.getContent());
         model.addAttribute("currentPage", page);
@@ -118,3 +149,8 @@ public class ApprovalController {
 //        return "function/approval_system/finapproval";
 //    }
 }
+
+
+
+
+

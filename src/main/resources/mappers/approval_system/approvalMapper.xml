@@ -70,7 +70,7 @@
         <![CDATA[
         SELECT draft_no, employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
         FROM draftsh join employee using(employee_no)
-        WHERE (employee_no = #{empno}) and (${state})
+        WHERE (employee_no = #{empno}) and ${state}
         ORDER BY
         draft_no DESC
         limit #{page}, #{count}
