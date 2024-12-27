@@ -6,7 +6,6 @@ import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

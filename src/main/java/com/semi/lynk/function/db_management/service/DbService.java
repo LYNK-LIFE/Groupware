@@ -7,6 +7,7 @@ import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
 import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Date;
 import java.util.List;
@@ -15,9 +16,12 @@ import java.util.List;
 public class DbService {
 
     private final DbMapper dbMapper;
+    private final InternalResourceViewResolver internalResourceViewResolver;
 
     @Autowired
-    public DbService (DbMapper dbMapper){this.dbMapper=dbMapper;}
+    public DbService (DbMapper dbMapper, InternalResourceViewResolver internalResourceViewResolver){this.dbMapper=dbMapper;
+        this.internalResourceViewResolver = internalResourceViewResolver;
+    }
 
 //====================================================================================================================
     //각종 보험사 등록
@@ -66,9 +70,6 @@ public class DbService {
 
     public void registerContract(ContractDTO contractDTO) {
         dbMapper.insertContract(contractDTO);
-        if (contractDTO.getBasicPayWith() == null || contractDTO.getBasicPayWith().isEmpty()) {
-            throw new IllegalArgumentException("basic_pay_with is required.");
-        }
 
     }
 

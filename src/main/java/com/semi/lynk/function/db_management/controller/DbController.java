@@ -44,6 +44,7 @@ import java.util.Map;
     public String loadCompanyPage(@PathVariable String company, Model model) {
         model.addAttribute("productManageDTO", new ProductManageDTO());
         return "function/db_management/" + company;
+
     }
 
     // 공통 상품 등록
@@ -159,24 +160,22 @@ import java.util.Map;
 
 //======================================================================================================================
 
+
     @PostMapping("/contract")
     public ResponseEntity<String> registerContract(@ModelAttribute ContractDTO contractDTO, HttpSession session) {
         // 세션에서 사용자 이름 가져오기
-        EmployeeDTO currentUser = (EmployeeDTO) session.getAttribute("loggedInUser");
-        if (currentUser != null) {
-            contractDTO.setLastInseminatee(currentUser.getEmployeeName()); // 세션 사용자 이름을 최종 수정자로 설정
-        } else {
-            contractDTO.setLastInseminatee("Unknown User"); // 세션 정보가 없으면 기본값 설정
-        }
+        String empNo = (String) session.getAttribute("empNo");
+
         contractDTO.setLastReformDate(new Date()); // 현재 시간을 최종 수정일로 설정
+        contractDTO.setLastInseminatee(empNo);
 
         // 계약 저장
+        System.out.println("컨트롤러 contractDTO = " + contractDTO);
+
         dbService.registerContract(contractDTO);
 
         return ResponseEntity.ok("계약이 성공적으로 등록되었습니다.");
     }
-
-
 
 
 
