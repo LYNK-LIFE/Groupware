@@ -32,10 +32,31 @@
         <result property="departmentName" column="department_name"/>
     </resultMap>
 
+    <resultMap id="EmployeeResultMap" type="com.semi.lynk.function.approval_system.model.dto.EmployeeDTO">
+        <result property="employeeNo" column="employee_no"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="departmentNo" column="department_no"/>
+        <result property="departmentName" column="department_name"/>
+    </resultMap>
+
     <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
         INSERT INTO draftsh (employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo)
         VALUES (#{employeeNo}, #{draftTitle}, #{draftDate}, #{draftCompletionTime}, #{draftRetentionSchedule}, #{draftState}, #{draftCost}, #{draftLastStep}, #{draftCurrentStep}, #{draftMemo});
     </insert>
+
+    <select id="getAllEmployees" resultMap="EmployeeResultMap">
+        SELECT
+        e.employee_no,
+        e.employee_name,
+        d.department_no,
+        d.department_name
+        FROM
+        employee e
+        LEFT JOIN
+        department d ON e.department_no = d.department_no
+        ORDER BY department_no
+    </select>
+
 
     <select id="getDraftsCount" parameterType="String">
         <![CDATA[
