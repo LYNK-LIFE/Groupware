@@ -242,13 +242,17 @@ document.getElementById("vacationApp").addEventListener("click", () => {
     const leaveStartDate = new Date(`${startDay}T${startTime}:00`);
     const leaveEndDate = new Date(`${endDay}T${endTime}:00`);
 
-    // 9시간 빼기
-    const leaveStartAdjusted = new Date(leaveStartDate.getTime() - 18 * 60 * 60 * 1000); // 9시간을 밀리초로 계산해서 뺌
-    const leaveEndAdjusted = new Date(leaveEndDate.getTime() - 18 * 60 * 60 * 1000);
+    // 9시간 빼기였는데 안 뺌
+    const leaveStartAdjusted = new Date(leaveStartDate.getTime()); // 9시간을 밀리초로 계산해서 뺌
+    const leaveEndAdjusted = new Date(leaveEndDate.getTime());
+    console.log("leaveStartAdjusted : " + leaveStartAdjusted); // 얘가 알맞게 출력
+    console.log("leaveEndAdjusted : " + leaveEndAdjusted); // 얘가 알맞게 출력
 
-    // ISO 8601 형식으로 변환
+    // ISO 8601 형식으로 변환 (얘는 날짜 제대로 안 나오지만 이거 주석하면 제출이 안 됨)
     const leaveStartIso = leaveStartAdjusted.toISOString(); // 'yyyy-MM-ddTHH:mm:ssZ'
     const leaveEndIso = leaveEndAdjusted.toISOString(); // 'yyyy-MM-ddTHH:mm:ssZ'
+    console.log("leaveStartIso : " + leaveStartIso);
+    console.log("leaveEndIso : " + leaveEndIso);
 
     // 이렇게 ISO8601 형식으로 타입 맞춰줘야함
     // const leaveStartDate = `${startDay}T${startTime}`;
