@@ -3,6 +3,7 @@ package com.semi.lynk.function.approval_system.service;
 import com.semi.lynk.function.approval_system.model.dao.ApprovalMapper;
 import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
+import com.semi.lynk.function.approval_system.model.dto.EmployeeDTO;
 import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,7 +20,15 @@ public class ApprovalServiceImpl implements ApprovalService {
     private ApprovalMapper approvalMapper;
 
     @Override
-    public void createApproval(ApprovalDTO approvalDTO){
+    public List<EmployeeDTO> getAllEmployees()
+    {
+        List<EmployeeDTO> employees = approvalMapper.getAllEmployees();
+        return employees;
+    }
+
+    @Override
+    public void createApproval(ApprovalDTO approval){
+
 
     };
 

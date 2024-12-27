@@ -1,16 +1,20 @@
 package com.semi.lynk.function.approval_system.controller;
 
+import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
+import com.semi.lynk.function.approval_system.model.dto.EmployeeDTO;
 import com.semi.lynk.function.approval_system.service.ApprovalService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/approval")
@@ -85,6 +89,23 @@ public class ApprovalController {
     @GetMapping("/{draftNo}/edit")
     public String editDraft(@PathVariable("draftNo") Long draftNo, Model model) {
         return "function/approval_system/view";
+    }
+    @GetMapping("/addApproval")
+    public String showAddApprovalForm(Model model) {
+        List<EmployeeDTO> employees = approvalService.getAllEmployees();
+        model.addAttribute("employees", employees);
+        model.addAttribute("approvalForm", new ApprovalDTO());
+        System.out.println("여긴왔지?");
+        return "function/approval_system/approval";
+    }
+
+    @PostMapping("/addApproval")
+    public String addApproval(@ModelAttribute ApprovalDTO approvalDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "approval/addApproval";
+        }
+        approvalService.createApproval(approvalDTO);
+        return "redirect:/approval/success";
     }
 
 //    @GetMapping("/doapproval")
