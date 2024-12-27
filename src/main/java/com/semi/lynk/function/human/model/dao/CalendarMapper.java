@@ -17,7 +17,7 @@ public interface CalendarMapper {
 
     int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
 
-    List<OverTimeApplicationDTO> overTimeAppMapper();
+    List<OverTimeApplicationDTO> overTimeAppMapper(); // 연장근무 신청 버튼
 
     int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
 

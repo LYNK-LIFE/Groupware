@@ -64,28 +64,29 @@
             join employee b on (a.employee_no = b.employee_no)
             join human_resource c on (a.employee_no = c.employee_no)
             join department e on (b.department_no = e.department_no)
+            join schedule f on (a.employee_no = f.employee_no)
         where a.employee_no = '12'
     </select>
 
-    <select id="showMyAppStatus" resultMap="selectResultMap">
+        <select id="showMyAppStatus" resultMap="selectResultMap">
         select distinct
-            a.employee_name,        -- 이름
-            b.draft_state,       -- 결재 상태 (0미확인, 1확인, 2결재, 9반려)
+                e.employee_name,    -- 이름
+                a.draft_state,      -- 결재 상태 (0미확인, 1확인, 2결재, 9반려)
+                a.draft_date,       -- 신청 일시 (기안 일시)
         case
-            when c.leave_type = 1 then '반차'
-            when c.leave_type = 2 then '연차'
-            when c.leave_type = 0 then '연장근무'
-        end as category,        -- 구분 (leave_type 기준, 0이면 연장근무)
-            f.department_name,      -- 부서명
-            d.position,             -- 직책
-            e.schedule_start_date,  -- 신청 일시
-            b.draft_completion_time -- 결재 일시
-        from employee a
-            join draftsh b on (a.employee_no = b.employee_no)
-            join dayoff c on (a.employee_no = c.employee_no)
-            join human_resource d on (a.employee_no = d.employee_no)
-            join schedule e on (a.employee_no = e.employee_no)
-            join department f on (a.department_no = f.department_no)
+            when b.leave_type = 1 then '반차'
+            when b.leave_type = 2 then '연차'
+            when b.leave_type = 0 then '연장근무'
+                end as category,    -- 구분 (leave_type 기준, 0이면 연장근무)
+                f.department_name,      -- 부서명
+                c.position,             -- 직책
+                a.draft_completion_time -- 결재 일시
+        from draftsh a
+            join dayoff b on (a.employee_no = b.employee_no)
+            join human_resource c on (a.employee_no = c.employee_no)
+            join schedule d on (a.employee_no = d.employee_no)
+            join employee e on (a.employee_no = e.employee_no)
+            join department f on (e.department_no = f.department_no);
     </select>
 
     <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">

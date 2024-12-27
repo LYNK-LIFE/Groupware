@@ -27,6 +27,6 @@ public class OverTimeApplicationDTO { // 뭘 쓸지 정해야 함.
 
     private LocalDateTime scheduleStartDate;    // 일정 시작일
     private LocalDateTime scheduleEndDate;    // 일정 종료일
-//    private int scheduleType;           // 스케쥴 타입
+    private int scheduleType;           // 스케쥴 타입 (0 개인일정/1부서일정/2전사일정)
     private String scheduleNote;        // 스케쥴 메모 (사 유)
 }
