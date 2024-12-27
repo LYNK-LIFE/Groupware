@@ -18,6 +18,6 @@ public class ScheduleDTO { // 일정 DTO
     private LocalDateTime scheduleStartDate;   // 일정 시작일
     private LocalDateTime scheduleEndDate;      // 일정 종료일
 
-    private int scheduleType; // 일정 구분
+    private int scheduleType; // 일정 구분 (0 본인일정 / 1부서일정 / 2 전사일정)
     private String scheduleNote; // 내용
 }

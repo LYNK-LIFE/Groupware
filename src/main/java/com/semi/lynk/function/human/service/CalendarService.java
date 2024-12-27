@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CalendarService {
@@ -21,9 +23,7 @@ public class CalendarService {
     }
 
     public List<CalendarDTO> calendarService () {
-        List<CalendarDTO> result = calendarMapper.showCalendar();
-        System.out.println(result);
-        return result;
+        return calendarMapper.showCalendarSelect();
     }
 
     public List<CalendarDTO> myAppStatusService() {
@@ -32,7 +32,7 @@ public class CalendarService {
     }
 
     public List<VacationApplicationDTO> vacationStatus() {
-
+        System.out.println("휴가 신청 했을 때 서비스 왔는지 =================================");
         return calendarMapper.vacationAppMapper();
     }
 

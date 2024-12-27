@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface CalendarMapper {
-    List<CalendarDTO> showCalendar();
+    List<CalendarDTO> showCalendarSelect();
 
     List<CalendarDTO> showMyAppStatus();
 
@@ -17,7 +17,7 @@ public interface CalendarMapper {
 
     int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
 
-    List<OverTimeApplicationDTO> overTimeAppMapper();
+    List<OverTimeApplicationDTO> overTimeAppMapper(); // 연장근무 신청 버튼
 
     int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
 
@@ -27,5 +27,6 @@ public interface CalendarMapper {
 
     // draft 1씩 늘려주기 위한 selet
     int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO);
+
 
 }

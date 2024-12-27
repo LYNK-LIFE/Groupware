@@ -169,6 +169,7 @@ public class EmployeeController {
     @ResponseBody // fetch 보내는 애
     public List<CalendarDTO> appStatusList () {
         List<CalendarDTO> appStatus = calendarService.myAppStatusService();
+        System.out.println("appStatus = " + appStatus);
         return appStatus;
     }
 

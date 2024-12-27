@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             row.setAttribute("data-total-over-time", item.totalOverTime || "N/A");
 
             // 상태별 CSS 클래스 추가
-            const statusClass = getStatusClass(item.approvalDTO.approvalState);
+            const statusClass = getStatusClass(item.draftshDTO.draftState);
             if (statusClass) {
                 row.classList.add(statusClass); // CSS 클래스 추가
             }
@@ -55,13 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
             // tableBody.appendChild(row);
 
             row.innerHTML = `
-            <td>${getStatusLabel(item.approvalDTO.approvalState)}</td>
+            <td>${getStatusLabel(item.draftshDTO.draftState)}</td>
             <td>${item.category || "기타"}</td>
             <td>${item.departmentDTO?.depName || "N/A"}</td>
             <td>${item.employeeDTO?.name || "N/A"}</td>
             <td>${item.humanDTO?.position || "N/A"}</td>
-            <td>${formatDate(item.draftDate)}</td>
-            <td>${formatDate(item.approvalDTO.approvalCompletionTime)}</td>
+            <td>${formatDate(item.draftshDTO.draftDate)}</td>
+            <td>${formatDate(item.draftshDTO.draftCompletionTime)}</td>
         `;
             tableBody.appendChild(row);
         });
@@ -129,30 +129,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // 상태 라벨 반환
     function getStatusLabel(status) {
         if (status === 0) return "대기";
-        if (status === 1) return "승인";
-        if (status === 2) return "반려";
+        if (status === 1) return "확인";
+        if (status === 2) return "승인";
+        if (status === 9) return "반려";
         return "알 수 없음";
     }
 
     // 상태별 CSS 클래스 반환
     function getStatusClass(status) {
         if (status === 0) return "status-waiting"; // 대기
-        if (status === 1) return "status-approved"; // 승인
-        if (status === 2) return "status-rejected"; // 반려
+        if (status === 1) return "status-waiting"; // 확인
+        if (status === 2) return "status-approved"; // 승인
+        if (status === 9) return "status-rejected"; // 반려
         return null;
     }
 
     // 구분값 반환 함수
-    function getCategory(item) {
-        if (item.dayOffDTO?.leaveDate) {
-            if (item.dayOffDTO.leaveType === 2) return "연차";
-            if (item.dayOffDTO.leaveType === 1) return "반차";
-        }
-        if (item.commuteDTO?.workOff && item.commuteDTO.workOff.slice(0, 5) > "18:00") {
-            return "연장근무";
-        }
-        return "기타";
-    }
+    // function getCategory(item) {
+    //     if (item.dayOffDTO?.leaveDate) {
+    //         if (item.dayOffDTO.leaveType === 2) return "연차";
+    //         if (item.dayOffDTO.leaveType === 1) return "반차";
+    //     }
+    //     if (item.commuteDTO?.workOff && item.commuteDTO.workOff.slice(0, 5) > "18:00") {
+    //         return "연장근무";
+    //     }
+    //     return "기타";
+    // }
 
     // 날짜 포맷 함수
     function formatDate(datetime) {

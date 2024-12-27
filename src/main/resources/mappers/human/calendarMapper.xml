@@ -9,8 +9,8 @@
 <!--        <id property="id" column="employee_no"/>-->
 <!--        <result property="title" column="id"/>-->
 <!--        <result property="approveTime" column="approve_completion_time"/>-->
-        <result property="draftDate" column="draft_date"/>
-        <result property="draftTime" column="draft_completion_time"/>
+<!--        <result property="draftDate" column="draft_date"/>-->
+<!--        <result property="draftTime" column="draft_completion_time"/>-->
         <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
 <!--            <id property="id" column="employee_no"/>-->
             <result property="totalLeave" column="totalLeave"/>
@@ -37,7 +37,7 @@
             <result property="name" column="employee_name"/>
         </association>
         <association property="dayOffDTO" javaType="com.semi.lynk.function.human.model.calendar.DayOffDTO">
-            <id property="id" column="employee_no"/>
+<!--            <id property="id" column="employee_no"/>-->
             <result property="leaveStartDate" column="leave_start_date"/>
             <result property="leaveEndDate" column="leave_end_date"/>
             <result property="leaveType" column="leave_type"/>
@@ -46,61 +46,47 @@
         <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
             <result property="depName" column="department_name"/>
         </association>
-        <association property="approvalDTO" javaType="com.semi.lynk.function.human.model.calendar.ApprovalDTO">
-            <id property="id" column="employee_no"/>
-            <id property="draftNo" column="draft_no"/>
-            <result property="approvalState" column="approval_state"/>
-            <result property="approvalStep" column="approval_step"/>
-            <result property="approvalPosible" column="approval_posible"/>
-            <result property="approvalCompletionTime" column="approval_completion_time"/>
-            <result property="approvalMemo" column="approval_memo"/>
+        <association property="draftshDTO" javaType="com.semi.lynk.function.human.model.calendar.DraftshDTO">
+            <result property="draftTitle" column="draft_title"/>
+            <result property="draftDate" column="draft_date"/>
+            <result property="draftState" column="draft_state"/>
+            <result property="draftCurrentStep" column="draft_current_step"/>
+            <result property="draftLastStep" column="draft_last_step"/>
+            <result property="draftCompletionTime" column="draft_completion_time"/>
+            <result property="draftMemo" column="draft_memo"/>
         </association>
     </resultMap>
 
     <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
-    <select id="showCalendar" resultMap="selectResultMap">
+    <select id="showCalendarSelect" resultMap="selectResultMap">
         select *
         from dayoff a
             join employee b on (a.employee_no = b.employee_no)
             join human_resource c on (a.employee_no = c.employee_no)
             join department e on (b.department_no = e.department_no)
+            join schedule f on (a.employee_no = f.employee_no)
         where a.employee_no = '12'
     </select>
 
-    <!-- 내 신청현황 드가면 보이는 애들 -->
-<!--    <select id="showMyAppStatus" resultMap="selectResultMap">-->
-<!--        select distinct-->
-<!--            a.employee_name-->
-<!--            ,b.approval_state-->
-<!--            ,c.leave_type-->
-<!--            ,d.position-->
-<!--            ,e.schedule_start_date-->
-<!--            ,b.approval_completion_time-->
-<!--        from employee a-->
-<!--            join approval b on (a.employee_no = b.employee_no)-->
-<!--            join dayoff c on (a.employee_no = c.employee_no)-->
-<!--            join human_resource d on (a.employee_no = d.employee_no)-->
-<!--            join schedule e on (a.employee_no = e.employee_no)-->
-<!--    </select>-->
-    <select id="showMyAppStatus" resultMap="selectResultMap">
+        <select id="showMyAppStatus" resultMap="selectResultMap">
         select distinct
-            a.employee_name,        -- 이름
-            b.approval_state,       -- 결재 상태 (0, 1, 2, 9)
+                e.employee_name,    -- 이름
+                a.draft_state,      -- 결재 상태 (0미확인, 1확인, 2결재, 9반려)
+                a.draft_date,       -- 신청 일시 (기안 일시)
         case
-            when c.leave_type = 1 then '반차'
-            when c.leave_type = 2 then '연차'
-            when c.leave_type = 0 then '연장근무'
-            end as category,        -- 구분 (leave_type 기준, 0이면 연장근무)
-            f.department_name,      -- 부서명
-            d.position,             -- 직책
-            e.schedule_start_date,  -- 신청 일시
-            b.approval_completion_time -- 결재 일시
-        from employee a
-            join approval b on (a.employee_no = b.employee_no)
-            join dayoff c on (a.employee_no = c.employee_no)
-            join human_resource d on (a.employee_no = d.employee_no)
-            join schedule e on (a.employee_no = e.employee_no)
-            join department f on (a.department_no = f.department_no)
+            when b.leave_type = 1 then '반차'
+            when b.leave_type = 2 then '연차'
+            when b.leave_type = 0 then '연장근무'
+                end as category,    -- 구분 (leave_type 기준, 0이면 연장근무)
+                f.department_name,      -- 부서명
+                c.position,             -- 직책
+                a.draft_completion_time -- 결재 일시
+        from draftsh a
+            join dayoff b on (a.employee_no = b.employee_no)
+            join human_resource c on (a.employee_no = c.employee_no)
+            join schedule d on (a.employee_no = d.employee_no)
+            join employee e on (a.employee_no = e.employee_no)
+            join department f on (e.department_no = f.department_no);
     </select>
 
     <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
@@ -153,11 +139,11 @@
 <!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
     </update>
 
-    <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
-        insert into schedule (employee_no, schedule_start_date,
-                            schedule_end_date, schedule_note, schedule_type)
-        values (12, #{scheduleStartDate}, #{scheduleEndDate}, #{scheduleNote}, #{leaveType})
-    </insert>
+<!--    <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">-->
+<!--        insert into schedule (employee_no, schedule_start_date,-->
+<!--                            schedule_end_date, schedule_note, schedule_type)-->
+<!--        values (12, #{scheduleStartDate}, #{scheduleEndDate}, #{scheduleNote}, #{leaveType})-->
+<!--    </insert> 안 씀-->
 
     <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         INSERT INTO dayoff
