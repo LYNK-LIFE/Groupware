@@ -29,4 +29,5 @@ public interface CalendarMapper {
     int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO);
 
 
+
 }

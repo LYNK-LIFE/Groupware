@@ -50,5 +50,16 @@ public class CalendarDTO {
 
     private LocalDateTime totalOverTime; // 종료시간 - 시작 시간 = 총 연장 근로 시간
 
-    private String category;            // 구분 (연차 / 반차 / 연장근무)
+//    private String category;            // 구분 (연차 / 반차 / 연장근무)
+//
+//    public String getCategory() {
+//        if (dayOffDTO != null) {
+//            if (dayOffDTO.getLeaveType() == 1) return "반차";
+//            if (dayOffDTO.getLeaveType() == 2) return "연차";
+//        }
+//        if (scheduleDTO != null) {
+//            return "연장근무";
+//        }
+//        return "알 수 없음";
+//    }
 }
