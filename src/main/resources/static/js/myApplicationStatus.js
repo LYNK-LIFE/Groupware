@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     let allEmployees = [];
     const tableBody = document.getElementById("employee-table-body2");
+    const lookupSelect = document.getElementById("lookupSelect2");
+    const lookupInput = document.getElementById("lookupInput2");
+    const searchButton = document.getElementById("select-button-id");
 
     // 데이터 요청
     fetch("/employee/appStatusList")
@@ -11,6 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("데이터 로드 성공:", allEmployees);
         })
         .catch(err => console.error("데이터 로드 실패:", err));
+
+    // 검색 버튼 클릭 및 엔터 키 입력 이벤트
+    searchButton.addEventListener("click", filterAndRender);
+    lookupInput.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            filterAndRender();
+        }
+    });
 
     // 테이블 데이터 렌더링
     function renderTable(data) {
@@ -23,27 +34,63 @@ document.addEventListener("DOMContentLoaded", () => {
         data.forEach(item => {
             const row = document.createElement("tr");
 
-            // 구분 처리 (leaveType -> 반차/연차 or 연장근무)
             const leaveTypeDescription = item.dayOffDTO
-                ? getLeaveTypeDescription(item.dayOffDTO.leaveType) // 휴가/반차
-                : "연장근무"; // 연장근무
+                ? getLeaveTypeDescription(item.dayOffDTO.leaveType)
+                : "연장근무";
 
             const statusClass = getStatusClass(item?.draftshDTO?.draftState ?? null);
             if (statusClass) {
                 row.classList.add(statusClass);
             }
 
+            row.setAttribute("data-leader", item.employeeDTO?.name || "N/A");
+            row.setAttribute(
+                "data-total-over-time",
+                calculateTotalOverTime(
+                    item.scheduleDTO?.scheduleStartDate,
+                    item.scheduleDTO?.scheduleEndDate
+                )
+            );
+            row.setAttribute("data-start-over-day", item.scheduleDTO?.scheduleStartDate || "N/A");
+            row.setAttribute("data-vac-start", item.dayOffDTO?.leaveStartDate || "N/A");
+            row.setAttribute("data-vac-end", item.dayOffDTO?.leaveEndDate || "N/A");
+
             row.innerHTML = `
-                <td>${getStatusLabel(item?.draftshDTO?.draftState ?? "N/A")}</td>
-                <td>${leaveTypeDescription}</td> <!-- 구분 표시 -->
-                <td>${item?.departmentDTO?.depName || "N/A"}</td>
-                <td>${item?.employeeDTO?.name || "N/A"}</td>
-                <td>${item?.humanDTO?.position || "N/A"}</td>
-                <td>${formatDate(item?.draftshDTO?.draftDate)}</td>
-                <td>${formatDate(item?.draftshDTO?.draftCompletionTime)}</td>
-            `;
+        <td>${getStatusLabel(item?.draftshDTO?.draftState ?? "N/A")}</td>
+        <td>${leaveTypeDescription}</td>
+        <td>${item?.departmentDTO?.depName || "N/A"}</td>
+        <td>${item?.employeeDTO?.name || "N/A"}</td>
+        <td>${item?.humanDTO?.position || "N/A"}</td>
+        <td>${formatDate(item?.draftshDTO?.draftDate)}</td>
+        <td>${formatDate(item?.draftshDTO?.draftCompletionTime)}</td>
+    `;
             tableBody.appendChild(row);
         });
+
+    }
+
+    // 검색 및 필터링
+    function filterAndRender() {
+        const criteria = lookupSelect.value; // 검색 기준 (상태/구분/이름)
+        const query = lookupInput.value.trim().toLowerCase(); // 검색어 (소문자 변환)
+
+        const filteredData = allEmployees.filter(item => {
+            switch (criteria) {
+                case "상태":
+                    return getStatusLabel(item?.draftshDTO?.draftState ?? "").toLowerCase().includes(query);
+                case "구분":
+                    const leaveTypeDescription = item.dayOffDTO
+                        ? getLeaveTypeDescription(item.dayOffDTO.leaveType)
+                        : "연장근무";
+                    return leaveTypeDescription.toLowerCase().includes(query);
+                case "이름":
+                    return (item?.employeeDTO?.name || "").toLowerCase().includes(query);
+                default:
+                    return true;
+            }
+        });
+
+        renderTable(filteredData); // 필터링된 데이터를 렌더링
     }
 
     // leaveType에 따른 설명 반환
@@ -58,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // draftState에 따른 라벨 반환
     function getStatusLabel(status) {
         switch (status) {
-            case 0: return "미확인";
+            case 0: return "-";
             case 1: return "확인";
             case 2: return "결재";
             case 9: return "반려";
@@ -83,50 +130,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// 클릭 했을 때 연장 근무 시간 계산
+function calculateTotalOverTime(startDate, endDate) {
+    if (!startDate || !endDate) return "N/A"; // 날짜가 없으면 N/A 반환
+
+    const start = new Date(startDate); // 시작 시간
+    const end = new Date(endDate);     // 종료 시간
+
+    const diffInMs = end - start; // 밀리초 차이
+    const diffInHours = diffInMs / (1000 * 60 * 60); // 시간으로 변환
+
+    if (isNaN(diffInHours) || diffInHours < 0) return "N/A"; // 유효하지 않은 결과
+    return `${diffInHours.toFixed(2)}`; // 소수점 2자리로 시간 반환
+}
+
+// 클릭 했을 때 휴가 시간 로컬 시간대로 변환(이거 안 하면 시간 표기가 안 됨)
+function formatToLocaleDate(isoDate) {
+    if (!isoDate) return "N/A"; // null 값 처리
+
+    const date = new Date(isoDate);
+    return date.toLocaleString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false, // 24시간제 사용
+    });
+}
 
 
-// 클릭 시 상세 조회 모달창
+// 클릭 시 상세 조회 모달창 (연장근무)
 document.getElementById("employee-table-body2").addEventListener("click" , (event) => {
     const row = event.target.closest("tr");
-
     if (row) {
-        // const cells = document.getElementsByTagName("td"); 이러면 첫번째 행만 가져옴!!
-        const cells = row.getElementsByTagName("td");
-        // 이 한 줄 차이로 조회가 잘 되나 하나만 되나~ 그게 갈림
+        const leaveType = row.children[1].textContent.trim();
 
-        // 담당자 별도 추가하기!
-        // const leader = row.getAttribute("data-leader");
-        //
-        // const startOverTime = row.getAttribute("data-start-over-day");
-        // const totalOverTime = row.getAttribute("data-total-over-time");
-        //
-        // document.getElementById("status").value = cells[0].textContent;
-        //
-        // // 별도로 꺼내줌 (얘 나중에 바꿔 줘야함. 지금은 지 이름 돼있음)
-        // document.getElementById("leader").value = leader || "";
-        // // 연장 근무 신청의 데이터를 나의 현황 페이지 상세 조회에서 확인 하게 별도 꺼내기
-        //
-        // // 얘네는 아직 못 불러오고 있음 나중에 수정해야 함.
-        // document.getElementById("overTime").value = `${totalOverTime || "N/A"} 시간`;
-        // document.getElementById("workTime").value = `${startOverTime || "N/A"}`;
+        if (leaveType === "연장근무") {
+            // 연장근무 데이터 삽입
+            document.getElementById("status").value = row.children[0].textContent;
+            document.getElementById("leader").value = row.getAttribute("data-leader") || "N/A";
+            document.getElementById("position").value = row.children[4].textContent;
+            document.getElementById("applicationOverTime").value = row.children[5].textContent;
+            document.getElementById("approvalOverTime").value = row.children[6].textContent;
+            document.getElementById("overTime").value = `${row.getAttribute("data-total-over-time") || "N/A"} 시간`;
+            document.getElementById("workTime").value = row.getAttribute("data-start-over-day") || "N/A";
 
-        document.getElementById("status").value = cells[0].textContent; // 상태
-        document.getElementById("leader").value = row.getAttribute("data-leader") || "N/A"; // 담당자
-        document.getElementById("position").value = cells[4].textContent; // 직책
-        document.getElementById("applicationOverTime").value = cells[5].textContent; // 신청 일시
-        document.getElementById("approvalOverTime").value = cells[6].textContent; // 승인 일시
+            // 연장근무 모달 표시
+            const modalElement = new bootstrap.Modal(document.getElementById("myModal3"), {});
+            modalElement.show();
 
-        // 연장근무 관련 데이터 추가
-        document.getElementById("overTime").value = `${row.getAttribute("data-total-over-time") || "N/A"} 시간`; // 연장 근로 시간
-        document.getElementById("workTime").value = row.getAttribute("data-start-over-day") || "N/A"; // 근무 시작 시간
+        } else if (leaveType === "반차" || leaveType === "연차") {
+            // 휴가 데이터 삽입
+            document.getElementById("status2").value = row.children[0].textContent;
+            document.getElementById("leader2").value = row.getAttribute("data-leader") || "N/A";
+            document.getElementById("position2").value = row.children[4].textContent;
+            document.getElementById("applicationVacTime").value = row.children[5].textContent;
+            document.getElementById("approvalVacTime").value = row.children[6].textContent;
+            // document.getElementById("vacStartTime").value = row.getAttribute("data-vac-start") || "N/A";
+            // document.getElementById("vacEndTime").value = row.getAttribute("data-vac-end") || "N/A";
+
+            // 시간은 따로 함수 써서 변환해 줘야 표시된다.
+            const vacStartDate = row.getAttribute("data-vac-start");
+            const vacEndDate = row.getAttribute("data-vac-end");
+
+            // 변환된 날짜 표시
+            document.getElementById("vacStartTime").value = formatToLocaleDate(vacStartDate);
+            document.getElementById("vacEndTime").value = formatToLocaleDate(vacEndDate);
+
+            // 휴가 모달 표시
+            const modalElement = new bootstrap.Modal(document.getElementById("myModal4"), {});
+            modalElement.show();
+        }
     }
-
-    const modalElement = new bootstrap.Modal(document.getElementById("myModal3"), {});
-    modalElement.show();
-
 });
-
-// 연장 근무 시간 계산
-
-// 이거 이제 해야 하3!!!! 추가로, 연차 / 연장 근무 별로 조회 모달 따로...
-                        // 연장 근무는 계산만 하면 되3.
