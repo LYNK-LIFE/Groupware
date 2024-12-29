@@ -17,7 +17,6 @@ public class ContractDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date contractDate; // 계약일자
-
     private int contractDuration; // 계약기간
     private int eachPayment; // 납입금액
     private String basicPayWith; // 기본결제수단
