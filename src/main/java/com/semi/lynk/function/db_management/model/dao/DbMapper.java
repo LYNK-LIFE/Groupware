@@ -1,9 +1,6 @@
 package com.semi.lynk.function.db_management.model.dao;
 
-import com.semi.lynk.function.db_management.model.dto.ContractDTO;
-import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
-import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
-import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
+import com.semi.lynk.function.db_management.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,9 +30,19 @@ public interface DbMapper {
     List<ProductManageDTO> searchProducts(@Param("keyword") String keyword,
                                           @Param("insuranceCode") Integer insuranceCode);
 
-
     void insertContract(ContractDTO contractDTO);
 
     ContractDTO findLatestContract();
+
+//=======================================================================================================================
+
+    List<ExpiringCustomerDTO> searchExpiringCustomers(@Param("customerName")String customerName,
+                                                       @Param("insuredName")String insuredName,
+                                                       @Param("customerSsn")String customerSsn,
+                                                       @Param("insuredSsn")String insuredSsn,
+                                                       @Param("employeeNo")String employeeNo,
+                                                       @Param("employeeName")String employeeName,
+                                                       @Param("month")String month);
+
 }
 

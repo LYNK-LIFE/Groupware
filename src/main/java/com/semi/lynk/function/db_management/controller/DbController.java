@@ -1,9 +1,6 @@
 package com.semi.lynk.function.db_management.controller;
 
-import com.semi.lynk.function.db_management.model.dto.ContractDTO;
-import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
-import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
-import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
+import com.semi.lynk.function.db_management.model.dto.*;
 import com.semi.lynk.function.db_management.service.DbService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +36,55 @@ import java.util.Map;
 
 //========================================================================================================================
 
-    // 공통 페이지 로드
-    @GetMapping("/{company}")
-    public String loadCompanyPage(@PathVariable String company, Model model) {
-        model.addAttribute("productManageDTO", new ProductManageDTO());
-        return "function/db_management/" + company;
-
+    //메리츠
+    @GetMapping("/meritz")
+    public String loadMeritzPage() {
+        return "function/db_management/meritz";
+    }
+    //현대해상
+    @GetMapping("/hyundai")
+    public String loadHyundaiPage() {
+        return "function/db_management/hyundai";
+    }
+    //한화손해보험
+    @GetMapping("/hanwha")
+    public String loadHanwhaPage() {
+        return "function/db_management/hanwha";
+    }
+    //삼성화재
+    @GetMapping("/samsung")
+    public String loadsamsungPage() {
+        return "function/db_management/samsung";
+    }
+    //DB손해보험
+    @GetMapping("/dbins")
+    public String loadDbinsPage() {
+        return "function/db_management/dbins";
+    }
+    //MetLife
+    @GetMapping("/metlife")
+    public String loadMetLifePage() {
+        return "function/db_management/metlife";
+    }
+    //한화생명
+    @GetMapping("/hanwhalife")
+    public String loadhanwhalifePage() {
+        return "function/db_management/hanwhalife";
+    }
+    //SinhanLife
+    @GetMapping("/shinhan")
+    public String loadshinhanPage() {
+        return "function/db_management/shinhan";
+    }
+    //흥국생명
+    @GetMapping("/heungkuk")
+    public String loadheungkukPage() {
+        return "function/db_management/heungkuk";
+    }
+    //라이나생명
+    @GetMapping("/lina")
+    public String loadlinaPage() {
+        return "function/db_management/lina";
     }
 
     // 공통 상품 등록
@@ -176,6 +216,30 @@ import java.util.Map;
 
         return ResponseEntity.ok("계약이 성공적으로 등록되었습니다.");
     }
+
+//======================================================================================================================
+
+    @GetMapping("/expiringcustomer")
+    public String loadExpiringCustomerPage() {
+        return "function/db_management/expiringcustomer";
+    }
+
+    @GetMapping("/expiringcustomer/search")
+    @ResponseBody
+    public List<ExpiringCustomerDTO>  searchExpiringCustomers(
+            @RequestParam(required = false) String customerName,
+            @RequestParam(required = false) String insuredName,
+            @RequestParam(required = false) String customerSsn,
+            @RequestParam(required = false) String insuredSsn,
+            @RequestParam(required = false) String employeeNo,
+            @RequestParam(required = false) String employeeName,
+            @RequestParam(required = false) String month){
+        return dbService.searchExpiringCustomers(
+                customerName,insuredName,customerSsn,insuredSsn,employeeNo,employeeName,month);
+
+    }
+
+
 
 
 

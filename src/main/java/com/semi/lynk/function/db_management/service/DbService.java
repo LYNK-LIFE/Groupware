@@ -1,10 +1,7 @@
 package com.semi.lynk.function.db_management.service;
 
 import com.semi.lynk.function.db_management.model.dao.DbMapper;
-import com.semi.lynk.function.db_management.model.dto.ContractDTO;
-import com.semi.lynk.function.db_management.model.dto.CustomerDTO;
-import com.semi.lynk.function.db_management.model.dto.EmployeeDTO;
-import com.semi.lynk.function.db_management.model.dto.ProductManageDTO;
+import com.semi.lynk.function.db_management.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -81,6 +78,16 @@ public class DbService {
             contract.setLastInseminatee("Unknown User");
         }
         return contract;
+    }
+
+    public List<ExpiringCustomerDTO> searchExpiringCustomers(String customerName,
+                                                             String insuredName,
+                                                             String customerSsn,
+                                                             String insuredSsn,
+                                                             String employeeNo,
+                                                             String employeeName,
+                                                             String month) {
+        return dbMapper.searchExpiringCustomers(customerName,insuredName,customerSsn,insuredSsn,employeeNo,employeeName,month);
     }
 }
 

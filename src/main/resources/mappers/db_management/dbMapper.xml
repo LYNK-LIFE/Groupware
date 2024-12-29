@@ -121,5 +121,56 @@
     </select>
 
 
+    <select id="searchExpiringCustomers" resultType="com.semi.lynk.function.db_management.model.dto.ExpiringCustomerDTO">
+        SELECT
+        c.customer_name AS contractName,
+        ct.insured_name AS insuredName,
+        p.product_name AS productName,
+        CASE
+            WHEN p.product_category = 1 THEN '메리츠화재'
+            WHEN p.product_category = 2 THEN '현대해상'
+            WHEN p.product_category = 3 THEN '한화손해보험'
+            WHEN p.product_category = 4 THEN '삼성화재'
+            WHEN p.product_category = 5 THEN 'DB손해보험'
+            WHEN p.product_category = 31 THEN 'MetLife'
+            WHEN p.product_category = 32 THEN '한화생명'
+            WHEN p.product_category = 33 THEN 'SinhanLife'
+            WHEN p.product_category = 34 THEN '흥국생명'
+            WHEN p.product_category = 35 THEN '라이나생명'
+            ELSE '기타'
+        END AS insuranceCompany,
+        ct.contract_no AS contractNo,
+        d.department_name AS departmentName,
+        e.employee_name AS employeeName,
+        ct.employee_no AS employeeNo
+        FROM
+        contract ct
+        INNER JOIN customer c ON ct.customer_no = c.customer_no
+        INNER JOIN productmanage p ON p.product_no = ct.product_no
+        INNER JOIN employee e ON ct.employee_no = e.employee_no
+        INNER JOIN department d ON e.department_no = d.department_no
+        WHERE 1=1
+        <if test="customerName != null and customerName != ''">
+            AND c.customer_name LIKE CONCAT('%', #{customerName}, '%')
+        </if>
+        <if test="insuredName != null and insuredName != ''">
+            AND ct.insured_name LIKE CONCAT('%', #{insuredName}, '%')
+        </if>
+        <if test="customerSsn != null and customerSsn != ''">
+            AND c.customer_ssn = #{customerSsn}
+        </if>
+        <if test="insuredSsn != null and insuredSsn != ''">
+            AND ct.insured_ssn = #{insuredSsn}
+        </if>
+        <if test="employeeNo != null and employeeNo != ''">
+            AND e.employee_no = #{employeeNo}
+        </if>
+        <if test="employeeName != null and employeeName != ''">
+            AND e.employee_name LIKE CONCAT('%', #{employeeName}, '%')
+        </if>
+        <if test="month != null and month != ''">
+            AND MONTH(ct.contractDate) = #{month}
+        </if>
+    </select>
 
 </mapper>
