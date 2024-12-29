@@ -28,7 +28,7 @@ public class CalendarService {
     }
 
     public List<CalendarDTO> myAppStatusService() {
-        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus1();
+        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus();
 //        List<CalendarDTO> appStatus2 = calendarMapper.showMyAppStatus2();
 //        List<CalendarDTO> appStatus = new ArrayList<>();
 //        appStatus.addAll(appStatus1);

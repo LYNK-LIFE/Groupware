@@ -11,9 +11,7 @@ import java.util.List;
 public interface CalendarMapper {
     List<CalendarDTO> showCalendarSelect();
 
-    List<CalendarDTO> showMyAppStatus1();
-
-    List<CalendarDTO> showMyAppStatus2();
+    List<CalendarDTO> showMyAppStatus();
 
     List<VacationApplicationDTO> vacationAppMapper();
 

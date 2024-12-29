@@ -70,23 +70,50 @@
     </select>
 
 <!--    내 신청 현황 드가면 보여지는 데이터들 -->
-        <select id="showMyAppStatus" resultMap="selectResultMap">
-            select
-                b.draft_state,
-                a.leave_type,
-                e.department_name,
-                c.employee_name,
-                d.position,
-                b.draft_date,
-                b.draft_completion_time
-            from
+    <select id="showMyAppStatus" resultMap="selectResultMap">
+        select distinct
+            b.draft_state,
+            a.leave_type,
+            e.department_name,
+            c.employee_name,
+            d.position,
+            b.draft_date,
+            b.draft_completion_time,
+            null as schedule_start_date,
+            null as schedule_note,
+            null as schedule_end_date
+        from
             dayoff a
-                join draftsh b on (a.draft_no = b.draft_no)
-                join employee c on (a.employee_no = c.employee_no)
-                join human_resource d on (c.employee_no = d.employee_no)
-                join department e on (c.department_no = e.department_no)
-                 join schedule f on (c.employee_no = f.employee_no)
-        </select>
+            join draftsh b on (a.draft_no = b.draft_no)
+            join employee c on (a.employee_no = c.employee_no)
+            join human_resource d on (c.employee_no = d.employee_no)
+            join department e on (c.department_no = e.department_no)
+        where
+            a.leave_type is not null -- **휴가/반차 데이터만 출력**
+        union
+        select
+            b.draft_state,
+            null as leave_type,
+            e.department_name,
+            c.employee_name,
+            d.position,
+            b.draft_date,
+            b.draft_completion_time,
+            f.schedule_start_date,
+            f.schedule_note,
+            f.schedule_end_date
+        from
+        schedule f
+            join draftsh b on (f.employee_no = b.employee_no)
+            join employee c on (f.employee_no = c.employee_no)
+            join human_resource d on (c.employee_no = d.employee_no)
+            join department e on (c.department_no = e.department_no)
+        where
+             f.schedule_start_date is not null; -- **연장근무 데이터만 출력**
+    </select>
+
+
+
 
     <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         <id property="id" column="employee_no"/>
@@ -138,12 +165,6 @@
 <!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
     </update>
 
-<!--    <insert id="vacAppInsertMapper1" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">-->
-<!--        insert into schedule (employee_no, schedule_start_date,-->
-<!--                            schedule_end_date, schedule_note, schedule_type)-->
-<!--        values (12, #{scheduleStartDate}, #{scheduleEndDate}, #{scheduleNote}, #{leaveType})-->
-<!--    </insert> 안 씀-->
-
     <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         INSERT INTO dayoff
                 (employee_no, leave_start_date, leave_end_date, leave_type, draft_no)
@@ -170,6 +191,7 @@
 <!--            employee_no = 12 &lt;!&ndash; 신청 올리는 애 : 나중에 연결&ndash;&gt;-->
     </select>
 
+    <!-- 연장 근무 신청 -->
     <insert id="overTimeAppDataMapper" parameterType="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         insert into schedule (schedule_start_date, schedule_type, employee_no,
                             schedule_note, schedule_end_date)
