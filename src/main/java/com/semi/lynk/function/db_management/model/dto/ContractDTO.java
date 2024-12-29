@@ -31,16 +31,8 @@ public class ContractDTO {
     private  String employeeNo; // 사번 FK
     private  Date lastReformDate; // 최종 수정일자
     private String lastInseminatee; //최종 수정자
-    private  String employeeName; // 설계사 이름 ( 조인? 필)
 
 
-    public String getBasicPayWith() {
-        return basicPayWith;
-    }
-
-    public void setBasicPayWith(String basicPayWith) {
-        this.basicPayWith = (basicPayWith == null || basicPayWith.isEmpty()) ? "default_value" : basicPayWith;
-    }
 
 
 

@@ -111,12 +111,9 @@ function renderCustomerList(customerData) {
         });
 
 
-
-
-
         li.addEventListener('click', () => {
             const customerSsnField = document.getElementById('customerSsn');
-            const customerNiField = document.getElemenBYId('customerNo');
+            const customerNoField = document.getElementById('customerNo');
 
 
             if (customerSsnField) {
@@ -276,16 +273,6 @@ function renderProductList(productData) {
 
 document.getElementById('registerContractBtn').addEventListener('click', function () {
 
-    const customerNoField = document.getElementById('customerNo');
-    const customerSsnField  = document.getElementById('customerSsn');
-
-    const customerNo = customerNoField ? customerNoField.value : null;
-    const customerSsn  = customerSsnField ? customerSsnField.value : null;
-
-    if(!customerNo || customerSsn){
-        alert('고객정보가 올바르게 설정되지 않았습니다. 고객을 확인해 주세요');
-        return;// 고객번호 또는 주민번호가 없으면 등록 중단
-    }
     const contractDate = {
         customerNo : customerNo,
         customerSsn : customerSsn,
@@ -295,7 +282,7 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
         eachPayment: document.getElementById('eachPayment').value,
         basicPayWith: document.getElementById('paymentMethod').value,
         paymentTerm: document.getElementById('paymentTerm').value,
-        paymentDay: document.getElementById('paymentDate').value,
+        paymentDay: document.getElementById('paymentDay').value,
         insuredName: document.getElementById('insuredName').value,
         insuredSsn: document.getElementById('insuredSsn').value,
         otherMatters: document.getElementById('otherMatters').value,

@@ -43,35 +43,6 @@
                 <input type="email" id="customerEmail" required>
                 <button type="button" onclick="submitForm()">등록</button>
             </form>
-
-            <script>
-                function submitForm() {
-                    const data = {
-                        customerName: document.getElementById('customerName').value,
-                        customerSsn: document.getElementById('customerSsn').value,
-                        customerMobile: document.getElementById('customerMobile').value,
-                        customerAddr: document.getElementById('customerAddr').value,
-                        customerEmail: document.getElementById('customerEmail').value
-                    };
-
-                    console.log(data);
-
-                    fetch('/db/customer', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    }).then(response => {
-                        console.log(response);
-                        if (response.ok) {
-                            alert('고객이 성공적으로 등록되었습니다.');
-                        } else {
-                            alert('오류 발생');
-                        }
-                    });
-                }
-            </script>
         </article>
 
 
@@ -99,6 +70,7 @@
 
 <script th:src="@{/js/common.js}"></script>
 <script th:src="@{/js/calendar.js}"></script>
+<script th:src="@{/js/customer.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
