@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,11 @@ public class CalendarService {
     }
 
     public List<CalendarDTO> myAppStatusService() {
-        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus();
+        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus1();
+//        List<CalendarDTO> appStatus2 = calendarMapper.showMyAppStatus2();
+//        List<CalendarDTO> appStatus = new ArrayList<>();
+//        appStatus.addAll(appStatus1);
+//        appStatus.addAll(appStatus2);
         return appStatus;
     }
 

@@ -41,22 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // 구분값 설정
-            // const category = getCategory(item);
-            //
-            // row.innerHTML = `
-            //     <td>${getStatusLabel(item.approver)}</td>
-            //     <td>${category}</td>
-            //     <td>${item.departmentDTO?.depName || "N/A"}</td>
-            //     <td>${item.employeeDTO?.name || "N/A"}</td>
-            //     <td>${item.humanDTO?.position || "N/A"}</td>
-            //     <td>${formatDate(item.draftTime)}</td>
-            //     <td>${formatDate(item.approveTime)}</td>
-            // `;
-            // tableBody.appendChild(row);
-
-            row.innerHTML = `
+              row.innerHTML = `
             <td>${getStatusLabel(item.draftshDTO.draftState)}</td>
-            <td>${item.category || "기타"}</td>
+             <td>${getLeaveTypeDescription(item.dayOffDTO.leaveType)}</td> <!-- 숫자 -> 텍스트 변환 -->
             <td>${item.departmentDTO?.depName || "N/A"}</td>
             <td>${item.employeeDTO?.name || "N/A"}</td>
             <td>${item.humanDTO?.position || "N/A"}</td>
@@ -67,30 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 검색 버튼 클릭 시 동작
-    // function performSearch2() {
-    //     const type = lookupSelect.value; // 검색 타입
-    //     const keyword = lookupInput.value.trim(); // 입력 키워드
-    //
-    //     if (!keyword) {
-    //         alert("검색어를 입력해 주세요.");
-    //         return;
-    //     }
-    //
-    //     const filteredData = allEmployees.filter(item => {
-    //         if (type === "상태") {
-    //             return getStatusLabel(item.approver).includes(keyword);
-    //         } else if (type === "구분") {
-    //             return getCategory(item).includes(keyword);
-    //         } else if (type === "이름") {
-    //             return item.employeeDTO?.name?.includes(keyword);
-    //         }
-    //         return false;
-    //     });
-    //
-    //     renderTable(filteredData);
-    //     lookupInput.value = ""; // 검색 후 입력창 초기화
-    // }
+    function getLeaveTypeDescription(leaveType) {
+        switch (leaveType) {
+            case 1: return "반차";
+            case 2: return "연차";
+            case 0: return "연장근무";
+            default: return "알 수 없음";
+        }
+    }
+
+
     function performSearch2() {
         const type = lookupSelect.value; // 검색 타입
         const keyword = lookupInput.value.trim(); // 입력 키워드
@@ -102,9 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const filteredData = allEmployees.filter(item => {
             if (type === "상태") {
-                return getStatusLabel(item.approver).includes(keyword); // 상태 필터
+                return getStatusLabel(item.draftshDTO.draftState).includes(keyword); // 상태 필터
             } else if (type === "구분") {
-                return item.category.includes(keyword); // 구분 필터
+                return item.dayOffDTO.leaveType.includes(keyword); // 구분 필터
             } else if (type === "이름") {
                 return item.employeeDTO?.name.includes(keyword); // 이름 필터
             }
@@ -144,18 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return null;
     }
 
-    // 구분값 반환 함수
-    // function getCategory(item) {
-    //     if (item.dayOffDTO?.leaveDate) {
-    //         if (item.dayOffDTO.leaveType === 2) return "연차";
-    //         if (item.dayOffDTO.leaveType === 1) return "반차";
-    //     }
-    //     if (item.commuteDTO?.workOff && item.commuteDTO.workOff.slice(0, 5) > "18:00") {
-    //         return "연장근무";
-    //     }
-    //     return "기타";
-    // }
-
     // 날짜 포맷 함수
     function formatDate(datetime) {
         if (!datetime) return "N/A";
@@ -193,12 +154,7 @@ document.getElementById("employee-table-body2").addEventListener("click" , (even
         // // 얘네는 아직 못 불러오고 있음 나중에 수정해야 함.
         // document.getElementById("overTime").value = `${totalOverTime || "N/A"} 시간`;
         // document.getElementById("workTime").value = `${startOverTime || "N/A"}`;
-        //
-        // document.getElementById("position").value = cells[4].textContent;
-        // document.getElementById("applicationOverTime").value = cells[5].textContent;
-        // document.getElementById("approvalOverTime").value = cells[6].textContent;
-        // // document.getElementById("overTime").value = cells[5].textContent;
-        // // document.getElementById("workTime").value = cells[6].textContent;
+
         document.getElementById("status").value = cells[0].textContent; // 상태
         document.getElementById("leader").value = row.getAttribute("data-leader") || "N/A"; // 담당자
         document.getElementById("position").value = cells[4].textContent; // 직책
@@ -219,18 +175,3 @@ document.getElementById("employee-table-body2").addEventListener("click" , (even
 
 // 이거 이제 해야 하3!!!! 추가로, 연차 / 연장 근무 별로 조회 모달 따로...
                         // 연장 근무는 계산만 하면 되3.
-
-// [startOverTime, endOverTime].forEach(el => el.addEventListener("change", () => {
-//     if (startOverTime.value && endOverTime.value) {
-//         const start = new Date(`1970-01-01T${startOverTime.value}:00`);
-//         const end = new Date(`1970-01-01T${endOverTime.value}:00`);
-//         const hours = (end - start) / (1000 * 60 * 60); // 시간 차이 계산
-//
-//         if (hours > 0) {
-//             allOverTime.value = hours.toFixed(1); // 총 시간 표시
-//         } else {
-//             alert("종료 시간이 시작 시간보다 빠를 수 없습니다.");
-//             allOverTime.value = "";
-//         }
-//     }
-// }));

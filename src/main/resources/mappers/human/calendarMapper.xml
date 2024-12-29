@@ -60,34 +60,33 @@
     <!-- 근태관리 들어갔을 때 캘린더에 일정 보여주는 select!! -->
     <select id="showCalendarSelect" resultMap="selectResultMap">
         select *
-        from dayoff a
-            join employee b on (a.employee_no = b.employee_no)
+        from employee a
             join human_resource c on (a.employee_no = c.employee_no)
-            join department e on (b.department_no = e.department_no)
-            join schedule f on (a.employee_no = f.employee_no)
+            join department e on (a.department_no = e.department_no)
+            left join dayoff b on (a.employee_no = b.employee_no)
+            left join schedule f on (a.employee_no = f.employee_no)
         where a.employee_no = '12'
+<!--        left로 걸어야 연장근무든, 휴가든 데이터 지웠을 때 해당 데이터만 삭제-->
     </select>
 
+<!--    내 신청 현황 드가면 보여지는 데이터들 -->
         <select id="showMyAppStatus" resultMap="selectResultMap">
-        select distinct
-                e.employee_name,    -- 이름
-                a.draft_state,      -- 결재 상태 (0미확인, 1확인, 2결재, 9반려)
-                a.draft_date,       -- 신청 일시 (기안 일시)
-        case
-            when b.leave_type = 1 then '반차'
-            when b.leave_type = 2 then '연차'
-            when b.leave_type = 0 then '연장근무'
-                end as category,    -- 구분 (leave_type 기준, 0이면 연장근무)
-                f.department_name,      -- 부서명
-                c.position,             -- 직책
-                a.draft_completion_time -- 결재 일시
-        from draftsh a
-            join dayoff b on (a.employee_no = b.employee_no)
-            join human_resource c on (a.employee_no = c.employee_no)
-            join schedule d on (a.employee_no = d.employee_no)
-            join employee e on (a.employee_no = e.employee_no)
-            join department f on (e.department_no = f.department_no);
-    </select>
+            select
+                b.draft_state,
+                a.leave_type,
+                e.department_name,
+                c.employee_name,
+                d.position,
+                b.draft_date,
+                b.draft_completion_time
+            from
+            dayoff a
+                join draftsh b on (a.draft_no = b.draft_no)
+                join employee c on (a.employee_no = c.employee_no)
+                join human_resource d on (c.employee_no = d.employee_no)
+                join department e on (c.department_no = e.department_no)
+                 join schedule f on (c.employee_no = f.employee_no)
+        </select>
 
     <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         <id property="id" column="employee_no"/>

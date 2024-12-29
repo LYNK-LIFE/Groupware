@@ -11,7 +11,9 @@ import java.util.List;
 public interface CalendarMapper {
     List<CalendarDTO> showCalendarSelect();
 
-    List<CalendarDTO> showMyAppStatus();
+    List<CalendarDTO> showMyAppStatus1();
+
+    List<CalendarDTO> showMyAppStatus2();
 
     List<VacationApplicationDTO> vacationAppMapper();
 
@@ -27,6 +29,7 @@ public interface CalendarMapper {
 
     // draft 1씩 늘려주기 위한 selet
     int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO);
+
 
 
 }
