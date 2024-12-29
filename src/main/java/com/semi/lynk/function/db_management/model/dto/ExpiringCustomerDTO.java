@@ -1,6 +1,9 @@
 package com.semi.lynk.function.db_management.model.dto;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -9,6 +12,8 @@ import lombok.*;
 @Setter
 @ToString
 public class ExpiringCustomerDTO {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date contractDate; // 계약일자
     private String contractName; // 계약자명
     private String insuredName; // 피보험자명
     private String productName; // 상품명

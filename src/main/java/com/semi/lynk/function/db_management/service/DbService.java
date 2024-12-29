@@ -13,33 +13,26 @@ import java.util.List;
 public class DbService {
 
     private final DbMapper dbMapper;
-    private final InternalResourceViewResolver internalResourceViewResolver;
+
 
     @Autowired
-    public DbService (DbMapper dbMapper, InternalResourceViewResolver internalResourceViewResolver){this.dbMapper=dbMapper;
-        this.internalResourceViewResolver = internalResourceViewResolver;
+    public DbService (DbMapper dbMapper){
+        this.dbMapper=dbMapper;
     }
 
 //====================================================================================================================
     //각종 보험사 등록
 
     public void insuranceRegistration(ProductManageDTO productManageDTO) {
-        dbMapper.insertinsurance(productManageDTO);
+        dbMapper.insertProduct(productManageDTO);
     }
 
-
-    public List<ProductManageDTO> insuranceProducts() {
-        return dbMapper.selectinsurance();
+    public List<ProductManageDTO> getProductsByCompany() {
+        return dbMapper.selectProductsByCompany();
     }
 
-
-    public void deleteProduct(String productNo) {
-
-        int rowsAffected = dbMapper.deleteProduct(productNo);
-
-        if (rowsAffected == 0) {
-            throw new RuntimeException("Failed to delete product. Product not found.");
-        }
+    public void deleteProductByCompany(String company, String productNo) {
+        dbMapper.deleteProductByCompany(company, productNo);
     }
 
 //=====================================================================================================================
@@ -49,6 +42,13 @@ public class DbService {
         dbMapper.insertCustomer(customerDTO);
     }
 
+    public List<CustomerDTO> getCustomerList() {
+        return dbMapper.selectCustomerList();
+    }
+
+    public void deleteCustomer(int customerNo) {
+        dbMapper.deleteCustomer(customerNo);
+    }
 //=====================================================================================================================
     //신규계약 등록
 
@@ -88,6 +88,11 @@ public class DbService {
                                                              String employeeName,
                                                              String month) {
         return dbMapper.searchExpiringCustomers(customerName,insuredName,customerSsn,insuredSsn,employeeNo,employeeName,month);
+    }
+
+
+    public List<ExpiringCustomerDTO> getExpiringCustomersByMonth(int year, int month) {
+        return dbMapper.selectExpiringCustomersByMonth(year, month);
     }
 }
 

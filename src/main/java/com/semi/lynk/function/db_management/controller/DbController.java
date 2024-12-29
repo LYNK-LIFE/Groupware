@@ -97,14 +97,15 @@ import java.util.Map;
     // 공통 상품 조회
     @GetMapping("/{company}/products")
     @ResponseBody
-    public List<ProductManageDTO> getProducts() {
-        return dbService.insuranceProducts();
+    public ResponseEntity<List<ProductManageDTO>> getProductsByCompany() {
+        List<ProductManageDTO> productManage = dbService.getProductsByCompany();
+        return ResponseEntity.ok(productManage);
     }
 
     // 공통 상품 삭제
     @DeleteMapping("/{company}/{productNo}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable String productNo) {
-        dbService.deleteProduct(productNo);
+    public ResponseEntity<Void> deleteProduct(@PathVariable String company, @PathVariable String productNo) {
+        dbService.deleteProductByCompany(company, productNo);
         return ResponseEntity.ok().build();
     }
 
@@ -112,11 +113,10 @@ import java.util.Map;
 
     // 고객 등록 페이지
     @GetMapping("/customer")
-    public String customerSelect(Model model) {
+    public String customer(Model model) {
         model.addAttribute("CustomerDTO", new CustomerDTO());
         return "function/db_management/customer";
     }
-
 
     // 고객 등록 처리
     @PostMapping("/customer")
@@ -125,6 +125,19 @@ import java.util.Map;
         System.out.println("customerDTO = " + customerDTO);
         dbService.registerCustomer(customerDTO);
         return ResponseEntity.ok("고객이 성공적으로 등록되었습니다.");
+    }
+
+    // 등록 고객 확인
+    @GetMapping("/customer/list")
+    public ResponseEntity<List<CustomerDTO>> getCustomerList() {
+        List<CustomerDTO> customers = dbService.getCustomerList();
+        return ResponseEntity.ok(customers);
+    }
+
+    @DeleteMapping("/customer/delete/{customerNo}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable int customerNo) {
+        dbService.deleteCustomer(customerNo);
+        return ResponseEntity.ok("Customer deleted successfully");
     }
 
 
@@ -237,6 +250,15 @@ import java.util.Map;
         return dbService.searchExpiringCustomers(
                 customerName,insuredName,customerSsn,insuredSsn,employeeNo,employeeName,month);
 
+    }
+
+    @GetMapping("/expiringcustomer/month")
+    @ResponseBody
+    public List<ExpiringCustomerDTO> getExpiringCustomersByMonth(
+            @RequestParam int year,
+            @RequestParam int month
+    ) {
+        return dbService.getExpiringCustomersByMonth(year, month);
     }
 
 

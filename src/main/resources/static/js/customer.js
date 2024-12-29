@@ -1,5 +1,5 @@
-function submitForm() {
-    const data = {
+async function submitForm() {
+    const customerData = {
         customerName: document.getElementById('customerName').value,
         customerSsn: document.getElementById('customerSsn').value,
         customerMobile: document.getElementById('customerMobile').value,
@@ -7,20 +7,41 @@ function submitForm() {
         customerEmail: document.getElementById('customerEmail').value
     };
 
-    console.log(data);
+    console.log(customerData);
 
-    fetch('/db/customer', {
+    await fetch('/db/customer', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(response => {
-        console.log(response);
-        if (response.ok) {
-            alert('고객이 성공적으로 등록되었습니다.');
-        } else {
-            alert('오류 발생');
-        }
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(customerData)
+    });
+    fetchCustomerList();
+}
+// ================================================================================
+
+async function fetchCustomerList() {
+    const response = await fetch('/db/customer/list');
+    const customers = await response.json();
+
+    const tableBody = document.querySelector("#customerTable tbody");
+    tableBody.innerHTML = "";
+    customers.forEach(customer => {
+        const row = `
+            <tr>
+                <td>${customer.customerNo}</td>
+                <td>${customer.customerName}</td>
+                <td>${customer.customerSsn}</td>
+                <td>${customer.customerMobile}</td>
+                <td>${customer.customerAddr}</td>
+                <td><button onclick="deleteCustomer(${customer.customerNo})">삭제</button></td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
     });
 }
+async function deleteCustomer(customerNo) {
+    await fetch(`/db/customer/delete/${customerNo}`, { method: 'DELETE' });
+    fetchCustomerList();
+}
+
+// Initial load
+fetchCustomerList();
