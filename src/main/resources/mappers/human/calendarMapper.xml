@@ -72,6 +72,8 @@
 <!--    내 신청 현황 드가면 보여지는 데이터들 -->
     <select id="showMyAppStatus" resultMap="selectResultMap">
         select distinct
+            a.leave_start_date,
+            a.leave_end_date,
             b.draft_state,
             a.leave_type,
             e.department_name,
@@ -83,15 +85,17 @@
             null as schedule_note,
             null as schedule_end_date
         from
-            dayoff a
+        dayoff a
             join draftsh b on (a.draft_no = b.draft_no)
             join employee c on (a.employee_no = c.employee_no)
             join human_resource d on (c.employee_no = d.employee_no)
             join department e on (c.department_no = e.department_no)
-        where
+            where
             a.leave_type is not null -- **휴가/반차 데이터만 출력**
         union
         select
+            null as leave_start_date,
+            null as leave_end_date,
             b.draft_state,
             null as leave_type,
             e.department_name,
@@ -109,7 +113,7 @@
             join human_resource d on (c.employee_no = d.employee_no)
             join department e on (c.department_no = e.department_no)
         where
-             f.schedule_start_date is not null; -- **연장근무 데이터만 출력**
+        f.schedule_start_date is not null -- **연장근무 데이터만 출력**
     </select>
 
 

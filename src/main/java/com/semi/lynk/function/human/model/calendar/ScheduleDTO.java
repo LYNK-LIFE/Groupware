@@ -20,4 +20,5 @@ public class ScheduleDTO { // 일정 DTO
 
     private int scheduleType; // 일정 구분 (0 본인일정 / 1부서일정 / 2 전사일정)
     private String scheduleNote; // 내용
+
 }
