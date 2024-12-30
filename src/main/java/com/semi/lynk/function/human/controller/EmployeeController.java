@@ -246,4 +246,27 @@ public class EmployeeController {
         }
         return map;
     }
+
+    @PostMapping (value = "updateDraftState", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> updateDraftState(@RequestParam("draftNo") int draftNo, @RequestParam("newState") int newState) {
+        Map<String, Object> response = new HashMap<>();
+
+        System.out.println("Received draftNo: " + draftNo +
+                            ", newState: " + newState);
+
+        try {
+            int result = calendarService.updateDraftState(draftNo, newState);
+            if (result > 0) {
+                response.put("success", true);
+            } else {
+                response.put("success", false);
+                response.put("message", "상태 업데이트에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "서버 오류: " + e.getMessage());
+        }
+        return response;
+    }
 }

@@ -126,7 +126,6 @@ document.getElementById("employee-table-body").addEventListener("click", (event)
 //     document.getElementById("saveChanges").style.display = "none";
 // })
 
-
 // 수정 버튼 눌러야 수정할 수 있게
 document.getElementById("enableEditBtn").addEventListener("click" , () => {
 
@@ -147,7 +146,7 @@ document.getElementById("enableEditBtn").addEventListener("click" , () => {
 // 직원 테이블에서 행 클릭 이벤트
 document.getElementById("saveChanges").addEventListener("click", () => {
     const updatedEmployee = {
-        // image: document.getElementById("editImage").value,
+        image: document.getElementById("editImage").value,
         id: document.getElementById("editId").value,
         name: document.getElementById("editName").value,
         depNo: document.getElementById("editDepNo").value, // depNo보내기, value값으로 보낸다
@@ -183,8 +182,4 @@ document.getElementById("saveChanges").addEventListener("click", () => {
             const myModal = document.getElementById("myModal");
             myModal.style.display = "none"; // 서버 응답하고 모달 닫기
         })
-    //
-    // // 모달 닫기
-    // const myModal = document.getElementById("myModal");
-    // myModal.style.display = "none";
 });

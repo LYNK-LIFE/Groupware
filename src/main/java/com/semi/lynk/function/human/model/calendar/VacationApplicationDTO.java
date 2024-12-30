@@ -19,6 +19,8 @@ public class VacationApplicationDTO {
     private int leaveType;          // 휴가 타입
 //    private Date leaveDate;         // 휴가 일자
 
+    private DraftshDTO draftshDTO;
+
     private Date leaveStartDate;    // 휴가 시작일
     private Date leaveEndDate;      // 휴가 종료일
 
