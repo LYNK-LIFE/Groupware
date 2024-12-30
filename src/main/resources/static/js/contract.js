@@ -272,44 +272,74 @@ function renderProductList(productData) {
 // 등록 버튼 클릭으로 db 저장 생성하기
 
 document.getElementById('registerContractBtn').addEventListener('click', function () {
+    const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+    confirmModal.show();
 
-    const contractDate = {
-        customerNo : customerNo,
-        customerSsn : customerSsn,
-        contractNo: document.getElementById('contractNo').value,
-        contractDate: document.getElementById('contractDate').value,
-        contractDuration: document.getElementById('contractDuration').value,
-        eachPayment: document.getElementById('eachPayment').value,
-        basicPayWith: document.getElementById('paymentMethod').value,
-        paymentTerm: document.getElementById('paymentTerm').value,
-        paymentDay: document.getElementById('paymentDay').value,
-        insuredName: document.getElementById('insuredName').value,
-        insuredSsn: document.getElementById('insuredSsn').value,
-        otherMatters: document.getElementById('otherMatters').value,
-        productNo: document.getElementById('productNo').value,
-        customerNo: document.getElementById('customerNo').dataset.customerNo,
-        employeeNo: document.getElementById('employeeNo').dataset.employeeNo
-    };
+    document.getElementById('confirmYes').addEventListener('click', function () {
+        const contractData = {
+            customerSsn: document.getElementById('customerSsn').value,
+            contractNo: document.getElementById('contractNo').value,
+            contractDate: document.getElementById('contractDate').value,
+            contractDuration: document.getElementById('contractDuration').value,
+            eachPayment: document.getElementById('eachPayment').value,
+            basicPayWith: document.getElementById('paymentMethod').value,
+            paymentTerm: document.getElementById('paymentTerm').value,
+            paymentDay: document.getElementById('paymentDay').value,
+            insuredName: document.getElementById('insuredName').value,
+            insuredSsn: document.getElementById('insuredSsn').value,
+            otherMatters: document.getElementById('otherMatters').value,
+            productNo: document.getElementById('productNo').value,
+            customerNo: document.getElementById('customerNo').dataset.customerNo,
+            employeeNo: document.getElementById('employeeNo').dataset.employeeNo
+        };
 
-
-
-    console.log("Contract Data to be sent :" , contractData);
-
-    // 데이터 서버로 전송
-    fetch('/db/contract', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contractData)
-    })
-        .then(response => response.json())
-        .then(data =>{
-            alert("계약이 성공적으로 저장되었습니다.");
+        // 서버로 데이터 전송
+        fetch('/db/contract', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(contractData)
         })
-        .catch(error => {
-            console.log("Error saving contract :" , error);
-            alert("계약 저장 중 오류가 발생 했습니다.");
-        });
+            .then(response => response.json())
+            .then(data => {
+                confirmModal.hide(); // 확인 모달 닫기
+                if (data.status === 'success') {
+                    showCompletionModal(data.message); // 성공 메시지 모달 표시
+                } else {
+                    showErrorModal(data.message); // 오류 메시지 모달 표시
+                }
+            })
+            .catch(error => {
+                console.error('Error saving contract:', error);
+                showErrorModal('계약 저장 중 오류가 발생했습니다.');
+            });
+    });
+
+    // "취소" 버튼 클릭 시 모달 닫기
+    document.getElementById('confirmNo').addEventListener('click', function () {
+        confirmModal.hide();
+    });
 });
 
-//======================================================================================================================
+// 성공 메시지 모달 표시 함수
+function showCompletionModal(message) {
+    const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+    const resultMessage = document.getElementById('resultMessage');
+    resultMessage.textContent = message;
 
+    resultModal.show();
+
+    // "확인" 버튼 클릭 시 이전 페이지로 돌아가기
+    document.getElementById('completionConfirm').addEventListener('click', function () {
+        resultModal.hide();
+        window.history.back(); // 이전 페이지로 돌아가기
+    });
+}
+
+// 오류 메시지 모달 표시 함수
+function showErrorModal(message) {
+    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+
+    errorModal.show();
+}

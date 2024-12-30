@@ -1,0 +1,73 @@
+// Spring Boot API에서 데이터 가져오기
+async function fetchContract() {
+    try {
+        // API 호출
+        const response = await fetch('/db/api/expiring-contracts'); // URL을 필요에 따라 조정하세요
+
+        if(!response.ok){
+            console.log(`API 호출 실패 : ${response.status} ${response.statusText}`);
+            throw new Error(`서버 에러발생 :  ${response.status}`);
+        }
+        const contract = await response.json(); // JSON 형식으로 응답 받기
+
+        //콘솔소환
+        console.log('Contract',contract);
+
+        const contractList = document.getElementById('contract-list');
+        contractList.innerHTML='<p>로딩중....</p>';
+
+        // 기존 내용을 모두 비우기
+        contractList.innerHTML = '';
+
+        //데이터가 없을경우
+        if(!contract || contract.length === 0 ){
+            contractList.innerHTML = '<p>만기 도래 고객이 없습니다.</p>';
+            return;
+        }
+
+        //보험회사 이름 매핑 추가
+        function mapInsuranceCompanyName(code) {
+            switch (code) {
+                case 1: return "메리츠화재";
+                case 2: return "현대해상";
+                case 3: return "한화손해보험";
+                case 4: return "삼성화재";
+                case 5: return "DB손해보험";
+                case 31: return "MetLife";
+                case 32: return "한화생명";
+                case 33: return "SinhanLife";
+                case 34: return "흥국생명";
+                case 35: return "라이나생명";
+                default: return "기타";
+            }
+        }
+
+        // 계약 목록을 순회하면서 카드 생성
+        contract.forEach(contract => {
+            const contractCard = document.createElement('div'); // 새로운 div 생성
+            contractCard.classList.add('contract-card'); // 클래스 추가
+
+            // 보험회사 이름 매핑
+            const insuranceCompanyName = mapInsuranceCompanyName(contract.insuranceCompanyCode);
+
+
+            // 카드 내용 추가
+            contractCard.innerHTML = `
+                <h3>${insuranceCompanyName}</h3>
+                <p><strong>상품명:</strong> ${contract.productName}</p>
+                <p><strong>고객명:</strong> ${contract.customerName}</p>
+                <p><strong>만기일자:</strong> ${new Date(contract.expiringDate).toLocaleDateString()}</p>
+            `;
+
+            // 계약 카드를 목록에 추가
+            contractList.appendChild(contractCard);
+        });
+
+    } catch (error) {
+        contractList.innerHTML='<p>데이터를 불러오는 중 문제가 발생 했습니다.</p>';
+        console.error('계약 데이터를 가져오는 중 에러 발생:', error);
+    }
+}
+
+// 페이지 로드 시 계약 데이터를 가져오기
+window.onload = fetchContract;

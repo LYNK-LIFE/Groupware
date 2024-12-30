@@ -51,8 +51,6 @@ public interface DbMapper {
     List<ExpiringCustomerDTO> selectExpiringCustomersByMonth(@Param("year") int year, @Param("month") int month);
 
 
-
-
-
+    List<ExpiredCustomerDTO> getExpiredCustomer();
 }
 

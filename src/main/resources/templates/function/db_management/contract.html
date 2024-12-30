@@ -226,8 +226,6 @@
                         <textarea id="otherMatters" name="otherMatters"></textarea>
                     </div>
 
-
-
                     <!-- 버튼 -->
                     <div class="form-group">
                         <button type="submit" id="registerContractBtn">등록하기</button>
@@ -235,6 +233,59 @@
                 </form>
             </div>
         </article>
+        <!--확인모달-->
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel">확인</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        신규계약을 전산에 등록 할려고합니다. 등록하시겠습니까?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="confirmYes" class="btn-btn-primary">확인</button>
+                        <button type="button" id="confirmNo" class="btn-secondary" data-bs-dismiss="modal">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--저장완료 모달-->
+        <div id="resultModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">알림</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="resultMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="completionConfirm" class="btn btn-primary">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 오류 모달 -->
+        <div id="errorModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">오류</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="errorMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </section>
 
@@ -260,6 +311,7 @@
 <script th:src="@{/js/common.js}"></script>
 <script th:src="@{/js/calendar.js}"></script>
 <script th:src="@{/js/contract.js}"></script>
+<script th:src="@{/js/expiredcustomer.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>

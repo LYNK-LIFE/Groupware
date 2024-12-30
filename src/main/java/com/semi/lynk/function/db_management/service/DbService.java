@@ -94,6 +94,38 @@ public class DbService {
     public List<ExpiringCustomerDTO> getExpiringCustomersByMonth(int year, int month) {
         return dbMapper.selectExpiringCustomersByMonth(year, month);
     }
+
+
+
+
+
+
+    public List<ExpiredCustomerDTO> getExpiredCustomer() {
+        List<ExpiredCustomerDTO> customers = dbMapper.getExpiredCustomer();
+
+        // 보험회사 코드에 따라 이름 매핑
+        for (ExpiredCustomerDTO customer : customers) {
+            customer.setInsuranceCompanyName(mapInsuranceCompanyName(customer.getInsuranceCompanyCode()));
+        }
+
+        return customers;
+    }
+
+    private String mapInsuranceCompanyName(int code) {
+        switch (code) {
+            case 1: return "메리츠화재";
+            case 2: return "현대해상";
+            case 3: return "한화손해보험";
+            case 4: return "삼성화재";
+            case 5: return "DB손해보험";
+            case 31: return "MetLife";
+            case 32: return "한화생명";
+            case 33: return "SinhanLife";
+            case 34: return "흥국생명";
+            case 35: return "라이나생명";
+            default: return "기타";
+        }
+    }
 }
 
 
