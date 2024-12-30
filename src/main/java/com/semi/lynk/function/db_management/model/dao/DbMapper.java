@@ -9,17 +9,20 @@ import java.util.List;
 @Mapper
 public interface DbMapper {
 
-    void insertinsurance(ProductManageDTO productManageDTO);
 
+    void insertProduct(ProductManageDTO productManageDTO);
 
-    List<ProductManageDTO> selectinsurance();
+    List<ProductManageDTO> selectProductsByCompany();
 
-
-    int deleteProduct(String productNo);
+    void deleteProductByCompany(String company, String productNo);
 
 //========================================================================
 
     void insertCustomer(CustomerDTO customerDTO);
+
+    List<CustomerDTO> selectCustomerList();
+
+    void deleteCustomer(int customerNo);
 
 //===========================================================================
 
@@ -43,6 +46,13 @@ public interface DbMapper {
                                                        @Param("employeeNo")String employeeNo,
                                                        @Param("employeeName")String employeeName,
                                                        @Param("month")String month);
+
+
+    List<ExpiringCustomerDTO> selectExpiringCustomersByMonth(@Param("year") int year, @Param("month") int month);
+
+
+
+
 
 }
 
