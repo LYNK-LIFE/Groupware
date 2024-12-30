@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         switch (status) {
             case 0: return "-";
             case 1: return "확인";
-            case 2: return "결재";
+            case 2: return "승인";
             case 9: return "반려";
             default: return "알 수 없음";
         }

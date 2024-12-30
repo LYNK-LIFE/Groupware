@@ -34,25 +34,30 @@
                 <h2 class="table-header">인사 등록이 필요한 직원 정보</h2>
                 <div class="table-wrapper">
                     <table class="styled-table">
-                        <thead>
+                        <thead style="top: 0; position: sticky;">
                         <tr>
-                            <th>사진</th>
+                            <th style="text-align: center">사진</th>
                             <th>사번</th>
-                            <th>이름</th>
-                            <th>부서</th>
+                            <th style="text-align: center">이름</th>
+                            <th style="text-align: center">부서</th>
                             <!--                        <th>직책</th>-->
                             <th>이메일</th>
                         </tr>
                         </thead>
                         <tbody>
+<!--                        data 어쩌고는 클릭 했을 때 오른쪽 등록 란으로 이동하는 이벤트용 데이터 -->
                         <tr th:each="abc : ${list}" class="clickable-row"
-                            th:data-picture="${abc.picture}"
+                            th:data-picture="@{${session.image}}"
                             th:data-id="${abc.id}"
                             th:data-name="${abc.name}"
                             th:data-department="${abc.departmentDTO.depName}"
                             th:data-position="${abc.humanDTO.position}"
                             th:data-email="${abc.email}">
-                            <td th:text="${abc.picture}"></td>
+<!--                            <td th:text="${abc.picture}"></td>-->
+                            <!-- 사진 셀 -->
+                            <td> <!--  인사 등록 필요한 애들-->
+                                <img th:src="@{${session.image}}" alt="사진" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                            </td>
                             <td th:text="${abc.id}"></td>
                             <td th:text="${abc.name}"></td>
                             <td th:text="${abc.departmentDTO.depName}"></td>
@@ -64,7 +69,8 @@
                 </div>
             </div>
             </article>
-
+<!--            <img "@{${session.image}}" alt="No Image" id="profile">-->
+<!--            클릭 했을 때 옆으로 넘어 가는 애 -->
             <article class=form-container>
                 <form action="/employee/regist" method="post" onsubmit="combineEmail(); return true;" class="form">
                 <div class="regist-div-class">
@@ -142,25 +148,9 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- 등록 버튼 -->
                     <button type="submit" class="submit-button">등록</button>
                 </div>
-                <!--            <div class="field-group">-->
-                <!--                <label>이메일 :</label>-->
-                <!--                <div style="display: flex; gap: 5px">-->
-                <!--                <input type="text" name="emailName" placeholder="이메일">-->
-                <!--                @-->
-                <!--                <select name="emailDomain" id="emailDomain">-->
-                <!--                    <option value="naver.com">naver.com</option>-->
-                <!--                    <option value="google.com">google.com</option>-->
-                <!--                    <option value="daum.net">daum.net</option>-->
-                <!--                    <option value="직접 입력">직접 입력</option>-->
-                <!--                </select>-->
-                <!--                    <input type="text" id="customEmailDomain" name="customEmailDomain" placeholder="도메인 입력" style="display: none; margin-top: 5px;">-->
-                <!--                    &lt;!&ndash; Hidden field to send full email &ndash;&gt;-->
-                <!--                    <input type="hidden" id="fullEmail" name="email">-->
-                <!--                </div>-->
             </form>
             </article>
         </div>
