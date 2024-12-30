@@ -7,15 +7,27 @@ async function submitForm() {
         customerEmail: document.getElementById('customerEmail').value
     };
 
-    console.log(customerData);
+   // 모달 창 표시
+    const confirmModal =document.getElementById('confirmModal');
+    confirmModal.style.display='block';
 
-    await fetch('/db/customer', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(customerData)
-    });
-    fetchCustomerList();
+    document.getElementById('confirmYes').onclick= async function(){
+        confirmModal.style.display = 'none'; // 모달 숨기기
+            // 데이터 저장 요청
+        await fetch('/db/customer', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(customerData)
+        });
+        //저장 완료 메시지 표시
+        alert('저장되었습니다.');
+        fetchCustomerList();
+    };
+    document.getElementById('confirmNo').onclick = function(){
+        confirmModal.style.display = 'none'; // 모달숨기기
+    };
 }
+
 // ================================================================================
 
 async function fetchCustomerList() {

@@ -4,15 +4,13 @@ import com.semi.lynk.function.db_management.model.dto.*;
 import com.semi.lynk.function.db_management.service.DbService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation .*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -213,22 +211,28 @@ import java.util.Map;
 
 //======================================================================================================================
 
-
     @PostMapping("/contract")
-    public ResponseEntity<String> registerContract(@ModelAttribute ContractDTO contractDTO, HttpSession session) {
-        // 세션에서 사용자 이름 가져오기
+    @ResponseBody
+    public Map<String, Object> registerContract(@ModelAttribute ContractDTO contractDTO, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
         String empNo = (String) session.getAttribute("empNo");
 
-        contractDTO.setLastReformDate(new Date()); // 현재 시간을 최종 수정일로 설정
+        contractDTO.setLastReformDate(new Date());
         contractDTO.setLastInseminatee(empNo);
 
-        // 계약 저장
-        System.out.println("컨트롤러 contractDTO = " + contractDTO);
+        try {
+            dbService.registerContract(contractDTO);
+            response.put("status", "success");
+            response.put("message", "계약이 성공적으로 등록되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("status", "error");
+            response.put("message", "계약 등록 중 오류가 발생했습니다.");
+        }
 
-        dbService.registerContract(contractDTO);
-
-        return ResponseEntity.ok("계약이 성공적으로 등록되었습니다.");
+        return response; // JSON 응답 반환
     }
+
 
 //======================================================================================================================
 
@@ -264,6 +268,16 @@ import java.util.Map;
 
 
 
+    @GetMapping("/api/expiring-contracts")
+    public ResponseEntity<List<ExpiredCustomerDTO>> getExpiredCustomers() {
+        try {
+            List<ExpiredCustomerDTO> customers = dbService.getExpiredCustomer();
+            return ResponseEntity.ok(customers);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
 
 }
