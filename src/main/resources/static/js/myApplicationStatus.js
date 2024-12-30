@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 row.classList.add(statusClass);
             }
 
+            row.setAttribute("data-draft-no", item.draftshDTO?.draftNo || "");
+            // select 구문에 있어야 함.....
+
             row.setAttribute("data-leader", item.employeeDTO?.name || "N/A");
             row.setAttribute(
                 "data-total-over-time",
@@ -66,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
             tableBody.appendChild(row);
         });
-
     }
 
     // 검색 및 필터링
@@ -107,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         switch (status) {
             case 0: return "-";
             case 1: return "확인";
-            case 2: return "결재";
+            case 2: return "승인";
             case 9: return "반려";
             default: return "알 수 없음";
         }
@@ -144,7 +146,7 @@ function calculateTotalOverTime(startDate, endDate) {
     return `${diffInHours.toFixed(2)}`; // 소수점 2자리로 시간 반환
 }
 
-// 클릭 했을 때 휴가 시간 로컬 시간대로 변환(이거 안 하면 시간 표기가 안 됨)
+// 클릭 했을 때 휴가 시간 로컬 시간대로 변환(이거 안 하면 시간 표기가 안 됨) / 연장 근무 시작 시간도 포매팅
 function formatToLocaleDate(isoDate) {
     if (!isoDate) return "N/A"; // null 값 처리
 
@@ -164,6 +166,10 @@ function formatToLocaleDate(isoDate) {
 document.getElementById("employee-table-body2").addEventListener("click" , (event) => {
     const row = event.target.closest("tr");
     if (row) {
+        // 선택된 행에 .selected 클래스 추가
+        document.querySelectorAll("tr").forEach(tr => tr.classList.remove("selected"));
+        row.classList.add("selected"); // 현재 행에 selected 클래스 추가
+
         const leaveType = row.children[1].textContent.trim();
 
         if (leaveType === "연장근무") {
@@ -174,7 +180,8 @@ document.getElementById("employee-table-body2").addEventListener("click" , (even
             document.getElementById("applicationOverTime").value = row.children[5].textContent;
             document.getElementById("approvalOverTime").value = row.children[6].textContent;
             document.getElementById("overTime").value = `${row.getAttribute("data-total-over-time") || "N/A"} 시간`;
-            document.getElementById("workTime").value = row.getAttribute("data-start-over-day") || "N/A";
+            document.getElementById("workTime").value = formatToLocaleDate(row.getAttribute("data-start-over-day") || "N/A");
+                                                            //formatToLocaleDate 이 함수 써줘야, 2024. 12. 31. 19:00 이런식으로 출력
 
             // 연장근무 모달 표시
             const modalElement = new bootstrap.Modal(document.getElementById("myModal3"), {});
@@ -204,3 +211,70 @@ document.getElementById("employee-table-body2").addEventListener("click" , (even
         }
     }
 });
+
+//////////////////////////////////
+// 승인 및 반려 클릭 시 서버에 보내는 애 (update)
+document.querySelector("#myModal4 .modal-footer").addEventListener("click", (e) => {
+    if (e.target.textContent.trim() === "승인") {
+        updateDraftState(2); // 승인 상태
+    } else if (e.target.textContent.trim() === "반려") {
+        updateDraftState(9); // 반려 상태
+    }
+});
+
+// 상태 업데이트 함수
+function updateDraftState(newState) {
+    const draftNo = getSelectedDraftNo(); // 선택된 draft 번호 가져오기
+    if (!draftNo) {
+        alert("유효한 draft 번호가 없습니다.");
+        return;
+    }
+
+    fetch("/employee/updateDraftState", { // 절대 경로 사용
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `draftNo=${draftNo}&newState=${newState}`, // 쿼리 스트링 형식으로 전송
+    })
+        .then((res) => res.json())
+        .then((response) => {
+            if (response.success) {
+                alert("상태가 성공적으로 업데이트되었습니다.");
+                // 테이블 재로드 또는 업데이트 로직 수행
+                document.getElementById("employee-table-body2").innerHTML = "";
+                loadEmployees(); // 새로고침 함수 호출
+            } else {
+                alert("상태 업데이트에 실패했습니다: " + (response.message || "알 수 없는 이유"));
+            }
+        })
+        .catch((error) => console.error("상태 업데이트 중 오류 발생:", error));
+}
+
+// 승인이나 반려 눌렀을 때 데이터 새로고침. 근데 안 됨....................
+function loadEmployees() {
+    fetch("/employee/appStatusList") // 서버에서 데이터 요청
+        .then(res => res.json())
+        .then(data => {
+            allEmployees = data; // 데이터를 갱신
+            renderTable(allEmployees); // 테이블 다시 그리기
+        })
+        .catch(err => console.error("데이터 로드 실패:", err));
+}
+
+
+// 선택된 draftNo를 가져오는 함수
+function getSelectedDraftNo() {
+    const row = document.querySelector("tr.selected"); // 선택된 row 가져오기
+    if (row) {
+        const draftNo = row.getAttribute("data-draft-no");
+        if (!draftNo) {
+            alert("선택된 항목에 유효한 draft 번호가 없습니다.");
+        }
+        return draftNo;
+    }
+    alert("항목을 선택해주세요."); // 선택된 항목이 없는 경우 경고
+    return null;
+}
+
+

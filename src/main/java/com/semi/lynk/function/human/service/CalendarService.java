@@ -28,7 +28,7 @@ public class CalendarService {
     }
 
     public List<CalendarDTO> myAppStatusService() {
-        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus();
+        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus1();
 //        List<CalendarDTO> appStatus2 = calendarMapper.showMyAppStatus2();
 //        List<CalendarDTO> appStatus = new ArrayList<>();
 //        appStatus.addAll(appStatus1);
@@ -52,17 +52,23 @@ public class CalendarService {
 
         vacationApplicationDTO.setDraftNo(dayOff);
 
-        System.out.println("vacationApplicationDTO : " + vacationApplicationDTO);
+//        System.out.println("vacationApplicationDTO : " + vacationApplicationDTO);
         int result1 = calendarMapper.vacAppUpdateMapper(vacationApplicationDTO);
-        System.out.println("result1 : " + result1);
+//        System.out.println("result1 : " + result1);
 //        int result2 = calendarMapper.vacAppInsertMapper1(vacationApplicationDTO);
 //        System.out.println("result2 : " + result2);
 
         vacationApplicationDTO.getDraftNo();
-        int result3 = calendarMapper.vacAppInsertMapper2(vacationApplicationDTO);
-        System.out.println("result3 : " + result3);
+        int result2 = calendarMapper.vacAppInsertMapper(vacationApplicationDTO);
+//        System.out.println("result3 : " + result2);
 
-        return (result1 >= 1) && (result3 >= 1) ? 1 : 0;
+        int result3 = calendarMapper.vacAppUpdateMapper2(vacationApplicationDTO);
+//        System.out.println("result3 : " + result3);
+
+        int result4 = calendarMapper.vacAppUpdateMapper3(vacationApplicationDTO);
+//        System.out.println("result4 : " + result4);
+
+        return (result1 >= 1) && (result2 >= 1) && (result3 >= 1) && (result4 >= 1) ? 1 : 0;
     }
 
     public List<OverTimeApplicationDTO> overTimeAppService() {
@@ -72,6 +78,12 @@ public class CalendarService {
     @Transactional
     public int overTimeAppDataService(OverTimeApplicationDTO overTimeDTO) {
         int result = calendarMapper.overTimeAppDataMapper(overTimeDTO);
+        return result >= 1 ? 1 : 0;
+    }
+
+    @Transactional
+    public int updateDraftState(int draftNo, int newState) {
+        int result = calendarMapper.vacStatusUpdateMapper(draftNo , newState);
         return result >= 1 ? 1 : 0;
     }
 }

@@ -11,7 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const department = row.getAttribute("data-department");
             const email = row.getAttribute("data-email");
 
-            document.getElementById("formPhoto").textContent = picture || "사진 없음";
+            // 사진 표시
+            const photoElement = document.getElementById("formPhoto");
+            if (picture) {
+                // `img` 태그를 동적으로 추가
+                photoElement.innerHTML = `<img src="${picture}" alt="사진" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">`;
+            } else {
+                // 사진이 없는 경우 기본 텍스트 유지
+                photoElement.textContent = "사진 없음";
+            }
+
             document.getElementById("formId").value = id || "";
             document.getElementById("formName").value = name || "";
             document.getElementById("formDepartment").value = department || "";
@@ -55,14 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-
     observer.observe(targetNode, { childList: true, subtree: true });
 });
-
-
-
-
-
 
 //     // 이메일 도메인 선택 시 "직접 입력" 활성화
 //     document.getElementById('emailDomain').addEventListener('change', function () {

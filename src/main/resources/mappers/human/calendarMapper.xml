@@ -47,6 +47,7 @@
             <result property="depName" column="department_name"/>
         </association>
         <association property="draftshDTO" javaType="com.semi.lynk.function.human.model.calendar.DraftshDTO">
+            <id property="draftNo" column="draft_no"/>
             <result property="draftTitle" column="draft_title"/>
             <result property="draftDate" column="draft_date"/>
             <result property="draftState" column="draft_state"/>
@@ -70,50 +71,85 @@
     </select>
 
 <!--    내 신청 현황 드가면 보여지는 데이터들 -->
-    <select id="showMyAppStatus" resultMap="selectResultMap">
+    <select id="showMyAppStatus1" resultMap="selectResultMap">
         select distinct
-            a.leave_start_date,
-            a.leave_end_date,
-            b.draft_state,
-            a.leave_type,
-            e.department_name,
-            c.employee_name,
-            d.position,
-            b.draft_date,
-            b.draft_completion_time,
-            null as schedule_start_date,
-            null as schedule_note,
-            null as schedule_end_date
+            a.draft_state
+            ,b.leave_type
+            ,f.position
+            ,b.leave_start_date
+            ,b.leave_end_date
+            ,d.employee_name
+            ,e.department_name
+            ,a.draft_no
+            ,a.draft_date
+            ,a.draft_completion_time
         from
-        dayoff a
-            join draftsh b on (a.draft_no = b.draft_no)
-            join employee c on (a.employee_no = c.employee_no)
-            join human_resource d on (c.employee_no = d.employee_no)
-            join department e on (c.department_no = e.department_no)
-            where
-            a.leave_type is not null -- **휴가/반차 데이터만 출력**
-        union
-        select
-            null as leave_start_date,
-            null as leave_end_date,
-            b.draft_state,
-            null as leave_type,
-            e.department_name,
-            c.employee_name,
-            d.position,
-            b.draft_date,
-            b.draft_completion_time,
-            f.schedule_start_date,
-            f.schedule_note,
-            f.schedule_end_date
+        draftsh a
+            join dayoff b on (a.draft_no = b.draft_no)
+            join employee d on (a.employee_no = d.employee_no)
+            join department e on (d.department_no = e.department_no)
+            join human_resource f on (d.employee_no = f.employee_no)
+<!--        select distinct-->
+<!--            a.leave_start_date,-->
+<!--            a.leave_end_date,-->
+<!--            b.draft_state,-->
+<!--            a.leave_type,-->
+<!--            e.department_name,-->
+<!--            c.employee_name,-->
+<!--            d.position,-->
+<!--            b.draft_date,-->
+<!--            b.draft_completion_time,-->
+<!--            null as schedule_start_date,-->
+<!--            null as schedule_note,-->
+<!--            null as schedule_end_date-->
+<!--        from-->
+<!--        dayoff a-->
+<!--            join draftsh b on (a.draft_no = b.draft_no)-->
+<!--            join employee c on (a.employee_no = c.employee_no)-->
+<!--            join human_resource d on (c.employee_no = d.employee_no)-->
+<!--            join department e on (c.department_no = e.department_no)-->
+<!--            where-->
+<!--            a.leave_type is not null &#45;&#45; **휴가/반차 데이터만 출력**-->
+<!--        union-->
+<!--        select-->
+<!--            null as leave_start_date,-->
+<!--            null as leave_end_date,-->
+<!--            b.draft_state,-->
+<!--            null as leave_type,-->
+<!--            e.department_name,-->
+<!--            c.employee_name,-->
+<!--            d.position,-->
+<!--            b.draft_date,-->
+<!--            b.draft_completion_time,-->
+<!--            f.schedule_start_date,-->
+<!--            f.schedule_note,-->
+<!--            f.schedule_end_date-->
+<!--        from-->
+<!--        schedule f-->
+<!--            join draftsh b on (f.employee_no = b.employee_no)-->
+<!--            join employee c on (f.employee_no = c.employee_no)-->
+<!--            join human_resource d on (c.employee_no = d.employee_no)-->
+<!--            join department e on (c.department_no = e.department_no)-->
+<!--        where-->
+<!--        f.schedule_start_date is not null &#45;&#45; **연장근무 데이터만 출력**-->
+    </select>
+    <select id="showMyAppStatus2" resultMap="selectResultMap">
+        select distinct
+        a.draft_state
+        ,b.leave_type
+        ,f.position
+        ,b.leave_start_date
+        ,b.leave_end_date
+        ,d.employee_name
+        ,e.department_name
+        ,a.draft_date
+        ,a.draft_completion_time
         from
-        schedule f
-            join draftsh b on (f.employee_no = b.employee_no)
-            join employee c on (f.employee_no = c.employee_no)
-            join human_resource d on (c.employee_no = d.employee_no)
-            join department e on (c.department_no = e.department_no)
-        where
-        f.schedule_start_date is not null -- **연장근무 데이터만 출력**
+        draftsh a
+        join dayoff b on (a.draft_no = b.draft_no)
+        join employee d on (a.employee_no = d.employee_no)
+        join department e on (d.department_no = e.department_no)
+        join human_resource f on (d.employee_no = f.employee_no)
     </select>
 
 
@@ -169,12 +205,48 @@
 <!-- 남은 연차 컬럼은 산술로 가능하니 있을 필요 없음.-->
     </update>
 
-    <insert id="vacAppInsertMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+    <insert id="vacAppInsertMapper" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         INSERT INTO dayoff
                 (employee_no, leave_start_date, leave_end_date, leave_type, draft_no)
         VALUES
                 (12, #{leaveStartDate}, #{leaveEndDate}, #{leaveType}, #{draftNo})
     </insert>
+    <update id="vacAppUpdateMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        update draftsh set draft_date = now()
+        where draft_no = (SELECT COALESCE(MAX(draft_no), 0)
+                            FROM dayoff
+                            WHERE employee_no = 12)
+    </update>
+
+    <update id="vacAppUpdateMapper3" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
+        update draftsh set draft_completion_time = now()
+                            <!--나중에 결재자 승인에 맞게 바꿔야함-->
+        where draft_no = (SELECT COALESCE(MAX(draft_no), 0)
+                            FROM dayoff
+                            WHERE employee_no = 12)
+    </update>
+
+<!--    <insert id="vacAppInsertMapper3" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">-->
+<!--        INSERT INTO draftsh (employee_no, draft_title, draft_date,-->
+<!--        draft_completion_time, draft_state, draft_last_step,-->
+<!--        draft_current_step, draft_memo)-->
+<!--        VALUES (12,-->
+<!--        COALESCE(#{draftTitle}, '기본 제목'), &lt;!&ndash; 값이 null이면 '기본 제목' 사용 &ndash;&gt;-->
+<!--        NOW(),-->
+<!--        COALESCE(#{draftCompletionTime},'2024-12-03 09:00:00'),-->
+<!--        #{draftState},-->
+<!--        2,-->
+<!--        1,-->
+<!--        COALESCE(#{draftMemo}, '기본 메모'))-->
+<!--    </insert>-->
+
+    <!-- 관리자가 승인 / 반려 입력 시 상태 변화 update -->
+    <update id="vacStatusUpdateMapper" parameterType="map">
+        UPDATE draftsh
+        SET draft_state = #{newState}, draft_completion_time = NOW()
+        WHERE draft_no = #{draftNo};
+    </update>
+
 
     <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         <id property="id" column="employee_no"/>
@@ -201,4 +273,5 @@
                             schedule_note, schedule_end_date)
         values (#{scheduleStartDate} , 0 , 12, #{scheduleNote}, #{scheduleEndDate})
     </insert>
+
 </mapper>
