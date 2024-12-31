@@ -8,9 +8,9 @@
     <link rel="stylesheet" th:href="@{/css/management.css}">
 </head>
 <body>
-    <nav th:replace="~{/function/management/common/managementNav :: managedNavFragment}" class="nav-class"></nav>
+    <nav th:replace="~{function/management/common/managementNav :: managedNavFragment}" class="nav-class"></nav>
     <div class="right-container">
-        <header th:replace="~{/function/management/common/managementHeader :: managedHeaderFragment}" class="header-class managedHeader"></header>
+        <header th:replace="~{function/management/common/managementHeader :: managedHeaderFragment}" class="header-class managedHeader"></header>
 
         <section class="main-content">
             <div class="subHeader-class">
@@ -86,8 +86,8 @@
             </article>
         </section>
 
-        <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
-        <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
+        <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
+        <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
     </div>
     <script>
         const fileInput = document.getElementById('profileImage');

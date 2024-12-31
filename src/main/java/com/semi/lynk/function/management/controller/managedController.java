@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/management/*")
+@RequestMapping("management/*")
 public class managedController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class managedController {
     }
 
     // 활성화 계정 목록 - 삭제
-    @PostMapping("/deleteAccounts")
+    @PostMapping("deleteAccounts")
     public String deactivateAccounts(@RequestParam @Param("empIDs") List<String> empIDs, RedirectAttributes redirectAttributes) {
         System.out.println("controller 단 empIDs = " + empIDs);
         if (empIDs.isEmpty()) {
@@ -80,7 +80,7 @@ public class managedController {
     }
 
     // 활성화 계정 목록 - 복구
-    @PostMapping("/restoreAccounts")
+    @PostMapping("restoreAccounts")
     public String restoreAccounts(@RequestParam @Param("empIDs") List<String> empIDs, RedirectAttributes redirectAttributes) {
         System.out.println("restoreAccounts controller 단 empIDs = " + empIDs);
         if (empIDs.isEmpty()) {
@@ -112,7 +112,7 @@ public class managedController {
         return "function/management/editAccount";
     }
 
-    @PostMapping("/updateAccount")
+    @PostMapping("updateAccount")
     public String updateAccount(@ModelAttribute AccountDTO accountInfo,
                                 @RequestParam("profileImage") MultipartFile file) {
         String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/profile/";
