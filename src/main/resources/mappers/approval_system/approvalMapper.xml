@@ -37,6 +37,7 @@
         <result property="employeeName" column="employee_name"/>
         <result property="departmentNo" column="department_no"/>
         <result property="departmentName" column="department_name"/>
+        <result property="position" column="position" />
     </resultMap>
 
     <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
@@ -49,11 +50,14 @@
         e.employee_no,
         e.employee_name,
         d.department_no,
-        d.department_name
+        d.department_name,
+        h.position
         FROM
         employee e
         LEFT JOIN
         department d ON e.department_no = d.department_no
+        LEFT JOIN
+        human_resource h ON e.employee_no = h.employee_no
         ORDER BY department_no
     </select>
 

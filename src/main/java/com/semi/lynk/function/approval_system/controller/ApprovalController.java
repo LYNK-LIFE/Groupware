@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,7 +27,7 @@ public class ApprovalController {
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException e, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        return "redirect:/notice/list";
+        return "redirect:/approval/list/ondraft";
     }
 
     @GetMapping("/credraft")
@@ -40,11 +41,11 @@ public class ApprovalController {
         String empNo = (String) session.getAttribute("empNo");
         draftDTO.setEmployeeNo(empNo);
         draftDTO.setDraftCurrentStep(1);
-        draftDTO.setDraftState(0);
+        draftDTO.setDraftState(8);
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
         approvalService.createDraft(draftDTO);
-        return "redirect:/approval/list/ondraft";
+        return "redirect:/approval/addApproval";
     }
 
     @GetMapping("/{draftNo}")
@@ -69,6 +70,7 @@ public class ApprovalController {
 
         switch (action) {
             case "findraft" : state = "(draft_state = 2)"; break;
+            case "readydraft" : state = "(draft_state = 8)"; break;
             case "dindraft" : state = "(draft_state = 9)"; break;
         }
         System.out.println("컨트롤러 keyword = " + keyword);
@@ -82,7 +84,6 @@ public class ApprovalController {
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
         model.addAttribute("action", action);
-        System.out.println("왜 두번씩 돌까???");
         return "function/approval_system/list";
     }
 
@@ -94,10 +95,10 @@ public class ApprovalController {
                         @RequestParam(defaultValue = "12") int size) {
         String state = "(draft_state < 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))";
         // 조건에 따라 맞는 쿼리문을 넘기기 위한 변수, 기본값 ondraft
-        System.out.println("action = " + action);
-        System.out.println("keyword = " + keyword);
+
         switch (action) {
             case "findraft" : state = "(draft_state = 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
+            case "readydraft" : state = "(draft_state = 8) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
             case "dindraft" : state = "(draft_state = 9) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
         }
 
@@ -122,21 +123,23 @@ public class ApprovalController {
         return "function/approval_system/view";
     }
     @GetMapping("/addApproval")
-    public String showAddApprovalForm(Model model) {
+    public String showAddApprovalForm(Model model, HttpSession session) {
         List<EmployeeDTO> employees = approvalService.getAllEmployees();
+        String empNo = (String) session.getAttribute("empNo");
+        model.addAttribute("myEmpNo", empNo);
         model.addAttribute("employees", employees);
-        model.addAttribute("approvalForm", new ApprovalDTO());
-        System.out.println("여긴왔지?");
+        model.addAttribute("approvals", new ArrayList<ApprovalDTO>());
         return "function/approval_system/approval";
     }
 
     @PostMapping("/addApproval")
-    public String addApproval(@ModelAttribute ApprovalDTO approvalDTO, BindingResult result) {
+    public String addApproval(@ModelAttribute("approvals") List<ApprovalDTO> approvals, BindingResult result) {
         if (result.hasErrors()) {
             return "approval/addApproval";
         }
-        approvalService.createApproval(approvalDTO);
-        return "redirect:/approval/success";
+        System.out.println("여긴 컨트롤러 approvalDTO = " + approvals);
+        approvalService.createApproval(approvals);
+        return "redirect:/approval/list/ondraft";
     }
 
 //    @GetMapping("/doapproval")
