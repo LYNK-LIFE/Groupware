@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -159,7 +160,7 @@ public class EmployeeController {
         return "function/human/attendance";
     }
 
-    @GetMapping ("appStatus") // 페이지 반환하는 애
+    @GetMapping ("appStatus") // 관리자 결재 현황 페이지 반환하는 애
     public String appStatusPage () {
         return "function/human/myApplicationStatus";
     }
@@ -187,9 +188,13 @@ public class EmployeeController {
     // 글고 ResponseBody로 제출 완료 / 실패 여부 확인함
     @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public Map<String, Object> vacAppResult(@RequestBody VacationApplicationDTO vacationApplicationDTO) {
+    public Map<String, Object> vacAppResult(@RequestBody VacationApplicationDTO vacationApplicationDTO
+                                    , Principal principal) {
         System.out.println("vacationApplicationDTO: " + vacationApplicationDTO);
-        int result = calendarService.vacAppService(vacationApplicationDTO);
+        String employeeNo = principal.getName();
+        int result = calendarService.vacAppService(vacationApplicationDTO, employeeNo);
+
+
         Map<String, Object> map = new HashMap<>();
 
         if (result == 1) {
