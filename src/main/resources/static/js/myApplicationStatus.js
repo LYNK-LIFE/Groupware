@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
             row.setAttribute("data-start-over-day", item.scheduleDTO?.scheduleStartDate || "N/A");
             row.setAttribute("data-vac-start", item.dayOffDTO?.leaveStartDate || "N/A");
             row.setAttribute("data-vac-end", item.dayOffDTO?.leaveEndDate || "N/A");
+            row.setAttribute("data-used-leave", item.humanDTO.usedLeave || 0);
+            console.log("item.humanDTO.usedLeave : " + item.humanDTO.usedLeave);
 
             row.innerHTML = `
         <td>${getStatusLabel(item?.draftshDTO?.draftState ?? "N/A")}</td>
@@ -252,29 +254,98 @@ function updateDraftState(newState) {
 }
 
 // 승인이나 반려 눌렀을 때 데이터 새로고침. 근데 안 됨....................
-function loadEmployees() {
-    fetch("/employee/appStatusList") // 서버에서 데이터 요청
-        .then(res => res.json())
-        .then(data => {
-            allEmployees = data; // 데이터를 갱신
-            renderTable(allEmployees); // 테이블 다시 그리기
-        })
-        .catch(err => console.error("데이터 로드 실패:", err));
-}
+// function loadEmployees() {
+//     fetch("/employee/appStatusList") // 서버에서 데이터 요청
+//         .then(res => res.json())
+//         .then(data => {
+//             allEmployees = data; // 데이터를 갱신
+//             renderTable(allEmployees); // 테이블 다시 그리기
+//         })
+//         .catch(err => console.error("데이터 로드 실패:", err));
+// }
 
 
 // 선택된 draftNo를 가져오는 함수
 function getSelectedDraftNo() {
-    const row = document.querySelector("tr.selected"); // 선택된 row 가져오기
-    if (row) {
-        const draftNo = row.getAttribute("data-draft-no");
-        if (!draftNo) {
-            alert("선택된 항목에 유효한 draft 번호가 없습니다.");
-        }
-        return draftNo;
-    }
-    alert("항목을 선택해주세요."); // 선택된 항목이 없는 경우 경고
-    return null;
+    const row = document.querySelector("tr.selected");
+    console.log("선택된 행(row):", row);
+
+    const draftNo = row ? parseInt(row.getAttribute("data-draft-no"), 10) : null;
+    console.log("추출된 draftNo:", draftNo);
+
+    return draftNo;
+}
+
+function getSelectedUsedLeave() {
+    const row = document.querySelector("tr.selected");
+    console.log("선택된 행(row):", row);
+
+    const usedLeave = row ? parseInt(row.getAttribute("data-used-leave"), 10) : null;
+    console.log("추출된 usedLeave:", usedLeave);
+
+    return usedLeave;
 }
 
 
+// 반려 눌렀을 때 캘린더에 일정 삭제되는 애
+function cancelVacation(draftNo, usedLeave, employeeNo) {
+    fetch("/employee/cancelVacation", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `draftNo=${draftNo}&usedLeave=${usedLeave}&employeeNo=${employeeNo}`,
+    })
+        .then((res) => res.json())
+        .then((response) => {
+            if (response.success) {
+                alert("휴가 반려가 성공적으로 처리되었습니다.");
+                removeEventFromCalendar(draftNo); // 이벤트 제거 함수 호출
+            } else {
+                alert("반려 처리 실패: " + response.message);
+            }
+        })
+        .catch((error) => console.error("서버 요청 중 오류:", error));
+}
+
+function removeEventFromCalendar(draftNo) {
+    const allEvents = calendar.getEvents(); // 캘린더의 모든 이벤트 가져오기
+    const event = allEvents.find((e) => e.extendedProps.draftNo === draftNo); // draftNo로 매칭
+
+    if (event) {
+        event.remove(); // 이벤트 제거
+        console.log(`DraftNo: ${draftNo} 이벤트가 삭제되었습니다.`);
+    } else {
+        console.warn(`DraftNo: ${draftNo}에 해당하는 이벤트를 찾을 수 없습니다.`);
+    }
+}
+
+document.querySelector("#myModal4 .modal-footer").addEventListener("click", (e) => {
+    if (e.target.textContent.trim() === "반려") {
+        const draftNo = getSelectedDraftNo(); // 선택된 draft 번호 가져오기
+        const usedLeave = getSelectedUsedLeave(); // 사용 연차 값 가져오기
+        const employeeNo = 12; // 실제 데이터를 사용
+
+        console.log("draftNo:", draftNo); // 디버깅: draftNo 출력
+        console.log("usedLeave:", usedLeave); // 디버깅: usedLeave 출력
+
+        if (draftNo == null || usedLeave == null) { // null 또는 undefined 상태만 검사
+            alert("유효한 데이터를 확인할 수 없습니다.");
+            return;
+        }
+
+        cancelVacation(draftNo, usedLeave, employeeNo); // 삭제 요청
+    }
+});
+
+document.querySelector("#employee-table-body2").addEventListener("click", (e) => {
+    const row = e.target.closest("tr");
+    if (row) {
+        // 기존 선택 제거
+        document.querySelectorAll("tr").forEach(tr => tr.classList.remove("selected"));
+
+        // 새로 선택된 행에 클래스 추가
+        row.classList.add("selected");
+        console.log("선택된 행 데이터:", row);
+    }
+});

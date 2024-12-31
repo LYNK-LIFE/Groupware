@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         if (!seenEvents.has(uniqueKey)) { // 중복 확인
                             events.push({
+                                id: uniqueKey,
                                 title: `${item.employeeDTO?.name || 'Unknown'} ${item.humanDTO?.position || ''}`,
                                 start: item.dayOffDTO?.leaveStartDate,
                                 backgroundColor: item.dayOffDTO?.leaveType === 2 ? 'green' :
