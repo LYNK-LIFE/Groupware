@@ -152,8 +152,9 @@ public class DbService {
     }
 
 
-
-
+    public List<InquiryDTO> searchInquiry(String name, String plannerName, String plannerId) {
+        return dbMapper.searchInquiry(name,plannerName,plannerId);
+    }
 }
 
 

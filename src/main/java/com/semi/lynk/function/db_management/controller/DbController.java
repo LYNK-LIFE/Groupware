@@ -269,6 +269,7 @@ import java.util.*;
 
 //=====================================================================================================================
 
+    //만기 도래고객 홈화면 띄우기
     @GetMapping("/api/expiring-contracts")
     public ResponseEntity<List<ExpiredCustomerDTO>> getExpiredCustomers() {
         try {
@@ -281,14 +282,29 @@ import java.util.*;
     }
 
 //=====================================================================================================================
-
-
+    //영업 실적 현황판
     @GetMapping("/top-sales")
     @ResponseBody
     public List<TopSalesContractDTO> getTopSalesContract() {
         List<TopSalesContractDTO> result = dbService.getTopSaleContract();
         return result;
     }
+//======================================================================================================================
+
+    @GetMapping("/inquiry")
+    public List<InquiryDTO>SelectInquiry(
+            @RequestParam(value ="name" , required = false) String name,
+            @RequestParam(value ="plannerMame",required =false) String plannerName,
+            @RequestParam(value = "plannerId", required = false) String plannerId){
+
+        return dbService.searchInquiry(name, plannerName, plannerId);
+    }
+
+
+
+
+
+
 
 
 }
