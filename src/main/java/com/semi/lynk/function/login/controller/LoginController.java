@@ -72,7 +72,7 @@ public class LoginController {
 
             mv.addObject("message", message);
         } catch (Exception e) {
-            mv.setViewName("/function/login/empAdd");
+            mv.setViewName("function/login/empAdd");
             mv.addObject("message", "파일 업로드 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
@@ -100,13 +100,13 @@ public class LoginController {
     //****************************************************************
     // 로그인 시간 기록
     //****************************************************************
-    @PostMapping("/login")
+    @PostMapping("login")
     public String login(String empNo) {
         loginLogService.logLogin((empNo));
         return "Login logged";
     }
 
-    @PostMapping("/logout")
+    @PostMapping("logout")
     public String logout(String empNo) {
         loginLogService.logLogin((empNo));
         return "Logout logged";

@@ -45,21 +45,21 @@ public class MainController {
         // 모델에 추가
         mv.addObject("user", empDetails);
         System.out.println("session = " + session.getAttribute("empName"));
-        mv.setViewName("/common/main");
+        mv.setViewName("common/main");
         return mv;
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String loginPage(){
         return "function/login/login";
     }
 
-    @GetMapping("/passwordRequest")
+    @GetMapping("passwordRequest")
     public String passwordRequestPage(){
         return "function/login/passwordRequest";
     }
 
-    @GetMapping("/passwordReset")
+    @GetMapping("passwordReset")
     public String passwordResetPage(){
         return "function/login/passwordReset";
     }

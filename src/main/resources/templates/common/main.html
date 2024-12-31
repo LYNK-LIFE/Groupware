@@ -12,11 +12,11 @@
 </head>
 <body> <!-- 최초 메인 페이지 -->
 
-<nav th:replace="~{/common/nav :: navFragment}" class="nav-class"></nav>
+<nav th:replace="~{common/nav :: navFragment}" class="nav-class"></nav>
 
 <!-- 헤더 영역(달력) -->
 <div class="right-container">
-    <header th:replace="~{/common/header :: headerFragment}"></header>
+    <header th:replace="~{common/header :: headerFragment}"></header>
 
     <section class="main-content mainPageSection">
         <article class="board-section box1">
@@ -50,8 +50,8 @@
         </article>
     </section>
 
-    <aside th:replace="~{/common/aside :: asideFragment}" class="aside-class"></aside>
-    <footer th:replace="~{/common/footer :: footerFragment}" class="footer-class"></footer>
+    <aside th:replace="~{common/aside :: asideFragment}" class="aside-class"></aside>
+    <footer th:replace="~{common/footer :: footerFragment}" class="footer-class"></footer>
 </div>
 
 <script th:src="@{/js/common.js}"></script>
