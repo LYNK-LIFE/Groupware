@@ -269,4 +269,23 @@ public class EmployeeController {
         }
         return response;
     }
+
+    @PostMapping(value = "cancelVacation", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> cancelVacation(
+            @RequestParam int draftNo,
+            @RequestParam int usedLeave,
+            @RequestParam int employeeNo) {
+
+        Map<String, Object> response = new HashMap<>();
+        try {
+            calendarService.cancelVacation(draftNo, usedLeave, employeeNo);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", e.getMessage());
+        }
+        return response;
+    }
+
 }

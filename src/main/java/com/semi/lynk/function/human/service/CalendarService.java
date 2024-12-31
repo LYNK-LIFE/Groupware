@@ -86,4 +86,23 @@ public class CalendarService {
         int result = calendarMapper.vacStatusUpdateMapper(draftNo , newState);
         return result >= 1 ? 1 : 0;
     }
+
+    @Transactional
+    public void cancelVacation(int draftNo, int usedLeave, int employeeNo) {
+        // 1. 휴가 데이터 삭제
+        int deleted = calendarMapper.vacDeleteMapper(draftNo);
+        if (deleted <= 0) {
+            throw new IllegalStateException("휴가 데이터를 삭제하지 못했습니다.");
+        }
+
+        // 2. usedLeave 감소
+        Map<String, Object> params = new HashMap<>();
+        params.put("usedLeave", usedLeave);
+        params.put("employeeNo", employeeNo);
+
+        int updated = calendarMapper.vacUsedLeaveMapper(params);
+        if (updated <= 0) {
+            throw new IllegalStateException("연차 사용량 감소 실패");
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CalendarMapper {
@@ -31,4 +32,9 @@ public interface CalendarMapper {
     int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO);
 
     int vacStatusUpdateMapper(int draftNo, int newState);
+
+    int vacDeleteMapper(int draftNo);
+
+    int vacUsedLeaveMapper(Map<String, Object> usedLeave);
+
 }

@@ -83,6 +83,7 @@
             ,a.draft_no
             ,a.draft_date
             ,a.draft_completion_time
+            ,f.usedLeave
         from
         draftsh a
             join dayoff b on (a.draft_no = b.draft_no)
@@ -247,6 +248,20 @@
         WHERE draft_no = #{draftNo};
     </update>
 
+    <!-- 관리자가 반려 눌렀을 때 캘린더에 데이터 삭제되는 구문 -->
+    <delete id="vacDeleteMapper" parameterType="int">
+        delete from dayoff
+        where draft_no = #{draftNo};
+    </delete>
+
+    <update id="vacUsedLeaveMapper" parameterType="map">
+        update
+            human_resource
+        set
+            usedLeave = usedLeave - #{usedLeave}
+        where
+            employee_no = 12;
+    </update>
 
     <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         <id property="id" column="employee_no"/>
