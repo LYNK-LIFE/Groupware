@@ -51,11 +51,21 @@ public interface DbMapper {
 
     List<ExpiringCustomerDTO> selectExpiringCustomersByMonth(@Param("year") int year, @Param("month") int month);
 
+//======================================================================================================================
 
     List<ExpiredCustomerDTO> getExpiredCustomer();
 
+//======================================================================================================================
 
     List<TopSalesContractDTO> fetchTopSalesContract();
+
+//======================================================================================================================
+
+    List<InquiryDTO> searchInquiry(
+            @Param("name") String name,
+            @Param("plannerName") String plannerName,
+            @Param("plannerId") String plannerId);
+
 }
 
 
