@@ -113,23 +113,26 @@
     <div class="userContainer">
         <div class="userDetail hidden">
             <img src="/images/logout.png" alt="logout" data-value="logout" id="logoutImage">
-            <img th:src="@{${session.image}}" alt="No Image" id="profile">
+            <img th:src="@{${session.image != null ? session.image : '/images/default.png'}}" id="profile">
             <a href="/management/activeAccountList">관리</a><br>
             <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px; color: black">Employee Name</span><br>
             <span th:text="${session.deptName}">부서명</span>
             <span> / </span>
             <span th:text="${session.position}">직급</span><br> <!-- 임시 영역 -->
             <div class="userButton">
-                <button class="work">출근</button>
-                <button class="fieldwork">외근</button>
-                <button class="leave">퇴근</button>
+                <button class="work" id="work">출근</button>
+                <button class="fieldwork" id="fieldwork">외근</button>
+                <button class="leave" id="leave">퇴근</button>
             </div>
         </div>
         <div class="userOverview" onclick="togglePopup()">
-            <img th:src="@{${session.image}}" alt="No Image" style="width: 40px; height: 40px; border-radius: 50%;">
+            <img th:src="@{${session.image != null ? session.image : '/images/default.png'}}" alt="No Image" style="width: 40px; height: 40px; border-radius: 50%; background-color: white">
             <span th:text="${session.empName}">Employee Name</span>
         </div>
     </div>
 </nav>
+<script>
+
+</script>
 </body>
 </html>

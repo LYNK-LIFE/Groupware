@@ -29,7 +29,11 @@
         INSERT INTO EMPLOYEE
         (EMPLOYEE_NO, EMPLOYEE_NAME, PASSWORD, EMAIL, MEMBER_STATUS, LOGIN_FAIL_COUNT, WORKING_STATUS, DEPARTMENT_NO, IMAGE)
         VALUES
-        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo}, 0)
+        (#{userID}, #{userName}, #{userPass}, #{email}, 1, 0, 0, #{deptNo},
+            <choose>
+                <when test="image != null">#{image}</when>
+                <otherwise>NULL</otherwise>
+            </choose>)
     </insert>
     <insert id="addAuthorization" parameterType="com.semi.lynk.function.login.model.dto.EmpAddDTO">
         INSERT INTO AUTHORIZATION
