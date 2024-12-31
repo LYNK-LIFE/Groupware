@@ -287,7 +287,6 @@ import java.util.*;
     @ResponseBody
     public List<TopSalesContractDTO> getTopSalesContract() {
         List<TopSalesContractDTO> result = dbService.getTopSaleContract();
-        System.out.println("컨트롤러 result = " + result); // 반환 데이터 확인
         return result;
     }
 

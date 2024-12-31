@@ -148,7 +148,6 @@ public class DbService {
 
     public List<TopSalesContractDTO> getTopSaleContract() {
         List<TopSalesContractDTO> contracts = dbMapper.fetchTopSalesContract();
-        System.out.println("서비스! contracts = " + contracts); // 반환 데이터 확인
         return contracts;
     }
 

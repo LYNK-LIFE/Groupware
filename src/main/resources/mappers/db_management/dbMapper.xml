@@ -256,7 +256,7 @@
             JOIN
             employee e ON c.employee_no = e.employee_no
         WHERE
-            e.department_no IN (2, 3, 4)
+            e.department_no IN (2, 3, 4 , 5)
             AND c.product_no NOT IN ('m3', 'h1', 'han1', 's1', 'd1')
         GROUP BY
             e.employee_name

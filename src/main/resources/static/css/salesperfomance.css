@@ -1,0 +1,11 @@
+#chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    width: 80%; /* 차트 컨테이너 폭 */
+}
+canvas#salesChart {
+    max-width: 100%;
+    max-height: 500px;
+}

@@ -1,7 +1,6 @@
 fetch('/db/top-sales')
     .then(response =>response.json())
     .then(data => {
-        console.log('Data received from server:', data); // 서버에서 받은 데이터 출력
 
         const labels = data.map(item => item.employeeName || "Unknown");
         const sales = data.map(item => item.totalSales || 0);
@@ -12,7 +11,6 @@ fetch('/db/top-sales')
             return;
         }
 
-        console.log('Initializing Chart.js with labels:', labels, 'and sales:', sales);
         new Chart(ctx, {
             type: 'bar',
             data: {
