@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface ApprovalService {
-    void createApproval(ApprovalDTO approvalDTO);
+    void createApproval(List<ApprovalDTO> approvalDTO);
 
     void createDraft(DraftDTO draftDTO);
 

@@ -4,14 +4,12 @@ import com.semi.lynk.function.approval_system.model.dao.ApprovalMapper;
 import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
 import com.semi.lynk.function.approval_system.model.dto.EmployeeDTO;
-import com.semi.lynk.function.notice_board.model.dto.NoticeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,8 +26,12 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
-    public void createApproval(ApprovalDTO approval){
-        System.out.println("서비스임다 approval = " + approval);
+    public void createApproval(List<ApprovalDTO> approvals){
+        for (ApprovalDTO approvalDTO : approvals) {
+            // 각 ApprovalDTO를 처리하는 로직
+            System.out.println("서비스임다 approval = " + approvals);
+        }
+
 
 
     };
@@ -44,7 +46,7 @@ public class ApprovalServiceImpl implements ApprovalService {
         System.out.println("서비스의 keyword = " + keyword);
         int count = approvalMapper.getDraftsCount(empNo, state, keyword);    // 페이징을 하기위해 먼저 전체 갯수 받아옴
         int start = page * size; // 해당페이지의 시작글번호
-        List<DraftDTO> drafts = approvalMapper.getDrafts(empNo, state, start, Math.min(count, start+size),keyword);
+        List<DraftDTO> drafts = approvalMapper.getDrafts(empNo, state, start, size, keyword);
         return new PageImpl<>(drafts, PageRequest.of(page, size), count);
     }
 

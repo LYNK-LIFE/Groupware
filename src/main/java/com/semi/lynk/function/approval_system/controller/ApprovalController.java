@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,7 +27,7 @@ public class ApprovalController {
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException e, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-        return "redirect:/notice/list";
+        return "redirect:/approval/list/ondraft";
     }
 
     @GetMapping("/credraft")
@@ -69,6 +70,7 @@ public class ApprovalController {
 
         switch (action) {
             case "findraft" : state = "(draft_state = 2)"; break;
+            case "readydraft" : state = "(draft_state = 8)"; break;
             case "dindraft" : state = "(draft_state = 9)"; break;
         }
         System.out.println("컨트롤러 keyword = " + keyword);
@@ -96,6 +98,7 @@ public class ApprovalController {
 
         switch (action) {
             case "findraft" : state = "(draft_state = 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
+            case "readydraft" : state = "(draft_state = 8) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
             case "dindraft" : state = "(draft_state = 9) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
         }
 
@@ -120,21 +123,23 @@ public class ApprovalController {
         return "function/approval_system/view";
     }
     @GetMapping("/addApproval")
-    public String showAddApprovalForm(Model model) {
+    public String showAddApprovalForm(Model model, HttpSession session) {
         List<EmployeeDTO> employees = approvalService.getAllEmployees();
+        String empNo = (String) session.getAttribute("empNo");
+        model.addAttribute("myEmpNo", empNo);
         model.addAttribute("employees", employees);
-        model.addAttribute("approvalDTO", new ApprovalDTO());
+        model.addAttribute("approvals", new ArrayList<ApprovalDTO>());
         return "function/approval_system/approval";
     }
 
     @PostMapping("/addApproval")
-    public String addApproval(@ModelAttribute ApprovalDTO approvalDTO, BindingResult result) {
+    public String addApproval(@ModelAttribute("approvals") List<ApprovalDTO> approvals, BindingResult result) {
         if (result.hasErrors()) {
             return "approval/addApproval";
         }
-        System.out.println("여긴 컨트롤러 approvalDTO = " + approvalDTO);
-        approvalService.createApproval(approvalDTO);
-        return "redirect:/approval/success";
+        System.out.println("여긴 컨트롤러 approvalDTO = " + approvals);
+        approvalService.createApproval(approvals);
+        return "redirect:/approval/list/ondraft";
     }
 
 //    @GetMapping("/doapproval")
