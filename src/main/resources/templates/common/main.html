@@ -28,10 +28,7 @@
             <!-- 만기 도래 고객 목록 영역 -->
             <span class="articleName">만기 도래 고객</span>
             <hr class="custom-hr">
-            <div class="expiring-contracts" >
-                <div class="header">
-
-                </div>
+            <div class="expiring-contracts custom-layout"  >
                 <div id="contract-list" class="contract-list">
                     <!-- Contract cards will be dynamically added here -->
                 </div>
@@ -47,6 +44,9 @@
             <!-- 실적 현황표 영역 -->
             <span class="articleName">금월 영업 실적 현황판</span>
             <hr class="custom-hr">
+            <div id="chart-container">
+                <canvas id="salesChart" width="800" height="400"></canvas>
+            </div>
         </article>
     </section>
 
@@ -57,7 +57,9 @@
 <script th:src="@{/js/common.js}"></script>
 <script th:src="@{/js/calendar.js}"></script>
 <script th:src="@{/js/expiredcustomer.js}"></script>
-
+<script th:src="@{/js/salesperformance.js}"></script>
+<
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--금월실적 현황판 스크립트 1-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 

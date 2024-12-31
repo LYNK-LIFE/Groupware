@@ -14,6 +14,7 @@ import java.util.Date;
 @Setter
 @ToString
 public class ExpiredCustomerDTO {
+    private int productCategory; // 보험회사명 코드
     private int insuranceCompanyCode; // 보험회사 코드
     private String insuranceCompanyName; // 보험회사 이름
     private String productName; // 상품명

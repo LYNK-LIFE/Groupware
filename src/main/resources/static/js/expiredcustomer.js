@@ -10,9 +10,6 @@ async function fetchContract() {
         }
         const contract = await response.json(); // JSON 형식으로 응답 받기
 
-        //콘솔소환
-        console.log('Contract',contract);
-
         const contractList = document.getElementById('contract-list');
         contractList.innerHTML='<p>로딩중....</p>';
 
@@ -53,11 +50,14 @@ async function fetchContract() {
 
             // 카드 내용 추가
             contractCard.innerHTML = `
-                <h3>${insuranceCompanyName}</h3>
-                <p><strong>상품명:</strong> ${contract.productName}</p>
-                <p><strong>고객명:</strong> ${contract.customerName}</p>
-                <p><strong>만기일자:</strong> ${new Date(contract.expiringDate).toLocaleDateString()}</p>
+                <p>${insuranceCompanyName}</p>
+                <p>${contract.productName}</p>
+                <p> 계약자 : ${contract.customerName}</p>
+                <p>만기일자 : ${new Date(contract.expiringDate).toLocaleDateString()}</p>
+               
             `;
+
+
 
             // 계약 카드를 목록에 추가
             contractList.appendChild(contractCard);

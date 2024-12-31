@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/login/*")
+@RequestMapping("login/*")
 public class LoginController {
 
     //****************************************************************

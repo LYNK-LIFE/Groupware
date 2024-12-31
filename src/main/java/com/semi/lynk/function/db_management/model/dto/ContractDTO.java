@@ -14,7 +14,6 @@ public class ContractDTO {
     // 계약
     private int contractMngNo; // 계약일련번호
     private String contractNo; // 계약번호
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date contractDate; // 계약일자
     private int contractDuration; // 계약기간

@@ -275,7 +275,10 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
     const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
     confirmModal.show();
 
-    document.getElementById('confirmYes').addEventListener('click', function () {
+    const confirmYesButton = document.getElementById('confirmYes');
+    const confirmNoButton = document.getElementById('confirmNo');
+
+    const handleYesClick = function () {
         const contractData = {
             customerSsn: document.getElementById('customerSsn').value,
             contractNo: document.getElementById('contractNo').value,
@@ -289,9 +292,11 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
             insuredSsn: document.getElementById('insuredSsn').value,
             otherMatters: document.getElementById('otherMatters').value,
             productNo: document.getElementById('productNo').value,
-            customerNo: document.getElementById('customerNo').dataset.customerNo,
-            employeeNo: document.getElementById('employeeNo').dataset.employeeNo
+            customerNo: document.getElementById('customerNo').value,
+            employeeNo: document.getElementById('employeeNo').value
         };
+
+        console.log("js에 넘어온 data", contractData);
 
         // 서버로 데이터 전송
         fetch('/db/contract', {
@@ -312,12 +317,20 @@ document.getElementById('registerContractBtn').addEventListener('click', functio
                 console.error('Error saving contract:', error);
                 showErrorModal('계약 저장 중 오류가 발생했습니다.');
             });
-    });
 
-    // "취소" 버튼 클릭 시 모달 닫기
-    document.getElementById('confirmNo').addEventListener('click', function () {
+        confirmYesButton.removeEventListener('click', handleYesClick);
+        confirmNoButton.removeEventListener('click', handleNoClick);
+    };
+
+
+    const handleNoClick = function () {
         confirmModal.hide();
-    });
+        confirmYesButton.removeEventListener('click', handleYesClick);
+        confirmNoButton.removeEventListener('click', handleNoClick);
+    };
+
+    confirmYesButton.addEventListener('click', handleYesClick);
+    confirmNoButton.addEventListener('click', handleNoClick);
 });
 
 // 성공 메시지 모달 표시 함수
@@ -332,7 +345,7 @@ function showCompletionModal(message) {
     document.getElementById('completionConfirm').addEventListener('click', function () {
         resultModal.hide();
         window.history.back(); // 이전 페이지로 돌아가기
-    });
+    },{once:true});
 }
 
 // 오류 메시지 모달 표시 함수

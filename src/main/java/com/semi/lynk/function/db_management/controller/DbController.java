@@ -3,18 +3,21 @@ package com.semi.lynk.function.db_management.controller;
 import com.semi.lynk.function.db_management.model.dto.*;
 import com.semi.lynk.function.db_management.service.DbService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation .*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
 
 @Controller
 @RequestMapping("/db")
+
     public class DbController {
 
     private final DbService dbService;
@@ -120,7 +123,6 @@ import java.util.*;
     @PostMapping("/customer")
     @ResponseBody
     public ResponseEntity<String> registerCustomer(@RequestBody CustomerDTO customerDTO) {
-        System.out.println("customerDTO = " + customerDTO);
         dbService.registerCustomer(customerDTO);
         return ResponseEntity.ok("고객이 성공적으로 등록되었습니다.");
     }
@@ -149,7 +151,6 @@ import java.util.*;
 
         // 직원 데이터 추가
         List<EmployeeDTO> employees = dbService.getAllEmployees();
-        System.out.println("Employees: " + employees); // 로그 출력
         model.addAttribute("employees", employees);
 
         // `contract` 객체를 데이터베이스에서 가져오거나 새로운 객체로 초기화
@@ -213,7 +214,7 @@ import java.util.*;
 
     @PostMapping("/contract")
     @ResponseBody
-    public Map<String, Object> registerContract(@ModelAttribute ContractDTO contractDTO, HttpSession session) {
+    public Map<String, Object> registerContract(@RequestBody ContractDTO contractDTO, HttpSession session, RedirectAttributes redirectAttributes) {
         Map<String, Object> response = new HashMap<>();
         String empNo = (String) session.getAttribute("empNo");
 
@@ -266,7 +267,7 @@ import java.util.*;
     }
 
 
-
+//=====================================================================================================================
 
     @GetMapping("/api/expiring-contracts")
     public ResponseEntity<List<ExpiredCustomerDTO>> getExpiredCustomers() {
@@ -277,6 +278,17 @@ import java.util.*;
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+//=====================================================================================================================
+
+
+    @GetMapping("/top-sales")
+    @ResponseBody
+    public List<TopSalesContractDTO> getTopSalesContract() {
+        List<TopSalesContractDTO> result = dbService.getTopSaleContract();
+        System.out.println("컨트롤러 result = " + result); // 반환 데이터 확인
+        return result;
     }
 
 

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DbMapper {
@@ -39,18 +40,24 @@ public interface DbMapper {
 
 //=======================================================================================================================
 
-    List<ExpiringCustomerDTO> searchExpiringCustomers(@Param("customerName")String customerName,
-                                                       @Param("insuredName")String insuredName,
-                                                       @Param("customerSsn")String customerSsn,
-                                                       @Param("insuredSsn")String insuredSsn,
-                                                       @Param("employeeNo")String employeeNo,
-                                                       @Param("employeeName")String employeeName,
-                                                       @Param("month")String month);
+    List<ExpiringCustomerDTO> searchExpiringCustomers(@Param("customerName") String customerName,
+                                                      @Param("insuredName") String insuredName,
+                                                      @Param("customerSsn") String customerSsn,
+                                                      @Param("insuredSsn") String insuredSsn,
+                                                      @Param("employeeNo") String employeeNo,
+                                                      @Param("employeeName") String employeeName,
+                                                      @Param("month") String month);
 
 
     List<ExpiringCustomerDTO> selectExpiringCustomersByMonth(@Param("year") int year, @Param("month") int month);
 
 
     List<ExpiredCustomerDTO> getExpiredCustomer();
+
+
+    List<TopSalesContractDTO> fetchTopSalesContract();
 }
+
+
+
 
