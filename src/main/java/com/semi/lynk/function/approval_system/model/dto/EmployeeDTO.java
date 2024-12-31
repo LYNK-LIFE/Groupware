@@ -12,4 +12,5 @@ public class EmployeeDTO {
     private String employeeName;
     private String departmentNo;
     private String departmentName;
+    private String position;
 }

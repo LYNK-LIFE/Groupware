@@ -23,11 +23,13 @@ public class ApprovalServiceImpl implements ApprovalService {
     public List<EmployeeDTO> getAllEmployees()
     {
         List<EmployeeDTO> employees = approvalMapper.getAllEmployees();
+        System.out.println("employees = " + employees);
         return employees;
     }
 
     @Override
     public void createApproval(ApprovalDTO approval){
+        System.out.println("서비스임다 approval = " + approval);
 
 
     };

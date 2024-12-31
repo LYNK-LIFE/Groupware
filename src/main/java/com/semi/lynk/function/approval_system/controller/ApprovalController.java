@@ -40,11 +40,11 @@ public class ApprovalController {
         String empNo = (String) session.getAttribute("empNo");
         draftDTO.setEmployeeNo(empNo);
         draftDTO.setDraftCurrentStep(1);
-        draftDTO.setDraftState(0);
+        draftDTO.setDraftState(8);
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
         approvalService.createDraft(draftDTO);
-        return "redirect:/approval/list/ondraft";
+        return "redirect:/approval/addApproval";
     }
 
     @GetMapping("/{draftNo}")
@@ -82,7 +82,6 @@ public class ApprovalController {
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
         model.addAttribute("action", action);
-        System.out.println("왜 두번씩 돌까???");
         return "function/approval_system/list";
     }
 
@@ -94,8 +93,7 @@ public class ApprovalController {
                         @RequestParam(defaultValue = "12") int size) {
         String state = "(draft_state < 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))";
         // 조건에 따라 맞는 쿼리문을 넘기기 위한 변수, 기본값 ondraft
-        System.out.println("action = " + action);
-        System.out.println("keyword = " + keyword);
+
         switch (action) {
             case "findraft" : state = "(draft_state = 2) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
             case "dindraft" : state = "(draft_state = 9) and (draft_title LIKE CONCAT('%', #{keyword}, '%'))"; break;
@@ -125,8 +123,7 @@ public class ApprovalController {
     public String showAddApprovalForm(Model model) {
         List<EmployeeDTO> employees = approvalService.getAllEmployees();
         model.addAttribute("employees", employees);
-        model.addAttribute("approvalForm", new ApprovalDTO());
-        System.out.println("여긴왔지?");
+        model.addAttribute("approvalDTO", new ApprovalDTO());
         return "function/approval_system/approval";
     }
 
@@ -135,6 +132,7 @@ public class ApprovalController {
         if (result.hasErrors()) {
             return "approval/addApproval";
         }
+        System.out.println("여긴 컨트롤러 approvalDTO = " + approvalDTO);
         approvalService.createApproval(approvalDTO);
         return "redirect:/approval/success";
     }

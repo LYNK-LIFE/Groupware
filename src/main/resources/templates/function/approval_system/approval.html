@@ -14,22 +14,22 @@
     <title>Document</title>
 </head>
 <body>
-<form id="approvalForm" th:action="@{/approval/addApproval}" th:object="${approvalForm}" method="post">
+
+<form id="approvalForm" th:action="@{/approval/addApproval}" th:object="${approvalDTO}" method="post">
     <div id="approverContainer">
         <!-- 결재자 블록이 여기에 동적으로 추가됩니다 -->
     </div>
-    <button type="button" id="addApproverBtn" onclick="addApprover()">결재자 추가</button>
+
+    <button type="button" id="addApproverBtn" data-toggle="modal" data-target="#employeeModal">결재자 추가</button>
     <button type="submit">저장</button>
 </form>
+
 <!-- 직원 선택 모달 -->
 <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="employeeModalLabel">결재자 선택</h5>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#employeeModal">
-                    결재자 선택
-                </button>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -39,6 +39,8 @@
                     <thead>
                     <tr>
                         <th>사번</th>
+                        <th>부서</th>
+                        <th>직급</th>
                         <th>이름</th>
                         <th>선택</th>
                     </tr>
@@ -46,11 +48,17 @@
                     <tbody>
                     <tr th:each="employee : ${employees}">
                         <td th:text="${employee.employeeNo}"></td>
+                        <td th:text="${employee.departmentName}"></td>
+                        <td th:text="${employee.position}"></td>
                         <td th:text="${employee.employeeName}"></td>
+
                         <td>
                             <button type="button" class="btn btn-sm btn-primary select-employee"
                                     th:data-employee-no="${employee.employeeNo}"
+                                    th:data-department-name="${employee.departmentName}"
+                                    th:data-position="${employee.position}"
                                     th:data-employee-name="${employee.employeeName}">
+
                                 선택
                             </button>
                         </td>
@@ -63,19 +71,30 @@
 </div>
 
 <script th:inline="javascript">
-    var approverCount = 0;
-    var maxApprovers = 5;
+    var approverCount = 0;  // 현재 선택한 결재자 숫자
+    var maxApprovers = 5;   // 결재자 최대 숫자
+    var selectedEmployees = [];  // 선택된 직원들의 사번을 저장할 배열
 
     $(document).ready(function() {
-        $('.select-employee').click(function() {
+        $('#employeeModal').on('click', '.select-employee', function() {
             var employeeNo = $(this).data('employee-no');
+            var departmentName = $(this).data('department-name');
+            var position = $(this).data('position');
             var employeeName = $(this).data('employee-name');
-            addApprover(employeeNo, employeeName);
+
+
+            if (selectedEmployees.includes(employeeNo)) {
+                alert('이미 선택된 직원입니다. 다른 직원을 선택해 주세요.');
+                return;
+            }
+
+            addApprover(employeeNo, departmentName, employeeName, position);
+            selectedEmployees.push(employeeNo);  // 선택된 직원 사번 추가
             $('#employeeModal').modal('hide');
         });
     });
 
-    function addApprover(employeeNo, employeeName) {
+    function addApprover(employeeNo, departmentName, employeeName, position) {
         if (approverCount >= maxApprovers) {
             alert('최대 5명의 결재자만 추가할 수 있습니다.');
             return;
@@ -85,19 +104,30 @@
         var newBlock = document.createElement('div');
         newBlock.className = 'approver-block';
         newBlock.innerHTML = `
-                <h3>결재자 ${approverCount + 1}</h3>
-                <input type="text" name="approvals[${approverCount}].employeeNo" value="${employeeNo}" readonly>
-                <input type="text" value="${employeeName}" readonly>
-                <input type="number" name="approvals[${approverCount}].approvalStep" placeholder="결재 순서" min="1" max="${approverCount + 1}" required>
-                <button type="button" onclick="removeApprover(this)">삭제</button>
-            `;
+            <h3>결재자 ${approverCount + 1}</h3>
+            <input type="text" name="approvals[${approverCount}].employeeNo" value="${employeeNo}" readonly>
+            <input type="text" value="${departmentName}" readonly>
+            <input type="text" value="${position}" readonly>
+            <input type="text" value="${employeeName}" readonly>
+            <input type="number" name="approvals[${approverCount}].approvalStep" placeholder="결재 순서" min="1" max="${approverCount + 1}" required>
+            <button type="button" onclick="removeApprover(this)">삭제</button>
+        `;
         container.appendChild(newBlock);
+
+        console.log("doc에 들어있나?",document);
+
         approverCount++;
 
         updateApproverNumbers();
     }
 
     function removeApprover(button) {
+        var employeeNo = button.parentElement.querySelector('input[name^="approvals"][name$=".employeeNo"]').value;
+        var index = selectedEmployees.indexOf(employeeNo);
+        if (index > -1) {
+            selectedEmployees.splice(index, 1);  // 선택된 직원 목록에서 제거
+        }
+
         button.parentElement.remove();
         approverCount--;
         updateApproverNumbers();
@@ -112,49 +142,23 @@
             blocks[i].getElementsByTagName('input')[2].max = approverCount;
         }
     }
+
+    function updateModalButtons() {
+        $('.select-employee').each(function() {
+            var employeeNo = $(this).data('employee-no');
+            if (selectedEmployees.includes(employeeNo)) {
+                $(this).prop('disabled', true).text('선택됨').removeClass('btn-primary').addClass('btn-secondary');
+            } else {
+                $(this).prop('disabled', false).text('선택').removeClass('btn-secondary').addClass('btn-primary');
+            }
+        });
+    }
+
+    // 모달이 열릴 때마다 버튼 상태 업데이트
+    $('#employeeModal').on('show.bs.modal', function () {
+        updateModalButtons();
+    });
 </script>
-<!--<script th:inline="javascript">-->
-<!--    var approverCount = 0;-->
-<!--    var maxApprovers = 5;-->
-
-<!--    function addApprover() {-->
-<!--        if (approverCount >= maxApprovers) {-->
-<!--            alert('최대 5명의 결재자만 추가할 수 있습니다.');-->
-<!--            return;-->
-<!--        }-->
-
-<!--        var container = document.getElementById('approverContainer');-->
-<!--        var newBlock = document.createElement('div');-->
-<!--        newBlock.className = 'approver-block';-->
-<!--        newBlock.innerHTML = `-->
-<!--                <h3>결재자 ${approverCount + 1}</h3>-->
-<!--                <input type="text" name="approvals[${approverCount}].employeeNo" placeholder="사번" required>-->
-<!--                <input type="number" name="approvals[${approverCount}].approvalStep" placeholder="결재 순서" min="1" max="${approverCount + 1}" required>-->
-<!--                <button type="button" onclick="removeApprover(this)">삭제</button>-->
-<!--            `;-->
-<!--        container.appendChild(newBlock);-->
-<!--        approverCount++;-->
-
-<!--        if (approverCount >= maxApprovers) {-->
-<!--            document.getElementById('addApproverBtn').disabled = true;-->
-<!--        }-->
-<!--    }-->
-
-<!--    function removeApprover(button) {-->
-<!--        button.parentElement.remove();-->
-<!--        approverCount&#45;&#45;;-->
-<!--        document.getElementById('addApproverBtn').disabled = false;-->
-<!--        updateApproverNumbers();-->
-<!--    }-->
-
-<!--    function updateApproverNumbers() {-->
-<!--        var blocks = document.getElementsByClassName('approver-block');-->
-<!--        for (var i = 0; i < blocks.length; i++) {-->
-<!--            blocks[i].getElementsByTagName('h3')[0].innerText = `결재자 ${i + 1}`;-->
-<!--            blocks[i].getElementsByTagName('input')[0].name = `approvals[${i}].employeeNo`;-->
-<!--        }-->
-<!--    }-->
-<!--</script>-->
 
 </body>
 </html>
