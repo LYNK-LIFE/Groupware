@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Mapper
 public interface CalendarMapper {
-    List<CalendarDTO> showCalendarSelect();
+    List<CalendarDTO> showCalendarSelect(int employeeNo);
 
     List<CalendarDTO> showMyAppStatus1();
 
@@ -20,16 +20,21 @@ public interface CalendarMapper {
 
     int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
 
-    int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO);
+    int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO
+    , String employeeNo);
 
-    int vacAppInsertMapper(VacationApplicationDTO vacationApplicationDTO);
+    int vacAppInsertMapper(VacationApplicationDTO vacationApplicationDTO
+    , String employeeNo);
 
     // draft 1씩 늘려주기 위한 selet
-    int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO);
+    int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO
+    , String employeeNo);
 
-    int vacAppUpdateMapper2(VacationApplicationDTO vacationApplicationDTO);
+    int vacAppUpdateMapper2(VacationApplicationDTO vacationApplicationDTO
+    , String employeeNo);
 
-    int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO);
+    int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO
+    , String employeeNo);
 
     int vacStatusUpdateMapper(int draftNo, int newState);
 

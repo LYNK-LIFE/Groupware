@@ -164,10 +164,9 @@
             </div>
 
             <div class="right-buttons">
-<!--        <button class="application-approval-button" id="approval-button-id">-->
-<!--                결재 승인 현황</button>-->
-        <button class="application-my-button" id="status-my-id"
-                onclick="location.href='/employee/appStatus'">결재 승인 현황</button>
+                <button class="application-my-button" id="status-my-id"
+                        onclick="location.href='/employee/appStatus'"
+                        th:text="${session.roleAdmin == 1 ? '결재 승인 현황' : '나의 신청 현황'}"></button>
             </div>
         </div>
 
