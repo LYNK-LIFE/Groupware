@@ -8,6 +8,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DbService {
@@ -107,25 +108,53 @@ public class DbService {
         for (ExpiredCustomerDTO customer : customers) {
             customer.setInsuranceCompanyName(mapInsuranceCompanyName(customer.getInsuranceCompanyCode()));
         }
-
         return customers;
     }
 
+
+
     private String mapInsuranceCompanyName(int code) {
         switch (code) {
-            case 1: return "메리츠화재";
-            case 2: return "현대해상";
-            case 3: return "한화손해보험";
-            case 4: return "삼성화재";
-            case 5: return "DB손해보험";
-            case 31: return "MetLife";
-            case 32: return "한화생명";
-            case 33: return "SinhanLife";
-            case 34: return "흥국생명";
-            case 35: return "라이나생명";
-            default: return "기타";
+            case 1:
+                return "메리츠화재";
+            case 2:
+                return "현대해상";
+            case 3:
+                return "한화손해보험";
+            case 4:
+                return "삼성화재";
+            case 5:
+                return "DB손해보험";
+            case 31:
+                return "MetLife";
+            case 32:
+                return "한화생명";
+            case 33:
+                return "SinhanLife";
+            case 34:
+                return "흥국생명";
+            case 35:
+                return "라이나생명";
+            default:
+                return "기타";
         }
     }
+
+
+
+
+
+//    =============================================================================================================
+
+    public List<TopSalesContractDTO> getTopSaleContract() {
+        List<TopSalesContractDTO> contracts = dbMapper.fetchTopSalesContract();
+        System.out.println("서비스! contracts = " + contracts); // 반환 데이터 확인
+        return contracts;
+    }
+
+
+
+
 }
 
 

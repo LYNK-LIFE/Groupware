@@ -231,19 +231,7 @@
 
     <select id="getExpiredCustomer" resultType="com.semi.lynk.function.db_management.model.dto.ExpiredCustomerDTO">
         SELECT
-        CASE
-        WHEN p.product_category = 1 THEN '메리츠화재'
-        WHEN p.product_category = 2 THEN '현대해상'
-        WHEN p.product_category = 3 THEN '한화손해보험'
-        WHEN p.product_category = 4 THEN '삼성화재'
-        WHEN p.product_category = 5 THEN 'DB손해보험'
-        WHEN p.product_category = 31 THEN 'MetLife'
-        WHEN p.product_category = 32 THEN '한화생명'
-        WHEN p.product_category = 33 THEN 'SinhanLife'
-        WHEN p.product_category = 34 THEN '흥국생명'
-        WHEN p.product_category = 35 THEN '라이나생명'
-        ELSE '기타'
-        END AS insuranceCompany,
+        p.product_category AS insuranceCompanyCode,
         p.product_name AS productName,
         c.customer_name AS customerName,
         DATE_ADD(co.contract_date, INTERVAL 365 DAY) AS expiringDate
@@ -256,5 +244,29 @@
         WHERE
         DATE_ADD(co.contract_date, INTERVAL 365 DAY) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
     </select>
+
+
+
+    <select id="fetchTopSalesContract" resultType="com.semi.lynk.function.db_management.model.dto.TopSalesContractDTO">
+        SELECT
+            e.employee_name AS employeeName,
+            SUM(c.each_payment) AS totalSales
+        FROM
+            contract c
+            JOIN
+            employee e ON c.employee_no = e.employee_no
+        WHERE
+            e.department_no IN (2, 3, 4)
+            AND c.product_no NOT IN ('m3', 'h1', 'han1', 's1', 'd1')
+        GROUP BY
+            e.employee_name
+        ORDER BY
+            totalSales DESC
+        LIMIT 10
+    </select>
+
+
+
+
 
 </mapper>

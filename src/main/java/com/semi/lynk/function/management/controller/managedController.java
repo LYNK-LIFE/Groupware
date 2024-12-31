@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/management/*")
+@RequestMapping("management/*")
 public class managedController {
 
     @Autowired

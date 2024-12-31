@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/login/*")
+@RequestMapping("login/*")
 public class LoginController {
 
     //****************************************************************
@@ -72,7 +72,7 @@ public class LoginController {
 
             mv.addObject("message", message);
         } catch (Exception e) {
-            mv.setViewName("/function/login/empAdd");
+            mv.setViewName("function/login/empAdd");
             mv.addObject("message", "파일 업로드 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
