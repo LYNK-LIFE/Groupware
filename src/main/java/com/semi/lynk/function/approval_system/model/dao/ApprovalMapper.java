@@ -23,6 +23,8 @@ public interface ApprovalMapper {
 
     void setDraftStepAndState(Long draftNo, Integer lastStep, Integer state);
 
+    void setDraftStateAndTime(Long draftNo,int state, String currentTime);
+
     List<DraftDTO> selectForApproval(String empNo, int start, int size, String state);
 
     int getApprovalsCount(String empNo);

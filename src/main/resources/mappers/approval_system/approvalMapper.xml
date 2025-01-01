@@ -123,6 +123,13 @@
         WHERE draft_no = #{draftNo,jdbcType=BIGINT}
     </update>
 
+    <update id="setDraftStateAndTime">
+        UPDATE draftsh
+        SET draft_state = #{state,jdbcType=INTEGER},
+        draft_completion_time = #{currentTime,jdbcType=VARCHAR}
+        WHERE draft_no = #{draftNo,jdbcType=BIGINT}
+    </update>
+
     <update id="updateApproval" >
         UPDATE approval
         SET approval_state = #{approvalDTO.approvalState}, approval_completion_time = #{approvalDTO.approvalCompletionTime}

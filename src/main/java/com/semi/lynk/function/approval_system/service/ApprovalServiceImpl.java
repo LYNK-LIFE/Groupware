@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -21,8 +22,8 @@ public class ApprovalServiceImpl implements ApprovalService {
     private ApprovalMapper approvalMapper;
 
     @Override
-    public void setDraftState(Long draftNo, int lastStep)
-    {
+    public void setDraftState(Long draftNo, int lastStep){
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         approvalMapper.setDraftStepAndState(draftNo, lastStep,0);
     };
 
@@ -46,7 +47,6 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Override
     public Long createDraft(DraftDTO draftDTO){
         approvalMapper.insertDraft(draftDTO);
-        System.out.println("draftDTO.getDraftNo() = " + draftDTO.getDraftNo());
         return draftDTO.getDraftNo();
     }
 
@@ -73,18 +73,17 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
-    public void updateApproval(Long draftNo, String empNo){
+    public void approveApproval(Long draftNo, String empNo){
         DraftDTO draftDTO = approvalMapper.selectDraftByDNO(draftNo);
         int lastStep = draftDTO.getDraftLastStep(); // 결재 최종 단계
-        int curStep = draftDTO.getDraftCurrentStep()
-        ; // 현재 결재 단계
-
-        System.out.println("승인 단계 draftDTO = " + draftDTO);
+        int curStep = draftDTO.getDraftCurrentStep(); // 현재 결재 단계
 
         ApprovalDTO approvalDTO = new ApprovalDTO();
         approvalDTO.setApprovalCompletionTime(LocalDateTime.now());
         approvalDTO.setApprovalState(2);
         approvalMapper.updateApproval(draftNo,empNo,approvalDTO);
+
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         int count;
         count = approvalMapper.countCurrentStep(draftNo,curStep);
@@ -99,5 +98,18 @@ public class ApprovalServiceImpl implements ApprovalService {
             }
         }
         approvalMapper.setDraftCurrentStep(draftNo, curStep);
+        approvalMapper.setDraftStateAndTime(draftNo,1, currentTime);
+    }
+    @Override
+    public void updateApproval(Long draftNo, String empNo, int state){
+        ApprovalDTO approvalDTO = new ApprovalDTO();
+        approvalDTO.setApprovalCompletionTime(LocalDateTime.now());
+        approvalDTO.setApprovalState(state);
+
+        approvalMapper.updateApproval(draftNo,empNo,approvalDTO);
+
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        approvalMapper.setDraftStateAndTime(draftNo,state, currentTime);
     }
 }
