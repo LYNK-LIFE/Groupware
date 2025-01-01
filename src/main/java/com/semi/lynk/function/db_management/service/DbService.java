@@ -99,8 +99,6 @@ public class DbService {
 
 
 
-
-
     public List<ExpiredCustomerDTO> getExpiredCustomer() {
         List<ExpiredCustomerDTO> customers = dbMapper.getExpiredCustomer();
 
@@ -141,9 +139,6 @@ public class DbService {
     }
 
 
-
-
-
 //    =============================================================================================================
 
     public List<TopSalesContractDTO> getTopSaleContract() {
@@ -151,9 +146,15 @@ public class DbService {
         return contracts;
     }
 
+//===================================================================================================================
 
-    public List<InquiryDTO> searchInquiry(String name, String plannerName, String plannerId) {
-        return dbMapper.searchInquiry(name,plannerName,plannerId);
+    public List<InquiryDTO> searchInquiry(String name, String plannerName) {
+        return dbMapper.searchInquiry(name,plannerName);
+    }
+//=====================================================================================================================
+
+    public ContractDetailsDTO getContractDetails(String contractNo) {
+        return dbMapper.getContractDetails(contractNo);
     }
 }
 

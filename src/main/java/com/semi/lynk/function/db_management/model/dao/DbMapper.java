@@ -63,10 +63,16 @@ public interface DbMapper {
 
     List<InquiryDTO> searchInquiry(
             @Param("name") String name,
-            @Param("plannerName") String plannerName,
-            @Param("plannerId") String plannerId);
+            @Param("plannerName") String plannerName);
+
+//=====================================================================================================================
+
+    ContractDetailsDTO getContractDetails(@Param("contractNo") String contractNo);
+
+
 
 }
+
 
 
 

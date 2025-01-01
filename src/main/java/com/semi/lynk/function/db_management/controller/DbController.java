@@ -292,17 +292,31 @@ import java.util.*;
 //======================================================================================================================
 
     @GetMapping("/inquiry")
-    public List<InquiryDTO>SelectInquiry(
+    public String SelectInquiry(
             @RequestParam(value ="name" , required = false) String name,
-            @RequestParam(value ="plannerMame",required =false) String plannerName,
-            @RequestParam(value = "plannerId", required = false) String plannerId){
+            @RequestParam(value ="plannerName",required =false) String plannerName,Model model){
 
-        return dbService.searchInquiry(name, plannerName, plannerId);
+        List<InquiryDTO> inquiryDTO = dbService.searchInquiry(name, plannerName);
+        model.addAttribute("inquiryDTO", inquiryDTO);
+        return "function/db_management/inquiry";
     }
 
+    @GetMapping("/inquiry/json")
+    @ResponseBody
+    public List<InquiryDTO>selectInquiryJson(
+            @RequestParam(value = "name" , required = false) String name,
+            @RequestParam(value = "plannerName" ,required = false) String plannerName){
+        return dbService.searchInquiry(name, plannerName);
+    }
 
+//======================================================================================================================
 
-
+    @GetMapping("/contract/details/{contractNo}")
+    public String getContractDetails(@PathVariable("contractNo") String contractNo, Model model) {
+        ContractDetailsDTO contractDetailsDTO = dbService.getContractDetails(contractNo);
+        model.addAttribute("contractDetailsDTO", contractDetailsDTO);
+        return "contractDetailsPage";
+    }
 
 
 
