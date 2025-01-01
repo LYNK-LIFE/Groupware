@@ -80,31 +80,32 @@ public class DbService {
         }
         return contract;
     }
+//===================================================================================================================
+    //만기도래 조회
 
     public List<ExpiringCustomerDTO> searchExpiringCustomers(String customerName,
                                                              String insuredName,
-                                                             String customerSsn,
-                                                             String insuredSsn,
-                                                             String employeeNo,
                                                              String employeeName,
                                                              String month) {
-        return dbMapper.searchExpiringCustomers(customerName,insuredName,customerSsn,insuredSsn,employeeNo,employeeName,month);
+        List<ExpiringCustomerDTO> customers = dbMapper.searchExpiringCustomers(customerName, insuredName, employeeName, month);
+        return customers;
     }
 
 
     public List<ExpiringCustomerDTO> getExpiringCustomersByMonth(int year, int month) {
+        System.out.println("서비스에서 처리 중: year=" + year + ", month=" + month); // 디버깅 추가
         return dbMapper.selectExpiringCustomersByMonth(year, month);
     }
 
 
 
-
-    public List<ExpiredCustomerDTO> getExpiredCustomer() {
-        List<ExpiredCustomerDTO> customers = dbMapper.getExpiredCustomer();
+//======================================================================================================================
+    public List<ExpiringCustomerDTO> getExpiredCustomer() {
+        List<ExpiringCustomerDTO> customers = dbMapper.getExpiredCustomer();
 
         // 보험회사 코드에 따라 이름 매핑
-        for (ExpiredCustomerDTO customer : customers) {
-            customer.setInsuranceCompanyName(mapInsuranceCompanyName(customer.getInsuranceCompanyCode()));
+        for (ExpiringCustomerDTO customer : customers) {
+            customer.setInsuranceCompany(mapInsuranceCompanyName(customer.getInsuranceCompanyCode()));
         }
         return customers;
     }

@@ -42,9 +42,6 @@ public interface DbMapper {
 
     List<ExpiringCustomerDTO> searchExpiringCustomers(@Param("customerName") String customerName,
                                                       @Param("insuredName") String insuredName,
-                                                      @Param("customerSsn") String customerSsn,
-                                                      @Param("insuredSsn") String insuredSsn,
-                                                      @Param("employeeNo") String employeeNo,
                                                       @Param("employeeName") String employeeName,
                                                       @Param("month") String month);
 
@@ -53,7 +50,7 @@ public interface DbMapper {
 
 //======================================================================================================================
 
-    List<ExpiredCustomerDTO> getExpiredCustomer();
+    List<ExpiringCustomerDTO> getExpiredCustomer();
 
 //======================================================================================================================
 

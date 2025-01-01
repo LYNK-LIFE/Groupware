@@ -7,9 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>만기도래 고객 조회 </title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css" rel="stylesheet">
 
 </head>
 
@@ -31,37 +29,61 @@
         </div>
 
         <article>
-            <div class="search-row mb-3">
-                <label>계약자/피보험자 조회:</label>
-                <input type="text" id="nameSearch" class="form-control">
-                <button class="btn btn-primary" id="nameSearchButton">조회</button>
+            <!-- 계약자/피보험자 이름 조회 -->
+            <div class="mb-3">
+                <label for="nameSearch">계약자/피보험자 이름:</label>
+                <div class="d-flex">
+                    <input type="text" id="nameSearch" class="form-control me-2">
+                    <button class="btn btn-primary" id="nameSearchButton">조회</button>
+                </div>
             </div>
 
-            <div class="search-row mb-3">
-                <label>사번/설계사 이름/부서별 조회:</label>
-                <input type="text" id="employeeSearch" class="form-control">
-                <button class="btn btn-primary" id="employeeSearchButton">조회</button>
+            <!-- 설계사 이름 조회 -->
+            <div class="mb-3">
+                <label for="employeeSearch">설계사 이름:</label>
+                <div class="d-flex">
+                    <input type="text" id="employeeSearch" class="form-control me-2">
+                    <button class="btn btn-primary" id="employeeSearchButton">조회</button>
+                </div>
             </div>
 
-            <div>
-                <label>만기일자 조회:</label>
-                <input type="text" id="monthPicker" class="form-control" readonly>
-                <button class="btn btn-primary" id="monthSearchButton">조회</button>
+            <!-- 만기도래 월별 조회 -->
+            <div class="mb-3">
+                <label for="monthDropdown">월별 만기 고객 조회:</label>
+                <select class="form-select" id="monthDropdown" onchange="handleMonthChange()">
+                    <option value="" selected disabled>월을 선택하세요</option>
+                    <option value="1">1월</option>
+                    <option value="2">2월</option>
+                    <option value="3">3월</option>
+                    <option value="4">4월</option>
+                    <option value="5">5월</option>
+                    <option value="6">6월</option>
+                    <option value="7">7월</option>
+                    <option value="8">8월</option>
+                    <option value="9">9월</option>
+                    <option value="10">10월</option>
+                    <option value="11">11월</option>
+                    <option value="12">12월</option>
+                </select>
             </div>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>계약번호</th>
-                        <th>보험회사</th>
-                        <th>상품명</th>
-                        <th>만기일자</th>
-                        <th>계약자/피보험자</th>
-                        <th>부서명/설계사/사번</th>
-                    </tr>
-                    </thead>
-                    <tbody id="resultTable"></tbody>
-                </table>
+            <!-- 결과 테이블 -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>계약자/피보험자</th>
+                    <th>보험회사</th>
+                    <th>상품명</th>
+                    <th>만기일자</th>
+                    <th>계약번호</th>
+                    <th>부서명/설계사/사번</th>
+                </tr>
+                </thead>
+                <tbody id="resultTable">
+                </tbody>
+            </table>
+
         </article>
     </section>
 
@@ -87,8 +109,8 @@
 <script th:src="@{/js/common.js}"></script>
 <script th:src="@{/js/calendar.js}"></script>
 <script th:src="@{/js/expiringcustomer.js}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/locales-all.min.js"></script>
+
 </body>
 </html>
