@@ -37,11 +37,9 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Override
     public void createApproval(ApprovalList approvalList){
         List<ApprovalDTO> approvals = approvalList.getApprovals();
-        System.out.println("여긴 서비스");
         int i=0;
         for (ApprovalDTO approval : approvals) {
             i+=approvalMapper.insertApproval(approval);
-            System.out.println("서비스임다 approval = " + approval);
         }
     };
 
@@ -77,11 +75,29 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Override
     public void updateApproval(Long draftNo, String empNo){
         DraftDTO draftDTO = approvalMapper.selectDraftByDNO(draftNo);
-       //approvalMapper.getApprovalsCountForStep(draftNo,)
-        draftDTO.getDraftLastStep(); // 결재 최종 단계
-        draftDTO.getDraftCurrentStep(); // 현재 결재 단계
+        int lastStep = draftDTO.getDraftLastStep(); // 결재 최종 단계
+        int curStep = draftDTO.getDraftCurrentStep()
+        ; // 현재 결재 단계
+
+        System.out.println("승인 단계 draftDTO = " + draftDTO);
+
         ApprovalDTO approvalDTO = new ApprovalDTO();
         approvalDTO.setApprovalCompletionTime(LocalDateTime.now());
-        //approvalMapper.updateApproval(draftNo,empNo,approvalDTO);
+        approvalDTO.setApprovalState(2);
+        approvalMapper.updateApproval(draftNo,empNo,approvalDTO);
+
+        int count;
+        count = approvalMapper.countCurrentStep(draftNo,curStep);
+
+        while(count==0){
+            if(lastStep==curStep){
+                approvalMapper.setDraftStepAndState(draftNo, lastStep,2);
+                break;
+            }else {
+                curStep++;
+                count = approvalMapper.countCurrentStep(draftNo, curStep);
+            }
+        }
+        approvalMapper.setDraftCurrentStep(draftNo, curStep);
     }
 }

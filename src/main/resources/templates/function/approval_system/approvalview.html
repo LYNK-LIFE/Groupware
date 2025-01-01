@@ -46,9 +46,9 @@
                 <div class="notice-content" th:utext="${draft.draftMemo}"></div>
 
                 <div th:if="${state < 2}" style="margin-top: 10px;">
-                    <a th:href="@{/apploval/{draftNo}/check(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">확인</a>
-                    <a th:href="@{/apploval/{draftNo}/aprrove(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">승인</a>
-                    <a th:href="@{/apploval/{draftNo}/reject(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">반려</a>
+                    <a th:href="@{/approval/{draftNo}/check(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">확인</a>
+                    <a th:href="@{/approval/{draftNo}/approve(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">승인</a>
+                    <a th:href="@{/approval/{draftNo}/reject(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">반려</a>
                 </div>
                 <a th:href="@{${draft.draftState == 2 ? '/approval/list/findraft' :
                     (draft.draftState == 9 ? '/approval/list/dindraft' : '/approval/list/ondraft')}}"

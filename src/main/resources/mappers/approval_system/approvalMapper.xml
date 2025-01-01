@@ -116,16 +116,31 @@
         WHERE a.employee_no = #{empNo}
     </select>
 
-    <update id="setDraftStepAndState" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
+    <update id="setDraftStepAndState">
         UPDATE draftsh
-        SET draft_state = #{state}, draft_last_step = #{lastStep}
-        WHERE draft_no = #{draftNo}
+        SET draft_state = #{state,jdbcType=INTEGER},
+        draft_last_step = #{lastStep,jdbcType=INTEGER}
+        WHERE draft_no = #{draftNo,jdbcType=BIGINT}
     </update>
 
-<!--    <update id="updateApproval" parameterType="String" useGeneratedKeys="true" keyProperty="draftNo">-->
-<!--        UPDATE draftsh-->
-<!--        SET draft_state = #{state}, draft_last_step = #{lastStep}-->
-<!--        WHERE draft_no = #{draftNo}-->
-<!--    </update>-->
+    <update id="updateApproval" >
+        UPDATE approval
+        SET approval_state = #{approvalDTO.approvalState}, approval_completion_time = #{approvalDTO.approvalCompletionTime}
+        WHERE (draft_no = #{draftNo}) AND (employee_no = #{empNo})
+    </update>
+
+    <select id="countCurrentStep" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*)
+        FROM approval a LEFT JOIN draftsh dr using(draft_no)
+        WHERE draft_no = #{draftNo,jdbcType=BIGINT} AND approval_step = #{currentStep,jdbcType=INTEGER} AND approval_state < 2
+        ]]>
+    </select>
+
+    <update id="setDraftCurrentStep">
+        UPDATE draftsh
+        SET draft_current_step = #{curStep,jdbcType=INTEGER}
+        WHERE draft_no = #{draftNo,jdbcType=BIGINT}
+    </update>
 
 </mapper>
