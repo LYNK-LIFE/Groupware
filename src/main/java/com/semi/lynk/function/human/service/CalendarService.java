@@ -23,12 +23,13 @@ public class CalendarService {
         this.calendarMapper = calendarMapper;
     }
 
-    public List<CalendarDTO> calendarService (int employeeNo) {
-        return calendarMapper.showCalendarSelect(employeeNo);
+    public List<CalendarDTO> calendarService (int employeeNo , int roleAdmin) {
+        return calendarMapper.showCalendarSelect(employeeNo, roleAdmin);
     }
 
-    public List<CalendarDTO> myAppStatusService() {
-        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus1();
+    public List<CalendarDTO> myAppStatusService(int employeeNo,int roleAdmin) {
+        List<CalendarDTO> appStatus = calendarMapper.showMyAppStatus1(employeeNo,roleAdmin);
+        System.out.println("appStatus = " + appStatus);
 //        List<CalendarDTO> appStatus2 = calendarMapper.showMyAppStatus2();
 //        List<CalendarDTO> appStatus = new ArrayList<>();
 //        appStatus.addAll(appStatus1);
@@ -36,14 +37,15 @@ public class CalendarService {
         return appStatus;
     }
 
-    public List<VacationApplicationDTO> vacationStatus() {
+    public List<VacationApplicationDTO> vacationStatus(String employeeNo) {
         System.out.println("휴가 신청 했을 때 서비스 왔는지 =================================");
-        return calendarMapper.vacationAppMapper();
+        return calendarMapper.vacationAppMapper(employeeNo);
     }
 
     @Transactional
-    public int vacAppService(VacationApplicationDTO vacationApplicationDTO , String employeeNo) {
+    public int vacAppService(VacationApplicationDTO vacationApplicationDTO , String employeeNoString) {
         System.out.println("서비스 오는지=====================================");
+        int employeeNo = Integer.parseInt(employeeNoString); // String 이었으므로 int로
 
         int select = calendarMapper.vacAppDayOffCount(vacationApplicationDTO , employeeNo);
         System.out.println("1 : " + select);
@@ -76,8 +78,9 @@ public class CalendarService {
     }
 
     @Transactional
-    public int overTimeAppDataService(OverTimeApplicationDTO overTimeDTO) {
-        int result = calendarMapper.overTimeAppDataMapper(overTimeDTO);
+    public int overTimeAppDataService(OverTimeApplicationDTO overTimeDTO , String employeeNos) {
+        int employeeNo = Integer.parseInt(employeeNos);
+        int result = calendarMapper.overTimeAppDataMapper(overTimeDTO, employeeNo);
         return result >= 1 ? 1 : 0;
     }
 
@@ -104,5 +107,10 @@ public class CalendarService {
         if (updated <= 0) {
             throw new IllegalStateException("연차 사용량 감소 실패");
         }
+    }
+
+    public List<VacationApplicationDTO> vacationLeaderStatus(int roleAdmin) {
+
+        return calendarMapper.vacLeaderSelectMapper(roleAdmin);
     }
 }

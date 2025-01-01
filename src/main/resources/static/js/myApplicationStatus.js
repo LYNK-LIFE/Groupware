@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
             allEmployees = data; // 데이터 저장
             renderTable(allEmployees); // 테이블 출력
             console.log("데이터 로드 성공:", allEmployees);
+
         })
         .catch(err => console.error("데이터 로드 실패:", err));
 
@@ -33,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         data.forEach(item => {
             const row = document.createElement("tr");
-
             const leaveTypeDescription = item.dayOffDTO
                 ? getLeaveTypeDescription(item.dayOffDTO.leaveType)
                 : "연장근무";
@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.scheduleDTO?.scheduleEndDate
                 )
             );
+            row.setAttribute("data-employee-no" , item.employeeDTO.employeeNo || "사번")
             row.setAttribute("data-start-over-day", item.scheduleDTO?.scheduleStartDate || "N/A");
             row.setAttribute("data-vac-start", item.dayOffDTO?.leaveStartDate || "N/A");
             row.setAttribute("data-vac-end", item.dayOffDTO?.leaveEndDate || "N/A");

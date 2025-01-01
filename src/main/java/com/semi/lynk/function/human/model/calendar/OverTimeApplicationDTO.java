@@ -11,7 +11,7 @@ import java.util.Date;
 @ToString
 public class OverTimeApplicationDTO { // 뭘 쓸지 정해야 함.
 
-    private int id;                     // 담당자 사번
+//    private int id;                     // 담당자 사번
     private String name;                  // 담당자 이름
 
     private Date startOverDay;          // 시작일

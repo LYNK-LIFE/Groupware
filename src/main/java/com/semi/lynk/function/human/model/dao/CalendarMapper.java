@@ -10,31 +10,31 @@ import java.util.Map;
 
 @Mapper
 public interface CalendarMapper {
-    List<CalendarDTO> showCalendarSelect(int employeeNo);
+    List<CalendarDTO> showCalendarSelect(int employeeNo , int roleAdmin);
 
-    List<CalendarDTO> showMyAppStatus1();
+    List<CalendarDTO> showMyAppStatus1(int employeeNo, int roleAdmin);
 
-    List<VacationApplicationDTO> vacationAppMapper();
+    List<VacationApplicationDTO> vacationAppMapper(String employeeNo);
 
     List<OverTimeApplicationDTO> overTimeAppMapper(); // 연장근무 신청 버튼
 
-    int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO);
+    int overTimeAppDataMapper(OverTimeApplicationDTO overTimeDTO , int employeeNo);
 
     int vacAppUpdateMapper(VacationApplicationDTO vacationApplicationDTO
-    , String employeeNo);
+    , int employeeNo);
 
     int vacAppInsertMapper(VacationApplicationDTO vacationApplicationDTO
-    , String employeeNo);
+    , int employeeNo);
 
     // draft 1씩 늘려주기 위한 selet
     int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO
-    , String employeeNo);
+    , int employeeNo);
 
     int vacAppUpdateMapper2(VacationApplicationDTO vacationApplicationDTO
-    , String employeeNo);
+    , int employeeNo);
 
     int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO
-    , String employeeNo);
+    , int employeeNo);
 
     int vacStatusUpdateMapper(int draftNo, int newState);
 
@@ -42,4 +42,5 @@ public interface CalendarMapper {
 
     int vacUsedLeaveMapper(Map<String, Object> usedLeave);
 
+    List<VacationApplicationDTO> vacLeaderSelectMapper(int roleAdmin);
 }
