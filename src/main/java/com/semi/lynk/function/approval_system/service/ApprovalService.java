@@ -26,4 +26,6 @@ public interface ApprovalService {
     void approveApproval(Long draftNo, String empNo);
 
     void updateApproval(Long draftNo, String empNo, int i);
+
+    void deleteDraft(Long draftNo);
 }

@@ -49,12 +49,16 @@
                 <p>내용</p>
                 <div class="notice-content" th:utext="${draft.draftMemo}"></div>
 
-                <div th:if="${draft.draftState == 0}" style="margin-top: 10px;">
-                    <a th:href="@{/approval/{draftNo}/delete(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">삭제</a>
-                    <a th:href="@{/approval/{draftNo}/edit(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">수정</a>
+                <div th:if="${draft.draftState == 0 or draft.draftState == 8}" style="margin-top: 10px;">
+                    <a th:href="@{/approval/{draftNo}/delete(draftNo=${draft.draftNo})}"
+                       class="btn btn-primary mb-3">삭제</a>
+                    <a th:if="${draft.draftState == 8}"
+                       th:href="@{/approval/{draftNo}/edit(draftNo=${draft.draftNo})}"
+                       class="btn btn-primary mb-3">결재자 추가</a>
                 </div>
                 <a th:href="@{${draft.draftState == 2 ? '/approval/list/findraft' :
-                    (draft.draftState == 9 ? '/approval/list/dindraft' : '/approval/list/ondraft')}}"
+                   (draft.draftState == 9 ? '/approval/list/dindraft' :
+                   (draft.draftState == 8 ? '/approval/list/readydraft' : '/approval/list/ondraft'))}}"
                    class="btn btn-primary mb-3">목록으로 돌아가기</a>
             </div>
         </article>

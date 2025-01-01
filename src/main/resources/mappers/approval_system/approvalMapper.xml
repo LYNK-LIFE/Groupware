@@ -150,4 +150,14 @@
         WHERE draft_no = #{draftNo,jdbcType=BIGINT}
     </update>
 
+    <delete id="deleteApprovalByDNO" parameterType="Long">
+        DELETE FROM approval
+        WHERE draft_no = #{draftNo}
+    </delete>
+
+    <delete id="deleteDraftByDNO" parameterType="Long">
+        DELETE FROM draftsh
+        WHERE draft_no = #{draftNo}
+    </delete>
+
 </mapper>

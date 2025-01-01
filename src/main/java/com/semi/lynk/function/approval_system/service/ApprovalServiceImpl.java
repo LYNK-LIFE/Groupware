@@ -112,4 +112,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 
         approvalMapper.setDraftStateAndTime(draftNo,state, currentTime);
     }
+
+    @Override
+    public void deleteDraft(Long draftNo){
+        approvalMapper.deleteApprovalByDNO(draftNo);
+        approvalMapper.deleteDraftByDNO(draftNo);
+    }
 }

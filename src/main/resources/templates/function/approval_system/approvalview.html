@@ -36,7 +36,11 @@
                     <span class="info-item">번호: <span th:text="${draft.draftNo}"></span></span>
                     <span class="info-item">작성일자: <span th:text="${#temporals.format(draft.draftDate, 'yyyy-MM-dd HH:mm')}"></span></span>
                     <span class="info-item">작성자: <span th:text="${draft.employeeName}"></span></span>
-                    <span class="info-item">결재상태: <span th:text="${draft.draftState == 0 ? '미확인' : '확인'}"></span></span>
+                    <span class="info-item">결재상태: <span th:text="${draft.draftState == 0 ? '미확인' :
+                                                                    draft.draftState == 1 ? '확인' :
+                                                                    draft.draftState == 2 ? '승인' :
+                                                                    draft.draftState == 9 ? '반려' : '알 수 없음'}">
+                    </span></span>
                     <span class="info-item">결재일자: <span th:text="${#temporals.format(draft.draftCompletionTime, 'yyyy-MM-dd HH:mm')}"></span></span>
                     <span class="info-item">현재단계: <span th:text="${draft.draftCurrentStep}"></span></span>
                     <span class="info-item">최종단계: <span th:text="${draft.draftLastStep}"></span></span>

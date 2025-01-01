@@ -34,4 +34,8 @@ public interface ApprovalMapper {
     int countCurrentStep(Long draftNo, int currentStep);
 
     void setDraftCurrentStep(Long draftNo, Integer curStep);
+
+    void deleteApprovalByDNO(Long draftNo);
+
+    void deleteDraftByDNO(Long draftNo);
 }
