@@ -154,7 +154,11 @@ public class DbService {
 //=====================================================================================================================
 
     public ContractDetailsDTO getContractDetails(String contractNo) {
-        return dbMapper.getContractDetails(contractNo);
+        ContractDetailsDTO contractDetails = dbMapper.getContractDetails(contractNo);
+        if (contractDetails == null) {
+            System.out.println("No data found for contractNo: " + contractNo);
+        }
+        return contractDetails;
     }
 }
 
