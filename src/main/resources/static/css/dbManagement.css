@@ -117,3 +117,38 @@ table.listTableBody td:last-child {
     background-color: #0b5ed7;
     border-color: #0a58ca;
 }
+
+/* list.html */
+.db_Life {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dbBox {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.dbBox > h2 {
+    font-weight: bolder;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 여러... 상품 등록 페이지용 */
+.insertProduct-container, .productList-container {
+    padding: 30px;
+}
+
+.ProductForm label {
+    font-weight: bolder;
+    margin-right: 5px;
+}
+
+.ProductForm input {
+    margin-right: 30px;
+}
