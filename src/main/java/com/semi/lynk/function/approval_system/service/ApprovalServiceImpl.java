@@ -11,12 +11,19 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.util.List;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
     @Autowired
     private ApprovalMapper approvalMapper;
+
+    @Override
+    public void setDraftState(Long draftNo, int lastStep)
+    {
+        approvalMapper.setDraftStepAndState(draftNo, lastStep,0);
+    };
 
     @Override
     public List<EmployeeDTO> getAllEmployees()
@@ -30,8 +37,9 @@ public class ApprovalServiceImpl implements ApprovalService {
     public void createApproval(ApprovalList approvalList){
         List<ApprovalDTO> approvals = approvalList.getApprovals();
         System.out.println("여긴 서비스");
+        int i=0;
         for (ApprovalDTO approval : approvals) {
-            // 각 ApprovalDTO를 처리하는 로직
+            i+=approvalMapper.insertApproval(approval);
             System.out.println("서비스임다 approval = " + approval);
         }
     };

@@ -139,15 +139,18 @@ public class ApprovalController {
     }
 
     @PostMapping("/addApproval")
-    public String addApproval(@ModelAttribute("approvalList") ApprovalList approvalList) {
+    public String addApproval(@ModelAttribute("approvalList") ApprovalList approvalList,
+                              @RequestParam("draftNo") Long draftNo) {
 
         System.out.println("POST 컨트롤러 왔따"+ approvalList.toString());
 
-//        if (bindingResult.hasErrors()) {
-//            // 오류 처리 로직
-//            System.out.println("근데 오류다");
-//            return "redirect:/approval/list/readydraft";
-//        }
+        int lastStep = 1;
+        for (ApprovalDTO approval : approvalList.getApprovals()) {
+            if (approval.getApprovalStep() > lastStep) {
+                lastStep = approval.getApprovalStep();
+            }
+        }
+        approvalService.setDraftState(draftNo, lastStep);
         approvalService.createApproval(approvalList);
         return "redirect:/approval/list/ondraft";
     }

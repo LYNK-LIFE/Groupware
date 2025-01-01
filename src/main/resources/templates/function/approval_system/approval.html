@@ -15,12 +15,13 @@
 </head>
 <body>
 
-<form id="approvalForm" th:action="@{/approval/addApproval}" th:object="${approvalList}"  method="post">
+<form id="approvalForm" th:action="@{/approval/addApproval}" th:object="${approvalList}"  method="post" onsubmit="return validateForm()">
     <div id="approverContainer">
 
         <!-- 결재자 블록이 여기에 동적으로 추가됩니다 -->
     </div>
 
+    <input type="hidden" id="draftNoInput" name="draftNo" th:value="${draftNo}">
     <button type="button" id="addApproverBtn" data-toggle="modal" data-target="#employeeModal">결재자 추가</button>
     <button type="submit">저장</button>
 </form>
@@ -112,7 +113,7 @@
         newBlock.className = 'approver-block';
         newBlock.innerHTML = `
             <h3>결재자 ${approverCount + 1}</h3>
-            <input type="hidden" name="approvals[${approverCount}].approvalMemo" value="${draftNo}" >
+            <input type="hidden" name="approvals[${approverCount}].approvalMemo" value="" >
             <input type="hidden" name="approvals[${approverCount}].draftNo" value="${draftNo}" readonly >
             <input type="hidden" name="approvals[${approverCount}].approvalState" value="0" >
             <input type="hidden" name="approvals[${approverCount}].approvalPosible" value="0" >
@@ -120,20 +121,15 @@
             <input type="text" name="approvals[${approverCount}].departmentName" value="${departmentName}" readonly>
             <input type="text" name="approvals[${approverCount}].position" value="${position}" readonly>
             <input type="text" name="approvals[${approverCount}].employeeName" value="${employeeName}" readonly>
-            <input type="number" name="approvals[${approverCount}].approvalStep" placeholder="결재 순서" min="1" max="${approverCount + 1}" required>
+
+            <label>결재 순서:
+                <input type="number" name="approvals[${approverCount}].approvalStep" min="1" max="${maxApprovers}" value="${approverCount + 1}" required>
+            </label>
 
             <button type="button" onclick="removeApprover(this)">삭제</button>
         `;
 
-        console.log('새로운 결재자 정보:');
-        console.log('결재자 번호:', approverCount + 1);
-        console.log('기안 번호', draftNo);
-        console.log('사원 번호:', employeeNo);
-        console.log('부서명:', departmentName);
-        console.log('직급:', position);
-        console.log('사원명:', employeeName);
-
-
+        var approvalStep = this.value;
 
         container.appendChild(newBlock);
 
@@ -176,7 +172,31 @@
         });
     }
 
+    function updateApproverNumbers() {
+        var blocks = document.getElementsByClassName('approver-block');
+        for (var i = 0; i < blocks.length; i++) {
+            blocks[i].getElementsByTagName('h3')[0].innerText = `결재자 ${i + 1}`;
+            var inputs = blocks[i].getElementsByTagName('input');
+            for (var j = 0; j < inputs.length; j++) {
+                if (inputs[j].name.endsWith('.employeeNo')) {
+                    inputs[j].name = `approvals[${i}].employeeNo`;
+                } else if (inputs[j].name.endsWith('.approvalStep')) {
+                    inputs[j].name = `approvals[${i}].approvalStep`;
+                    inputs[j].max = approverCount;
+                }
+            }
+        }
+    }
 
+    function validateForm() {
+        var steps = document.querySelectorAll('input[name$=".approvalStep"]');
+        var usedSteps = new Set();
+        for (var i = 0; i < steps.length; i++) {
+            var step = parseInt(steps[i].value);
+            usedSteps.add(step);
+        }
+        return true;
+    }
     // 모달이 열릴 때마다 버튼 상태 업데이트
     $('#employeeModal').on('show.bs.modal', function () {
         updateModalButtons();
