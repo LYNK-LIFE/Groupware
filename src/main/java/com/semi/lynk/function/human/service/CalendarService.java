@@ -43,16 +43,16 @@ public class CalendarService {
     }
 
     @Transactional
-    public int vacAppService(VacationApplicationDTO vacationApplicationDTO , String employeeNoString) {
+    public int vacAppService(VacationApplicationDTO vacationApplicationDTO , String employeeNoString , Long draftNo) {
         System.out.println("서비스 오는지=====================================");
         int employeeNo = Integer.parseInt(employeeNoString); // String 이었으므로 int로
 
-        int select = calendarMapper.vacAppDayOffCount(vacationApplicationDTO , employeeNo);
-        System.out.println("1 : " + select);
-        int dayOff = select + 1;
-        System.out.println("2 : " + dayOff);
+//        int select = calendarMapper.vacAppDayOffCount(vacationApplicationDTO , employeeNo);
+//        System.out.println("1 : " + select);
+//        int dayOff = select + 1;
+//        System.out.println("2 : " + dayOff);
 
-        vacationApplicationDTO.setDraftNo(dayOff);
+//        vacationApplicationDTO.setDraftNo(dayOff);
 
 //        System.out.println("vacationApplicationDTO : " + vacationApplicationDTO);
         int result1 = calendarMapper.vacAppUpdateMapper(vacationApplicationDTO,employeeNo);
@@ -60,14 +60,14 @@ public class CalendarService {
 //        int result2 = calendarMapper.vacAppInsertMapper1(vacationApplicationDTO);
 //        System.out.println("result2 : " + result2);
 
-        vacationApplicationDTO.getDraftNo();
-        int result2 = calendarMapper.vacAppInsertMapper(vacationApplicationDTO,employeeNo);
+//        vacationApplicationDTO.getDraftNo();
+        int result2 = calendarMapper.vacAppInsertMapper(vacationApplicationDTO,employeeNo , draftNo);
 //        System.out.println("result3 : " + result2);
 
-        int result3 = calendarMapper.vacAppUpdateMapper2(vacationApplicationDTO,employeeNo);
+        int result3 = calendarMapper.vacAppUpdateMapper2(vacationApplicationDTO,employeeNo , draftNo);
 //        System.out.println("result3 : " + result3);
 
-        int result4 = calendarMapper.vacAppUpdateMapper3(vacationApplicationDTO,employeeNo);
+        int result4 = calendarMapper.vacAppUpdateMapper3(vacationApplicationDTO,employeeNo , draftNo);
 //        System.out.println("result4 : " + result4);
 
         return (result1 >= 1) && (result2 >= 1) && (result3 >= 1) && (result4 >= 1) ? 1 : 0;
