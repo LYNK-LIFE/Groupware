@@ -21,5 +21,7 @@ public interface ApprovalService {
 
     void setDraftState(Long draftNo, int lastStep);
 
-    Page<DraftDTO> getApprovalsPaged(String empNo, int page, int size);
+    Page<DraftDTO> getDraftsForAprovalPaged(String empNo, int page, int size, String state);
+
+    void updateApproval(Long draftNo, String empNo);
 }

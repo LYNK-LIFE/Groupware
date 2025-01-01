@@ -93,6 +93,7 @@
     </insert>
 
     <select id="selectForApproval" resultMap="draftResultMap">
+        <![CDATA[
         SELECT draft_no, dr.employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
         FROM
         approval a
@@ -103,9 +104,10 @@
         LEFT JOIN
         department d using(department_no)
         WHERE
-        a.employee_no = #{empNo}
+        a.employee_no = #{empNo} ${state}
         ORDER BY draft_no DESC
         LIMIT #{start}, #{size}
+        ]]>
     </select>
 
     <select id="getApprovalsCount" parameterType="String">
@@ -119,5 +121,11 @@
         SET draft_state = #{state}, draft_last_step = #{lastStep}
         WHERE draft_no = #{draftNo}
     </update>
+
+<!--    <update id="updateApproval" parameterType="String" useGeneratedKeys="true" keyProperty="draftNo">-->
+<!--        UPDATE draftsh-->
+<!--        SET draft_state = #{state}, draft_last_step = #{lastStep}-->
+<!--        WHERE draft_no = #{draftNo}-->
+<!--    </update>-->
 
 </mapper>

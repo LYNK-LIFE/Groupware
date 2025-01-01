@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -61,15 +62,26 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
-    public Page<DraftDTO> getApprovalsPaged(String empNo, int page, int size){
+    public Page<DraftDTO> getDraftsForAprovalPaged(String empNo, int page, int size, String state){
         int count = approvalMapper.getApprovalsCount(empNo);    // 페이징을 하기위해 먼저 전체 갯수 받아옴
         int start = page * size; // 해당페이지의 시작글번호
-        List<DraftDTO> approvals = approvalMapper.selectForApproval(empNo, start, size);
+        List<DraftDTO> approvals = approvalMapper.selectForApproval(empNo, start, size,state);
         return new PageImpl<>(approvals, PageRequest.of(page, size), count);
     }
 
     @Override
     public DraftDTO getDraftByDNO(Long draftNo){
         return approvalMapper.selectDraftByDNO(draftNo);
+    }
+
+    @Override
+    public void updateApproval(Long draftNo, String empNo){
+        DraftDTO draftDTO = approvalMapper.selectDraftByDNO(draftNo);
+       //approvalMapper.getApprovalsCountForStep(draftNo,)
+        draftDTO.getDraftLastStep(); // 결재 최종 단계
+        draftDTO.getDraftCurrentStep(); // 현재 결재 단계
+        ApprovalDTO approvalDTO = new ApprovalDTO();
+        approvalDTO.setApprovalCompletionTime(LocalDateTime.now());
+        //approvalMapper.updateApproval(draftNo,empNo,approvalDTO);
     }
 }

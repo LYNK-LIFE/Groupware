@@ -22,7 +22,7 @@
     <section class="main-content">
 
         <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/approval/ondraft"></a>
+            <a class="subHeaderLink-class" href="/approval/doapproval"></a>
         </div>
 
         <article class="main-content">
@@ -45,9 +45,10 @@
                 <p>내용</p>
                 <div class="notice-content" th:utext="${draft.draftMemo}"></div>
 
-                <div th:if="${draft.draftState == 0}" style="margin-top: 10px;">
-                    <a th:href="@{/apploval/{draftNo}/delete(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">삭제</a>
-                    <a th:href="@{/apploval/{draftNo}/edit(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">수정</a>
+                <div th:if="${state < 2}" style="margin-top: 10px;">
+                    <a th:href="@{/apploval/{draftNo}/check(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">확인</a>
+                    <a th:href="@{/apploval/{draftNo}/aprrove(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">승인</a>
+                    <a th:href="@{/apploval/{draftNo}/reject(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">반려</a>
                 </div>
                 <a th:href="@{${draft.draftState == 2 ? '/approval/list/findraft' :
                     (draft.draftState == 9 ? '/approval/list/dindraft' : '/approval/list/ondraft')}}"
