@@ -67,10 +67,10 @@ public class CalendarService {
         int result3 = calendarMapper.vacAppUpdateMapper2(vacationApplicationDTO,employeeNo , draftNo);
 //        System.out.println("result3 : " + result3);
 
-        int result4 = calendarMapper.vacAppUpdateMapper3(vacationApplicationDTO,employeeNo , draftNo);
+//        int result4 = calendarMapper.vacAppUpdateMapper3(vacationApplicationDTO,employeeNo , draftNo);
 //        System.out.println("result4 : " + result4);
 
-        return (result1 >= 1) && (result2 >= 1) && (result3 >= 1) && (result4 >= 1) ? 1 : 0;
+        return (result1 >= 1) && (result2 >= 1) && (result3 >= 1) ? 1 : 0;
     }
 
     public List<OverTimeApplicationDTO> overTimeAppService() {
@@ -87,6 +87,8 @@ public class CalendarService {
     @Transactional
     public int updateDraftState(int draftNo, int newState) {
         int result = calendarMapper.vacStatusUpdateMapper(draftNo , newState);
+        System.out.println("Update result: " + result + ", draftNo: " + draftNo + ", newState: " + newState);
+
         return result >= 1 ? 1 : 0;
     }
 
@@ -112,5 +114,9 @@ public class CalendarService {
     public List<VacationApplicationDTO> vacationLeaderStatus(int roleAdmin) {
 
         return calendarMapper.vacLeaderSelectMapper(roleAdmin);
+    }
+
+    public List<CalendarDTO> calendarService2(int employeeNo, int roleAdmin) {
+        return calendarMapper.showCalendarSelect2(employeeNo, roleAdmin);
     }
 }

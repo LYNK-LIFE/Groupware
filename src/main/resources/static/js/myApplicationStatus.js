@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${item?.employeeDTO?.name || "N/A"}</td>
         <td>${item?.humanDTO?.position || "N/A"}</td>
         <td>${formatDate(item?.draftshDTO?.draftDate)}</td>
-        <td>${formatDate(item?.draftshDTO?.draftCompletionTime)}</td>
+        <td>${item?.draftshDTO?.draftCompletionTime ? formatDate(item.draftshDTO.draftCompletionTime) : "관리자 결재 전"}</td>
     `;
             tableBody.appendChild(row);
         });
@@ -233,20 +233,18 @@ function updateDraftState(newState) {
         return;
     }
 
-    fetch("/employee/updateDraftState", { // 절대 경로 사용
+    fetch("/employee/updateDraftState", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `draftNo=${draftNo}&newState=${newState}`, // 쿼리 스트링 형식으로 전송
+        body: `draftNo=${draftNo}&newState=${newState}`,
     })
         .then((res) => res.json())
         .then((response) => {
             if (response.success) {
                 alert("상태가 성공적으로 업데이트되었습니다.");
-                // 테이블 재로드 또는 업데이트 로직 수행
-                document.getElementById("employee-table-body2").innerHTML = "";
-                loadEmployees(); // 새로고침 함수 호출
+                loadEmployees(); // 테이블 새로고침 함수 호출
             } else {
                 alert("상태 업데이트에 실패했습니다: " + (response.message || "알 수 없는 이유"));
             }
@@ -254,16 +252,16 @@ function updateDraftState(newState) {
         .catch((error) => console.error("상태 업데이트 중 오류 발생:", error));
 }
 
-// 승인이나 반려 눌렀을 때 데이터 새로고침. 근데 안 됨....................
-// function loadEmployees() {
-//     fetch("/employee/appStatusList") // 서버에서 데이터 요청
-//         .then(res => res.json())
-//         .then(data => {
-//             allEmployees = data; // 데이터를 갱신
-//             renderTable(allEmployees); // 테이블 다시 그리기
-//         })
-//         .catch(err => console.error("데이터 로드 실패:", err));
-// }
+function loadEmployees() {
+    fetch("/employee/appStatusList")
+        .then((res) => res.json())
+        .then((data) => {
+            allEmployees = data; // 데이터 갱신
+            renderTable(allEmployees); // 테이블 다시 렌더링
+        })
+        .catch((err) => console.error("데이터 로드 실패:", err));
+}
+
 
 
 // 선택된 draftNo를 가져오는 함수

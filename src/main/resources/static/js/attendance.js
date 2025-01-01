@@ -1,7 +1,7 @@
 // 달력에 데이터 띄우눈 애
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
-    const modalEl = new bootstrap.Modal(document.getElementById('eventModal'), {}); // Bootstrap 모달 객체 생성
+    const modalEl = new bootstrap.Modal(document.getElementById('eventModal'), {});
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
@@ -9,76 +9,84 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
-        initialDate: '2024-12-17',
+        initialDate: '2025-01-01',
         navLinks: true,
         editable: false,
-        dayMaxEvents: true, // "더보기" 링크
+        dayMaxEvents: true,
 
+        // 이벤트 로딩 함수
         events: function (fetchInfo, successCallback, failureCallback) {
-            fetch('/api/calendar')
+            const fetchCalendar1 = fetch('/api/calendar')
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
-                })
-                .then((data) => {
-                    const seenEvents = new Set(); // 중복 방지를 위한 Set
-                    const events = [];
-                    data.forEach(item => {console.log("EmployeeDTO:", item.employeeDTO);
-                            console.log("ScheduleDTO:", item.scheduleDTO);
-                        const uniqueKey = `${item.employeeDTO?.name}-${item.dayOffDTO?.leaveStartDate}-${item.dayOffDTO?.leaveType}`;
-                        // 각 일정의 고유 키 생성
-                        // console.log('uniqueKey : ' + uniqueKey);
+                });
 
-                        if (!seenEvents.has(uniqueKey)) { // 중복 확인
+            const fetchCalendar2 = fetch('/api/calendar2')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                });
+
+            // 두 API의 데이터를 병합
+            Promise.all([fetchCalendar1, fetchCalendar2])
+                .then(([data1, data2]) => {
+                    const seenEvents = new Set();
+                    const events = [];
+
+                    // 데이터1 처리
+                    data1.forEach(item => {
+                        const uniqueKey = `${item.employeeDTO?.name}-${item.dayOffDTO?.leaveStartDate}-${item.dayOffDTO?.leaveType}`;
+                        if (!seenEvents.has(uniqueKey)) {
                             events.push({
                                 id: uniqueKey,
                                 title: `${item.employeeDTO?.name || 'Unknown'} ${item.humanDTO?.position || ''}`,
                                 start: item.dayOffDTO?.leaveStartDate,
                                 backgroundColor: item.dayOffDTO?.leaveType === 2 ? 'green' :
-                                    item.dayOffDTO?.leaveType === 1 ? 'lightgreen' :
-                                        'orange',
+                                    item.dayOffDTO?.leaveType === 1 ? 'lightgreen' : 'orange',
                                 extendedProps: {
                                     type: item.dayOffDTO?.leaveType === 2 ? '연차' :
-                                        item.dayOffDTO?.leaveType === 1 ? '반차' :
-                                            '연장근무',
+                                        item.dayOffDTO?.leaveType === 1 ? '반차' : '연장근무',
                                     name: item.employeeDTO?.name || 'Unknown',
                                     department: item.departmentDTO?.depName || 'N/A',
                                     position: item.humanDTO?.position || 'N/A',
-                                    // memo: item.dayOffDTO?.leaveMemo || '없음',
                                     startDate: item.dayOffDTO?.leaveStartDate,
                                     endDate: item.dayOffDTO?.leaveEndDate
                                 }
                             });
-                            console.log('events : ' + events);
-                            seenEvents.add(uniqueKey); // 고유 키를 Set에 추가
+                            seenEvents.add(uniqueKey);
                         }
-                        if(item.scheduleDTO){
-                            const scheduleKey = `${item.employeeDTO?.name}-${item.scheduleDTO?.scheduleStartDate}-${item.scheduleDTO?.scheduleEndDate}`;
-                            if (!seenEvents.has(scheduleKey)) { // 중복 확인
-                                events.push({
-                                    title: `${item.employeeDTO?.name || 'Unknown'} ${item.humanDTO?.position || ''} (연장근무)`,
-                                    start: item.scheduleDTO?.scheduleStartDate,
-                                    end: item.scheduleDTO?.scheduleEndDate,
-                                    backgroundColor: 'orange', // 연장근무 색상
-                                    extendedProps: {
-                                        id: item.employeeDTO.employeeNo,
-                                        type: '연장근무',
-                                        name: item.employeeDTO?.name || 'Unknown',
-                                        department: item.departmentDTO?.depName || 'N/A',
-                                        position: item.humanDTO?.position || 'N/A',
-                                        memo: item.scheduleDTO?.scheduleNote || '없음',
-                                        startDate: item.scheduleDTO.scheduleStartDate,
-                                        endDate: item.scheduleDTO.scheduleEndDate
-                                    }
-                                });
-                                seenEvents.add(scheduleKey); // 중복 체크를 위해 추가
-                            }
+                    });
+
+                    // 데이터2 처리 (scheduleDTO 데이터 처리)
+                    data2.forEach(item => {
+                        const scheduleKey = `${item.employeeDTO?.name}-${item.scheduleDTO?.scheduleStartDate}-${item.scheduleDTO?.scheduleEndDate}`;
+                        if (!seenEvents.has(scheduleKey)) {
+                            events.push({
+                                title: `${item.employeeDTO?.name || 'Unknown'} ${item.humanDTO?.position || ''} (연장근무)`,
+                                start: item.scheduleDTO?.scheduleStartDate,
+                                end: item.scheduleDTO?.scheduleEndDate,
+                                backgroundColor: 'orange',
+                                extendedProps: {
+                                    id: item.employeeDTO.employeeNo,
+                                    type: '연장근무',
+                                    name: item.employeeDTO?.name || 'Unknown',
+                                    department: item.departmentDTO?.depName || 'N/A',
+                                    position: item.humanDTO?.position || 'N/A',
+                                    memo: item.scheduleDTO?.scheduleNote || '없음',
+                                    startDate: item.scheduleDTO.scheduleStartDate,
+                                    endDate: item.scheduleDTO.scheduleEndDate
+                                }
+                            });
+                            seenEvents.add(scheduleKey);
                         }
-                    }
-                    );
-                    successCallback(events); // 중복 제거 후 FullCalendar에 이벤트 전달
+                    });
+
+                    successCallback(events);
                 })
                 .catch((error) => {
                     console.error('Error fetching calendar events:', error);
