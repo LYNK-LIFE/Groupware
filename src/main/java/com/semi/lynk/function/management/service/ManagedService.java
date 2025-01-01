@@ -65,8 +65,8 @@ public class ManagedService {
         return managedMapper.getAccountByEmpID(empID);
     }
 
-    public void updateAccount(String empID, String empName, int deptNo, String position, String email, String image) {
-        managedMapper.updateAccount(empID, empName, deptNo, position, email, image);
+    public void updateAccount(String empID, String empName, int deptNo, String position, String email, String image, Integer roleAdmin) {
+        managedMapper.updateAccount(empID, empName, deptNo, position, email, image, roleAdmin);
     }
 
     // 계정 권한
