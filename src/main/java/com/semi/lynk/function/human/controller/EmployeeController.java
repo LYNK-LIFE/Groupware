@@ -6,6 +6,7 @@ import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
 import com.semi.lynk.function.human.model.dto.*;
 import com.semi.lynk.function.human.service.CalendarService;
 import com.semi.lynk.function.human.service.EmployeeService;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,21 +169,56 @@ public class EmployeeController {
     // json이 default이므로 produces 안 써도 되지만, 가독성을 위해 쓰는 게 좋음
     @GetMapping(value = "appStatusList", produces = "application/json; charset=UTF-8")
     @ResponseBody // fetch 보내는 애
-    public List<CalendarDTO> appStatusList () {
-        List<CalendarDTO> appStatus = calendarService.myAppStatusService();
-        System.out.println("appStatus = " + appStatus);
-        return appStatus;
+    public List<CalendarDTO> appStatusList (HttpSession session) {
+        String empNoo = (String) session.getAttribute("empNo");
+
+        int employeeNo = Integer.parseInt(empNoo);
+        System.out.println("employeeNo = " + employeeNo);
+        int roleAdmin = (int) session.getAttribute("roleAdmin");
+        System.out.println("roleAdmin = " + roleAdmin);
+//        System.out.println("appStatus = " + appStatus);
+        return calendarService.myAppStatusService(employeeNo,roleAdmin);
     }
 
     // 연차 사용 계획서 작성에 본인 연차 정보 들어가는 애
     @GetMapping(value = "vacationSelect", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<VacationApplicationDTO> vacationSelect () {
+    public Map<String, Object> vacationSelect(HttpSession session) {
+        String employeeNo = (String) session.getAttribute("empNo");
+//        String employeeName = (String) session.getAttribute("empName");
 
-        List<VacationApplicationDTO> vacStatusResult = calendarService.vacationStatus();
-        System.out.println(vacStatusResult);
-        return vacStatusResult;
+        if (employeeNo == null) {
+            throw new IllegalArgumentException("사번 정보가 없습니다. 다시 로그인해주세요.");
+        }
+
+        List<VacationApplicationDTO> vacStatusResult = calendarService.vacationStatus(employeeNo);
+
+        // 반환 데이터에 employeeNo 추가
+        Map<String, Object> response = new HashMap<>();
+        response.put("employeeNo", employeeNo); // 사번 정보 추가
+        response.put("vacStatusResult", vacStatusResult); // 기존 연차 데이터 추가
+//        response.put("employeeName" , employeeName); // 이름
+
+        return response;
     }
+
+    // 연차 사용 계획서 작성 담당자 이름 불러오는 애
+    @GetMapping(value = "leaderSelect", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> vacationLeaderSelect(HttpSession session) {
+//        String employeeNo = (String) session.getAttribute("empNo");
+        int roleAdmin = (int) session.getAttribute("roleAdmin");
+
+        List<VacationApplicationDTO> leaderName = calendarService.vacationLeaderStatus(roleAdmin);
+
+        // 반환 데이터에 employeeNo 추가
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("employeeName" , leaderName); // 이름
+
+        return response;
+    }
+
 
     // 연차 사용 계획서 제출 시에 update 되는 애
     // 글고 ResponseBody로 제출 완료 / 실패 여부 확인함
@@ -226,7 +262,7 @@ public class EmployeeController {
 //        }
 //    }
 
-    @GetMapping (value = "overTimeAppSelect" , produces = "application/json; charset=UTF-8")
+    @GetMapping (value = "overTimeAppSelect", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<OverTimeApplicationDTO> overTimeSelect () {
 
@@ -237,11 +273,12 @@ public class EmployeeController {
 
     @PostMapping (value = "overTimeAppResult", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public Map<String, Object> overTimeResult (@RequestBody OverTimeApplicationDTO overTimeDTO) {
-        System.out.println("overTimeDTO: " + overTimeDTO);
+    public Map<String, Object> overTimeResult (@RequestBody OverTimeApplicationDTO overTimeDTO
+    ,HttpSession session) {
+        String employeeNo = (String) session.getAttribute("empNo");
         Map<String, Object> map = new HashMap<>();
 
-        int result = calendarService.overTimeAppDataService(overTimeDTO);
+        int result = calendarService.overTimeAppDataService(overTimeDTO , employeeNo);
         if (result == 1) {
             map.put("status" , "overTimeAppSuccess");
             map.put("message" , "연장 근무 신청이 완료되었습니다.");

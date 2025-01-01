@@ -66,14 +66,20 @@
             join department e on (a.department_no = e.department_no)
             left join dayoff b on (a.employee_no = b.employee_no)
             left join schedule f on (a.employee_no = f.employee_no)
-        where a.employee_no = #{employeeNo}
+        <where>
+            <if test="roleAdmin != 1"> <!-- 관리자라면 다 보이고, 사원이라면 지 것만 보이게 -->
+                a.employee_no = #{employeeNo}
+            </if>
+        </where>
 <!--        left로 걸어야 연장근무든, 휴가든 데이터 지웠을 때 해당 데이터만 삭제-->
     </select>
 
 <!--    내 신청 현황 드가면 보여지는 데이터들 -->
     <select id="showMyAppStatus1" resultMap="selectResultMap">
         select distinct
-            a.draft_state
+            d.employee_name
+            ,d.employee_no
+            ,a.draft_state
             ,b.leave_type
             ,f.position
             ,b.leave_start_date
@@ -90,6 +96,11 @@
             join employee d on (a.employee_no = d.employee_no)
             join department e on (d.department_no = e.department_no)
             join human_resource f on (d.employee_no = f.employee_no)
+        <where>
+            <if test="roleAdmin != 1"> <!-- 관리자라면 다 보이고, 사원이라면 지 것만 보이게 -->
+                a.employee_no = #{employeeNo}
+            </if>
+        </where>
 <!--        select distinct-->
 <!--            a.leave_start_date,-->
 <!--            a.leave_end_date,-->
@@ -134,28 +145,10 @@
 <!--        where-->
 <!--        f.schedule_start_date is not null &#45;&#45; **연장근무 데이터만 출력**-->
     </select>
-    <select id="showMyAppStatus2" resultMap="selectResultMap">
-        select distinct
-        a.draft_state
-        ,b.leave_type
-        ,f.position
-        ,b.leave_start_date
-        ,b.leave_end_date
-        ,d.employee_name
-        ,e.department_name
-        ,a.draft_date
-        ,a.draft_completion_time
-        from
-        draftsh a
-        join dayoff b on (a.draft_no = b.draft_no)
-        join employee d on (a.employee_no = d.employee_no)
-        join department e on (d.department_no = e.department_no)
-        join human_resource f on (d.employee_no = f.employee_no)
-    </select>
 
     <resultMap id="vacationStatusMapper" type="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
-        <id property="id" column="employee_no"/>
-        <result property="name" column="employee_name"/>
+        <id property="employeeNo" column="employee_no"/>
+        <result property="employeeName" column="employee_name"/>
         <result property="totalLeave" column="totalLeave"/>
         <result property="usedLeave" column="usedLeave"/>
         <result property="leaveType" column="leave_type"/>
@@ -182,11 +175,27 @@
         join human_resource c on (a.employee_no = c.employee_no)
 <!--        join dayoff d on (a.employee_no = d.employee_no)-->
 <!--        join schedule e on (a.employee_no = e.employee_no)-->
-<!--    where-->
-<!--        a.employee_no = 12-->
+    where
+        a.employee_no = #{employeeNo}
         <!-- 이 사번은 나중에 로그인 연동 할 거-->
     </select>
 
+    <!--  휴가 신청 했을 때 담당자 이름 가져오는 애 -->
+    <!-- roleAdmin이 1인 애들만 나오게 하려는데 안 됨.... 나중에... -->
+    <select id="vacLeaderSelectMapper" resultMap="vacationStatusMapper">
+        select distinct
+             a.employee_no
+            ,a.employee_name
+            ,b.department_name
+        from employee a
+            join department b on (a.department_no = b.department_no)
+<!--        <where>-->
+<!--            <if test="roleAdmin == 1">-->
+<!--            </if>-->
+<!--        </where>-->
+    </select>
+
+    <!-- 휴가 신청 했을 때 서버에 저장 -->
     <select id="vacAppDayOffCount" resultType="int">
         SELECT COALESCE(MAX(draft_no), 0)
              FROM dayoff
@@ -285,7 +294,7 @@
     <insert id="overTimeAppDataMapper" parameterType="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
         insert into schedule (schedule_start_date, schedule_type, employee_no,
                             schedule_note, schedule_end_date)
-        values (#{scheduleStartDate} , 0 , 12, #{scheduleNote}, #{scheduleEndDate})
+        values (#{overTimeDTO.scheduleStartDate}, 0, #{employeeNo}, #{overTimeDTO.scheduleNote}, #{overTimeDTO.scheduleEndDate})
     </insert>
 
 </mapper>

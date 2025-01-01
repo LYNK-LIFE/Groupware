@@ -26,7 +26,8 @@
             <label style="margin-left: 20px; margin-right: 20px"> > </label>
             <a class="subHeaderLink-class" href="/employee/attendance">근태 관리</a>
             <label style="margin-left: 20px; margin-right: 20px"> > </label>
-            <a class="subHeaderLink-class" href="/employee/appStatus">결재 승인 현황</a>
+            <a class="subHeaderLink-class" href="/employee/appStatus"
+               th:text="${session.roleAdmin == 1 ? '결재 승인 현황' : '나의 신청 현황'}"></a>
         </div>
 
         <article class="lookupSelect-class">

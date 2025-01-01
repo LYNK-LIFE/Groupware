@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then((data) => {
                     const seenEvents = new Set(); // 중복 방지를 위한 Set
                     const events = [];
-                    data.forEach(item => {
+                    data.forEach(item => {console.log("EmployeeDTO:", item.employeeDTO);
+                            console.log("ScheduleDTO:", item.scheduleDTO);
                         const uniqueKey = `${item.employeeDTO?.name}-${item.dayOffDTO?.leaveStartDate}-${item.dayOffDTO?.leaveType}`;
                         // 각 일정의 고유 키 생성
                         // console.log('uniqueKey : ' + uniqueKey);
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     end: item.scheduleDTO?.scheduleEndDate,
                                     backgroundColor: 'orange', // 연장근무 색상
                                     extendedProps: {
+                                        id: item.employeeDTO.employeeNo,
                                         type: '연장근무',
                                         name: item.employeeDTO?.name || 'Unknown',
                                         department: item.departmentDTO?.depName || 'N/A',
@@ -136,35 +138,47 @@ let initialUsedLeave = 0;       // 이미 사용한 연차
 let initialRemainingLeave = 0;  // 초기 남은 연차
 
 document.getElementById("vacation-button-id").addEventListener("click", () => {
-    fetch("/employee/vacationSelect")
+    fetch(`/employee/vacationSelect`)
         .then((res) => res.json())
         .then((data) => {
-            if (data && data.length > 0) {
+            const { employeeNo, employeeName ,vacStatusResult } = data; // 반환된 데이터 구조를 분해하여 사용
 
-                const leaveInfo = data[0];
+            if (vacStatusResult && vacStatusResult.length > 0) {
+                const leaveInfo = vacStatusResult[0];
 
                 // 초기 값 저장
                 initialTotalLeave = leaveInfo.totalLeave;
                 initialUsedLeave = leaveInfo.usedLeave;
                 initialRemainingLeave = initialTotalLeave - initialUsedLeave;
 
-                // 모달 초기 UI에 표시
+                // UI 갱신
                 document.getElementById("allLeaveDay").value = initialTotalLeave.toFixed(1);
                 document.getElementById("remainingDay").value = initialRemainingLeave.toFixed(1);
-                document.getElementById("useDay").value = ''; // 사용 연차 초기화
+                document.getElementById("useDay").value = '';
 
-                // 24-12-22에 결재자 추가로 때려박음
-                const leaderSelect2 = document.getElementById("leader2"); //[241222 추가]
-                leaderSelect2.innerHTML = "";// [241222 추가]
+                // 결재자 목록 추가
+                const leaderSelect2 = document.getElementById("leader2");
+                leaderSelect2.innerHTML = ""; // 초기화
 
-                data.forEach(item => {
-                    const option2 = document.createElement("option");// [241222 추가]
-                    option2.value = item.id; // 사번 또는 고유 ID [241222 추가]
-                    option2.innerText = item.name; // 이름 표시 [241222 추가]
-                    leaderSelect2.appendChild(option2); // 차일드로 박아 넣음 [241222 추가]
-                });
+                // 두 번째 fetch, 담당자 이름 가져오기
+                return fetch(`/employee/leaderSelect`);
             } else {
                 alert("데이터를 불러오지 못했습니다.");
+            }
+
+            console.log("현재 로그인한 사번:", employeeNo);
+        })
+        .then((res) => res.json())
+        .then((leaderData) => {
+            if (leaderData && leaderData.employeeName && leaderData.employeeName.length > 0) {
+                leaderData.employeeName.forEach(item => {
+                    const option = document.createElement("option");
+                    option.value = item.employeeNo;
+                    option.innerText = item.employeeName;
+                    leader2.appendChild(option);
+                });
+            } else {
+                alert("담당자 데이터를 불러오지 못했습니다.");
             }
         })
         .catch((error) => {
@@ -174,6 +188,7 @@ document.getElementById("vacation-button-id").addEventListener("click", () => {
     const modalElement = new bootstrap.Modal(document.getElementById("vacationModal"), {});
     modalElement.show();
 });
+
 
 function getDateTime(divId) {
     const date = document.querySelector(`#${divId} input[type="date"]`).value;
@@ -244,14 +259,7 @@ function resetFields() {
     document.getElementById("remainingDay").value = initialRemainingLeave.toFixed(1);
 }
 
-// 과거 일자 선택 못함
-function preventPastDate(inputId) {
-    const today = new Date().toISOString().split("T")[0];
-    document.getElementById(inputId).setAttribute("min", today);
-}
 
-preventPastDate("startDay");
-preventPastDate("endDay");
 
 //////////////////////////////////////////////////////////
 
@@ -418,6 +426,9 @@ function preventPastDate(inputId) {
 // 시작일과 종료일 초기화
 preventPastDate("startOverDay");
 preventPastDate("endOverDay");
+
+preventPastDate("startDay");
+preventPastDate("endDay");
 
 // 모달 열릴 때 초기화
 document.getElementById("overtime-button-id").addEventListener("click", () => {
