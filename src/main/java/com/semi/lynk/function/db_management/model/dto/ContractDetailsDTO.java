@@ -31,7 +31,7 @@ public class ContractDetailsDTO {
     private String productName; // 상품
     private  Date lastReformDate; // 최종 수정일자
     private String lastInseminatee; //최종 수정자
-
+    private  String customerEmail; // 이메일
 
 
 }

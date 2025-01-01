@@ -323,7 +323,7 @@
             WHEN p.product_category = 35 THEN '라이나생명'
             ELSE '기타'
             END AS insuranceCompany,
-            p.product_ame AS productName,
+            p.product_name AS productName,
             co.basic_pay_with AS basicPayWith,
             co.contract_duration AS contractDuration,
             co.each_payment AS eachPayment,

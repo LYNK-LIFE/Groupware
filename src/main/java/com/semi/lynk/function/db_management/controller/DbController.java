@@ -314,9 +314,16 @@ import java.util.*;
     @GetMapping("/contract/details/{contractNo}")
     public String getContractDetails(@PathVariable("contractNo") String contractNo, Model model) {
         ContractDetailsDTO contractDetailsDTO = dbService.getContractDetails(contractNo);
-        model.addAttribute("contractDetailsDTO", contractDetailsDTO);
-        return "contractDetailsPage";
+        if (contractDetailsDTO == null) {
+            throw new RuntimeException("No contract details found for contractNo: " + contractNo);
+        }
+        model.addAttribute("contractDetails", contractDetailsDTO); // 여기서 "contractDetails"로 이름을 맞추어야 함
+        System.out.println("컨트롤러Fetched contractDetailsDTO: " + contractDetailsDTO);
+        return "function/db_management/contractdetails";
     }
+
+
+//====================================================================================================================
 
 
 
