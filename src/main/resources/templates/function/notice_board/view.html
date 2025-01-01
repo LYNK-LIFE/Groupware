@@ -26,7 +26,7 @@
         </div>
 
         <article class="main-content" th:if="${notice != null}">
-            <div class="notice-scroll-container">
+            <div class="notice-view-container">
 
             <div class="notice-title-container">
                 <span class="notice-title-label">제목 : </span>
@@ -67,9 +67,9 @@
 
                 </div>
                 <div th:if="${currentUser == notice.employeeNo}" style="margin-top: 10px;">
-                    <a th:href="@{/notice/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" class="btn btn-primary mb-3">삭제</a>
-                    <a th:href="@{/notice/{noticeNo}/edit(noticeNo=${notice.noticeNo})}" class="btn btn-primary mb-3">수정</a>
-                    <a href="/notice/list" class="btn btn-primary mb-3">목록으로 돌아가기</a>
+                    <a th:href="@{/notice/{noticeNo}/delete(noticeNo=${notice.noticeNo})}" class="btn btn-primary mb-3" style="background-color: #2d2d2d; border-color: #2d2d2d;">삭제</a>
+                    <a th:href="@{/notice/{noticeNo}/edit(noticeNo=${notice.noticeNo})}" class="btn btn-primary mb-3" style="background-color: #2d2d2d; border-color: #2d2d2d;">수정</a>
+                    <a href="/notice/list" class="btn btn-primary mb-3" style="background-color: #2d2d2d; border-color: #2d2d2d;">목록으로 돌아가기</a>
                 </div>
 
 

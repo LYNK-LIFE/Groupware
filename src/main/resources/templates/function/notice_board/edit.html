@@ -28,7 +28,7 @@
         </div>
 
         <article class="main-content">
-            <div class="notice-container">
+            <div class="notice-container" style="padding: 30px">
             <div class="notice-original"><!--원본창-->
                 <div class="notice-title-container">
                     <span class="notice-title-label">제목 : </span>
@@ -47,14 +47,14 @@
                 <div class="notice-content" th:utext="${noticeDTO.noticeContent}"></div>
             </div>
             <div class="notice-edit"><!--수정창-->
-            <h2>공지사항 수정</h2>
+            <h2 style="font-size: 20px; font-weight: 900;">공지사항 수정</h2>
             <form th:action="@{/notice/{id}/edit(id=${noticeDTO.noticeNo})}" th:object="${noticeDTO}" method="post">
                 <div>
                     <label for="noticeTitle">제목:</label>
                     <input type="text" size="50" id="noticeTitle" th:field="*{noticeTitle}" required>
                 </div>
                 <div>
-                    작성자 : <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px">Employee Name</span>
+                    작성자 : <span th:text="${session.empName}" style="font-weight: 800;">Employee Name</span>
                 </div>
                 <div>
                     <label for="noticeHide">글 우선순위:</label>
@@ -80,11 +80,17 @@
                 <input type="hidden" th:field="*{employeeNo}" required>
                 <input type="hidden" th:field="*{noticeDate}">
                 <input type="hidden" th:field="*{viewerCount}">
-                <button type="submit" class="btn btn-primary mb-3" >수정</button>
+                <button type="submit" class="btn btn-primary mb-3"
+                style="margin-left: -21px; margin-top: 32px; background-color: #2d2d2d; border-color: #2d2d2d;">
+                    수정
+                </button>
             </form>
             </div>
             </div>
-            <a href="/notice/list" class="btn btn-primary mb-3">목록으로 돌아가기</a>
+            <a href="/notice/list" class="btn btn-primary mb-3"
+               style="margin-left: 30px; background-color: #2d2d2d; border-color: #2d2d2d;">
+                목록으로 돌아가기
+            </a>
         </article>
     </section>
 
