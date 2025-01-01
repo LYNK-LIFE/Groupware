@@ -1,6 +1,7 @@
 package com.semi.lynk.function.approval_system.controller;
 
 import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
+import com.semi.lynk.function.approval_system.model.dto.ApprovalList;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
 import com.semi.lynk.function.approval_system.model.dto.EmployeeDTO;
 import com.semi.lynk.function.approval_system.service.ApprovalService;
@@ -37,14 +38,16 @@ public class ApprovalController {
     }
 
     @PostMapping("/credraft")
-    public String createDraft(@ModelAttribute("draftDTO") DraftDTO draftDTO, HttpSession session) {
+    public String createDraft(@ModelAttribute("draftDTO") DraftDTO draftDTO, HttpSession session, RedirectAttributes redirectAttributes) {
         String empNo = (String) session.getAttribute("empNo");
         draftDTO.setEmployeeNo(empNo);
         draftDTO.setDraftCurrentStep(1);
         draftDTO.setDraftState(8);
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
-        approvalService.createDraft(draftDTO);
+        Long draftNo = approvalService.createDraft(draftDTO);
+        System.out.println("draftNo.toString() = " + draftNo.toString());
+        redirectAttributes.addAttribute("draftNo", draftNo.toString() );
         return "redirect:/approval/addApproval";
     }
 
@@ -63,9 +66,9 @@ public class ApprovalController {
     @GetMapping("/list/{action}")
     public String draftList(Model model, HttpSession session,
                           @PathVariable String action,
-                            @RequestParam(required = false) String keyword,
-                           @RequestParam(defaultValue = "0") int page,
-                           @RequestParam(defaultValue = "12") int size) {
+                          @RequestParam(required = false) String keyword,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "12") int size) {
         String state = "(draft_state < 2)";   // 조건에 따라 맞는 쿼리문을 넘기기 위한 변수, 기본값 ondraft
 
         switch (action) {
@@ -73,7 +76,6 @@ public class ApprovalController {
             case "readydraft" : state = "(draft_state = 8)"; break;
             case "dindraft" : state = "(draft_state = 9)"; break;
         }
-        System.out.println("컨트롤러 keyword = " + keyword);
 
 
         String empNo = (String) session.getAttribute("empNo");
@@ -123,22 +125,30 @@ public class ApprovalController {
         return "function/approval_system/view";
     }
     @GetMapping("/addApproval")
-    public String showAddApprovalForm(Model model, HttpSession session) {
+    public String showAddApprovalForm(@RequestParam String draftNo, Model model, HttpSession session) {
+        System.out.println("여긴 add");
         List<EmployeeDTO> employees = approvalService.getAllEmployees();
         String empNo = (String) session.getAttribute("empNo");
+//        DraftDTO draftDTO = approvalService.getDraftByDNO(Long.valueOf(draftNo));
+//        System.out.println("여기 add get끝 draftDTO.toString() = " + draftDTO.toString());
+        model.addAttribute("draftNo", Long.valueOf(draftNo));
         model.addAttribute("myEmpNo", empNo);
         model.addAttribute("employees", employees);
-        model.addAttribute("approvals", new ArrayList<ApprovalDTO>());
+        model.addAttribute("approvals", new ApprovalList());
         return "function/approval_system/approval";
     }
 
     @PostMapping("/addApproval")
-    public String addApproval(@ModelAttribute("approvals") List<ApprovalDTO> approvals, BindingResult result) {
-        if (result.hasErrors()) {
-            return "approval/addApproval";
-        }
-        System.out.println("여긴 컨트롤러 approvalDTO = " + approvals);
-        approvalService.createApproval(approvals);
+    public String addApproval(@ModelAttribute("approvalList") ApprovalList approvalList) {
+
+        System.out.println("POST 컨트롤러 왔따"+ approvalList.toString());
+
+//        if (bindingResult.hasErrors()) {
+//            // 오류 처리 로직
+//            System.out.println("근데 오류다");
+//            return "redirect:/approval/list/readydraft";
+//        }
+        approvalService.createApproval(approvalList);
         return "redirect:/approval/list/ondraft";
     }
 
