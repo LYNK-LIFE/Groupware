@@ -8,7 +8,11 @@
 ## 팀 소개
 | 이정 (PM) | 남규 (DBA) | 승현 (DBA) | 규남 (형상관리) |
 |-----------|------------|------------|-----------------|
-| ![이정](https://via.placeholder.com/100) | ![남규](https://via.placeholder.com/100) | ![승현](https://via.placeholder.com/100) | ![규남](https://via.placeholder.com/100) |
+| ![이정]![image](https://github.com/user-attachments/assets/c6d1c3c9-6bfb-462c-b6ac-2150dca7223b)
+ | ![남규]![image](https://github.com/user-attachments/assets/100cf090-1861-469e-a772-24f79f80b61e)
+ | ![승현]![image](https://github.com/user-attachments/assets/f4fe1877-8b7c-453a-aca5-6d4292e8f64c)
+ | ![규남]![image](https://github.com/user-attachments/assets/8c17bf3d-01f9-4ca9-b717-42af4c754fb2)
+ |
 |           |            |            |                 |
 
 ## 개발 환경
