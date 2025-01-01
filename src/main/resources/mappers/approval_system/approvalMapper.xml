@@ -107,4 +107,10 @@
         a.draft_no = #{draftNo}
     </select>
 
+    <update id="setDraftStepAndState" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
+        UPDATE draftsh
+        SET draft_state = #{state}, draft_last_step = #{lastStep}
+        WHERE draft_no = #{draftNo}
+    </update>
+
 </mapper>

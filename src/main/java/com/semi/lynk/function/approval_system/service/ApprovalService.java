@@ -17,4 +17,6 @@ public interface ApprovalService {
     DraftDTO getDraftByDNO(Long draftNo);
 
     List<EmployeeDTO> getAllEmployees();
+
+    void setDraftState(Long draftNo, int lastStep);
 }

@@ -37,14 +37,7 @@
                 <div>
                     작성자 : <span th:text="${session.empName}" style="font-weight: 800; font-size: 20px">Employee Name</span>
                 </div>
-                <div>
-                    <label for="draftLastStep">결재최종단계:</label>
-                    <select id="draftLastStep" th:field="*{draftLastStep}">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
+
                 <div>
                     시행금액 : <input type="number" th:field="*{draftCost}" style="font-weight: 800; font-size: 20px">
                 </div>
