@@ -96,6 +96,11 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    height: 64vh;
+}
+
+.notice-edit > form > div {
+    margin-bottom: 10px;
 }
 
 .notice-original {
@@ -115,8 +120,12 @@
 }
 .notice-list {
     position: relative;
-    margin-left: 20px;
-    margin-right: 20px;
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
+    width: 100%;
+    padding: 30px;
+    overflow-y: auto;
+    height: 90%;
 }
 
 .board-table a {
@@ -135,9 +144,14 @@
     display: flex;
     justify-content: space-between;
     background-color: #f8f8f8;
-    padding: 10px;
+    padding: 10px 70px 10px 10px;
     border: 1px solid #ddd;
     margin-bottom: 15px;
+}
+
+.mb-3 {
+    background-color: #2d2d2d;
+    border-color: #2d2d2d;
 }
 
 .info-item {
@@ -186,19 +200,26 @@
     overflow: hidden;
     transition: max-height 0.2s ease-out;
 }
-.main-content {
-    position: relative;
-    height: calc(100vh - 200px);
-    overflow: hidden;
-    padding-right: 15px;
-}
+/*.main-content {*/
+/*    position: relative;*/
+/*    height: calc(100vh - 200px);*/
+/*    overflow: hidden;*/
+/*    padding-right: 15px;*/
+/*}*/
 
 .notice-scroll-container {
     position: relative;
     height: 100%;
+    /*overflow-y: auto;*/
+    /*padding: 20px;*/
+    /*box-sizing: border-box;*/
+}
+
+.notice-view-container {
+    position: relative;
+    height: 100%;
     overflow-y: auto;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 30px;
 }
 
 /* 검색 */
@@ -226,7 +247,7 @@
 
 .search-container button[type="submit"] {
     padding: 6px 12px;
-    background-color: #007bff;
+    background-color: #2D2D2D;
     color: white;
     border: none;
     border-radius: 0 4px 4px 0;
@@ -236,7 +257,7 @@
 
 .search-container .btn-primary {
     padding: 8px 15px;
-    background-color: #007bff;
+    background-color: #2D2D2D;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -288,19 +309,19 @@
 }
 /* 검색끝 */
 /* 위에 경로 */
-.subHeader-class {
-    display: flex;
-    padding: 10px;
-}
+/*.subHeader-class {*/
+/*    display: flex;*/
+/*    padding: 10px;*/
+/*}*/
 
-.subHeaderLink-class {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    padding: 5px 10px;
-    transition: color 0.3s ease;
-    margin-bottom: 10px;
-}
+/*.subHeaderLink-class {*/
+/*    text-decoration: none;*/
+/*    color: #333;*/
+/*    font-weight: bold;*/
+/*    padding: 5px 10px;*/
+/*    transition: color 0.3s ease;*/
+/*    margin-bottom: 10px;*/
+/*}*/
 
 .subHeaderLink-class:hover {
     color: #007bff;
@@ -322,7 +343,7 @@
 }
 
 .form-group label {
-    display: block;
+    /*display: block;*/
     margin-bottom: 5px;
     font-weight: bold;
 }
@@ -337,7 +358,7 @@
 
 .author-name {
     font-weight: 800;
-    font-size: 20px;
+    /*font-size: 20px;*/
     color: #333;
 }
 
