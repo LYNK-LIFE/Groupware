@@ -268,9 +268,9 @@
 
     <select id="searchInquiry" resultType="com.semi.lynk.function.db_management.model.dto.InquiryDTO">
         SELECT
-            c.contract_nng_no AS contractMngNo,
+            co.contract_mng_no AS contractMngNo,
             cu.customer_name AS customerName,
-            c.insured_name AS insuredName,
+            co.insured_name AS insuredName,
         CASE
             WHEN p.product_category = 1 THEN '메리츠화재'
             WHEN p.product_category = 2 THEN '현대해상'
@@ -285,20 +285,58 @@
         ELSE '기타'
         END AS insuranceCompany,
             p.product_name AS productName,
-            c.contract_no AS contractNo,
+            co.contract_no AS contractNo,
             e.employee_name AS employeeName
         FROM
-            contract c
-        INNER JOIN customer c ON c.customer_no = cu.customer_no
-        INNER JOIN productmanage p ON p.product_no = c.product_no
-        INNER JOIN employee e ON c.employee_no = e.employee_no
+            contract co
+        INNER JOIN customer cu ON co.customer_no = cu.customer_no
+        INNER JOIN productmanage p ON p.product_no = co.product_no
+        INNER JOIN employee e ON co.employee_no = e.employee_no
         WHERE
-            (:name IS NULL OR customer_name LIKE CONCAT('%',:name,'%') OR insured_name LIKE CONCAT('%', :name ,'%'))
-            AND(:plannerName IS NULL OR employee_name LIKE CONCAT('%', :plannerName, '%'))
-            AND(:plannerId IS NULL OR employee_no = :plannerId);
+            (#{name} IS NULL OR cu.customer_name LIKE CONCAT('%',#{name},'%') OR co.insured_name LIKE CONCAT('%', #{name} ,'%'))
+            AND(#{plannerName} IS NULL OR e.employee_name LIKE CONCAT('%', #{plannerName}, '%'));
     </select>
 
 
+    <select id="getContractDetails" resultType="com.semi.lynk.function.db_management.model.dto.ContractDetailsDTO">
+        SELECT
+            e.employee_name AS employeeName,
+            co.payment_day AS paymentDay,
+            cu.customer_name AS customerName,
+            cu.customer_ssn AS customerSsn,
+            cu.customer_mobile AS customerMobile,
+            cu.customer_email AS customerEmail,
+            co.insured_name AS insuredName,
+            co.insured_ssn AS insuredSsn,
+            co.contract_date AS contractDate,
+            co.contract_no AS contractNo,
+            CASE
+            WHEN p.product_category = 1 THEN '메리츠화재'
+            WHEN p.product_category = 2 THEN '현대해상'
+            WHEN p.product_category = 3 THEN '한화손해보험'
+            WHEN p.product_category = 4 THEN '삼성화재'
+            WHEN p.product_category = 5 THEN 'DB손해보험'
+            WHEN p.product_category = 31 THEN 'MetLife'
+            WHEN p.product_category = 32 THEN '한화생명'
+            WHEN p.product_category = 33 THEN 'SinhanLife'
+            WHEN p.product_category = 34 THEN '흥국생명'
+            WHEN p.product_category = 35 THEN '라이나생명'
+            ELSE '기타'
+            END AS insuranceCompany,
+            p.product_ame AS productName,
+            co.basic_pay_with AS basicPayWith,
+            co.contract_duration AS contractDuration,
+            co.each_payment AS eachPayment,
+            co.payment_term AS paymentTerm,
+            co.other_matters AS otherMatters
+        FROM
+            contract co
+            INNER JOIN customer cu ON co.customer_no = cu.customer_no
+            INNER JOIN productmanage p ON p.product_no = co.product_no
+            INNER JOIN employee e ON co.employee_no = e.employee_no
+        WHERE
+            co.contract_no = #{contractNo};
+    </select>
 
 
 
