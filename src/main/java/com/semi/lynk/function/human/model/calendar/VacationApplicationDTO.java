@@ -36,7 +36,7 @@ public class VacationApplicationDTO {
     private int scheduleType;           // 스케쥴 타입
     private String scheduleNote;        // 스케쥴 메모 (사 유)
 
-    private int draftNo;
+    private Long draftNo;
     private int employeeNo;
 
 }

@@ -1,5 +1,7 @@
 package com.semi.lynk.function.human.controller;
 
+import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
+import com.semi.lynk.function.approval_system.service.ApprovalService;
 import com.semi.lynk.function.human.model.calendar.CalendarDTO;
 import com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO;
 import com.semi.lynk.function.human.model.calendar.VacationApplicationDTO;
@@ -30,6 +32,7 @@ public class EmployeeController {
 
     private EmployeeService employeeService;
     private CalendarService calendarService;
+    private ApprovalService approvalService;
 
     private static final Logger logger = LogManager.getLogger(EmployeeController.class);
     private final MessageSource messageSource;
@@ -37,10 +40,12 @@ public class EmployeeController {
     @Autowired
     public EmployeeController (EmployeeService employeeService
                                , CalendarService calendarService
-                                , MessageSource messageSource) {
+                                , MessageSource messageSource
+                                ,ApprovalService approvalService) {
         this.employeeService = employeeService;
         this.calendarService = calendarService;
         this.messageSource = messageSource;
+        this.approvalService = approvalService;
     }
 
 
@@ -225,10 +230,24 @@ public class EmployeeController {
     @PostMapping(value = "vacAppResult", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Map<String, Object> vacAppResult(@RequestBody VacationApplicationDTO vacationApplicationDTO
-                                    , Principal principal) {
-        System.out.println("vacationApplicationDTO: " + vacationApplicationDTO);
+                                    , Principal principal , HttpSession session) {
+        DraftDTO draftDTO = new DraftDTO();
+        draftDTO.setDraftNo(null);
+        draftDTO.setEmployeeNo((String) session.getAttribute("empNo"));
+        draftDTO.setDraftTitle("연차");
+        draftDTO.setDraftDate(LocalDateTime.now());
+        draftDTO.setDraftCompletionTime(null);
+        draftDTO.setDraftRetentionSchedule(1);
+        draftDTO.setDraftState(0);
+        draftDTO.setDraftCost(0);
+        draftDTO.setDraftLastStep(1);
+        draftDTO.setDraftCurrentStep(1);
+        draftDTO.setDraftMemo("없음");
+        draftDTO.setEmployeeName((String) session.getAttribute("empName"));
+        Long draftNo = approvalService.createDraft(draftDTO);
+
         String employeeNo = principal.getName();
-        int result = calendarService.vacAppService(vacationApplicationDTO, employeeNo);
+        int result = calendarService.vacAppService(vacationApplicationDTO, employeeNo,draftNo);
 
 
         Map<String, Object> map = new HashMap<>();

@@ -218,21 +218,17 @@
         VALUES
                 (#{employeeNo}, #{vacationApplicationDTO.leaveStartDate},
         #{vacationApplicationDTO.leaveEndDate},
-        #{vacationApplicationDTO.leaveType}, #{vacationApplicationDTO.draftNo})
+        #{vacationApplicationDTO.leaveType}, #{draftNo})
     </insert>
     <update id="vacAppUpdateMapper2" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         update draftsh set draft_date = now()
-        where draft_no = (SELECT COALESCE(MAX(draft_no), 0)
-                            FROM dayoff
-                            WHERE employee_no = #{employeeNo})
+        where draft_no = #{draftNo}
     </update>
 
     <update id="vacAppUpdateMapper3" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">
         update draftsh set draft_completion_time = now()
                             <!--나중에 결재자 승인에 맞게 바꿔야함-->
-        where draft_no = (SELECT COALESCE(MAX(draft_no), 0)
-                            FROM dayoff
-                            WHERE employee_no = #{employeeNo})
+        where draft_no = #{draftNo}
     </update>
 
 <!--    <insert id="vacAppInsertMapper3" parameterType="com.semi.lynk.function.human.model.calendar.VacationApplicationDTO">-->

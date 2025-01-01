@@ -24,17 +24,17 @@ public interface CalendarMapper {
     , int employeeNo);
 
     int vacAppInsertMapper(VacationApplicationDTO vacationApplicationDTO
-    , int employeeNo);
+    , int employeeNo , Long draftNo);
 
     // draft 1씩 늘려주기 위한 selet
     int vacAppDayOffCount(VacationApplicationDTO vacationApplicationDTO
     , int employeeNo);
 
     int vacAppUpdateMapper2(VacationApplicationDTO vacationApplicationDTO
-    , int employeeNo);
+    , int employeeNo , Long draftNo);
 
     int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO
-    , int employeeNo);
+    , int employeeNo , Long draftNo);
 
     int vacStatusUpdateMapper(int draftNo, int newState);
 
