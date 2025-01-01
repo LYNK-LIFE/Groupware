@@ -8,12 +8,9 @@
 ## 팀 소개
 | 이정 (PM) | 남규 (DBA) | 승현 (DBA) | 규남 (형상관리) |
 |-----------|------------|------------|-----------------|
-| ![이정]![image](https://github.com/user-attachments/assets/c6d1c3c9-6bfb-462c-b6ac-2150dca7223b)
- | ![남규]![image](https://github.com/user-attachments/assets/100cf090-1861-469e-a772-24f79f80b61e)
- | ![승현]![image](https://github.com/user-attachments/assets/f4fe1877-8b7c-453a-aca5-6d4292e8f64c)
- | ![규남]![image](https://github.com/user-attachments/assets/8c17bf3d-01f9-4ca9-b717-42af4c754fb2)
- |
-|           |            |            |                 |
+| <img src="https://github.com/user-attachments/assets/c6d1c3c9-6bfb-462c-b6ac-2150dca7223b" width="100" alt="이정" /> <br> 이정 설명 | <img src="https://github.com/user-attachments/assets/100cf090-1861-469e-a772-24f79f80b61e" width="100" alt="남규" /> <br> 남규 설명. | <img src="https://github.com/user-attachments/assets/f4fe1877-8b7c-453a-aca5-6d4292e8f64c" width="100" alt="승현" /> <br> 승현설명. | <img src="https://github.com/user-attachments/assets/8c17bf3d-01f9-4ca9-b717-42af4c754fb2" width="100" alt="규남" /> <br> 규남 설명 |
+
+
 
 ## 개발 환경
 - **사용 언어**
