@@ -61,6 +61,14 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public Page<DraftDTO> getApprovalsPaged(String empNo, int page, int size){
+        int count = approvalMapper.getApprovalsCount(empNo);    // 페이징을 하기위해 먼저 전체 갯수 받아옴
+        int start = page * size; // 해당페이지의 시작글번호
+        List<DraftDTO> approvals = approvalMapper.selectForApproval(empNo, start, size);
+        return new PageImpl<>(approvals, PageRequest.of(page, size), count);
+    }
+
+    @Override
     public DraftDTO getDraftByDNO(Long draftNo){
         return approvalMapper.selectDraftByDNO(draftNo);
     }

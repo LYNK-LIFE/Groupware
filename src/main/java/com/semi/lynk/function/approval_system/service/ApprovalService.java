@@ -1,5 +1,6 @@
 package com.semi.lynk.function.approval_system.service;
 
+import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
 import com.semi.lynk.function.approval_system.model.dto.ApprovalList;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
 import com.semi.lynk.function.approval_system.model.dto.EmployeeDTO;
@@ -19,4 +20,6 @@ public interface ApprovalService {
     List<EmployeeDTO> getAllEmployees();
 
     void setDraftState(Long draftNo, int lastStep);
+
+    Page<DraftDTO> getApprovalsPaged(String empNo, int page, int size);
 }

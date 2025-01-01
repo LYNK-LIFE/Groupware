@@ -155,11 +155,47 @@ public class ApprovalController {
         return "redirect:/approval/list/ondraft";
     }
 
-//    @GetMapping("/doapproval")
-//    public String doapproval(Model model) {
-//        return "function/approval_system/doapproval";
-//    }
+    @GetMapping("/doapproval")
+    public String draftList(Model model, HttpSession session,
+                            @RequestParam(required = false) String keyword,
+                            @RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "12") int size) {
+
+        String empNo = (String) session.getAttribute("empNo");
+        Page<DraftDTO> draftPage = approvalService.getApprovalsPaged(empNo, page, size);
+
+        model.addAttribute("drafts", draftPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", draftPage.getTotalPages());
+        model.addAttribute("totalItems", draftPage.getTotalElements());
+        return "function/approval_system/list";
+    }
+
+//    @GetMapping("/doapproval/")
+//    public String approvalList(Model model, HttpSession session,
+//                            @RequestParam(required = false) String keyword,
+//                            @RequestParam(defaultValue = "0") int page,
+//                            @RequestParam(defaultValue = "12") int size) {
+////        String state = "(draft_state < 2)";   // 조건에 따라 맞는 쿼리문을 넘기기 위한 변수, 기본값 ondraft
+////
+////        switch (action) {
+////            case "findraft" : state = "(draft_state = 2)"; break;
+////            case "readydraft" : state = "(draft_state = 8)"; break;
+////            case "dindraft" : state = "(draft_state = 9)"; break;
+////        }
 //
+//
+//        String empNo = (String) session.getAttribute("empNo");
+//        Page<ApprovalDTO> approvalPage = approvalService.getApprovalsPaged(empNo, page, size, keyword);
+//
+//        model.addAttribute("drafts", approvalPage.getContent());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", approvalPage.getTotalPages());
+//        model.addAttribute("totalItems", approvalPage.getTotalElements());
+//        model.addAttribute("action", approvalPage);
+//        return "function/approval_system/approval_list";
+//    }
+
 //    @GetMapping("/finapproval")
 //    public String finapproval(Model model) {
 //        return "function/approval_system/finapproval";
