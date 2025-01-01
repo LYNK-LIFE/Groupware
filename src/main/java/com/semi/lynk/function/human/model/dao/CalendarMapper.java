@@ -33,8 +33,8 @@ public interface CalendarMapper {
     int vacAppUpdateMapper2(VacationApplicationDTO vacationApplicationDTO
     , int employeeNo , Long draftNo);
 
-    int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO
-    , int employeeNo , Long draftNo);
+//    int vacAppUpdateMapper3(VacationApplicationDTO vacationApplicationDTO
+//    , int employeeNo , Long draftNo);
 
     int vacStatusUpdateMapper(int draftNo, int newState);
 
@@ -43,4 +43,6 @@ public interface CalendarMapper {
     int vacUsedLeaveMapper(Map<String, Object> usedLeave);
 
     List<VacationApplicationDTO> vacLeaderSelectMapper(int roleAdmin);
+
+    List<CalendarDTO> showCalendarSelect2(int employeeNo, int roleAdmin);
 }

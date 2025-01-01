@@ -177,6 +177,9 @@ public class EmployeeController {
     public List<CalendarDTO> appStatusList (HttpSession session) {
         String empNoo = (String) session.getAttribute("empNo");
 
+        DraftDTO draftDTO = new DraftDTO();
+        draftDTO.setDraftCompletionTime(null);
+
         int employeeNo = Integer.parseInt(empNoo);
         System.out.println("employeeNo = " + employeeNo);
         int roleAdmin = (int) session.getAttribute("roleAdmin");

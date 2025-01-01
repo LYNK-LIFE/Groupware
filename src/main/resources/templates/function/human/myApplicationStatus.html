@@ -134,8 +134,12 @@
                         <br>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: forestgreen">승인</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: red">반려</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: forestgreen"
+                                th:if="${session.roleAdmin == 1}"
+                                th:text="'승인'"></button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: red"
+                                th:if="${session.roleAdmin == 1}"
+                                th:text="'반려'"></button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
