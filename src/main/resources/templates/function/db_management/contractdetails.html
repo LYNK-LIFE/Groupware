@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>신 계약등록</title>
+    <title>계약 상세조회</title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -34,12 +34,24 @@
         <article>
 
             <h1>계약 상세 정보</h1>
-            <p>계약번호: <span th:text="${contractDetails.contractNo}"></span></p>
-            <p>계약자: <span th:text="${contractDetails.customerName}"></span></p>
-            <p>피보험자: <span th:text="${contractDetails.insuredName}"></span></p>
-            <p>보험회사: <span th:text="${contractDetails.insuranceCompany}"></span></p>
-            <p>상품명: <span th:text="${contractDetails.productName}"></span></p>
             <p>설계사: <span th:text="${contractDetails.employeeName}"></span></p>
+            <p>납입일: <span th:text="${contractDetails.paymentDay}"></span></p>
+            <p>계약자: <span th:text="${contractDetails.customerName}"></span></p>
+            <p>계약자 주민등록번호: <span th:text="${contractDetails.customerSsn}"></span></p>
+            <p>연락처: <span th:text="${contractDetails.customerMobile}"></span></p>
+            <p>이메일: <span th:text="${contractDetails.customerEmail}"></span></p>
+            <p>피보험자: <span th:text="${contractDetails.insuredName}"></span></p>
+            <p>피보험자 주민등록번호: <span th:text="${contractDetails.insuredSsn}"></span></p>
+            <p>계약일자: <span th:text="${contractDetails.contractDate}"></span></p>
+            <p>증권번호: <span th:text="${contractDetails.contractNo}"></span></p>
+            <p>보험회사: <span th:text="${contractDetails.insuranceCompany}"></span></p>
+            <p>보험상품: <span th:text="${contractDetails.productName}"></span></p>
+            <p>결제수단: <span th:text="${contractDetails.basicPayWith}"></span></p>
+            <p>보험기간: <span th:text="${contractDetails.contractDuration}"></span></p>
+            <p>납입 보험료: <span th:text="${contractDetails.eachPayment}"></span></p>
+            <p>납입기간: <span th:text="${contractDetails.paymentTerm}"></span></p>
+            <p>메모사항: <span th:text="${contractDetails.otherMatters}"></span></p>
+
 
         </article>
 
