@@ -2,6 +2,7 @@ package com.semi.lynk.function.approval_system.service;
 
 import com.semi.lynk.function.approval_system.model.dao.ApprovalMapper;
 import com.semi.lynk.function.approval_system.model.dto.ApprovalDTO;
+import com.semi.lynk.function.approval_system.model.dto.ApprovalList;
 import com.semi.lynk.function.approval_system.model.dto.DraftDTO;
 import com.semi.lynk.function.approval_system.model.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +27,25 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
-    public void createApproval(List<ApprovalDTO> approvals){
-        for (ApprovalDTO approvalDTO : approvals) {
+    public void createApproval(ApprovalList approvalList){
+        List<ApprovalDTO> approvals = approvalList.getApprovals();
+        System.out.println("여긴 서비스");
+        for (ApprovalDTO approval : approvals) {
             // 각 ApprovalDTO를 처리하는 로직
-            System.out.println("서비스임다 approval = " + approvals);
+            System.out.println("서비스임다 approval = " + approval);
         }
-
-
-
     };
 
     @Override
-    public void createDraft(DraftDTO draftDTO){
-        System.out.println("draftDTO = " + draftDTO);approvalMapper.insertDraft(draftDTO);}
+    public Long createDraft(DraftDTO draftDTO){
+        approvalMapper.insertDraft(draftDTO);
+        System.out.println("draftDTO.getDraftNo() = " + draftDTO.getDraftNo());
+        return draftDTO.getDraftNo();
+    }
 
     @Override
     public Page<DraftDTO> getDraftsPaged(String empNo, String state, int page, int size, String keyword){
         // 여기서 state는 결재중, 결재완료, 반려의 상태에 따라 쿼리문이 변경됨
-        System.out.println("서비스의 keyword = " + keyword);
         int count = approvalMapper.getDraftsCount(empNo, state, keyword);    // 페이징을 하기위해 먼저 전체 갯수 받아옴
         int start = page * size; // 해당페이지의 시작글번호
         List<DraftDTO> drafts = approvalMapper.getDrafts(empNo, state, start, size, keyword);

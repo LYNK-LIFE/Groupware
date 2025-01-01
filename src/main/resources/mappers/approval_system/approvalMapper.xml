@@ -40,7 +40,7 @@
         <result property="position" column="position" />
     </resultMap>
 
-    <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
+    <insert id="insertDraft" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO" useGeneratedKeys="true" keyProperty="draftNo">
         INSERT INTO draftsh (employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo)
         VALUES (#{employeeNo}, #{draftTitle}, #{draftDate}, #{draftCompletionTime}, #{draftRetentionSchedule}, #{draftState}, #{draftCost}, #{draftLastStep}, #{draftCurrentStep}, #{draftMemo});
     </insert>
