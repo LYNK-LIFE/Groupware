@@ -10,7 +10,7 @@ import lombok.*;
 public class EmpAndDepDTO {
 
     // 불러올 애들
-    private int id;                         // 사번
+    private int employeeNo;                         // 사번
     private String name;                    // 이름
     private DepartmentDTO departmentDTO;    // 부서명
     private HumanDTO humanDTO;              // 직책

@@ -25,8 +25,20 @@ public class EmployeeService {
     }
 
     public List<EmpAndDepDTO> joinList() {
+        // 기존 조회
+        List<EmpAndDepDTO> list = mapper.joinListResult();
 
-        return mapper.joinListResult();
+        // 각 사원의 이미지 조회 및 설정
+        for (EmpAndDepDTO emp : list) {
+            List<EmpAndDepDTO> images = mapper.findEmployeeImageByEmployeeNo(emp.getEmployeeNo());
+            if (!images.isEmpty()) {
+                emp.setImage(images.get(0).getImage()); // 첫 번째 이미지 설정
+            } else {
+                emp.setImage("/images/default.png"); // 기본 이미지
+            }
+        }
+
+        return list;
     }
 
 
