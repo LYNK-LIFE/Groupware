@@ -92,19 +92,26 @@
         VALUES (#{draftNo}, #{employeeNo}, #{approvalState}, #{approvalStep}, #{approvalPosible}, #{approvalCompletionTime}, #{approvalMemo})
     </insert>
 
-    <select id="selectApproval" resultMap="ApprovalResultMap">
-        SELECT
-        a.draft_no, a.employee_no, a.approval_state, a.approval_step, a.approval_posible, a.approval_completion_time, a.approval_memo, hr.position, e.employee_name, d.department_name
+    <select id="selectForApproval" resultMap="draftResultMap">
+        SELECT draft_no, dr.employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
         FROM
         approval a
         LEFT JOIN
-        human_resource hr ON a.employee_no = hr.employee_no
+        draftsh dr using(draft_no)
         LEFT JOIN
-        employee e ON a.employee_no = e.employee_no
+        employee e ON dr.employee_no = e.employee_no
         LEFT JOIN
-        department d ON e.department_no = d.department_no
+        department d using(department_no)
         WHERE
-        a.draft_no = #{draftNo}
+        a.employee_no = #{empNo}
+        ORDER BY draft_no DESC
+        LIMIT #{start}, #{size}
+    </select>
+
+    <select id="getApprovalsCount" parameterType="String">
+        SELECT COUNT(*)
+        FROM approval a LEFT JOIN draftsh dr using(draft_no)
+        WHERE a.employee_no = #{empNo}
     </select>
 
     <update id="setDraftStepAndState" parameterType="com.semi.lynk.function.approval_system.model.dto.DraftDTO">
