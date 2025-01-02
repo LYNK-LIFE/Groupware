@@ -338,7 +338,7 @@ public class EmployeeController {
     @ResponseBody
     public Map<String, Object> cancelVacation(
             @RequestParam int draftNo,
-            @RequestParam int usedLeave,
+            @RequestParam float usedLeave,
             @RequestParam int employeeNo) {
 
         Map<String, Object> response = new HashMap<>();
