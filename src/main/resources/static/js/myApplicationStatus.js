@@ -279,8 +279,31 @@ function getSelectedUsedLeave() {
     const row = document.querySelector("tr.selected");
     console.log("선택된 행(row):", row);
 
-    const usedLeave = row ? parseInt(row.getAttribute("data-used-leave"), 10) : null;
-    console.log("추출된 usedLeave:", usedLeave);
+    const vacStartDate = row.getAttribute("data-vac-start");
+    const vacEndDate = row.getAttribute("data-vac-end");
+
+    let startDate = new Date(vacStartDate);
+    let endDate = new Date(vacEndDate);
+
+    const diffInMs = endDate - startDate;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // 날짜 차이
+
+    let usedLeave = diffInDays;
+    const remainingHours = (diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60); // 남은 시간
+    if (remainingHours > 0) {
+        if (remainingHours <= 5) {
+            usedLeave += 0.5; // 반차
+        } else if (remainingHours <= 9) {
+            usedLeave += 1.0; // 하루
+        } else {
+            usedLeave += Math.ceil(remainingHours / 9); // 9시간 단위로 추가
+        }
+    }
+
+        //const usedLeave = row ? parseInt(row.getAttribute("data-used-leave"), 10) : null;
+    console.log(startDate);
+    console.log(endDate);
+    console.log("추출된 leaveDays:", usedLeave);
 
     return usedLeave;
 }
@@ -323,7 +346,7 @@ document.querySelector("#myModal4 .modal-footer").addEventListener("click", (e) 
     if (e.target.textContent.trim() === "반려") {
         const draftNo = getSelectedDraftNo(); // 선택된 draft 번호 가져오기
         const usedLeave = getSelectedUsedLeave(); // 사용 연차 값 가져오기
-        const employeeNo = 12; // 실제 데이터를 사용
+        const employeeNo = document.querySelector("tr.selected").getAttribute("data-employee-no"); // 실제 데이터를 사용
 
         console.log("draftNo:", draftNo); // 디버깅: draftNo 출력
         console.log("usedLeave:", usedLeave); // 디버깅: usedLeave 출력
