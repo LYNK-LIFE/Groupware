@@ -93,7 +93,7 @@ public class CalendarService {
     }
 
     @Transactional
-    public void cancelVacation(int draftNo, int usedLeave, int employeeNo) {
+    public void cancelVacation(int draftNo, float usedLeave, int employeeNo) {
         // 1. 휴가 데이터 삭제
         int deleted = calendarMapper.vacDeleteMapper(draftNo);
         if (deleted <= 0) {

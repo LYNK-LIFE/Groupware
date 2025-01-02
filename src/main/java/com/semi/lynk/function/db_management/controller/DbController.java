@@ -286,6 +286,7 @@ public class DbController {
     @ResponseBody
     public List<TopSalesContractDTO> getTopSalesContract() {
         List<TopSalesContractDTO> result = dbService.getTopSaleContract();
+        System.out.println("result = " + result);
         return result;
     }
 //======================================================================================================================
@@ -322,10 +323,6 @@ public class DbController {
         return "function/db_management/contractdetails";
     }
 
-
-//====================================================================================================================
-
-// 파멸의 시작
 
 
 

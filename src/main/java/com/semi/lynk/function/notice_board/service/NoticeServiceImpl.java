@@ -83,8 +83,6 @@ public class NoticeServiceImpl implements NoticeService {
         }else {
             int searchEmpCount = noticeMapper.getSearchEmpCount(keyword);
             int end = Math.min(searchEmpCount, start+size)-start;
-            System.out.println("start = " + start);
-            System.out.println("end = " + end);
             List<NoticeDTO> allNotices = noticeMapper.searchByNoticeEmp(keyword, start, end);
             return new PageImpl<>(allNotices, PageRequest.of(page, size), searchEmpCount);
         }
@@ -118,4 +116,8 @@ public class NoticeServiceImpl implements NoticeService {
         noticeMapper.updateViewCnt(noticeNo);
     }
 
+    @Override
+    public List<NoticeDTO> getNotices(){
+        return noticeMapper.getPinedNotices(0,4);
+    }
 }
