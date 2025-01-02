@@ -7,17 +7,7 @@ body {
     display: flex;
     gap: 20px;
 }
-article {
-    flex: 1;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-article h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+
 .btn {
     display: block;
     width: 100%;

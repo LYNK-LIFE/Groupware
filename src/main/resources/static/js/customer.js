@@ -43,8 +43,8 @@ async function fetchCustomerList() {
                 <td>${customer.customerName}</td>
                 <td>${customer.customerSsn}</td>
                 <td>${customer.customerMobile}</td>
-                <td>${customer.customerAddr}</td>
-                <td><button onclick="deleteCustomer(${customer.customerNo})">삭제</button></td>
+                <td style="text-align: start;">${customer.customerAddr}</td>
+                <td><button onclick="deleteCustomer(${customer.customerNo})" style="color: darkred; border: 1px solid darkred; border-radius: 100px; background-color: rgba(0,0,0,0); font-size: 12px; font-weight: bolder;">X</button></td>
             </tr>
         `;
         tableBody.innerHTML += row;

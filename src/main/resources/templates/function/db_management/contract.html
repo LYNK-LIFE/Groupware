@@ -5,12 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>신 계약등록</title>
+    <title>계약 등록</title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-
-
+    <link rel="stylesheet" th:href="@{/css/dbManagement.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <style>
+    </style>
 </head>
 
 
@@ -25,24 +25,21 @@
     <section class="main-content">
 
         <div class="subHeader-class">
-            <a class="subHeaderLink-class" href="/">DB관리</a>
+            <a class="subHeaderLink-class" href="">DB 관리</a>
             <label style="margin-left: 20px; margin-right: 20px"> > </label>
-            <a class="subHeaderLink-class" href="/db/contract">신계약 등록</a>
+            <a class="subHeaderLink-class" href="/db/contract">계약 등록</a>
         </div>
 
-        <article>
+        <article class="newContract-container">
             <div class="form-container">
-                <h1>신 계약 등록</h1>
-
-
+<!--                <h1>신 계약 등록</h1>-->
                 <form action="/db/contract" method="POST">
-
                     <!-- 설계사명 -->
                     <div class="form-group">
                         <label for="employeeName">설계사</label>
                         <input type="text" id="employeeName" name="employeeName" class="form-control" readonly>
                         <input type="hidden" id="employeeNo" name="employeeNo"> <!-- 사번 저장 -->
-                        <button type="button" id="searchEmployeeBtn" class="btn btn-primary">조회</button>
+                        <button type="button" id="searchEmployeeBtn" class="btn btn-primary btn-def">조회</button>
                     </div>
 
                     <!-- 설계사 모달창 -->
@@ -64,11 +61,10 @@
                     </div>
 
 
-
                     <!-- 납입일 -->
                     <div class="form-group">
                         <label for="paymentDay">납입일</label>
-                        <select id="paymentDay" name="paymentDay" required>
+                        <select id="paymentDay" name="paymentDay" required style="width: 100px" class="form-select">
                             <option value="1">일시납</option>
                             <option value="5">5일</option>
                             <option value="10">10일</option>
@@ -77,7 +73,6 @@
                             <option value="25">25일</option>
                         </select>
                     </div>
-
 
                     <!-- 고객 선택 모달 -->
                     <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
@@ -100,8 +95,8 @@
                     <!-- 고객명 -->
                     <div class="form-group">
                         <label for="customerName">계약자</label>
-                        <input type="text" id="customerName" name="customerName" readonly>
-                        <button type="button" id="searchCustomerBtn" class="btn btn-primary">조회</button>
+                        <input type="text" id="customerName" name="customerName" readonly class="form-control">
+                        <button type="button" id="searchCustomerBtn" class="btn btn-primary btn-def">조회</button>
                     </div>
 
                     <!-- 주민등록번호 -->
@@ -116,25 +111,25 @@
                     <!-- 이메일 -->
                     <div class="form-group">
                         <label for="customerEmail">이메일</label>
-                        <input type="email" id="customerEmail" name="customerEmail" readonly>
+                        <input type="email" id="customerEmail" name="customerEmail" readonly class="form-control">
                     </div>
 
                     <!-- 연락처 -->
                     <div class="form-group">
                         <label for="customerMobile">연락처</label>
-                        <input type="text" id="customerMobile" name="customerMobile" readonly>
+                        <input type="text" id="customerMobile" name="customerMobile" readonly class="form-control">
                     </div>
 
                     <!-- 피보험자 -->
                     <div class="form-group">
                         <label for="insuredName">피보험자</label>
-                        <input type="text" id="insuredName" name="insuredName" required>
+                        <input type="text" id="insuredName" name="insuredName" required class="form-control">
                     </div>
 
                     <!-- 피보험자 주민번호 -->
                     <div class="form-group">
                         <label for="insuredSsn">피보험자 주민번호</label>
-                        <input type="text" id="insuredSsn" name="insuredSsn" required>
+                        <input type="text" id="insuredSsn" name="insuredSsn" required class="form-control">
                     </div>
 
                     <!-- 보험회사명코드 -->
@@ -148,22 +143,22 @@
                     <!-- 계약일자 -->
                     <div class="form-group">
                         <label for="contractDate">계약일자</label>
-                        <input type="date" id="contractDate" name="contractDate" required>
+                        <input type="date" id="contractDate" name="contractDate" required class="form-control">
                     </div>
 
                     <!-- 계약번호 -->
                     <div class="form-group">
                         <label for="contractNo">증권번호</label>
-                        <input type="text" id="contractNo" name="contractNo" required>
+                        <input type="text" id="contractNo" name="contractNo" required class="form-control">
                     </div>
 
 
                     <!-- 상품 -->
-                    <div class="form-group mt-3">
+                    <div class="form-group">
                         <label for="productName">보험상품</label>
                         <input type="text" id="productName" name="productName" class="form-control" required>
                         <input type="hidden" id="productNo" name="productNo">
-                        <button type="button" id="searchProductBtn" class="btn btn-primary">상품 조회</button>
+                        <button type="button" id="searchProductBtn" class="btn btn-primary btn-def">상품 조회</button>
                     </div>
 
                     <!--상품조회 모달창-->
@@ -182,9 +177,9 @@
                     </div>
 
                     <!-- 기본결제수단 -->
-                    <div class="form-group mt-3">
+                    <div class="form-group">
                         <label for="paymentMethod">결제수단</label>
-                        <select id="paymentMethod" name="basicPayWith" class="form-select">
+                        <select id="paymentMethod" name="basicPayWith" class="form-select" style="width: 100px">
                             <option value="카드">카드</option>
                             <option value="자동이체">자동이체</option>
                             <option value="직원수납">직원수납</option>
@@ -194,23 +189,23 @@
                     <!-- 계약기간 -->
                     <div class="form-group">
                         <label for="contractDuration">계약기간</label>
-                        <div class="radio-group">
-                            <input type="number" id="contractDuration" name="contractDuration" required>
-                            <label>년</label>
-                        </div>
+<!--                        <div class="radio-group">-->
+                            <input type="number" id="contractDuration" name="contractDuration" required class="form-control">
+                            <label style="width: auto">년</label>
+<!--                        </div>-->
                     </div>
 
                     <!-- 납입금액 -->
                     <div class="form-group">
                         <label for="eachPayment">납입금액</label>
-                        <input type="number" id="eachPayment" name="eachPayment" required>
-                        <label>원</label>
+                        <input type="number" id="eachPayment" name="eachPayment" required class="form-control">
+                        <label style="width: auto">원</label>
                     </div>
 
                     <!-- 납입주기 -->
                     <div class="form-group">
                         <label for="paymentTerm">납입주기</label>
-                        <select id="paymentTerm" name="paymentTerm" required>
+                        <select id="paymentTerm" name="paymentTerm" required style="width: 100px" class="form-select">
                             <option value="1">1년</option>
                             <option value="5">5년</option>
                             <option value="10">10년</option>
@@ -221,14 +216,15 @@
 
 
                     <!-- 기타사항 -->
-                    <div class="form-group">
-                        <label for="otherMatters">메모란</label>
-                        <textarea id="otherMatters" name="otherMatters"></textarea>
+                    <div class="form-group"
+                    style="display: flex; align-items: flex-start; gap: 5px;">
+                        <label for="otherMatters" style="margin-top: 3px">메모란</label>
+                        <textarea id="otherMatters" name="otherMatters" class="form-control"></textarea>
                     </div>
 
                     <!-- 버튼 -->
                     <div class="form-group">
-                        <button type="button" id="registerContractBtn">등록하기</button>
+                        <button type="button" id="registerContractBtn" class="form-submit">등록하기</button>
                     </div>
                 </form>
             </div>
@@ -242,7 +238,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        신규계약을 전산에 등록 할려고합니다. 등록하시겠습니까?
+                        신규 계약을 등록하겠습니까?
                     </div>
                     <div class="modal-footer">
                         <button type="submit" id="confirmYes" class="btn-btn-primary">확인</button>
