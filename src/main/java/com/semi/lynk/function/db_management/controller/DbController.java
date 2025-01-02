@@ -249,8 +249,13 @@ public class DbController {
             @RequestParam(required = false) String employeeName,
             @RequestParam(required = false) String month){
 
+        System.out.println("customerName = " + customerName);
+        System.out.println("customerName = " + insuredName);
+        System.out.println("customerName = " + employeeName);
+
         return dbService.searchExpiringCustomers(
                 customerName,insuredName,employeeName,month);
+
     }
 
 
@@ -286,7 +291,6 @@ public class DbController {
     @ResponseBody
     public List<TopSalesContractDTO> getTopSalesContract() {
         List<TopSalesContractDTO> result = dbService.getTopSaleContract();
-        System.out.println("result = " + result);
         return result;
     }
 //======================================================================================================================
@@ -318,7 +322,7 @@ public class DbController {
         if (contractDetailsDTO == null) {
             throw new RuntimeException("No contract details found for contractNo: " + contractNo);
         }
-        model.addAttribute("contractDetails", contractDetailsDTO); // 여기서 "contractDetails"로 이름을 맞추어야 함
+        model.addAttribute("contractDetails", contractDetailsDTO);
 
         return "function/db_management/contractdetails";
     }

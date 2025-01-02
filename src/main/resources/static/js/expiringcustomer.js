@@ -1,13 +1,23 @@
-// 조회 버튼 이벤트 설정
-// 계약자/피보험자 이름 조회
-document.getElementById("nameSearchButton").addEventListener("click", async () => {
-    const name = document.getElementById("nameSearch").value;
-    if (name) await fetchData({ customerName: name });
-});
-// 설계사 이름 조회
-document.getElementById("employeeSearchButton").addEventListener("click", async () => {
-    const employee = document.getElementById("employeeSearch").value;
-    if (employee) await fetchData({ employeeName: employee });
+document.addEventListener("DOMContentLoaded", () => {
+    // 조회 버튼 이벤트 설정
+    const nameSearchButton = document.getElementById("nameSearchButton");
+    const employeeSearchButton = document.getElementById("employeeSearchButton");
+
+    if (nameSearchButton) {
+        nameSearchButton.addEventListener("click", async () => {
+            const name = document.getElementById("nameSearch").value;
+            if (name) await fetchData({ customerName: name });
+            console.log("계약자", name);
+        });
+    }
+
+    if (employeeSearchButton) {
+        employeeSearchButton.addEventListener("click", async () => {
+            const employee = document.getElementById("employeeSearch").value;
+            if (employee) await fetchData({ employeeName: employee });
+            console.log("설계사", employee);
+        });
+    }
 });
 
 // 월별 조회 드롭다운 이벤트

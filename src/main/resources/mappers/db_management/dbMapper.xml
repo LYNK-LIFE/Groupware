@@ -243,6 +243,7 @@
         INNER JOIN employee e ON ct.employee_no = e.employee_no
 
         WHERE
+
         DATE_ADD(ct.contract_date, INTERVAL (ct.contract_duration * 365) DAY) BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
     </select>
 
