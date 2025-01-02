@@ -67,7 +67,7 @@ public class LoginController {
                 mv.setViewName("function/login/empAdd");
             } else if (result >= 1) {
                 message = "회원 가입이 완료되었습니다.";
-                mv.setViewName("function/login/login");
+                mv.setViewName("function/management/activeAccountList");
             }
 
             mv.addObject("message", message);
