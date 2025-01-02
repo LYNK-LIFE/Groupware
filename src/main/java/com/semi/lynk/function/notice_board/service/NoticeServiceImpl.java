@@ -116,4 +116,8 @@ public class NoticeServiceImpl implements NoticeService {
         noticeMapper.updateViewCnt(noticeNo);
     }
 
+    @Override
+    public List<NoticeDTO> getNotices(){
+        return noticeMapper.getPinedNotices(0,4);
+    }
 }
