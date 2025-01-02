@@ -1,4 +1,5 @@
 # LYNK Insurance
+![header](https://capsule-render.vercel.app/api?type=waving&height=180&text=GitHub%20world%20of%20gyu%20nam&fontAlign50&stroke=00FF00&strokeWidth=3)
 
 ![로고 캡쳐](https://github.com/user-attachments/assets/6bdcd990-d456-405d-bafd-7627271cfb51)
 
