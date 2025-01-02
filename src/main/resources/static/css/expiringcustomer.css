@@ -1,0 +1,24 @@
+.form-container {
+
+    display: block;
+    width: 150px;
+    padding: .350rem .70rem;
+    font-size: 1rem;
+    webkit-appearance: none;
+    moz-appearance: none;
+    appearance: none;
+    background-clip: padding-box;
+}
+
+
+.expiringselect,
+.monthlyquery {
+    flex: 1; /* 각 아티클이 동일한 너비를 차지하도록 설정 */
+    max-width: 40%; /* 너비 제한 */
+}
+
+
+.btn-prlimary{
+    bs-btn-color: #fff;
+    bs-btn-bg: #212529;
+}

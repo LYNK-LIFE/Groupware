@@ -88,6 +88,7 @@ public class DbService {
                                                              String employeeName,
                                                              String month) {
         List<ExpiringCustomerDTO> customers = dbMapper.searchExpiringCustomers(customerName, insuredName, employeeName, month);
+        System.out.println("customers = " + customers);
         return customers;
     }
 

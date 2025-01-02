@@ -1,13 +1,23 @@
-// 조회 버튼 이벤트 설정
-// 계약자/피보험자 이름 조회
-document.getElementById("nameSearchButton").addEventListener("click", async () => {
-    const name = document.getElementById("nameSearch").value;
-    if (name) await fetchData({ customerName: name });
-});
-// 설계사 이름 조회
-document.getElementById("employeeSearchButton").addEventListener("click", async () => {
-    const employee = document.getElementById("employeeSearch").value;
-    if (employee) await fetchData({ employeeName: employee });
+document.addEventListener("DOMContentLoaded", () => {
+    // 조회 버튼 이벤트 설정
+    const nameSearchButton = document.getElementById("nameSearchButton");
+    const employeeSearchButton = document.getElementById("employeeSearchButton");
+
+    if (nameSearchButton) {
+        nameSearchButton.addEventListener("click", async () => {
+            const name = document.getElementById("nameSearch").value;
+            if (name) await fetchData({ customerName: name });
+            console.log("계약자", name);
+        });
+    }
+
+    if (employeeSearchButton) {
+        employeeSearchButton.addEventListener("click", async () => {
+            const employee = document.getElementById("employeeSearch").value;
+            if (employee) await fetchData({ employeeName: employee });
+            console.log("설계사", employee);
+        });
+    }
 });
 
 // 월별 조회 드롭다운 이벤트
@@ -22,16 +32,29 @@ monthDropdown?.addEventListener("change", async () => {
 
 // 월별 데이터 요청 함수 추가
 async function fetchData(params) {
-    const query = new URLSearchParams(params).toString();
-    const url = `/db/expiringcustomer/month?${query}`; // URL 수정
+    const filteredParams = Object.fromEntries(
+        Object.entries(params).filter(([_, v]) => v != null && v !== "")
+    ); // null 또는 빈 값 제거
+
+    const query = new URLSearchParams(filteredParams).toString();
+    const url = `/db/expiringcustomer/search?${query}`; // API 엔드포인트 확인
+
     console.log("요청 URL:", url);
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
         if (!response.ok) {
             throw new Error(`HTTP 상태 코드: ${response.status}, 메시지: ${response.statusText}`);
         }
+
         const data = await response.json();
+        console.log("응답 데이터:", data);
         updateTable(data);
     } catch (error) {
         console.error("데이터 조회 오류:", error);
