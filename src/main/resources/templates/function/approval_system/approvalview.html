@@ -45,17 +45,35 @@
                     <span class="info-item">현재단계: <span th:text="${draft.draftCurrentStep}"></span></span>
                     <span class="info-item">최종단계: <span th:text="${draft.draftLastStep}"></span></span>
                 </div>
+                <div th:each="approval : ${approvals}" class="approval-block">
+                    <h4 th:text="'결재 정보 - 단계 ' + ${approval.approvalStep}"></h4>
+                    <div class="approval-info">
+                        <p><strong>결재자 정보:</strong>
+                            <span th:text="${approval.employeeName} + ' (' + ${approval.employeeNo} + ')'"></span>
+                        </p>
+                        <p><strong>부서:</strong> <span th:text="${approval.departmentName}"></span></p>
+                        <p><strong>직책:</strong> <span th:text="${approval.position}"></span></p>
+                        <p><strong>결재 상태:</strong>
+                            <span th:text="${approval.approvalState == 0 ? '미확인' :
+                           approval.approvalState == 1 ? '확인' :
+                           approval.approvalState == 2 ? '승인' :
+                           approval.approvalState == 9 ? '반려' : '알 수 없음'}"></span></p>
+                        <p><strong>결재 완료 시각:</strong>
+                            <span th:text="${approval.approvalCompletionTime != null ?
+                           #temporals.format(approval.approvalCompletionTime, 'yyyy-MM-dd HH:mm') : '미완료'}"></span></p>
+                        <p><strong>결재 의견:</strong> <span th:text="${approval.approvalMemo}"></span></p>
+                    </div>
+                </div>
 
                 <p>내용</p>
                 <div class="notice-content" th:utext="${draft.draftMemo}"></div>
 
-                <div th:if="${state < 2}" style="margin-top: 10px;">
+                <div th:if="${action != 'fin'}" style="margin-top: 10px;">
                     <a th:href="@{/approval/{draftNo}/check(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">확인</a>
                     <a th:href="@{/approval/{draftNo}/approve(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">승인</a>
                     <a th:href="@{/approval/{draftNo}/reject(draftNo=${draft.draftNo})}" class="btn btn-primary mb-3">반려</a>
                 </div>
-                <a th:href="@{${draft.draftState == 2 ? '/approval/list/findraft' :
-                    (draft.draftState == 9 ? '/approval/list/dindraft' : '/approval/list/ondraft')}}"
+                <a th:href="@{/approval/{action}/approval(action=${action})}"
                    class="btn btn-primary mb-3">목록으로 돌아가기</a>
             </div>
         </article>

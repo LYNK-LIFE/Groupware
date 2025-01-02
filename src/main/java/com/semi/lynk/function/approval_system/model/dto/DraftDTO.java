@@ -22,4 +22,5 @@ public class DraftDTO {
     private int draftCurrentStep; // 현재 결재 단계
     private String draftMemo;
     private String employeeName;
+    private int approvalState;
 }

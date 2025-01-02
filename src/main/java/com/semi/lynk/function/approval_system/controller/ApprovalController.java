@@ -46,7 +46,6 @@ public class ApprovalController {
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
         Long draftNo = approvalService.createDraft(draftDTO);
-        System.out.println("draftNo.toString() = " + draftNo.toString());
         redirectAttributes.addAttribute("draftNo", draftNo.toString() );
         return "redirect:/approval/addApproval";
     }
@@ -55,17 +54,25 @@ public class ApprovalController {
     public String viewDraft(@PathVariable("draftNo") Long draftNo, Model model) {
 
         DraftDTO draft = approvalService.getDraftByDNO(draftNo);
+        List<ApprovalDTO> approvalDTOS = approvalService.getApproval(draftNo);
 
+        model.addAttribute("approvals", approvalDTOS);
         model.addAttribute("draft", draft);
 
         return "function/approval_system/view";
     }
+
     @GetMapping("/app/{draftNo}")
-    public String viewAppDraft(@PathVariable("draftNo") Long draftNo, Model model) {
+    public String viewAppDraft(@PathVariable("draftNo") Long draftNo
+            ,@RequestParam("action") String action, Model model) {
+        System.out.println("action = " + action);
 
         DraftDTO draft = approvalService.getDraftByDNO(draftNo);
+        List<ApprovalDTO> approvalDTOS = approvalService.getApproval(draftNo);
 
+        model.addAttribute("approvals", approvalDTOS);
         model.addAttribute("draft", draft);
+        model.addAttribute("action", action);
 
         return "function/approval_system/approvalview";
     }
@@ -135,6 +142,7 @@ public class ApprovalController {
         model.addAttribute("approvals", new ApprovalList());
         return "function/approval_system/approval";
     }
+
     @GetMapping("/addApproval")
     public String showAddApprovalForm(@RequestParam String draftNo, Model model, HttpSession session) {
 
@@ -162,67 +170,78 @@ public class ApprovalController {
         approvalService.createApproval(approvalList);
         return "redirect:/approval/list/ondraft";
     }
-
-    @GetMapping("/doapproval")
-    public String shoulddraftList(Model model, HttpSession session,
-                            @RequestParam(required = false) String keyword,
-                            @RequestParam(defaultValue = "0") int page,
-                            @RequestParam(defaultValue = "12") int size) {
-
-        String state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step";
-        String empNo = (String) session.getAttribute("empNo");
-        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
-
-        model.addAttribute("drafts", draftPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", draftPage.getTotalPages());
-        model.addAttribute("totalItems", draftPage.getTotalElements());
-        return "function/approval_system/approval_list";
-    }
-
-    @GetMapping("/finapproval")
+    @GetMapping("/{action}/approval")
     public String findraftList(Model model, HttpSession session,
-                            @RequestParam(required = false) String keyword,
-                            @RequestParam(defaultValue = "0") int page,
-                            @RequestParam(defaultValue = "12") int size) {
-
-        String state = "AND approval_state > 1";
+                               @PathVariable String action,
+                               @RequestParam(required = false) String keyword,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "12") int size) {
         String empNo = (String) session.getAttribute("empNo");
+        String state = null;
+        switch (action) {
+            case "fin" : state = "AND approval_state > 1"; break;
+            case "do" : state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step"; break;
+        }
+
         Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
 
         model.addAttribute("drafts", draftPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
+        model.addAttribute("action", action);
         return "function/approval_system/approval_list";
     }
 
-    @GetMapping("/{draftNo}/check")
-    public String checkDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
+//    @GetMapping("/doapproval")
+//    public String shoulddraftList(Model model, HttpSession session,
+//                            @RequestParam(required = false) String keyword,
+//                            @RequestParam(defaultValue = "0") int page,
+//                            @RequestParam(defaultValue = "12") int size) {
+//
+//        String state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step";
+//        String empNo = (String) session.getAttribute("empNo");
+//        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
+//
+//        model.addAttribute("drafts", draftPage.getContent());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", draftPage.getTotalPages());
+//        model.addAttribute("totalItems", draftPage.getTotalElements());
+//        return "function/approval_system/approval_list";
+//    }
+//
+//    @GetMapping("/finapproval")
+//    public String findraftList(Model model, HttpSession session,
+//                            @RequestParam(required = false) String keyword,
+//                            @RequestParam(defaultValue = "0") int page,
+//                            @RequestParam(defaultValue = "12") int size) {
+//
+//        String state = "AND approval_state > 1";
+//        String empNo = (String) session.getAttribute("empNo");
+//        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
+//
+//        model.addAttribute("drafts", draftPage.getContent());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", draftPage.getTotalPages());
+//        model.addAttribute("totalItems", draftPage.getTotalElements());
+//        return "function/approval_system/approval_list";
+//    }
+
+    @GetMapping("/{draftNo}/{action}")
+    public String updateDraft(@PathVariable("draftNo") Long draftNo,@PathVariable("action") String action, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
-       approvalService.updateApproval(draftNo,empNo,1);
-        return "redirect:/approval/doapproval";
+
+        switch (action) {
+            case "check" : approvalService.updateApproval(draftNo,empNo,1);
+                return "redirect:/approval/doapproval";
+            case "delete" : approvalService.deleteDraft(draftNo);
+                return "redirect:/approval/list/readydraft";
+            case "approve" : approvalService.approveApproval(draftNo,empNo);break;
+            case "reject" : approvalService.updateApproval(draftNo,empNo,9);break;
+        }
+        return "redirect:/approval/fin/approval";
     }
 
-    @GetMapping("/{draftNo}/approve")
-    public String approveDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
-        String empNo = (String) session.getAttribute("empNo");
-        approvalService.approveApproval(draftNo,empNo);
-        return "redirect:/approval/finapproval";
-    }
-
-    @GetMapping("/{draftNo}/reject")
-    public String rejectDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
-        String empNo = (String) session.getAttribute("empNo");
-        approvalService.updateApproval(draftNo,empNo,9);
-        return "redirect:/approval/finapproval";
-    }
-
-    @GetMapping("/{draftNo}/delete")
-    public String deleteDraft(@PathVariable("draftNo") Long draftNo) {
-        approvalService.deleteDraft(draftNo);
-        return "redirect:/approval/list/readydraft";
-    }
 
 }
 
