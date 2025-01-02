@@ -118,4 +118,11 @@ public class ApprovalServiceImpl implements ApprovalService {
         approvalMapper.deleteApprovalByDNO(draftNo);
         approvalMapper.deleteDraftByDNO(draftNo);
     }
+
+    @Override
+    public List<ApprovalDTO> getApproval(Long draftNo){
+        List<ApprovalDTO> approvalDTOS = approvalMapper.selectApprovals(draftNo);
+        System.out.println("서비스예요 approvalDTOS = " + approvalDTOS);
+        return approvalDTOS;
+    }
 }

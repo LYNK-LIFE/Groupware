@@ -152,3 +152,22 @@ table.listTableBody td:last-child {
 .ProductForm input {
     margin-right: 30px;
 }
+
+.ProductForm label {
+    font-weight: bolder;
+    margin-right: 5px;
+}
+
+.ProductForm input {
+    margin-right: 30px;
+}
+
+.modal-dialog {
+    margin-top: 200px; /* 원하는 만큼 값을 조정하세요 */
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center; /* 버튼을 가운데 정렬 */
+    gap: 10px; /* 버튼 간격 설정 */
+}

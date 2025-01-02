@@ -93,7 +93,7 @@ public class DbService {
 
 
     public List<ExpiringCustomerDTO> getExpiringCustomersByMonth(int year, int month) {
-        System.out.println("서비스에서 처리 중: year=" + year + ", month=" + month); // 디버깅 추가
+
         return dbMapper.selectExpiringCustomersByMonth(year, month);
     }
 
@@ -105,34 +105,36 @@ public class DbService {
 
         // 보험회사 코드에 따라 이름 매핑
         for (ExpiringCustomerDTO customer : customers) {
-            customer.setInsuranceCompany(mapInsuranceCompanyName(customer.getInsuranceCompanyCode()));
+            customer.setInsuranceCompany(mapInsuranceCompanyName(customer.getInsuranceCompany()));
         }
+
         return customers;
     }
 
 
 
-    private String mapInsuranceCompanyName(int code) {
+
+    private String mapInsuranceCompanyName(String code) {
         switch (code) {
-            case 1:
+            case "1":
                 return "메리츠화재";
-            case 2:
+            case "2":
                 return "현대해상";
-            case 3:
+            case "3":
                 return "한화손해보험";
-            case 4:
+            case "4":
                 return "삼성화재";
-            case 5:
+            case "5":
                 return "DB손해보험";
-            case 31:
+            case "6":
                 return "MetLife";
-            case 32:
+            case "32":
                 return "한화생명";
-            case 33:
+            case "33":
                 return "SinhanLife";
-            case 34:
+            case "34":
                 return "흥국생명";
-            case 35:
+            case "35":
                 return "라이나생명";
             default:
                 return "기타";
@@ -144,6 +146,7 @@ public class DbService {
 
     public List<TopSalesContractDTO> getTopSaleContract() {
         List<TopSalesContractDTO> contracts = dbMapper.fetchTopSalesContract();
+        System.out.println("contracts = " + contracts);
         return contracts;
     }
 

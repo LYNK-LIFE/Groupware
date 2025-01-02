@@ -402,3 +402,36 @@
     background-color: #5a6268;
 }
 
+/*기안서 블럭*/
+ .approval-block {
+     border: 1px solid #ddd;
+     padding: 15px;
+     margin-bottom: 20px;
+     border-radius: 5px;
+ }
+.approval-info p {
+    margin: 5px 0;
+}
+/*기안서 블럭 끝*/
+
+/*메인 공지사항*/
+.mainNotice {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mainNotice tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.mainNotice td {
+    padding: 8px;
+    text-align: left;
+}
+
+.mainNotice tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+/*메인 공지사항 끝*/
+

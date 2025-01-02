@@ -196,16 +196,19 @@
     <!--  휴가 신청 했을 때 담당자 이름 가져오는 애 -->
     <!-- roleAdmin이 1인 애들만 나오게 하려는데 안 됨.... 나중에... -->
     <select id="vacLeaderSelectMapper" resultMap="vacationStatusMapper">
-        select distinct
-             a.employee_no
-            ,a.employee_name
-            ,b.department_name
-        from employee a
-            join department b on (a.department_no = b.department_no)
+<!--        select distinct-->
+<!--             a.employee_no-->
+<!--            ,a.employee_name-->
+<!--            ,b.department_name-->
+<!--        from employee a-->
+<!--            join department b on (a.department_no = b.department_no)-->
 <!--        <where>-->
 <!--            <if test="roleAdmin == 1">-->
 <!--            </if>-->
 <!--        </where>-->
+        select a.employee_name from employee a
+        join authorization b on (a.employee_no = b.employee_no)
+        where  b.auth_of_admin = 1
     </select>
 
     <!-- 휴가 신청 했을 때 서버에 저장 -->
@@ -277,7 +280,7 @@
         set
             usedLeave = usedLeave - #{usedLeave}
         where
-            employee_no = 12;
+            employee_no = #{employeeNo};
     </update>
 
     <resultMap id="overTimeAppResultMap" type="com.semi.lynk.function.human.model.calendar.OverTimeApplicationDTO">
@@ -291,12 +294,15 @@
     </resultMap>
 
     <select id="overTimeAppMapper" resultMap="overTimeAppResultMap">
-        select distinct
-             employee_name <!-- 결재자 : 사번 , 이름 나중에 연결 / option에 들어갈 애들 -->
-        from
-            employee
+<!--        select distinct-->
+<!--             employee_name &lt;!&ndash; 결재자 : 사번 , 이름 나중에 연결 / option에 들어갈 애들 &ndash;&gt;-->
+<!--        from-->
+<!--            employee-->
 <!--        where-->
 <!--            employee_no = 12 &lt;!&ndash; 신청 올리는 애 : 나중에 연결&ndash;&gt;-->
+        select a.employee_name from employee a
+        join authorization b on (a.employee_no = b.employee_no)
+        where b.auth_of_admin = 1
     </select>
 
     <!-- 연장 근무 신청 -->
