@@ -251,7 +251,8 @@
     <select id="fetchTopSalesContract" resultType="com.semi.lynk.function.db_management.model.dto.TopSalesContractDTO">
         SELECT
             e.employee_name AS employeeName,
-            SUM(c.each_payment) AS totalSales
+            SUM(c.each_payment) AS totalSales,
+            COUNT(c.contract_mng_no) AS contractCount
         FROM
             contract c
             JOIN
