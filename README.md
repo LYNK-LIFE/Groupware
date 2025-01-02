@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/d3b0a78c-e29c-4456-87cb-f22e9af07585)# LYNK Insurance
+# LYNK Insurance
 ![header](https://capsule-render.vercel.app/api?type=waving&height=180&text=LYNK&fontAlign50&backgroundColor=333333&fontWeight=bold&fontColor=BBE8A7)
 
 ### ⌚ 프로젝트 기간 : 2024.11.18 ~ 2025.01.03
@@ -93,6 +93,20 @@
 → 신청 조회
 
 - 전자 결재
+![image](https://github.com/user-attachments/assets/7a00791e-5684-439b-b806-40d9ba64472d)
+→ 결재하기
+<br>
+![image](https://github.com/user-attachments/assets/5a085191-4dc7-4219-8908-f57281d36bc7)
+→ 결재완료
+![image](https://github.com/user-attachments/assets/2836271f-2930-473c-8f51-9c5c53d3e951)
+![image](https://github.com/user-attachments/assets/50bc0218-2b1b-4f73-8bea-bbf7873edfc8)
+→ 기안하기
+![image](https://github.com/user-attachments/assets/e00eb342-1144-44b4-9782-b8fb7da30f30)
+→ 결재자 선택
+![image](https://github.com/user-attachments/assets/dc890296-e3f5-4e3d-a93a-5d6c713db3f1)
+→ 진행중 기안 목록
+
+<br>
 
 - DB 관리
 ![image](https://github.com/user-attachments/assets/bf9b4754-fa76-4cf1-abb6-b147a27b3984)
