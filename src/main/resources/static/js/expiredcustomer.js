@@ -4,11 +4,13 @@ async function fetchContract() {
         // API 호출
         const response = await fetch('/db/api/expiring-contracts'); // URL을 필요에 따라 조정하세요
 
+
         if(!response.ok){
             console.log(`API 호출 실패 : ${response.status} ${response.statusText}`);
             throw new Error(`서버 에러발생 :  ${response.status}`);
         }
         const contract = await response.json(); // JSON 형식으로 응답 받기
+
 
         const contractList = document.getElementById('contract-list');
         contractList.innerHTML='<p>로딩중....</p>';
@@ -22,22 +24,7 @@ async function fetchContract() {
             return;
         }
 
-        //보험회사 이름 매핑 추가
-        function mapInsuranceCompanyName(code) {
-            switch (code) {
-                case 1: return "메리츠화재";
-                case 2: return "현대해상";
-                case 3: return "한화손해보험";
-                case 4: return "삼성화재";
-                case 5: return "DB손해보험";
-                case 31: return "MetLife";
-                case 32: return "한화생명";
-                case 33: return "SinhanLife";
-                case 34: return "흥국생명";
-                case 35: return "라이나생명";
-                default: return "기타";
-            }
-        }
+
 
         // 계약 목록을 순회하면서 카드 생성
         contract.forEach(contract => {
@@ -45,7 +32,7 @@ async function fetchContract() {
             contractCard.classList.add('contract-card'); // 클래스 추가
 
             // 보험회사 이름 매핑
-            const insuranceCompanyName = mapInsuranceCompanyName(contract.insuranceCompanyCode);
+            const insuranceCompanyName = contract.insuranceCompany;
 
 
             // 카드 내용 추가
@@ -54,7 +41,6 @@ async function fetchContract() {
                 <p>${contract.productName}</p>
                 <p> 계약자 : ${contract.customerName}</p>
                 <p>만기일자 : ${new Date(contract.expiringDate).toLocaleDateString()}</p>
-               
             `;
 
             // contractNo를 data-* 속성으로 추가
