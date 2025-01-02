@@ -15,5 +15,5 @@ public class EmpAndDepDTO {
     private DepartmentDTO departmentDTO;    // 부서명
     private HumanDTO humanDTO;              // 직책
     private String email;                   // 이메일
-    private String picture;                 // 사진
+    private String image;                 // 사진
 }

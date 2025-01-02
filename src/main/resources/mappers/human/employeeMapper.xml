@@ -10,7 +10,7 @@
         <result property="pw" column="password"/>
         <result property="name" column="employee_name"/>
         <result property="email" column="email"/>
-        <result property="picture" column="image"/>
+        <result property="image" column="image"/>
         <result property="failCount" column="loginFailcount"/>
     </resultMap>
 
@@ -26,6 +26,7 @@
         <result property="name" column="employee_name"/>
         <result property="email" column="email"/>
         <result property="depNo" column="department_no"/>
+        <result property="image" column="image"/>
                 <association property="departmentDTO" javaType="com.semi.lynk.function.human.model.dto.DepartmentDTO">
                     <id property="depNo" column="department_no"/>
                     <result property="depName" column="department_name"/>
@@ -72,7 +73,8 @@
             a.employee_no,
             a.employee_name,
             b.department_name,
-            a.email
+            a.email,
+            a.image
         FROM
             employee a
             JOIN
@@ -94,6 +96,7 @@
     <resultMap id="lookUpResultMap" type="com.semi.lynk.function.human.model.dto.LookUpDTO">
         <id property="id" column="employee_no"/>
         <result property="name" column="employee_name"/>
+        <result property="image" column="image"/>
         <association property="humanDTO" javaType="com.semi.lynk.function.human.model.dto.HumanDTO">
             <id property="id" column="employee_no"/>
             <result property="position" column="position"/>
