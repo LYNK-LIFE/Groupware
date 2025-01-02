@@ -17,6 +17,7 @@
         <result property="draftCurrentStep" column="draft_current_step"/>
         <result property="draftMemo" column="draft_memo"/>
         <result property="employeeName" column="employee_name"/>
+        <result property="approvalState" column="approval_state"/>
     </resultMap><!-- -->
 
     <resultMap id="ApprovalResultMap" type="com.semi.lynk.function.approval_system.model.dto.ApprovalDTO">
@@ -94,7 +95,7 @@
 
     <select id="selectForApproval" resultMap="draftResultMap">
         <![CDATA[
-        SELECT draft_no, dr.employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name
+        SELECT draft_no, dr.employee_no, draft_title, draft_date, draft_completion_time, draft_retention_schedule, draft_state, draft_cost, draft_last_step, draft_current_step, draft_memo, employee_Name, approval_state
         FROM
         approval a
         LEFT JOIN
@@ -105,7 +106,7 @@
         department d using(department_no)
         WHERE
         a.employee_no = #{empNo} ${state}
-        ORDER BY draft_no DESC
+        ORDER BY draft_completion_time DESC, draft_no DESC
         LIMIT #{start}, #{size}
         ]]>
     </select>

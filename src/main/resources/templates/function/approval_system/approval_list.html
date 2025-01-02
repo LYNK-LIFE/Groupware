@@ -42,6 +42,7 @@
                     <th class="date-cell">작성일자</th>
                     <th class="name-cell">작성자</th>
                     <th>제목</th>
+                    <th class="type-cell">나의결재</th>
                     <th class="type-cell">결재상태</th>
                     <th class="date-cell">결재일자</th>
                     <th class="type-cell">현재단계</th>
@@ -58,7 +59,10 @@
                     <td>
                         <a th:href="@{/approval/app/{draftNo}(draftNo=${draft.draftNo})}" th:text="${draft.draftTitle}"></a>
                     </td>
-                    <td><span th:text="${draft.draftState == 0 ? '미확인' : draft.draftState == 1 ? '확인' :
+                    <td><span th:text="${draft.approvalState == 0 ? '미확인' : draft.approvalState == 1 ? '확인' :
+                                    draft.approvalState == 2 ? '승인' : draft.approvalState == 9 ? '반려' : ''}">
+                    </span></td>
+                    <td><span th:text="${draft.draftState == 0 ? '미확인' : draft.draftState == 1 ? '결재중' :
                                     draft.draftState == 2 ? '승인' : draft.draftState == 9 ? '반려' : '알 수 없음'}">
                     </span></td>
                     <td th:text="${#temporals.format(draft.draftCompletionTime, 'yyyy-MM-dd HH:mm')}"></td>

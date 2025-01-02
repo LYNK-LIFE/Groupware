@@ -135,6 +135,7 @@ public class ApprovalController {
         model.addAttribute("approvals", new ApprovalList());
         return "function/approval_system/approval";
     }
+
     @GetMapping("/addApproval")
     public String showAddApprovalForm(@RequestParam String draftNo, Model model, HttpSession session) {
 
@@ -162,32 +163,19 @@ public class ApprovalController {
         approvalService.createApproval(approvalList);
         return "redirect:/approval/list/ondraft";
     }
-
-    @GetMapping("/doapproval")
-    public String shoulddraftList(Model model, HttpSession session,
-                            @RequestParam(required = false) String keyword,
-                            @RequestParam(defaultValue = "0") int page,
-                            @RequestParam(defaultValue = "12") int size) {
-
-        String state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step";
-        String empNo = (String) session.getAttribute("empNo");
-        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
-
-        model.addAttribute("drafts", draftPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", draftPage.getTotalPages());
-        model.addAttribute("totalItems", draftPage.getTotalElements());
-        return "function/approval_system/approval_list";
-    }
-
-    @GetMapping("/finapproval")
+    @GetMapping("/{action}/approval")
     public String findraftList(Model model, HttpSession session,
-                            @RequestParam(required = false) String keyword,
-                            @RequestParam(defaultValue = "0") int page,
-                            @RequestParam(defaultValue = "12") int size) {
-
-        String state = "AND approval_state > 1";
+                               @PathVariable String action,
+                               @RequestParam(required = false) String keyword,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "12") int size) {
         String empNo = (String) session.getAttribute("empNo");
+        String state = null;
+        switch (action) {
+            case "fin" : state = "AND approval_state > 1"; break;
+            case "do" : state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step"; break;
+        }
+
         Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
 
         model.addAttribute("drafts", draftPage.getContent());
@@ -197,32 +185,55 @@ public class ApprovalController {
         return "function/approval_system/approval_list";
     }
 
-    @GetMapping("/{draftNo}/check")
-    public String checkDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
-        String empNo = (String) session.getAttribute("empNo");
-       approvalService.updateApproval(draftNo,empNo,1);
-        return "redirect:/approval/doapproval";
-    }
+//    @GetMapping("/doapproval")
+//    public String shoulddraftList(Model model, HttpSession session,
+//                            @RequestParam(required = false) String keyword,
+//                            @RequestParam(defaultValue = "0") int page,
+//                            @RequestParam(defaultValue = "12") int size) {
+//
+//        String state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step";
+//        String empNo = (String) session.getAttribute("empNo");
+//        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
+//
+//        model.addAttribute("drafts", draftPage.getContent());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", draftPage.getTotalPages());
+//        model.addAttribute("totalItems", draftPage.getTotalElements());
+//        return "function/approval_system/approval_list";
+//    }
+//
+//    @GetMapping("/finapproval")
+//    public String findraftList(Model model, HttpSession session,
+//                            @RequestParam(required = false) String keyword,
+//                            @RequestParam(defaultValue = "0") int page,
+//                            @RequestParam(defaultValue = "12") int size) {
+//
+//        String state = "AND approval_state > 1";
+//        String empNo = (String) session.getAttribute("empNo");
+//        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
+//
+//        model.addAttribute("drafts", draftPage.getContent());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", draftPage.getTotalPages());
+//        model.addAttribute("totalItems", draftPage.getTotalElements());
+//        return "function/approval_system/approval_list";
+//    }
 
-    @GetMapping("/{draftNo}/approve")
-    public String approveDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
+    @GetMapping("/{draftNo}/{action}")
+    public String updateDraft(@PathVariable("draftNo") Long draftNo,@PathVariable("action") String action, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
-        approvalService.approveApproval(draftNo,empNo);
+
+        switch (action) {
+            case "check" : approvalService.updateApproval(draftNo,empNo,1);
+                return "redirect:/approval/doapproval";
+            case "delete" : approvalService.deleteDraft(draftNo);
+                return "redirect:/approval/list/readydraft";
+            case "approve" : approvalService.approveApproval(draftNo,empNo);break;
+            case "reject" : approvalService.updateApproval(draftNo,empNo,9);break;
+        }
         return "redirect:/approval/finapproval";
     }
 
-    @GetMapping("/{draftNo}/reject")
-    public String rejectDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
-        String empNo = (String) session.getAttribute("empNo");
-        approvalService.updateApproval(draftNo,empNo,9);
-        return "redirect:/approval/finapproval";
-    }
-
-    @GetMapping("/{draftNo}/delete")
-    public String deleteDraft(@PathVariable("draftNo") Long draftNo) {
-        approvalService.deleteDraft(draftNo);
-        return "redirect:/approval/list/readydraft";
-    }
 
 }
 
