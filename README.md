@@ -1,10 +1,8 @@
-# LYNK Insurance
-![header](https://capsule-render.vercel.app/api?type=waving&height=180&text=GitHub%20world%20of%20gyu%20nam&fontAlign50&stroke=00FF00&strokeWidth=3)
+![image](https://github.com/user-attachments/assets/d3b0a78c-e29c-4456-87cb-f22e9af07585)# LYNK Insurance
+![header](https://capsule-render.vercel.app/api?type=waving&height=180&text=LYNK&fontAlign50&backgroundColor=333333&fontWeight=bold&fontColor=BBE8A7)
 
-![로고 캡쳐](https://github.com/user-attachments/assets/6bdcd990-d456-405d-bafd-7627271cfb51)
-
-⌚프로젝트 기간 : 2024.11.18 ~ 2025.01.03
-<br><br><br><br>
+### ⌚ 프로젝트 기간 : 2024.11.18 ~ 2025.01.03
+<br><br><br>
 
 ## 🛴 프로젝트 소개 - LYNK Insurance
 중소기업 보험회사를 위한 그룹웨어 시스템.
@@ -63,9 +61,41 @@
 - 로그인
 ![image](https://github.com/user-attachments/assets/5aad6079-af57-4fb9-a3a6-2a551e429a8f)
 
-- [기능 2]
-- [기능 3]
-- [기능 4]
-- [기능 5]
+- 메인 화면
+![image](https://github.com/user-attachments/assets/1cc00ced-96d4-4f0a-834a-f94a617eca3b)
+→ 공지사항 : 직원 전체 전달 사항 확인
+→ 만기 도래 고객
+→ 영업 실적 현황판
+- 공지 사항
+![image](https://github.com/user-attachments/assets/e5258579-f269-4ac6-9acf-b6cb6e15ebb5)
+![image](https://github.com/user-attachments/assets/61a8de8c-0a28-42f0-a96a-8e6932db2765)
+→ 공지사항 작성
+![image](https://github.com/user-attachments/assets/0b0e5cfe-3839-46a8-b9c5-f5ec0461826f)
+![image](https://github.com/user-attachments/assets/59e104ca-dd51-4df7-b10d-400f6212ac9b)
+→ 관리자 페이지
+
+- 인사 관리
+![image](https://github.com/user-attachments/assets/4042a63d-d170-4223-974a-fcc4d7831705)
+![image](https://github.com/user-attachments/assets/57fc5d1e-b963-434b-a6b6-86c3ac70ac20)
+- 인사 등록
+![image](https://github.com/user-attachments/assets/55a9f3ad-e91f-4ce1-8e74-a69c79179b81)
+![image](https://github.com/user-attachments/assets/9ed8d464-b3d8-4e06-a6f5-a398aca6decd)
+- 근태 관리
+![image](https://github.com/user-attachments/assets/bd98afa6-14ee-4909-8dae-b96191f11594)
+![image](https://github.com/user-attachments/assets/21457779-a214-4a8a-9eb4-1adf23efca71)
+→ 휴가 신청
+![image](https://github.com/user-attachments/assets/b63c892b-ad38-43c6-8a95-5662b7bd69de)
+→ 연장 근무 신청
+
+- 결재 승인 현황
+![image](https://github.com/user-attachments/assets/eab43402-eeb0-4654-b75d-eb05eacd26e7)
+![image](https://github.com/user-attachments/assets/af6bc180-34b2-40aa-8a6b-5c860718eea0)
+→ 신청 조회
+
+- 전자 결재
+
+- DB 관리
+![image](https://github.com/user-attachments/assets/bf9b4754-fa76-4cf1-abb6-b147a27b3984)
+
 
 <!-- 추가적인 기능을 여기에 작성하세요. -->
