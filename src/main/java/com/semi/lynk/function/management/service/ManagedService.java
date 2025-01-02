@@ -66,6 +66,7 @@ public class ManagedService {
     }
 
     public void updateAccount(String empID, String empName, int deptNo, String position, String email, String image, Integer roleAdmin) {
+        System.out.println("image = " + image);
         managedMapper.updateAccount(empID, empName, deptNo, position, email, image, roleAdmin);
     }
 

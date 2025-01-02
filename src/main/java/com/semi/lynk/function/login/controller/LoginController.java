@@ -40,7 +40,7 @@ public class LoginController {
                                    @RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
                                    ModelAndView mv) {
 
-        String UPLOAD_DIR = "src/main/resources/static/profile/";
+        String UPLOAD_DIR = System.getProperty("user.dir") + "/src/main/resources/static/profile/";
         String profileImagePath = null;
 
         try {
@@ -111,7 +111,5 @@ public class LoginController {
         loginLogService.logLogin((empNo));
         return "Logout logged";
     }
-
-
 
 }

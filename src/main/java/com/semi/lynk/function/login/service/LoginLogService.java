@@ -40,4 +40,31 @@ public class LoginLogService {
         return loginMapper.selectLatestLogByEmpNo(empNo);
     }
 
+    public void processWorkOn(LoginLogDTO loginLogDTO) {
+        int count = loginMapper.checkWorkOn(loginLogDTO.getEmpNo(), loginLogDTO.getWorkDate());
+        if (count > 0) {
+            throw new IllegalArgumentException("이미 출근 기록이 있습니다.");
+        }
+        loginMapper.updateWorkingStatusToIn(loginLogDTO.getEmpNo());
+        loginMapper.insertWorkOn(loginLogDTO);
+    }
+
+    public void processWorkOff(LoginLogDTO loginLogDTO) {
+        int count = loginMapper.checkWorkOff(loginLogDTO.getEmpNo(), loginLogDTO.getWorkDate());
+        if (count > 0) {
+            throw new IllegalArgumentException("이미 퇴근 기록이 있습니다.");
+        }
+        loginMapper.updateWorkingStatusToOut(loginLogDTO.getEmpNo());
+        loginMapper.updateWorkOff(loginLogDTO);
+    }
+
+    public void processWorkOutsideOn(LoginLogDTO loginLogDTO) {
+        loginMapper.updateWorkingStatusToOutsideOn(loginLogDTO.getEmpNo());
+        loginMapper.updateWorkOutsideOn(loginLogDTO);
+    }
+
+    public void processWorkOutsideOff(LoginLogDTO loginLogDTO) {
+        loginMapper.updateWorkingStatusToOutsideOff(loginLogDTO.getEmpNo());
+        loginMapper.updateWorkOutsideOff(loginLogDTO);
+    }
 }

@@ -143,8 +143,8 @@ public class managedController {
                 // 저장된 경로를 설정
                 imagePath = "/profile/" + fileName;
 
-//                System.out.println("File saved at: " + filePath);
-//                System.out.println("Accessing file at: " + imagePath);
+                System.out.println("File saved at: " + filePath);
+                System.out.println("Accessing file at: " + imagePath);
             }
 
             // 이미지 경로를 DTO에 설정

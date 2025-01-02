@@ -131,10 +131,7 @@
              , a.DEPARTMENT_NO = #{deptNo}
              , b.POSITION = #{position}
              , a.EMAIL = #{email}
-             , a.IMAGE = <choose>
-                             <when test="image != null">#{image}</when>
-                             <otherwise>NULL</otherwise>
-                         </choose>
+             , a.IMAGE = #{image}
              , c.AUTH_OF_ADMIN = #{roleAdmin}
          WHERE a.EMPLOYEE_NO = #{empID}
     </update>

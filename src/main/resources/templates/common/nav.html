@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>nav</title>
+    <style>
+    </style>
 </head>
 <body>
 <nav th:fragment="navFragment" class="nav-class">
@@ -14,31 +16,6 @@
 
     <!-- 메뉴바 영역 -->
     <div class="menuContainer">
-<!--        <div class="myMenuContainer">-->
-<!--            <h6 style="color: white">My</h6>-->
-<!--            <li class="recentlyUsedMenu">-->
-<!--                <a href="#">-->
-<!--                    <span class="arrow">></span>최근 사용한 메뉴-->
-<!--                </a>-->
-<!--                <ul class="subMenu">-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                </ul>-->
-<!--            </li>-->
-<!--            <li class="bookmark">-->
-<!--                <a href="#">-->
-<!--                    <span class="arrow">></span>즐겨 찾기-->
-<!--                </a>-->
-<!--                <ul class="subMenu">-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                    <li><a href="/">임시</a></li>-->
-<!--                </ul>-->
-<!--            </li>-->
-<!--        </div>-->
         <div class="mainMenuContainer">
             <h6 style="color: white">Menu</h6>
             <li class="home">
@@ -109,9 +86,9 @@
             <span> / </span>
             <span th:text="${session.position}">직급</span><br> <!-- 임시 영역 -->
             <div class="userButton">
-                <button class="work" id="workOnButton">출근</button>
-                <button class="fieldwork" id="outsideOnButton">외근</button>
-                <button class="fieldwork" id="outsideOffButton" style="display: none">종료</button>
+                <button type="button" class="work" id="workOnButton">출근</button>
+                <button id="outsideOnButton" class="work-out" style="display: inline-block">외근</button>
+                <button id="outsideOffButton" class="work-end" style="display: none;">종료</button>
                 <button class="leave" id="workOffButton">퇴근</button>
             </div>
         </div>
@@ -121,67 +98,5 @@
         </div>
     </div>
 </nav>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        console.log('jQuery:', $);
-
-        // 출근 처리
-        $(document).on('click', '#workOnButton', function() {
-            console.log('Sending request to /on');
-            let workDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
-            $.post('/work/on', { workDate: workDate }, function(response) {
-                console.log('Response:', response);
-                alert(response.message); // 메시지 출력
-            }).fail(function() {
-                console.log('Request failed');
-            });
-        });
-
-        // 퇴근 처리
-        $(document).on('click', '#workOffButton', function() {
-            let workDate = new Date().toISOString().split('T')[0]; // 오늘 날짜
-            $.post('/work/off', { workDate: workDate }, function(response) {
-                alert(response.message);
-            }).fail(function() {
-                console.log('Request failed');
-            });
-        });
-
-        // 외근
-        // 외근 시작 버튼 클릭 처리
-        $(document).on('click', '#outsideOnButton', function() {
-            let workDate = new Date().toISOString().split('T')[0];
-            $.post('/work/outsideOn', { workDate: workDate }, function(response) {
-                if (response.status === 'success') {
-                    $('#outsideOnButton').hide();
-                    $('#outsideOffButton').show();
-                    alert(response.message);
-                } else {
-                    alert(response.message);
-                }
-            }).fail(function() {
-                console.log('Request failed');
-            });
-        });
-
-        // 외근 종료 처리
-        $(document).on('click', '#outsideOffButton', function() {
-            let workDate = new Date().toISOString().split('T')[0];
-            $.post('/work/outsideOff', { workDate: workDate }, function(response) {
-                if (response.status === 'success') {
-                    $('#outsideOffButton').hide();
-                    $('#outsideOnButton').show();
-                    alert(response.message);
-                } else {
-                    alert(response.message);
-                }
-            }).fail(function() {
-                console.log('Request failed');
-            });
-        });
-    });
-</script>
-
 </body>
 </html>
