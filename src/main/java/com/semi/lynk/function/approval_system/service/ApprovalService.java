@@ -28,4 +28,6 @@ public interface ApprovalService {
     void updateApproval(Long draftNo, String empNo, int i);
 
     void deleteDraft(Long draftNo);
+
+    List<ApprovalDTO> getApproval(Long draftNo);
 }

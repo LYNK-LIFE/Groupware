@@ -57,7 +57,7 @@
                     <td th:text="${draft.employeeName}"></td>
 
                     <td>
-                        <a th:href="@{/approval/app/{draftNo}(draftNo=${draft.draftNo})}" th:text="${draft.draftTitle}"></a>
+                        <a th:href="@{/approval/app/{draftNo}(draftNo=${draft.draftNo},action=${action})}" th:text="${draft.draftTitle}"></a>
                     </td>
                     <td><span th:text="${draft.approvalState == 0 ? '미확인' : draft.approvalState == 1 ? '확인' :
                                     draft.approvalState == 2 ? '승인' : draft.approvalState == 9 ? '반려' : ''}">

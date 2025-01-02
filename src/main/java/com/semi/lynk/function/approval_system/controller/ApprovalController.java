@@ -46,7 +46,6 @@ public class ApprovalController {
         draftDTO.setDraftDate(LocalDateTime.now());
         draftDTO.setDraftLastStep(9);
         Long draftNo = approvalService.createDraft(draftDTO);
-        System.out.println("draftNo.toString() = " + draftNo.toString());
         redirectAttributes.addAttribute("draftNo", draftNo.toString() );
         return "redirect:/approval/addApproval";
     }
@@ -55,17 +54,25 @@ public class ApprovalController {
     public String viewDraft(@PathVariable("draftNo") Long draftNo, Model model) {
 
         DraftDTO draft = approvalService.getDraftByDNO(draftNo);
+        List<ApprovalDTO> approvalDTOS = approvalService.getApproval(draftNo);
 
+        model.addAttribute("approvals", approvalDTOS);
         model.addAttribute("draft", draft);
 
         return "function/approval_system/view";
     }
+
     @GetMapping("/app/{draftNo}")
-    public String viewAppDraft(@PathVariable("draftNo") Long draftNo, Model model) {
+    public String viewAppDraft(@PathVariable("draftNo") Long draftNo
+            ,@RequestParam("action") String action, Model model) {
+        System.out.println("action = " + action);
 
         DraftDTO draft = approvalService.getDraftByDNO(draftNo);
+        List<ApprovalDTO> approvalDTOS = approvalService.getApproval(draftNo);
 
+        model.addAttribute("approvals", approvalDTOS);
         model.addAttribute("draft", draft);
+        model.addAttribute("action", action);
 
         return "function/approval_system/approvalview";
     }
@@ -182,6 +189,7 @@ public class ApprovalController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
+        model.addAttribute("action", action);
         return "function/approval_system/approval_list";
     }
 
@@ -231,7 +239,7 @@ public class ApprovalController {
             case "approve" : approvalService.approveApproval(draftNo,empNo);break;
             case "reject" : approvalService.updateApproval(draftNo,empNo,9);break;
         }
-        return "redirect:/approval/finapproval";
+        return "redirect:/approval/fin/approval";
     }
 
 

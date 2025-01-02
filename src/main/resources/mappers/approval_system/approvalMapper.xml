@@ -117,6 +117,13 @@
         WHERE a.employee_no = #{empNo}
     </select>
 
+    <select id="selectApprovals" parameterType="Long" resultMap="ApprovalResultMap">
+        SELECT draft_no, employee_no, approval_state, approval_step, approval_posible, approval_completion_time, approval_memo, position, employee_name, department_name
+        FROM approval a LEFT JOIN employee e using(employee_no) LEFT JOIN department d using(department_no) LEFT JOIN human_resource h using(employee_no)
+        WHERE draft_no = #{draftNo}
+        ORDER BY approval_step ASC, position DESC
+    </select>
+
     <update id="setDraftStepAndState">
         UPDATE draftsh
         SET draft_state = #{state,jdbcType=INTEGER},
@@ -160,5 +167,7 @@
         DELETE FROM draftsh
         WHERE draft_no = #{draftNo}
     </delete>
+
+
 
 </mapper>

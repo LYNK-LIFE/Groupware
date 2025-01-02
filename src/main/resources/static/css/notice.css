@@ -402,3 +402,15 @@
     background-color: #5a6268;
 }
 
+/*기안서 블럭*/
+ .approval-block {
+     border: 1px solid #ddd;
+     padding: 15px;
+     margin-bottom: 20px;
+     border-radius: 5px;
+ }
+.approval-info p {
+    margin: 5px 0;
+}
+/*기안서 블럭 끝*/
+

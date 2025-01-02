@@ -38,4 +38,6 @@ public interface ApprovalMapper {
     void deleteApprovalByDNO(Long draftNo);
 
     void deleteDraftByDNO(Long draftNo);
+
+    List<ApprovalDTO> selectApprovals(Long draftNo);
 }

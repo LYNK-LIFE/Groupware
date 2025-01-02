@@ -64,7 +64,6 @@ public class ApprovalServiceImpl implements ApprovalService {
         int count = approvalMapper.getApprovalsCount(empNo);    // 페이징을 하기위해 먼저 전체 갯수 받아옴
         int start = page * size; // 해당페이지의 시작글번호
         List<DraftDTO> approvals = approvalMapper.selectForApproval(empNo, start, size,state);
-        System.out.println("approvals = " + approvals);
         return new PageImpl<>(approvals, PageRequest.of(page, size), count);
     }
 
@@ -118,5 +117,12 @@ public class ApprovalServiceImpl implements ApprovalService {
     public void deleteDraft(Long draftNo){
         approvalMapper.deleteApprovalByDNO(draftNo);
         approvalMapper.deleteDraftByDNO(draftNo);
+    }
+
+    @Override
+    public List<ApprovalDTO> getApproval(Long draftNo){
+        List<ApprovalDTO> approvalDTOS = approvalMapper.selectApprovals(draftNo);
+        System.out.println("서비스예요 approvalDTOS = " + approvalDTOS);
+        return approvalDTOS;
     }
 }
