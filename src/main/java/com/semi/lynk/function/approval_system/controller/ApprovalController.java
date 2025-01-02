@@ -193,40 +193,6 @@ public class ApprovalController {
         return "function/approval_system/approval_list";
     }
 
-//    @GetMapping("/doapproval")
-//    public String shoulddraftList(Model model, HttpSession session,
-//                            @RequestParam(required = false) String keyword,
-//                            @RequestParam(defaultValue = "0") int page,
-//                            @RequestParam(defaultValue = "12") int size) {
-//
-//        String state = "AND approval_state < 2 AND a.approval_step = dr.draft_current_step";
-//        String empNo = (String) session.getAttribute("empNo");
-//        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
-//
-//        model.addAttribute("drafts", draftPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", draftPage.getTotalPages());
-//        model.addAttribute("totalItems", draftPage.getTotalElements());
-//        return "function/approval_system/approval_list";
-//    }
-//
-//    @GetMapping("/finapproval")
-//    public String findraftList(Model model, HttpSession session,
-//                            @RequestParam(required = false) String keyword,
-//                            @RequestParam(defaultValue = "0") int page,
-//                            @RequestParam(defaultValue = "12") int size) {
-//
-//        String state = "AND approval_state > 1";
-//        String empNo = (String) session.getAttribute("empNo");
-//        Page<DraftDTO> draftPage = approvalService.getDraftsForAprovalPaged(empNo, page, size, state);
-//
-//        model.addAttribute("drafts", draftPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", draftPage.getTotalPages());
-//        model.addAttribute("totalItems", draftPage.getTotalElements());
-//        return "function/approval_system/approval_list";
-//    }
-
     @GetMapping("/{draftNo}/{action}")
     public String updateDraft(@PathVariable("draftNo") Long draftNo,@PathVariable("action") String action, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
@@ -241,8 +207,6 @@ public class ApprovalController {
         }
         return "redirect:/approval/fin/approval";
     }
-
-
 }
 
 
