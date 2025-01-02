@@ -435,3 +435,25 @@
 }
 /*메인 공지사항 끝*/
 
+/*기안내용의 결재자 정보 블럭*/
+.approvals-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.approval-block {
+    display: inline-block;
+    width: 19%; /* 약간의 여백을 위해 50%보다 작게 설정 */
+    margin-bottom: 20px;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.approval-info p {
+    margin: 5px 0;
+}
+
+/*기안내용의 결재자 정보 블럭*/
+
