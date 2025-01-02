@@ -49,6 +49,29 @@ table td input[type="checkbox"] {
     margin: 0;
 }
 
+.activeAccountCountContainer > tbody > tr {
+    border-width: 0;
+}
+
+.count {
+    font-size: 17px;
+    font-weight: bold;
+    margin-right: 20px;
+    user-select: none;
+}
+
+.ATag-empNo {
+    color: black;
+}
+
+.ATag-empNo:visited {
+    color: black;
+}
+
+.ATag-empNo:hover, .ATag-empNo:active {
+    color: darkslategray;
+}
+
 .exitContainer {
     position: absolute;
     bottom: 2rem;
@@ -91,6 +114,10 @@ table td input[type="checkbox"] {
     margin-bottom: 10px;
 }
 
+.button-section > button {
+    border-radius: 10px;
+}
+
 .list-section {
     max-height: 500px; /* 본문 높이 설정 */
 }
@@ -113,3 +140,58 @@ table.activeAccountList td {
     /*text-overflow: ellipsis; !* 텍스트 넘칠 경우 말줄임표 *!*/
 }
 /***********************************************/
+.profile-container {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    padding: 50px;
+}
+
+.top-section {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 120px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.profile-fields {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    text-align: center;
+}
+
+.bottom-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.field {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.field label {
+    width: 120px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.field input,
+.field select {
+    flex: 1;
+    padding: 5px;
+    box-sizing: border-box;
+}

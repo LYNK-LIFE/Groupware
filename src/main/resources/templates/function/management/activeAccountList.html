@@ -19,16 +19,10 @@
                 <a class="subHeaderLink-class" href="">활성화 계정 목록</a>
             </div>
             <article class="account-current-status">
-                <table class="activeAccountCountContainer">
-                    <tr>
-                        <td>사용 계정 현황</td>
-                        <td th:text="${activeAcc}">0</td>
-                        <td>명</td>
-                        <td>(정지된 계정 : </td>
-                        <td th:text="${suspendedAcc}">0</td>
-                        <td>)</td>
-                    </tr>
-                </table>
+                <div class="activeAccountCountContainer">
+                    <span class="count">사용 계정 현황　　　　<span th:text="${activeAcc}">0</span> 명</span>
+                    <span class="count">(정지된 계정 : <span th:text="${suspendedAcc}">0</span> )</span>
+                </div>
             </article>
             <article class="account-list">
                 <div class="button-section">
@@ -65,7 +59,7 @@
                                     <input type="checkbox" name="check" th:value="${activeAccs.empID}">
                                 </td>
                                 <td>
-                                    <a th:href="@{/management/editAccount/{empID}(empID=${activeAccs.empID})}">
+                                    <a th:href="@{/management/editAccount/{empID}(empID=${activeAccs.empID})}" class="ATag-empNo">
                                         <span th:text="${activeAccs.empID}"></span>
                                     </a>
                                 </td>

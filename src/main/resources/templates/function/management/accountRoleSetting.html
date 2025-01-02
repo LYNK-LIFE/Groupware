@@ -61,7 +61,7 @@
                                     <input type="checkbox" name="check" th:value="${accountRoles.empID}" data-emp-id="${accountRoles.empID}">
                                 </td>
                                 <td>
-                                    <a th:href="@{management/editAccount/{empID}(empID=${accountRoles.empID})}">
+                                    <a th:href="@{management/editAccount/{empID}(empID=${accountRoles.empID})}" class="ATag-empNo">
                                         <span th:text="${accountRoles.empID}"></span>
                                     </a>
                                 </td>

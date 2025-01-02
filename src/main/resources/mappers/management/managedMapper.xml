@@ -17,6 +17,7 @@
         <result property="deptNo" column="department_no"/>
         <result property="image" column="image"/>
         <result property="loginStatus" column="login_status"/>
+        <result property="roleAdmin" column="auth_of_admin"/>
     </resultMap>
 
     <resultMap id="AccountRole" type="com.semi.lynk.function.management.model.dto.AccountDTO">
@@ -109,20 +110,23 @@
 
     <!-- 사원 정보 조회 -->
     <select id="getAccountByEmpID" parameterType="String" resultMap="AccountList">
-        SELECT EMPLOYEE_NO
-             , EMPLOYEE_NAME
-             , DEPARTMENT_NO
-             , PASSWORD
-             , EMAIL
-             , IMAGE
-          FROM EMPLOYEE
-         WHERE EMPLOYEE_NO = #{empID}
+        SELECT a.EMPLOYEE_NO
+             , a.EMPLOYEE_NAME
+             , a.DEPARTMENT_NO
+             , a.PASSWORD
+             , a.EMAIL
+             , a.IMAGE
+             , b.AUTH_OF_ADMIN
+          FROM EMPLOYEE a
+          LEFT JOIN AUTHORIZATION b ON a.EMPLOYEE_NO = b.EMPLOYEE_NO
+         WHERE a.EMPLOYEE_NO = #{empID}
     </select>
 
     <!-- 사원 정보 수정 -->
     <update id="updateAccount" parameterType="map">
         UPDATE EMPLOYEE a
           JOIN HUMAN_RESOURCE b ON a.EMPLOYEE_NO = b.EMPLOYEE_NO
+          JOIN AUTHORIZATION c ON a.EMPLOYEE_NO = c.EMPLOYEE_NO
            SET a.EMPLOYEE_NAME = #{empName}
              , a.DEPARTMENT_NO = #{deptNo}
              , b.POSITION = #{position}
@@ -131,6 +135,7 @@
                              <when test="image != null">#{image}</when>
                              <otherwise>NULL</otherwise>
                          </choose>
+             , c.AUTH_OF_ADMIN = #{roleAdmin}
          WHERE a.EMPLOYEE_NO = #{empID}
     </update>
 

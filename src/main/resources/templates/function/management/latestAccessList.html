@@ -44,7 +44,7 @@
                             </colgroup>
                             <tr th:each="AccountList : ${AccountList}">
                                 <td>
-                                    <a th:href="@{/management/accessDetail/{empID}(empID=${AccountList.empID})}">
+                                    <a th:href="@{/management/accessDetail/{empID}(empID=${AccountList.empID})}" class="ATag-empNo">
                                         <span th:text="${AccountList.empID}"></span>
                                     </a>
                                 </td>
