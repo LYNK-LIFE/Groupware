@@ -32,16 +32,29 @@ monthDropdown?.addEventListener("change", async () => {
 
 // 월별 데이터 요청 함수 추가
 async function fetchData(params) {
-    const query = new URLSearchParams(params).toString();
-    const url = `/db/expiringcustomer/month?${query}`; // URL 수정
+    const filteredParams = Object.fromEntries(
+        Object.entries(params).filter(([_, v]) => v != null && v !== "")
+    ); // null 또는 빈 값 제거
+
+    const query = new URLSearchParams(filteredParams).toString();
+    const url = `/db/expiringcustomer/search?${query}`; // API 엔드포인트 확인
+
     console.log("요청 URL:", url);
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
         if (!response.ok) {
             throw new Error(`HTTP 상태 코드: ${response.status}, 메시지: ${response.statusText}`);
         }
+
         const data = await response.json();
+        console.log("응답 데이터:", data);
         updateTable(data);
     } catch (error) {
         console.error("데이터 조회 오류:", error);
