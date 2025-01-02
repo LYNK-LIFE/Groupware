@@ -286,6 +286,7 @@ public class DbController {
     @ResponseBody
     public List<TopSalesContractDTO> getTopSalesContract() {
         List<TopSalesContractDTO> result = dbService.getTopSaleContract();
+        System.out.println("result = " + result);
         return result;
     }
 //======================================================================================================================
