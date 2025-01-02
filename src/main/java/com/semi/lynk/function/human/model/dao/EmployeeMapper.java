@@ -2,6 +2,7 @@ package com.semi.lynk.function.human.model.dao;
 
 import com.semi.lynk.function.human.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface EmployeeMapper {
     List<LookUpDTO> lookUpMapper();
 
     int modifyEmployee(ModifyDTO modifyDTO);
+
+    List<EmpAndDepDTO> findEmployeeImageByEmployeeNo(@Param("employeeNo") int employeeNo);
 
 }
