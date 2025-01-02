@@ -353,13 +353,17 @@ img[data-value="logout"]:hover {
 .mainPageSection {
     display: grid;
     grid-template-columns: 1.3fr 1.7fr;
-    grid-template-rows: 10em 10em;
+    grid-template-rows: 14em 30em;
     grid-template-areas:
-    "box1 box3"
-    "box2 box3"
-    "box4 box4";
+        "box1 box2"
+        "box4 box4";
     gap: 20px;
     margin: 40px;
+    padding-right: 0;
+    margin-right: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 101%;
 }
 
 .mainPageSection article {

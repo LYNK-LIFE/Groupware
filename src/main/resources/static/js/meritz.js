@@ -85,7 +85,7 @@ async function loadProducts() {
         li.innerHTML = `보험회사코드: ${product.productCategory}, 
                             상품번호: ${product.productNo}, 
                             상품이름: ${product.productName}
-                            <button data-product-no="${product.productNo}">삭제</button> `;
+                            <button data-product-no="${product.productNo}" style="color: darkred; border: 0px solid darkred; border-radius: 100px; background-color: rgba(0,0,0,0); font-size: 23px;" >x</button> `;
 
         productList.appendChild(li);
     });
