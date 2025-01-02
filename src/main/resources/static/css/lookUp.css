@@ -168,8 +168,8 @@
     margin-top: 30px;
     margin-left: 95px; /* 요거 바꾸면 nav 이동. */
     margin-right: 220px;
-    height: 640px;
-    max-height: 640px;
+    height: 470px;
+    max-height: 470px;
     overflow-y: auto;
 }
 
