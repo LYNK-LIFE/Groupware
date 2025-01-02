@@ -14,39 +14,29 @@
         {
             flex: 1; /* 각 아티클이 동일한 너비를 차지하도록 설정 */
             max-width: 40%; /* 너비 제한 */
+            flex: 1;
+            max-width: 40%;
+            wdth: 60px;
+            height: 55px;
+            margin-top: 55px;
         }
         .form-control {
+            display: inline;
             width: 30%;
         }
 
-         article.expiringmoth {
-             max-height: 200px; /* 절반 정도로 높이 제한 */
-             overflow-y: auto; /* 세로 스크롤 활성화 */
-             margin-bottom: 20px; /* 아래 여백 추가 */
-         }
-
-        /* 설계사 조회 버튼 오른쪽 간격 */
-        button.search-button {
-            margin-left: 30px; /* 오른쪽으로 간격 조정 */
-        }
-
-        /* 클래스 기반 이동을 쉽게 할 수 있도록 */
-        .search-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; /* 버튼과 드롭다운이 왼쪽에 정렬 */
-        }
-
         #monthDropdown {
-            width: 30%; /* 드롭다운의 너비를 50%로 설정 */
+            width: 15%; /* 드롭다운의 너비를 50%로 설정 */
             display: inline-block; /* 라벨과 같은 줄에 표시되도록 설정 */
-            margin-right: 100px;
+            margin-left: 10px;
+            transform: translateX(400px);
         }
         /* 스크롤 높이 제한 및 스크롤 활성화 */
         article.expiringmoth {
             max-height: 200px; /* 절반 정도로 높이 제한 */
             overflow-y: auto; /* 세로 스크롤 활성화 */
             margin-bottom: 20px; /* 아래 여백 추가 */
+            transform: translateY(-29px);
         }
 
         /* 드롭다운 및 버튼 정렬 */
@@ -57,6 +47,29 @@
             gap: 10px; /* 요소 간 간격 설정 */
         }
 
+        .mb-3{
+
+            transform: translateX(30px);
+            max-width: 81%;
+            height: 70px;
+        }
+
+        .table-container {
+            max-height: 300px; /* 테이블의 최대 높이를 300px로 설정 */
+            overflow-y: auto; /* 세로 스크롤 생성 */
+            border: 1px solid #ccc; /* 테이블 컨테이너의 테두리 */
+        }
+        .table {
+            transform: translateY(80px);
+            width: 100%; /* 테이블의 너비를 컨테이너에 맞춤 */
+            border-collapse: collapse; /* 테이블 테두리 중복 제거 */
+            overflow: hidden;
+        }
+        .table th, .table td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd; /* 셀 테두리 */
+        }
     </style>
 </head>
 
@@ -83,7 +96,7 @@
                 <label for="nameSearch">계약자/피보험자 이름:</label>
                 <div class="d-flex">
                     <input type="text" id="nameSearch" class="form-control me-2">
-                    <button class="btn btn-primary" id="nameSearchButton">조회</button>
+                    <button class="btn btn-primary" id="nameSearchButton"style="background-color: #0f2b46; font-size:15px;">조회</button>
                 </div>
             </div>
 
@@ -92,15 +105,16 @@
                 <label for="employeeSearch">설계사 이름:</label>
                 <div class="d-flex">
                     <input type="text" id="employeeSearch" class="form-control me-2">
-                    <button class="btn btn-primary" id="employeeSearchButton">조회</button>
+                    <button class="btn btn-primary" id="employeeSearchButton"style="background-color: #0f2b46; font-size:15px;">조회</button>
                 </div>
             </div>
         </article>
 
-        <article class="expiringmoth">
+
             <!-- 만기도래 월별 조회 -->
-            <div class="mb-3">
-                <label for="monthDropdown">월별 조회:</label>
+
+                <label for="monthDropdown" style="transform: translateX(400px); margin-left:25px; wdth: 20px;
+            height: 25px;">월별 조회:</label>
                 <select class="form-select" id="monthDropdown" onchange="handleMonthChange()">
                     <option value="" selected disabled>월을 선택하세요</option>
                     <option value="1">1월</option>
@@ -116,11 +130,11 @@
                     <option value="11">11월</option>
                     <option value="12">12월</option>
                 </select>
-            </div>
-        </article>
+
+
 
             <!-- 결과 테이블 -->
-            <table class="table">
+            <table class="table ">
                 <thead>
                 <tr>
                     <th>번호</th>

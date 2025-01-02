@@ -19,17 +19,17 @@ fetch('/db/top-sales')
                     {
                         label: '금액 (단위: 천원)',
                         data: sales,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)', // 막대 색상 유지
+                        borderColor: 'rgba(54, 162, 235, 0)', // 테두리 투명
+                        borderWidth: 0, // 막대 테두리 제거
                         yAxisID: 'y-sales'
                     },
                     {
                         label: '계약 건수',
                         data: contractCounts,
-                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)', // 막대 색상 유지
+                        borderColor: 'rgba(255, 99, 132, 0)', // 테두리 투명
+                        borderWidth: 0, // 막대 테두리 제거
                         yAxisID: 'y-contracts'
                     }
                 ]
@@ -40,11 +40,12 @@ fetch('/db/top-sales')
                     'y-sales': {
                         type: 'linear',
                         position: 'left',
+                        grid: {
+
+                            color: 'rgba(1, 0, 0, 0)' // 격자선 투명 처리
+                        },
                         ticks: {
-                            beginAtZero: true,
-                            callback: function (value) {
-                                return value.toLocaleString();
-                            }
+                            display: true
                         },
                         title: {
                             display: true,
@@ -56,15 +57,25 @@ fetch('/db/top-sales')
                         position: 'right',
                         min: 0,
                         max: 24,
+                        grid: {
+
+                            color: 'rgba(1, 0, 0, 0)' // 격자선 투명 처리
+                        },
                         ticks: {
-                            stepSize: 3,
-                            callback: function (value) {
-                                return value + '건'; // 모든 값 표시
-                            }
+
                         },
                         title: {
                             display: true,
                             text: '계약 건수'
+                        }
+                    },
+                    x: {
+                        grid: {
+
+                            color: 'rgba(1, 0, 0, 0)' // x축 격자선 투명 처리
+                        },
+                        ticks: {
+
                         }
                     }
                 },
