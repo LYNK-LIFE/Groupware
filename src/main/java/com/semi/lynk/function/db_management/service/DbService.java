@@ -146,7 +146,6 @@ public class DbService {
 
     public List<TopSalesContractDTO> getTopSaleContract() {
         List<TopSalesContractDTO> contracts = dbMapper.fetchTopSalesContract();
-        System.out.println("contracts = " + contracts);
         return contracts;
     }
 
@@ -160,7 +159,6 @@ public class DbService {
     public ContractDetailsDTO getContractDetails(String contractNo) {
         ContractDetailsDTO contractDetails = dbMapper.getContractDetails(contractNo);
         if (contractDetails == null) {
-            System.out.println("No data found for contractNo: " + contractNo);
         }
         return contractDetails;
     }

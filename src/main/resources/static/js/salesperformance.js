@@ -1,7 +1,6 @@
 fetch('/db/top-sales')
     .then(response => response.json())
     .then(data => {
-
         const labels = data.map(item => item.employeeName || "Unknown");
         const sales = data.map(item => item.totalSales / 1000 || 0);
         const contractCounts = data.map(item => (item.contractCount || 0));
@@ -36,39 +35,38 @@ fetch('/db/top-sales')
                 ]
             },
             options: {
+                responsive: true,
                 scales: {
-                    yAxes: [
-                        {
-                            id: 'y-sales',
-                            position: 'left',
-                            ticks: {
-                                beginAtZero: true,
-                                callback: function (value) {
-                                    return value.toLocaleString();
-                                }
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: '금액 (단위: 천원)'
+                    'y-sales': {
+                        type: 'linear',
+                        position: 'left',
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value) {
+                                return value.toLocaleString();
                             }
                         },
-                        {
-                            id: 'y-contracts',
-                            position: 'right',
-                            ticks: {
-                                beginAtZero: true,
-                                stepSize: 3,
-                                callback: function (value) {
-                                    // 3의 배수만 표시
-                                    return value % 3 === 0 ? value + '건' : '';
-                                }
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: '계약 건수'
-                            }
+                        title: {
+                            display: true,
+                            text: '금액 (단위: 천원)'
                         }
-                    ],
+                    },
+                    'y-contracts': {
+                        type: 'linear',
+                        position: 'right',
+                        min: 0,
+                        max: 24,
+                        ticks: {
+                            stepSize: 3,
+                            callback: function (value) {
+                                return value + '건'; // 모든 값 표시
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: '계약 건수'
+                        }
+                    }
                 },
                 plugins: {
                     legend: {
