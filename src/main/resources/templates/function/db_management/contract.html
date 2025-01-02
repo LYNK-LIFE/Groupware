@@ -36,7 +36,7 @@
                 <form action="/db/contract" method="POST">
                     <!-- 설계사명 -->
                     <div class="form-group">
-                        <label for="employeeName">설계사명</label>
+                        <label for="employeeName">설계사</label>
                         <input type="text" id="employeeName" name="employeeName" class="form-control" readonly>
                         <input type="hidden" id="employeeNo" name="employeeNo"> <!-- 사번 저장 -->
                         <button type="button" id="searchEmployeeBtn" class="btn btn-primary btn-def">조회</button>
@@ -142,7 +142,7 @@
 
                     <!-- 계약일자 -->
                     <div class="form-group">
-                        <label for="contractDate">청약일</label>
+                        <label for="contractDate">계약일자</label>
                         <input type="date" id="contractDate" name="contractDate" required class="form-control">
                     </div>
 
@@ -218,7 +218,7 @@
                     <!-- 기타사항 -->
                     <div class="form-group"
                     style="display: flex; align-items: flex-start; gap: 5px;">
-                        <label for="otherMatters" style="margin-top: 3px">기타사항</label>
+                        <label for="otherMatters" style="margin-top: 3px">메모란</label>
                         <textarea id="otherMatters" name="otherMatters" class="form-control"></textarea>
                     </div>
 

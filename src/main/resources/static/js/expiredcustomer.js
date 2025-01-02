@@ -57,14 +57,22 @@ async function fetchContract() {
                
             `;
 
+            // contractNo를 data-* 속성으로 추가
+            contractCard.dataset.contractNo = contract.contractNo;
 
+            // 클릭 시 상세 페이지로 이동
+            contractCard.addEventListener('click', () => {
+                // 컨트롤러의 경로 호출
+                window.location.href = `/db/contract/details/${contract.contractNo}`;
+            });
 
             // 계약 카드를 목록에 추가
             contractList.appendChild(contractCard);
         });
 
     } catch (error) {
-        contractList.innerHTML='<p>데이터를 불러오는 중 문제가 발생 했습니다.</p>';
+        const contractList = document.getElementById('contract-list');
+        contractList.innerHTML = '<p>데이터를 불러오는 중 문제가 발생했습니다.</p>';
         console.error('계약 데이터를 가져오는 중 에러 발생:', error);
     }
 }

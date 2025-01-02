@@ -27,7 +27,7 @@ public interface ManagedMapper {
     //계정 편집
     AccountDTO getAccountByEmpID(String empID);
 
-    void updateAccount(String empID, String empName, int deptNo, String position, String email, String image);
+    void updateAccount(String empID, String empName, int deptNo, String position, String email, String image, Integer roleAdmin);
 
     //계정 권한
     List<Map<String, Object>> getActiveAccountRole();

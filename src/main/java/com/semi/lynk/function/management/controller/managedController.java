@@ -155,10 +155,10 @@ public class managedController {
                     accountInfo.getEmpID(),
                     accountInfo.getEmpName(),
                     accountInfo.getDeptNo(),
-//                    accountInfo.getDeptName(),
                     accountInfo.getPosition(),
                     accountInfo.getEmail(),
-                    accountInfo.getImage()
+                    accountInfo.getImage(),
+                    accountInfo.getRoleAdmin()
             );
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,8 +17,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/db")
-
-    public class DbController {
+public class DbController {
 
     private final DbService dbService;
 
@@ -247,15 +246,14 @@ import java.util.*;
     public List<ExpiringCustomerDTO>  searchExpiringCustomers(
             @RequestParam(required = false) String customerName,
             @RequestParam(required = false) String insuredName,
-            @RequestParam(required = false) String customerSsn,
-            @RequestParam(required = false) String insuredSsn,
-            @RequestParam(required = false) String employeeNo,
             @RequestParam(required = false) String employeeName,
             @RequestParam(required = false) String month){
-        return dbService.searchExpiringCustomers(
-                customerName,insuredName,customerSsn,insuredSsn,employeeNo,employeeName,month);
 
+        return dbService.searchExpiringCustomers(
+                customerName,insuredName,employeeName,month);
     }
+
+
 
     @GetMapping("/expiringcustomer/month")
     @ResponseBody
@@ -263,17 +261,18 @@ import java.util.*;
             @RequestParam int year,
             @RequestParam int month
     ) {
+        System.out.println("수신된 year: " + year + ", month: " + month); // 디버깅 로그 추가
         return dbService.getExpiringCustomersByMonth(year, month);
     }
 
 
 //=====================================================================================================================
 
-    //만기 도래고객 홈화면 띄우기
+    //만기 도래고객 홈 화면 띄우기
     @GetMapping("/api/expiring-contracts")
-    public ResponseEntity<List<ExpiredCustomerDTO>> getExpiredCustomers() {
+    public ResponseEntity<List<ExpiringCustomerDTO>> getExpiredCustomers() {
         try {
-            List<ExpiredCustomerDTO> customers = dbService.getExpiredCustomer();
+            List<ExpiringCustomerDTO> customers = dbService.getExpiredCustomer();
             return ResponseEntity.ok(customers);
         } catch (Exception e) {
             e.printStackTrace();
@@ -309,6 +308,7 @@ import java.util.*;
         return dbService.searchInquiry(name, plannerName);
     }
 
+
 //======================================================================================================================
 
     @GetMapping("/contract/details/{contractNo}")
@@ -318,13 +318,14 @@ import java.util.*;
             throw new RuntimeException("No contract details found for contractNo: " + contractNo);
         }
         model.addAttribute("contractDetails", contractDetailsDTO); // 여기서 "contractDetails"로 이름을 맞추어야 함
-        System.out.println("컨트롤러Fetched contractDetailsDTO: " + contractDetailsDTO);
+
         return "function/db_management/contractdetails";
     }
 
 
 //====================================================================================================================
 
+// 파멸의 시작
 
 
 

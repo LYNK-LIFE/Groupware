@@ -43,12 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         tbody.innerHTML = data.map(contract => `
             <tr data-contract-no="${contract.contractNo}">
                 <td>${contract.contractMngNo || '-'}</td>
-                <td>${contract.customerName || '-'}</td>
-                <td>${contract.insuredName || '-'}</td>
+                <td>${contract.contractName || '-'} / ${contract.insuredName || '-'}</td>
                 <td>${contract.insuranceCompany || '-'}</td>
                 <td>${contract.productName || '-'}</td>
                 <td>${contract.contractNo || '-'}</td>
-                <td>${contract.employeeName || '-'}</td>
+                <td>${contract.departmentName || '-'} / ${contract.employeeName || '-'} / ${contract.employeeNo || '-'}</td>
             </tr>
         `).join('');
 

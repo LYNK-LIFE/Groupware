@@ -18,6 +18,6 @@ public class ApprovalDTO {
     private LocalDateTime approvalCompletionTime;   // 사인한 시각
     private String approvalMemo;
     private String position; // human_resource, 직책 left join
-    private String employeeName; // employee
-    private String departmentName; // department left join
+    private String employeeName; // 내 이름 employee
+    private String departmentName; // 내 부서이름 department left join
 }
