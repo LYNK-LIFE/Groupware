@@ -65,7 +65,6 @@ public class ApprovalController {
     @GetMapping("/app/{draftNo}")
     public String viewAppDraft(@PathVariable("draftNo") Long draftNo
             ,@RequestParam("action") String action, Model model) {
-        System.out.println("action = " + action);
 
         DraftDTO draft = approvalService.getDraftByDNO(draftNo);
         List<ApprovalDTO> approvalDTOS = approvalService.getApproval(draftNo);
