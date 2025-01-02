@@ -332,8 +332,13 @@ body {
     background-color: #A5CB91;
 }
 
-.userButton > .fieldwork {
+.userButton > .work-out, .userButton > .work-end {
     background-color: #BC91CB;
+}
+
+.userButton > .work-end {
+    left: 83px;
+    top: 167px;
 }
 
 .userButton > .leave {
