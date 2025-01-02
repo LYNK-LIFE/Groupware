@@ -62,7 +62,7 @@
 ![image](https://github.com/user-attachments/assets/5aad6079-af57-4fb9-a3a6-2a551e429a8f)
 
 - 메인 화면
-![image](https://github.com/user-attachments/assets/1cc00ced-96d4-4f0a-834a-f94a617eca3b)
+![image](https://github.com/user-attachments/assets/f44918a1-eb28-4b8d-97f5-666d601887fa)
 → 공지사항 : 직원 전체 전달 사항 확인
 → 만기 도래 고객
 → 영업 실적 현황판
@@ -95,21 +95,50 @@
 - 전자 결재
 ![image](https://github.com/user-attachments/assets/7a00791e-5684-439b-b806-40d9ba64472d)
 → 결재하기
+
 <br>
+
 ![image](https://github.com/user-attachments/assets/5a085191-4dc7-4219-8908-f57281d36bc7)
 → 결재완료
+
 ![image](https://github.com/user-attachments/assets/2836271f-2930-473c-8f51-9c5c53d3e951)
 ![image](https://github.com/user-attachments/assets/50bc0218-2b1b-4f73-8bea-bbf7873edfc8)
 → 기안하기
+
 ![image](https://github.com/user-attachments/assets/e00eb342-1144-44b4-9782-b8fb7da30f30)
 → 결재자 선택
+
 ![image](https://github.com/user-attachments/assets/dc890296-e3f5-4e3d-a93a-5d6c713db3f1)
 → 진행중 기안 목록
+
+![image](https://github.com/user-attachments/assets/e04cd02d-25a8-414c-9055-312edf1b1a2c)
+→ 완료된 기안 목록
+
+![image](https://github.com/user-attachments/assets/aea4cc3a-bb27-4d2f-940a-4fe0928a584f)
+→ 반려된 기안 목록
 
 <br>
 
 - DB 관리
 ![image](https://github.com/user-attachments/assets/bf9b4754-fa76-4cf1-abb6-b147a27b3984)
+→ DB 등록
+
+![image](https://github.com/user-attachments/assets/ff6f5295-51fe-41a2-9a6c-cc76dd80807a)
+![image](https://github.com/user-attachments/assets/9c9daa14-06d4-4846-a1a5-80c91a15293d)
+![image](https://github.com/user-attachments/assets/119bb2a1-66af-49ff-932b-313896c64894)
+→ 계약 등록
+
+<br>
+
+![image](https://github.com/user-attachments/assets/97161f15-39ef-496f-a59b-0d90e5c3f07c)
+→ 상품등록
+![image](https://github.com/user-attachments/assets/0fa5b9bd-02db-43f5-9531-9f1862fe9426)
+![image](https://github.com/user-attachments/assets/0a20a1b8-ad5d-467d-a38e-a6d0285d09f6)
+![image](https://github.com/user-attachments/assets/a6407e87-b5c6-4fa6-b20d-454e0f8cbbf3)
+
+- 계약 관리
+![image](https://github.com/user-attachments/assets/162dbc08-97ff-4408-8b5b-d39115ffb2bc)
+→ 계약 조회
 
 
 <!-- 추가적인 기능을 여기에 작성하세요. -->
