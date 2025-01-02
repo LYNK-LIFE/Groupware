@@ -58,9 +58,9 @@
                     <td>
                         <a th:href="@{/approval/app/{draftNo}(draftNo=${draft.draftNo})}" th:text="${draft.draftTitle}"></a>
                     </td>
-                    <td>
-                        <span th:text="${draft.draftState == 0 ? '미확인' : '확인'}"></span>
-                    </td><!-- draftState 0미확인 1확인 2결재 9반려 -->
+                    <td><span th:text="${draft.draftState == 0 ? '미확인' : draft.draftState == 1 ? '확인' :
+                                    draft.draftState == 2 ? '승인' : draft.draftState == 9 ? '반려' : '알 수 없음'}">
+                    </span></td>
                     <td th:text="${#temporals.format(draft.draftCompletionTime, 'yyyy-MM-dd HH:mm')}"></td>
                     <td th:text="${draft.draftCurrentStep}"></td>
                     <td th:text="${draft.draftLastStep}"></td>

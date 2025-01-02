@@ -124,14 +124,16 @@ public class ApprovalController {
         return "function/approval_system/list";
     }
 
-    @GetMapping("/{draftNo}/delete")
-    public String deleteDraft(@PathVariable("draftNo") Long draftNo, Model model) {
-        return "function/approval_system/view";
-    }
-
     @GetMapping("/{draftNo}/edit")
-    public String editDraft(@PathVariable("draftNo") Long draftNo, Model model) {
-        return "function/approval_system/view";
+    public String editDraft(@PathVariable("draftNo") Long draftNo, Model model, HttpSession session) {
+        List<EmployeeDTO> employees = approvalService.getAllEmployees();
+        String empNo = (String) session.getAttribute("empNo");
+
+        model.addAttribute("draftNo", Long.valueOf(draftNo));
+        model.addAttribute("myEmpNo", empNo);
+        model.addAttribute("employees", employees);
+        model.addAttribute("approvals", new ApprovalList());
+        return "function/approval_system/approval";
     }
     @GetMapping("/addApproval")
     public String showAddApprovalForm(@RequestParam String draftNo, Model model, HttpSession session) {
@@ -192,27 +194,34 @@ public class ApprovalController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", draftPage.getTotalPages());
         model.addAttribute("totalItems", draftPage.getTotalElements());
-        return "function/approval_system/list";
+        return "function/approval_system/approval_list";
     }
 
     @GetMapping("/{draftNo}/check")
-    public String checkDraft(@PathVariable("draftNo") Long draftNo, HttpSession session, Model model) {
+    public String checkDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
-       approvalService.updateApproval(draftNo,empNo);
-        return "redirect:/approval/finapproval";
+       approvalService.updateApproval(draftNo,empNo,1);
+        return "redirect:/approval/doapproval";
     }
 
     @GetMapping("/{draftNo}/approve")
-    public String approveDraft(@PathVariable("draftNo") Long draftNo, HttpSession session, Model model) {
-        System.out.println("draftNo/approve");
+    public String approveDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
         String empNo = (String) session.getAttribute("empNo");
-        approvalService.updateApproval(draftNo,empNo);
+        approvalService.approveApproval(draftNo,empNo);
         return "redirect:/approval/finapproval";
     }
 
     @GetMapping("/{draftNo}/reject")
-    public String rejectDraft(@PathVariable("draftNo") Long draftNo, Model model) {
-        return "function/approval_system/view";
+    public String rejectDraft(@PathVariable("draftNo") Long draftNo, HttpSession session) {
+        String empNo = (String) session.getAttribute("empNo");
+        approvalService.updateApproval(draftNo,empNo,9);
+        return "redirect:/approval/finapproval";
+    }
+
+    @GetMapping("/{draftNo}/delete")
+    public String deleteDraft(@PathVariable("draftNo") Long draftNo) {
+        approvalService.deleteDraft(draftNo);
+        return "redirect:/approval/list/readydraft";
     }
 
 }
